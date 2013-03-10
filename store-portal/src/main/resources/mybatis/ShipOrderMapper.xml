@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graby.store.dao.mybatis.ShipOrderDao">
+
+	<delete id="deleteOrder" parameterType="long">
+	    delete from sc_ship_order where id=#{id}
+	</delete>
+
+	<delete id="deleteDetailByOrderId" parameterType="long">
+	    delete from sc_ship_order_detail where order_id=#{orderId}
+	</delete>
+		
+	<delete id="deleteDetail" parameterType="long">
+	    delete from sc_ship_order_detail where id=#{id}
+	</delete>
+	
+	<!-- 发送入库单 -->
+	<update id="sendEntryOrder" parameterType="long"> 
+        update sc_ship_order set status='ENTRY_WAIT_STORAGE_RECEIVED'
+        where id=#{id}
+    </update>
+    
+	<update id="setOrderStatus"> 
+        update sc_ship_order set status=#{1}
+        where id=#{0}
+    </update>    
+    
+    <!-- 查询在途入库单 -->
+  	<select id="findEntryOrderOnWay" resultType="ShipOrder">
+		SELECT b.id as "createUser.id" , b.shop_name as "createUser.shopName", 
+		a.id, a.express_orderno as expressOrderno, a.centro_id as centroId,
+		a.express_company as expressCompany, a.orderno, a.totalnum, a.fetch_date
+		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
+		WHERE a.status='ENTRY_WAIT_STORAGE_RECEIVED'
+	</select>
+	
+</mapper> 
