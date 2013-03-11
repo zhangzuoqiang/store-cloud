@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graby.store.dao.mybatis.TradeDao">
+
+	<!-- 关联淘宝交易ID和系统交易ID -->
+	<insert id="createTradeMapping" useGeneratedKeys="true" keyColumn="id">
+		insert into sc_trade_mapping (tid, trade_id, status)
+		values (#{tid}, #{tradeId}, 'TRADE_WAIT_EXPRESS_SHIP')
+	</insert>
+	
+	<!-- 获取淘宝交易关联的系统交易ID -->
+	<select id="getRelatedTradeId" resultType="long">
+		select trade_id  from sc_trade_mapping
+		 where tid=#{0}
+	</select>
+	
+	<select id="findWaitAuditTrades" resultType="Trade">
+	SELECT 
+		a.id AS "id" ,tid AS "tid" , b.shop_name AS "user.shopName", GROUP_CONCAT(c.title ,'')  AS `itemTitles`,
+		buyer_area AS "buyerArea" ,buyer_memo AS "buyerMemo" ,receiver_address AS "receiverAddress" ,pay_time AS "payTime" ,
+		trade_from AS "tradeFrom" ,a.buyer_nick AS "buyerNick" ,receiver_name AS "receiverName" ,
+		receiver_phone AS "receiverPhone" ,shipping_type AS "shippingType" ,receiver_district AS "receiverDistrict" ,STATUS AS "status" ,
+		receiver_mobile AS "receiverMobile" ,buyer_email AS "buyerEmail" ,receiver_city AS "receiverCity" ,
+		has_buyer_message AS "hasBuyerMessage" ,centro_id AS "centro.id" ,lg_aging_type AS "lgAgingType" ,
+		receiver_zip AS "receiverZip" ,lg_aging AS "lgAging" ,user_id AS "user.id" ,buyer_alipay_no AS "buyerAlipayNo" ,
+		receiver_state AS "receiverState"
+	FROM sc_trade a  
+		LEFT JOIN sc_user b ON b.id = a.user_id 
+		LEFT JOIN sc_trade_order c ON c.trade_id = a.id
+	WHERE a.`status`='TRADE_WAIT_CENTRO_AUDIT' LIMIT 50
+	</select>
+	
+	<update id="setTradeStatus"> 
+        update sc_trade set status=#{1}
+        where id=#{0}
+    </update>    
+    
+    
+	
+	
+	
+</mapper> 
