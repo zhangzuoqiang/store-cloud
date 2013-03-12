@@ -4,7 +4,7 @@ import org.apache.shiro.SecurityUtils;
 
 import com.graby.store.web.auth.ShiroDbRealm.ShiroUser;
 
-public class AuthContextUtils {
+public class ShiroContextUtils {
 	
 	public static ShiroUser getCurrentUser() {
 		ShiroUser sUser = (ShiroUser)SecurityUtils.getSubject().getPrincipal();

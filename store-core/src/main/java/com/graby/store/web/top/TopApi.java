@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import com.graby.store.web.auth.AuthContextUtils;
+import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.domain.Item;
@@ -221,7 +221,7 @@ public class TopApi {
 	}
 
 	private String session() {
-		return AuthContextUtils.getSessionKey();
+		return ShiroContextUtils.getSessionKey();
 	}
 
 	public void setAppKey(String appKey) {

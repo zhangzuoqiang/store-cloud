@@ -13,7 +13,7 @@ import com.graby.store.dao.jpa.ItemMappingJpaDao;
 import com.graby.store.dao.mybatis.ItemDao;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ItemMapping;
-import com.graby.store.web.auth.AuthContextUtils;
+import com.graby.store.web.auth.ShiroContextUtils;
 
 @Component
 @Transactional(readOnly = true)
@@ -35,7 +35,7 @@ public class ItemService {
 
 	private void setCurrentUserid(Item item) {
 		if (item.getUserid() == null) {
-			item.setUserid(AuthContextUtils.getUserid());	
+			item.setUserid(ShiroContextUtils.getUserid());	
 		}
 	}
 	

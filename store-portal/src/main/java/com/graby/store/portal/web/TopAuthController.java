@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.graby.store.cache.Cache;
 import com.graby.store.service.AuthService;
-import com.graby.store.web.auth.AuthContextUtils;
+import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
 import com.taobao.api.domain.Shop;
@@ -39,7 +39,7 @@ public class TopAuthController {
 			userCache.put(nickName, sessionKey);
 			model.addAttribute("username", nickName);
 			model.addAttribute("password", nickName);
-			AuthContextUtils.logout();
+			ShiroContextUtils.logout();
 		}
 		return "auth/post";
 	}

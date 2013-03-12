@@ -23,7 +23,7 @@ import com.graby.store.entity.User;
 import com.graby.store.inventory.AccountTemplate;
 import com.graby.store.inventory.InventoryService;
 import com.graby.store.inventory.InventoryService.AccountEntrys;
-import com.graby.store.web.auth.AuthContextUtils;
+import com.graby.store.web.auth.ShiroContextUtils;
 
 @Component
 @Transactional(readOnly = true)
@@ -94,7 +94,7 @@ public class ShipOrderService {
 	 */
 	public void saveEntryOrder(ShipOrder order) {
 		Date now = new Date();
-		Long userid = AuthContextUtils.getUserid();
+		Long userid = ShiroContextUtils.getUserid();
 		User user = new User();
 		user.setId(userid);
 		if (order.getId() == null) {
@@ -194,7 +194,7 @@ public class ShipOrderService {
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
 				inventoryService.input(order.getCentroId(), 
-						AuthContextUtils.getUserid(), 
+						ShiroContextUtils.getUserid(), 
 						detail.getItem().getId(),
 						detail.getNum(), 
 						AccountTemplate.SHOP_SEND);
@@ -245,7 +245,7 @@ public class ShipOrderService {
 		Date now = new Date();
 		User user = shipOrder.getCreateUser();
 		if (user == null) {
-			Long userid = AuthContextUtils.getUserid();
+			Long userid = ShiroContextUtils.getUserid();
 			user = new User();
 			user.setId(userid);
 		}
@@ -262,7 +262,7 @@ public class ShipOrderService {
 		shipOrder.setStatus(ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
 		shipOrder.setCentroId(1L);
 		shipOrder.setLastUpdateDate(now);
-		Long userid = AuthContextUtils.getUserid();
+		Long userid = ShiroContextUtils.getUserid();
 		user = new User();
 		user.setId(userid);
 		shipOrder.setLastUpdateUser(user);

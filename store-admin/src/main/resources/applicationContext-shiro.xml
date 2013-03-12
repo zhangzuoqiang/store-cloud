@@ -30,7 +30,6 @@
 				/static/** = anon
 				/api/** = anon
 				/register/** = anon
-				/admin/** = roles[admin]
 				/** = roles[admin]
 			</value>
 		</property>

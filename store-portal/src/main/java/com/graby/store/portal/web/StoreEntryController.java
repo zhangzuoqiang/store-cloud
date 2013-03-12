@@ -25,7 +25,7 @@ import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.service.ItemService;
 import com.graby.store.service.ShipOrderService;
-import com.graby.store.web.auth.AuthContextUtils;
+import com.graby.store.web.auth.ShiroContextUtils;
 
 /**
  * 入库相关
@@ -56,7 +56,7 @@ public class StoreEntryController {
 			@RequestParam(value = "page", defaultValue = "1") int page, 
 			@RequestParam(value = "status", defaultValue = ShipOrder.EntryOrderStatus.ENTRY_WAIT_SELLER_SEND) String status,
 			Model model, ServletRequest request) {
-		Long userId = AuthContextUtils.getUserid();
+		Long userId = ShiroContextUtils.getUserid();
 		Page<ShipOrder> orders = shipOrderService.findEntrys(userId, status, page, PAGE_SIZE);
 		model.addAttribute("orders", orders);
 		model.addAttribute("status", status);
@@ -137,7 +137,7 @@ public class StoreEntryController {
 	@RequestMapping(value = "item/{id}")
 	public String item(@PathVariable("id") Long orderId,	Model model) {
 		ShipOrder order = shipOrderService.getShipOrder(orderId);
-		Long userId = AuthContextUtils.getUserid();
+		Long userId = ShiroContextUtils.getUserid();
 		List<Item> items = itemService.findUserItems(userId);
 		model.addAttribute("order", order);
 		model.addAttribute("items", items);

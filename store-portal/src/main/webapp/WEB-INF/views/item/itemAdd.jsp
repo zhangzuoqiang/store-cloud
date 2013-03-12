@@ -14,7 +14,6 @@
 	  <li><a href="#import" data-toggle="tab">导入淘宝商品</a></li>
 	</ul>
 	
-	<div class="container">
     <div class="tab-content">
     	<div class="tab-pane active" id="upload">
 		<form id="uploadForm" action="${ctx}/item/upload" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -34,6 +33,7 @@
 		</div>
 		<div class="tab-pane" id="import">
 			<div>
+				<label>初始化</label>
 				<a href="#" class="btn btn-primary">一键导入所有淘宝商品</a>
 			</div>
 		</div>

@@ -145,6 +145,7 @@ public class TradeService {
 			ShipOrderDetail detail = new ShipOrderDetail();
 			detail.setItem(tOrder.getItem());
 			detail.setNum(tOrder.getNum());
+			detail.setSkuPropertiesName(tOrder.getSkuPropertiesName());
 			shipOrder.getDetails().add(detail);
 		}
 		return shipOrder;

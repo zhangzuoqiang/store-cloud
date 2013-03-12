@@ -31,18 +31,6 @@
 	
 	<div class="page-header"></div>
 	
-	
-	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
-	    <div class="ui-tiptext-content">
-	     <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>出货单</p>
-	     
-		    <p><strong>出库仓库：</strong>湘潭高新仓 ; &nbsp;&nbsp;&nbsp;&nbsp;
-		    <strong>出库单号：</strong>${order.orderno} ;&nbsp;&nbsp;&nbsp;&nbsp;
-		    <strong>建单时间：</strong><fmt:formatDate value="${order.createDate}" type="date" pattern="yyyy-MM-dd HH:mm"/></p>
-	    </div>
-	</div>
-	
-	
 	<!-- 仓库-->
 	<input type="hidden" name="centro.id" value="1">
 	<!-- 当前用户 -->
@@ -50,6 +38,18 @@
 	<label></label>
 	
 	<legend><small>第一步：仓库拣货</small></legend>
+	
+	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
+	    <div class="ui-tiptext-content">
+	     <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>拣货单</p>
+	     
+		    <p><strong>出库仓库：</strong>湘潭高新仓 ; &nbsp;&nbsp;&nbsp;&nbsp;
+		    <strong>出库配单号：</strong>${order.orderno} ;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <strong>建单时间：</strong><fmt:formatDate value="${order.createDate}" type="date" pattern="yyyy-MM-dd HH:mm"/></p>
+	    </div>
+	</div>
+	<label></label>
+	
 	<table class="table optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	<thead><tr>
 		<th>商铺名称</th>
@@ -73,7 +73,11 @@
 		<td colspan="5"><strong>买家备注:</strong>${order.remark}</td>
 	</tr>	
 	<tr>
-		<td colspan="5"><a href="${ctx}/trade/check/${order.id}" class="btn btn-primary">打印拣货单</a></td>
+		<!-- ${ctx}/trade/check/${order.id} -->
+		<td colspan="5">
+			<a href="#" class="btn btn-primary offset2">打印拣货单</a>
+			<a href="#" class="btn btn-primary offset1">拣货单验货</a>
+		</td>
 	</tr>
 	</tbody>
 	</table>	
@@ -82,7 +86,7 @@
 	<legend><small>第二步：选择运输公司并发货</small></legend>
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
-	     <p class="ui-tiptext ui-tiptext-message">
+	     <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>快递运单</p>
 		    <p><strong>发货人：</strong>${order.createUser.shopName}&nbsp;&nbsp;&nbsp;&nbsp;
 		    <strong>发货时间：</strong><fmt:formatDate value="${order.createDate}" type="date" pattern="yyyy-MM-dd HH:mm"/>&nbsp;&nbsp;&nbsp;&nbsp;
 		     <strong>发货地址：</strong>仓储配送中心-湘潭高新仓</p>
@@ -113,15 +117,17 @@
 	
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
-	     <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>快递流程</p>
+	     <p class="ui-tiptext ui-tiptext-message">
 		    <div><span class="span2"><strong>运输公司选择：</strong></span><select></select></div>
 		    <div><span class="span2"><strong>运输公司运单号：</strong></span><input type="text"/></div>
 	    </div>
 	</div>	
 	
 	<div class="form-actions">
-		<a href="${ctx}/trade/check/${order.id}" class="btn btn-primary">确认发货</a>
-		<a href="${ctx}/trade/send/waits" class="btn">暂不处理</a>
+		<!-- ${ctx}/trade/exporder/${order.id} -->
+		<div class="alert alert-info">
+		<strong>快递运单审核!</strong>请审核运单与实物是否相符，无误后点击确认发货。<a href="#" class="btn btn-primary">确认发货</a> 
+		</div>
 	</div>
 	
 </body>

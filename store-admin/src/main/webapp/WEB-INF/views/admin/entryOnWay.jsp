@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<legend><small>在途入库单列表, 等待仓库接收 .</small></legend>
+	<legend><small>在途入库单列表  等待仓库接收 .</small></legend>
 	<table id="contentTable" class="table table-striped table-condensed"  >
 		<thead><tr>
 		<th>来源商铺</th>

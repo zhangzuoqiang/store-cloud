@@ -8,7 +8,7 @@
 <head>
 	<title>入库单</title>
 	<script src="${ctx}/static/jquery-validation/1.10.0/jquery.validate.min.js" type="text/javascript"></script>
-	<script src="${ctx}/static/jquery-validation/1.10.0/messages_bs_zh.js" type="text/javascript"></script>
+	<script src="${ctx}/static/jquery-validation/1.10.0/jquery.validate.ext.js" type="text/javascript"></script>
 
 	<script src="http://github-proxy.kodono.info/?q=https://raw.github.com/Aymkdn/Datepicker-for-Bootstrap/master/bootstrap-datepicker.js"></script>
 	
@@ -47,7 +47,7 @@
 			<div class="control-group">
 				<label for="item_title" class="control-label">商家联系电话</label>
 				<div class="controls">
-					<input id="origin_phone" name="originPhone" type="text" class="input-large required" minlength="3" value="${order.originPhone}"/>
+					<input id="origin_phone" name="originPhone" type="text" class="input-large required mobile" minlength="3" value="${order.originPhone}"/>
 				</div>
 			</div>
 			<div class="control-group">
@@ -70,7 +70,7 @@
 			<div class="control-group">
 				<label for="totalnum" class="control-label">总件数</label>
 				<div class="controls">
-					<input id="totalnum" name="totalnum" type="text" class="input-large required" minlength="1" value="${order.totalnum}"/>
+					<input id="totalnum" name="totalnum" type="text" class="input-large required digits" minlength="1" value="${order.totalnum}"/>
 				</div>
 			</div>						
 			<div class="control-group">

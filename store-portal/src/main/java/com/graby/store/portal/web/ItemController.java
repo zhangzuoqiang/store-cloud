@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.graby.store.entity.Item;
 import com.graby.store.portal.util.ItemExcelReader;
 import com.graby.store.service.ItemService;
-import com.graby.store.web.auth.AuthContextUtils;
+import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
 
@@ -41,7 +41,7 @@ public class ItemController {
 	// 商品列表
 	@RequestMapping(value = "list")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int pageNumber, Model model, ServletRequest request) {
-		Long userId = AuthContextUtils.getUserid();
+		Long userId = ShiroContextUtils.getUserid();
 		Page<Item> items = itemService.findPageUserItems(userId, pageNumber, PAGE_SIZE);
 		model.addAttribute("items", items);
 		return "item/itemList";
@@ -103,7 +103,7 @@ public class ItemController {
 
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String create(Item newItem, RedirectAttributes redirectAttributes) {
-		newItem.setUserid(AuthContextUtils.getUserid());
+		newItem.setUserid(ShiroContextUtils.getUserid());
 		itemService.saveItem(newItem);
 		redirectAttributes.addFlashAttribute("message", "创建商品成功");
 		return "redirect:/item/list";

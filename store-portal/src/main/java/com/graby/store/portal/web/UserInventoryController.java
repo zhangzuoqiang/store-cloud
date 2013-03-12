@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.graby.store.inventory.InventoryService;
-import com.graby.store.web.auth.AuthContextUtils;
+import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 
 /**
@@ -24,7 +24,7 @@ public class UserInventoryController {
 
 	@RequestMapping(value = "")
 	public String welcome(Model model) throws ApiException {
-		Long userId = AuthContextUtils.getUserid();
+		Long userId = ShiroContextUtils.getUserid();
 		List<Map<String, Long>> values = inventoryService.stat(1L, userId);
 		model.addAttribute("userId", userId);
 		model.addAttribute("centro", "湘潭高新仓");
