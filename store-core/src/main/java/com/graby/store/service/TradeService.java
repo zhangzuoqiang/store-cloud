@@ -92,7 +92,7 @@ public class TradeService {
 	public ShipOrder createSendShipOrderByTradeId(Long tradeId) {
 		Trade trade = getTrade(tradeId);
 		ShipOrder shipOrder = geneShipOrder(trade);
-		shipOrderService.saveSendShipOrder(shipOrder);
+		shipOrderService.createSendShipOrder(shipOrder);
 		
 		// TODO 测试后恢复
 		tradeDao.setTradeStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);

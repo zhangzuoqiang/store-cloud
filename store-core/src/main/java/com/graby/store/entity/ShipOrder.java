@@ -53,8 +53,8 @@ public class ShipOrder {
 		/**  WAIT_EXPRESS_RECEIVED ：创建成功，等待物流接收　*/
 		public static final String WAIT_EXPRESS_RECEIVED = "WAIT_EXPRESS_RECEIVED";
 
-		/**  WAIT_EXPRESS_SEND ：等待物流发送 （此时已选定物流公司，出货单填充相关信息）　*/
-		public static final String WAIT_EXPRESS_SEND = "WAIT_EXPRESS_SEND";		
+		/**  WAIT_EXPRESS_SEND ：物流接收成功并发送货物，等待买家收件 　*/
+		public static final String WAIT_BUYER_RECEIVED = "WAIT_BUYER_RECEIVED";		
 		
 		/**  SEND_FINISH : 出库单发货完成  */
 		public static final String SEND_FINISH = "SEND_FINISH";

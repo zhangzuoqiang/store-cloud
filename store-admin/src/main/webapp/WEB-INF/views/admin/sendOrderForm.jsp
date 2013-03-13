@@ -7,16 +7,23 @@
 <html>
 <head>
 	<title>出库单</title>
+	
 	<link href="${ctx}/static/styles/step.min.css" type="text/css" rel="stylesheet" />
 	<link href="${ctx}/static/styles/prod.css" rel="stylesheet" media="all" />
+	
+	<script src="${ctx}/static/jquery-validation/1.10.0/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="${ctx}/static/jquery-validation/1.10.0/jquery.validate.ext.js" type="text/javascript"></script>
+	<link href="${ctx}/static/jquery-validation/1.10.0/validate.css" type="text/css" rel="stylesheet" />
+	
 	<script type="text/javascript">
 		$(document).ready(function() {
 			if ($("#err").length > 0){
 				$("#submit_btn").attr("disabled",true);
 			}
+			
+			$("#inputForm").validate();
 		});
 	</script>
-	</script>	
 </head>
 
 <body>
@@ -30,13 +37,6 @@
 	</ol>
 	
 	<div class="page-header"></div>
-	
-	<!-- 仓库-->
-	<input type="hidden" name="centro.id" value="1">
-	<!-- 当前用户 -->
-	<input type="hidden" name="user.id" value="<shiro:principal property="userid"/>">
-	<label></label>
-	
 	<legend><small>第一步：仓库拣货</small></legend>
 	
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
@@ -75,8 +75,8 @@
 	<tr>
 		<!-- ${ctx}/trade/check/${order.id} -->
 		<td colspan="5">
-			<a href="#" class="btn btn-primary offset2">打印拣货单</a>
-			<a href="#" class="btn btn-primary offset1">拣货单验货</a>
+			<span class="label"> 1. 打印拣货单小票 <a href="#" class="btn btn-primary">1.打印拣货单</a></span>
+			<span class="label offset1"> 2. 检查拣货单与商品是否相符 <a href="#" class="btn btn-primary">拣货单审核通过</a></span>
 		</td>
 	</tr>
 	</tbody>
@@ -115,20 +115,29 @@
 	</tbody>
 	</table>
 	
-	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
-	    <div class="ui-tiptext-content">
-	     <p class="ui-tiptext ui-tiptext-message">
-		    <div><span class="span2"><strong>运输公司选择：</strong></span><select></select></div>
-		    <div><span class="span2"><strong>运输公司运单号：</strong></span><input type="text"/></div>
-	    </div>
-	</div>	
-	
-	<div class="form-actions">
-		<!-- ${ctx}/trade/exporder/${order.id} -->
-		<div class="alert alert-info">
-		<strong>快递运单审核!</strong>请审核运单与实物是否相符，无误后点击确认发货。<a href="#" class="btn btn-primary">确认发货</a> 
+	<form id="inputForm" action="${ctx}/trade/send/submit" method="post" >
+		<input type="hidden" name="lastUpdateUser.id" value="<shiro:principal property="userid"/>">
+		<input type="hidden" name="id" value="${order.id}">
+		
+		<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
+		    <div class="ui-tiptext-content">
+		     <p class="ui-tiptext ui-tiptext-message">
+			    <div>
+			    	<span class="span2"><strong>运输公司选择：</strong></span>
+			    	<select name="expressCompany">
+			    	<c:forEach items="${express}" var="e">
+			    		<option value="${e}">${e}</option>
+			    	</c:forEach>
+			    	</select>
+			    </div>
+			    <div><span class="span2"><strong>运输公司运单号：</strong></span><input name="expressOrderno" type="text" class="input-large required" minlength="8"/></div>
+		    </div>
+		</div>	
+		<div class="form-actions">
+			<span class="label">  审核运单与实物是否相符，无误后点击确认发货。
+				<input id="submit_btn" class="btn btn-primary" type="submit" value="确认发货"/>
+			</span>
 		</div>
-	</div>
-	
+	</form>
 </body>
 </html>

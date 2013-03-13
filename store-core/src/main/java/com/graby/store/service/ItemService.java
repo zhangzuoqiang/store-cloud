@@ -28,6 +28,7 @@ public class ItemService {
 	@Autowired
 	private ItemMappingJpaDao itemMappingJpaDao;
 	
+	@Transactional(readOnly = false)
 	public void saveItem(Item item) {
 		setCurrentUserid(item);
 		itemJpaDao.save(item);
@@ -39,6 +40,7 @@ public class ItemService {
 		}
 	}
 	
+	@Transactional(readOnly = false)
 	public void saveItems(List<Item> items) {
 		for (Item item : items) {
 			saveItem(item);
@@ -124,10 +126,6 @@ public class ItemService {
 	
 	public void deleteItem(Long id) {
 		itemDao.delete(id);
-	}
-	
-	public List<Item> getUserItems(Long userid) {
-		return null;
 	}
 	
 }

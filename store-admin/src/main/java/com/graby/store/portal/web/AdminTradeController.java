@@ -1,5 +1,6 @@
 package com.graby.store.portal.web;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.graby.store.common.Express;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
@@ -97,16 +99,35 @@ public class AdminTradeController {
 	}
 	
 	/**
-	 * 出库单处理页面
+	 * 出库单处理页面 (打印分拣单、审核分拣单、打印快递运单、出库确认)
 	 * @param orderId
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "send/do/{id}", method=RequestMethod.GET)
-	public String sendShip(@PathVariable("id") Long orderId, Model model) {
+	public String doSendOrderForm(@PathVariable("id") Long orderId, Model model) {
 		ShipOrder sendOrder = shipOrderService.getShipOrder(orderId);
 		model.addAttribute("order", sendOrder);
+		model.addAttribute("express", Express.expressCompanys);
 		return "/admin/sendOrderForm";
+	}
+	
+	/**
+	 * 出库单提交，等待用户签收。
+	 * @param orderId
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "send/submit", method=RequestMethod.POST)
+	public String submitOrder(ShipOrder order, Model model) {
+		ShipOrder entity = shipOrderService.getShipOrder(order.getId());
+		entity.setExpressCompany(order.getExpressCompany());
+		entity.setExpressOrderno(order.getExpressOrderno());
+		entity.setLastUpdateDate(new Date());
+		entity.setLastUpdateUser(order.getLastUpdateUser());
+		entity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
+		shipOrderService.updateShipOrder(entity);
+		return "redirect:/admin/trade/send/waits";
 	}
 	
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
-import com.graby.store.dao.jpa.EntryOrderJpaDao;
+import com.graby.store.dao.jpa.ShipOrderJpaDao;
 import com.graby.store.dao.mybatis.ShipOrderDao;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
@@ -33,7 +33,7 @@ public class ShipOrderService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	private EntryOrderJpaDao entryOrderJpaDao;
+	private ShipOrderJpaDao orderJpaDao;
 
 	@Autowired
 	private ShipOrderDao shipOrderDao;
@@ -92,6 +92,7 @@ public class ShipOrderService {
 	 * 
 	 * @param order
 	 */
+	@Transactional(readOnly = false)
 	public void saveEntryOrder(ShipOrder order) {
 		Date now = new Date();
 		Long userid = ShiroContextUtils.getUserid();
@@ -112,8 +113,9 @@ public class ShipOrderService {
 		order.setLastUpdateDate(now);
 		if (userid != null) {
 			order.setLastUpdateUser(user);
+			order.setLastUpdateDate(now);
 		}
-		entryOrderJpaDao.save(order);
+		orderJpaDao.save(order);
 	}
 
 	/**
@@ -126,6 +128,7 @@ public class ShipOrderService {
 	 * @param num
 	 *            商品数量
 	 */
+	@Transactional(readOnly = false)
 	public void saveShipOrderDetail(Long orderId, Long itemId, long num) {
 		ShipOrderDetail detail = new ShipOrderDetail();
 		ShipOrder order = new ShipOrder();
@@ -169,7 +172,7 @@ public class ShipOrderService {
 	public Page<ShipOrder> findEntrys(Long userid, String status, int page, int pageSize) {
 		User user = new User();
 		user.setId(userid);
-		return entryOrderJpaDao.findByCreateUserAndStatus(user, status, new PageRequest(page - 1, pageSize));
+		return orderJpaDao.findByCreateUserAndStatus(user, status, new PageRequest(page - 1, pageSize));
 	}
 
 	/**
@@ -179,7 +182,7 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public ShipOrder getShipOrder(Long id) {
-		return entryOrderJpaDao.findOne(id);
+		return orderJpaDao.findOne(id);
 	}
 
 	/**
@@ -241,7 +244,7 @@ public class ShipOrderService {
 	 * 
 	 * @param shipOrder
 	 */
-	public void saveSendShipOrder(ShipOrder shipOrder) {
+	public void createSendShipOrder(ShipOrder shipOrder) {
 		Date now = new Date();
 		User user = shipOrder.getCreateUser();
 		if (user == null) {
@@ -266,7 +269,7 @@ public class ShipOrderService {
 		user = new User();
 		user.setId(userid);
 		shipOrder.setLastUpdateUser(user);
-		entryOrderJpaDao.save(shipOrder);
+		orderJpaDao.save(shipOrder);
 
 		List<ShipOrderDetail> items = shipOrder.getDetails();
 		if (CollectionUtils.isNotEmpty(items)) {
@@ -274,7 +277,11 @@ public class ShipOrderService {
 				saveShipOrderDetail(shipOrder.getId(), detail.getItem().getId(), detail.getNum());
 			}
 		}
-
+	}
+	
+	@Transactional(readOnly = false)
+	public void updateShipOrder(ShipOrder order) {
+		orderJpaDao.save(order);
 	}
 
 }

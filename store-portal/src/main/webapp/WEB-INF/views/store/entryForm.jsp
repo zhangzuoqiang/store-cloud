@@ -45,7 +45,7 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label for="item_title" class="control-label">商家联系电话</label>
+				<label for="item_title" class="control-label">商家联系手机号码</label>
 				<div class="controls">
 					<input id="origin_phone" name="originPhone" type="text" class="input-large required mobile" minlength="3" value="${order.originPhone}"/>
 				</div>
