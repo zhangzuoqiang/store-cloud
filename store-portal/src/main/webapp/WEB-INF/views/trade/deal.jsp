@@ -22,7 +22,7 @@
 <body>
 
 	<ol class="progtrckr" data-progtrckr-steps="5">
-    <li class="progtrckr-done">1.确认物流通配送</li>
+    <li class="progtrckr-done">1.商家确认物流通配送</li>
     <li class="progtrckr-todo">2.物流通审核</li>
     <li class="progtrckr-todo">3.快递配送流程</li>
     <li class="progtrckr-todo">4.收货人验收确认</li>
