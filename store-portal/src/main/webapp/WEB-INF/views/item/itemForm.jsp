@@ -21,20 +21,34 @@
 <body>
 	<form id="inputForm" action="${ctx}/item/${action}" method="post" class="form-horizontal">
 		<input type="hidden" name="id" value="${item.id}"/>
+		<input type="hidden" name="type" value="${item.type}"/>
 		<fieldset>
 			<legend><small>管理商品</small></legend>
 			<div class="control-group">
 				<label for="item_title" class="control-label">商品名称:</label>
 				<div class="controls">
-					<input type="text" id="item_title" name="title"  value="${item.title}" class="input-large required" minlength="3"/>
+					<input type="text" name="title"  value="${item.title}" class="input-large required" minlength="3"/>
 				</div>
 			</div>	
 			<div class="control-group">
-				<label for="description" class="control-label">商品描述:</label>
+				<label for="item_title" class="control-label">商品编号（条形码）:</label>
 				<div class="controls">
-					<textarea id="description" name="description" class="input-large">${item.description}</textarea>
+					<input type="text" name="code"  value="${item.code}" class="input-large required" minlength="5"/>
 				</div>
 			</div>	
+			<div class="control-group">
+				<label for="item_title" class="control-label">重量（单位：克）:</label>
+				<div class="controls">
+					<input type="text" name="weight"  value="${item.weight}" class="input-large required" minlength="3" disabled/>
+				</div>
+			</div>	
+			<div class="control-group">
+				<label for="item_title" class="control-label">描述:</label>
+				<div class="controls">
+					<textarea id="remark" name="remark" class="input-large">${item.description}</textarea>
+				</div>
+			</div>	
+			
 			<div class="form-actions">
 				<input id="submit_btn" class="btn btn-primary" type="submit" value="提交"/>&nbsp;	
 				<input id="cancel_btn" class="btn" type="button" value="返回" onclick="history.back()"/>

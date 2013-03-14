@@ -25,7 +25,7 @@
 	
 	<!-- 查询单个商品 -->
 	<select id="get" parameterType="int" resultType="Item">
-		select id, code, userid as userid, title, description
+		select id, code, userid, weight, title, description
 		from sc_item
 		where id=#{id}
 	</select>
