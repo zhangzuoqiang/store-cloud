@@ -2,7 +2,10 @@ package com.graby.store.web.top;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -69,9 +72,9 @@ public class TopApi {
 
 
 
-	private String appKey;
-	private String appSecret;
-	private String serverUrl;
+	private String appKey = "1021395257";
+	private String appSecret = "sandbox0475ca7f0a4a47a3d5303014e";
+	private String serverUrl = "http://gw.api.tbsandbox.com/router/rest";
 
 	private DefaultTaobaoClient client;
 
@@ -79,8 +82,10 @@ public class TopApi {
 		client = new DefaultTaobaoClient(serverUrl, appKey, appSecret, "json");
 	}
 
+	private static final int ITEM_PAGE_SIZE = 10;
+	
 	// 商品属性
-	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,valid_thru";
+	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,valid_thru,sku,skus";
 
 	/**
 	 * 获取当前用的nick
@@ -111,18 +116,32 @@ public class TopApi {
 
 	/**
 	 * 获取当前所有商品(库存+出售)
-	 * 最大600条
+	 * 最大20条
 	 * 
 	 * @return
 	 * @throws ApiException
 	 */
 	public List<Item> getTopItems(String q) throws ApiException {
-		Page<Item> onsaleItems = getOnsaleItems(q, 1L, 300);
-		Page<Item> inventoryItems = getInventoryItems(q, 1L, 300);
+		List<Item> onsaleItems = getOnsaleItems(q, 1, ITEM_PAGE_SIZE);
+		List<Item> inventoryItems = getInventoryItems(q, 1, ITEM_PAGE_SIZE);
 		List<Item> items = new ArrayList<Item>();
-		items.addAll(onsaleItems.getContent());
-		items.addAll(inventoryItems.getContent());
-		return items;
+		if (CollectionUtils.isNotEmpty(onsaleItems)) {
+			items.addAll(onsaleItems);
+		}
+		if (CollectionUtils.isNotEmpty(inventoryItems)) {
+			items.addAll(inventoryItems);
+		}
+		List<Item> results = new ArrayList<Item>();
+		for (Item item : items) {
+			Item e = getItem(item.getNumIid());
+			// TODO 正则去掉sku propnames
+			results.add(e);
+		}
+		return results;
+	}
+	
+	private static String replProps(String skuPvs) {
+		return null;
 	}
 	
 	/**
@@ -133,30 +152,26 @@ public class TopApi {
 	 * @return
 	 * @throws ApiException
 	 */
-	public Page<Item> getOnsaleItems(String q, long pageNo, long pageSize) throws ApiException {
+	private List<Item> getOnsaleItems(String q, long pageNo, long pageSize) throws ApiException {
 		ItemsOnsaleGetRequest req = new ItemsOnsaleGetRequest();
-		req.setFields(ITEM_PROPS);
+		req.setFields("num_iid");
 		req.setQ(q);
 		req.setPageNo(pageNo);
 		ItemsOnsaleGetResponse resp = client.execute(req, session());
-		PageRequest pageable = new PageRequest((int) (pageNo - 1), (int) pageSize);
-		Page<Item> page = new PageImpl<Item>(resp.getItems(), pageable, resp.getTotalResults());
-		return page;
+		return resp.getItems();
 	}
 	
 	/**
 	 * 获取库存中的商品列表 
 	 */
-	public Page<Item> getInventoryItems(String q, long pageNo, long pageSize) throws ApiException {
+	private List<Item> getInventoryItems(String q, long pageNo, long pageSize) throws ApiException {
 		ItemsInventoryGetRequest req = new ItemsInventoryGetRequest();
-		req.setFields(ITEM_PROPS);
+		req.setFields("num_iid");
 		req.setQ(q);
 		req.setPageNo(pageNo);
 		req.setPageSize(pageSize);
 		ItemsInventoryGetResponse resp = client.execute(req, session());
-		PageRequest pageable = new PageRequest((int) (pageNo - 1), (int) pageSize);
-		Page<Item> page = new PageImpl<Item>(resp.getItems(), pageable, resp.getTotalResults());
-		return page;
+		return resp.getItems();
 	}
 
 
@@ -198,7 +213,11 @@ public class TopApi {
 		req.setPageSize(pageSize);
 		TradesSoldGetResponse resp = client.execute(req, session());
 		PageRequest pageable = new PageRequest((int) (pageNo - 1), (int) pageSize);
-		Page<Trade> page = new PageImpl<Trade>(resp.getTrades(), pageable, resp.getTotalResults());
+		List<Trade> trades = resp.getTrades();
+		Long totalResults = resp.getTotalResults();
+		trades = trades == null ? new ArrayList<Trade>() : trades;
+		totalResults = totalResults == null ? 0L : totalResults;
+		Page<Trade> page = new PageImpl<Trade>(trades, pageable, totalResults);
 		return page;
 	}
 
@@ -213,7 +232,7 @@ public class TopApi {
 		TradeFullinfoGetRequest req = new TradeFullinfoGetRequest();
 		String props = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
 				+ "buyer_nick,seller_nick,buyer_area,shipping_type,receiver_name,receiver_state,receiver_city,receiver_district,buyer_memo,"
-				+ "receiver_address,receiver_zip,receiver_mobile,receiver_phone,has_buyer_message,orders";
+				+ "receiver_address,receiver_zip,receiver_mobile,receiver_phone,has_buyer_message,buyer_message,orders";
 		req.setFields(props);
 		req.setTid(tid);
 		TradeFullinfoGetResponse resp = client.execute(req, session());
@@ -236,4 +255,14 @@ public class TopApi {
 		this.serverUrl = serverUrl;
 	}
 
+	
+	public static void main(String[] args) throws ApiException {
+		String s = "12345:12345:风格:蓝色;12345:32654:风格:红色;"; 
+		String regex = "[:].+?;";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(s);
+		while (m.find()) {
+			System.out.println(m.group());
+		}
+	}
 }

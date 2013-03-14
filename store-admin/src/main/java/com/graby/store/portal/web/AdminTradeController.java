@@ -83,7 +83,7 @@ public class AdminTradeController {
 	public String ship(@PathVariable("id") Long id, Model model) {
 		ShipOrder sendOrder = tradeService.createSendShipOrderByTradeId(id);
 		model.addAttribute("sendOrder", sendOrder);
-		return "redirect:/admin/trade/send/do/" + sendOrder.getId();
+		return "redirect:/trade/send/do/" + sendOrder.getId();
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class AdminTradeController {
 		entity.setLastUpdateUser(order.getLastUpdateUser());
 		entity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
 		shipOrderService.updateShipOrder(entity);
-		return "redirect:/admin/trade/send/waits";
+		return "redirect:/trade/send/waits";
 	}
 	
 }

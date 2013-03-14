@@ -16,7 +16,7 @@
 	<table id="contentTable" class="table table-striped table-condensed"  >
 		<thead><tr>
 		<th>创建日期</th>
-		<th>商品名称</th>
+		<th>商铺名称</th>
 		<th>出库单号</th>
 		<th>处理</th>
 		</tr></thead>

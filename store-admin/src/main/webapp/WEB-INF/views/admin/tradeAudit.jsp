@@ -74,7 +74,8 @@
 	
 	<table class="table optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	<thead><tr>
-		<th>订购商品</th>
+		<th>订购商品名称</th>
+		<th>商品编号（条形码）</th>
 		<th>订购数量</th>		
 		<th>仓库 - 湘潭高新仓</th>
 		
@@ -84,6 +85,7 @@
 	<c:forEach items="${trade.orders}" var="order">
 		<tr>
 		<td>${order.title}</td>
+		<td>${order.item.code}</td>
 		<td>${order.num}</td>
 		<td>
 			<c:if test="${order.stockNum == -1}">
@@ -146,8 +148,8 @@
 	<label></label>
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
-                <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>买家备注</p>
-                ${trade.hasBuyerMessage? trade.buyerMemo:"无备注"}
+                <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>买家留言</p>
+                ${trade.buyerMessage}
  		</div>
 	</div>
 

@@ -114,6 +114,16 @@ public class Trade {
 	 */
 	private String buyerArea;
 	
+	/**
+	 * 买家留言
+	 */
+	private String buyerMessage;
+	
+	/**
+	 * 是否有买家留言
+	 */
+	private Boolean hasBuyerMessage;	
+	
 	
 	/* ------------ 物流要求信息 ------------ */
 	
@@ -123,10 +133,6 @@ public class Trade {
 	 */
 	private String shippingType;
 	
-	/**
-	 * 是否有买家留言
-	 */
-	private Boolean hasBuyerMessage;
 	
 	/**
 	 * 买家备注（与淘宝网上订单的买家备注对应，只有买家才能查看该字段）
@@ -418,6 +424,14 @@ public class Trade {
 
 	public void setItemTitles(String itemTitles) {
 		this.itemTitles = itemTitles;
+	}
+
+	public String getBuyerMessage() {
+		return buyerMessage;
+	}
+
+	public void setBuyerMessage(String buyerMessage) {
+		this.buyerMessage = buyerMessage;
 	}
 
 }

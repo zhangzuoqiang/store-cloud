@@ -30,7 +30,7 @@ import com.taobao.api.ApiException;
 @RequestMapping(value = "/item")
 public class ItemController {
 
-	private static final int PAGE_SIZE = 20;
+	private static final int PAGE_SIZE = 10;
 	
 	@Autowired
 	private TopApi topApi;
@@ -50,12 +50,11 @@ public class ItemController {
 	 // 淘宝商品列表
 	@RequestMapping(value = "mapping/{id}")
 	public String tblist(
-			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "q", defaultValue = "") String q,
 			@PathVariable("id") Long id,
 			Model model, 
 			ServletRequest request) throws ApiException {
-		String title = "";
-		List<com.taobao.api.domain.Item> tbItems = topApi.getTopItems(title);
+		List<com.taobao.api.domain.Item> tbItems = topApi.getTopItems(q);
 		Item item = itemService.getItem(id);
 		model.addAttribute("tbitems", tbItems);
 		model.addAttribute("item", item);
@@ -63,17 +62,23 @@ public class ItemController {
 	}
 	
 	// 关联淘宝商品
-	@RequestMapping(value = "relate/{itemid}/{tbitemid}")
-	public String relate(@PathVariable("itemid") Long itemid, @PathVariable("tbitemid") Long tbitemid) throws ApiException {
+	@RequestMapping(value = "relate/{itemid}/{tbitemid}/{skuid}")
+	public String relate(@PathVariable("itemid") Long itemid, 
+						@PathVariable("tbitemid") Long tbitemid,
+						@PathVariable("skuid") String skuid) throws ApiException {
 		com.taobao.api.domain.Item tbItem = topApi.getItem(tbitemid);
-		itemService.relateItem(itemid, tbitemid, tbItem.getTitle(), tbItem.getDetailUrl());
+		itemService.relateItem(itemid, tbItem, skuid);
 		return "redirect:/item/list";
 	}
 	
 	// 关联淘宝商品
-	@RequestMapping(value = "unrelate/{itemid}/{tbitemid}")
-	public String unrelate(@PathVariable("itemid") Long itemid, @PathVariable("tbitemid") Long tbitemid) throws ApiException {
-		itemService.unRelateItem(itemid, tbitemid);
+	@RequestMapping(value = "unrelate/{itemid}/{tbitemid}/{skuid}")
+	public String unrelate(
+			@PathVariable("itemid") Long itemid, 
+			@PathVariable("tbitemid") Long tbitemid, 
+			@PathVariable("skuid") String skuid) 
+					throws ApiException {
+		itemService.unRelateItem(itemid, tbitemid, skuid);
 		return "redirect:/item/list";
 	}	
 	

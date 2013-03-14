@@ -7,16 +7,25 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "sc_item_mapping")
 public class ItemMapping {
 
 	private Long id;
+	// 本地商品
 	private Item item;
-	private Long tbItemId;
-	private String tbItemTitle;
-	private String tbItemDetailurl;
+	// 淘宝商品ID
+	private Long numIid;
+	// 淘宝商品标题
+	private String title;
+	// 淘宝商品详细URL
+	private String detailUrl;
+	// 淘宝商品SKU
+	private String skuId;
+	// 淘宝商品介绍(不持久化)
+	private String desc;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,41 +33,59 @@ public class ItemMapping {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	@ManyToOne
-	@JoinColumn(name="sc_item_id")
+	@JoinColumn(name = "item_id")
 	public Item getItem() {
 		return item;
 	}
-
-	public Long getTbItemId() {
-		return tbItemId;
+	
+	@Transient
+	public String getDesc() {
+		return desc;
+	}
+	
+	public Long getNumIid() {
+		return numIid;
 	}
 
-	public String getTbItemTitle() {
-		return tbItemTitle;
+	public String getTitle() {
+		return title;
 	}
 
-	public String getTbItemDetailurl() {
-		return tbItemDetailurl;
+	public String getDetailUrl() {
+		return detailUrl;
+	}
+
+	public String getSkuId() {
+		return skuId;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setItem(Item item) {
 		this.item = item;
 	}
 
-	public void setTbItemId(Long tbItemId) {
-		this.tbItemId = tbItemId;
+	public void setNumIid(Long numIid) {
+		this.numIid = numIid;
 	}
 
-	public void setTbItemTitle(String tbItemTitle) {
-		this.tbItemTitle = tbItemTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public void setTbItemDetailurl(String tbItemDetailurl) {
-		this.tbItemDetailurl = tbItemDetailurl;
+	public void setDetailUrl(String detailUrl) {
+		this.detailUrl = detailUrl;
 	}
+
+	public void setSkuId(String skuId) {
+		this.skuId = skuId;
+	}
+	
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
 }

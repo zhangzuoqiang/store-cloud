@@ -25,10 +25,11 @@
 	
 	<!-- 查询单个商品 -->
 	<select id="get" parameterType="int" resultType="Item">
-		select id, userid as userid, title, description
+		select id, code, userid as userid, title, description
 		from sc_item
 		where id=#{id}
 	</select>
+	
 	
 	<!-- 获取用户商品总数 -->
 	<select id="getTotalResults" parameterType="long" resultType="long">
@@ -42,31 +43,22 @@
 		where userid=#{userId} limit #{start},#{offset}
 	</select>
 
-	<!-- 关联淘宝商品 -->
-	<select id="relate" parameterType="map">
-		insert into sc_item_mapping(
-		sc_item_id, tb_item_id, tb_item_title, tb_item_detailurl) 
-		values (
-		#{itemId}, #{tbitemId}, #{tbItemTitle}, #{tbItemUrl}
-		)
-	</select>
-	
 	<!-- 解除关联淘宝商品 -->
 	<delete id="unRelate">
-		delete from sc_item_mapping	where sc_item_id=#{0} and tb_item_id=#{1}
+		delete from sc_item_mapping	where item_id=#{0} and num_iid=#{1} and sku_id = #{2}
 	</delete>
 	
 	<!--获取淘宝商品已关联的商品ID -->
 	<select id="getRelatedItemId" resultType="long">
-		select sc_item_id from sc_item_mapping
-		where tb_item_id = #{0}
+		select item_id from sc_item_mapping
+		where num_iid = #{0} and sku_id = #{1}
 	</select>
 	
 	<!-- 查询已关联的淘宝商品 -->
 	<select id="related" parameterType="long" resultType="map">
 		select tb_item_id as id, tb_item_title as title, tb_item_detailurl as detailurl
 		from sc_item_mapping
-		where sc_item_id = #{id}
+		where item_id = #{id}
 	</select>	
 	
 	<!-- 删除商品 -->

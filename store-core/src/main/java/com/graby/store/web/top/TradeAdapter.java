@@ -44,6 +44,7 @@ public class TradeAdapter {
 		trade.setReceiverZip(from.getReceiverZip());
 		trade.setLgAging(from.getLgAging());
 		trade.setLgAgingType(from.getLgAgingType());
+		trade.setBuyerMessage(from.getBuyerMessage());
 		trade.setHasBuyerMessage(from.getHasBuyerMessage());
 		
 		// 子订单适配

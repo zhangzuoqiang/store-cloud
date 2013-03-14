@@ -53,9 +53,8 @@
 	<table class="table optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	<thead><tr>
 		<th>商铺名称</th>
-		<th>商品编号</th>
+		<th>商品编号（条形码）</th>
 		<th>商品标题</th>
-		<th>商铺详细信息要求(sku)</th>
 		<th>订购数量</th>		
 	</thead>
 	<tbody>
@@ -65,7 +64,6 @@
 		<td>${order.createUser.shopName}</td>
 		<td>${detail.item.code}</td>
 		<td>${detail.item.title}</td>
-		<td></td>
 		<td>${detail.num}</td>
 		</tr>
 	</c:forEach>

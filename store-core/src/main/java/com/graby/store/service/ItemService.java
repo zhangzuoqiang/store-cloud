@@ -84,22 +84,18 @@ public class ItemService {
 	 * @param tbItemTitle
 	 * @param tbItemUrl
 	 */
-	public void relateItem(Long itemId, Long tbitemId, String tbItemTitle, String tbItemUrl) {
-		if (getRelatedItemId(tbitemId) == null) {
+	@Transactional(readOnly = false)
+	public void relateItem(Long itemId,	com.taobao.api.domain.Item tbItem,	String  skuid ) {
+		if (getRelatedItemId(tbItem.getNumIid(), skuid) == null) {
 			ItemMapping mapping = new ItemMapping();
-			Item item = new Item();
-			item.setId(itemId);
-			mapping.setItem(item);
-			mapping.setTbItemId(tbitemId);
-			mapping.setTbItemTitle(tbItemTitle);
-			mapping.setTbItemDetailurl(tbItemUrl);
-			itemMappingJpaDao.save(mapping);
-//			Map<String, Object> map = new HashMap<String, Object>();
-//			map.put("itemId", itemId);
-//			map.put("tbitemId", tbitemId);
-//			map.put("tbItemTitle", tbItemTitle);
-//			map.put("tbItemUrl", tbItemUrl);
-//			itemDao.relate(map);
+			Item localItem = new Item();
+			localItem.setId(itemId);
+			mapping.setItem(localItem);
+			mapping.setNumIid(tbItem.getNumIid());
+			mapping.setSkuId(skuid);
+			mapping.setTitle(tbItem.getTitle());
+			mapping.setDetailUrl(tbItem.getDetailUrl());
+			itemMappingJpaDao.save(mapping);			
 		}
 	}
 	
@@ -108,9 +104,9 @@ public class ItemService {
 	 * @param itemId
 	 * @param numIid
 	 */
-	public void unRelateItem(Long itemId, Long numIid) {
-		if (getRelatedItemId(numIid) != null) {
-			itemDao.unRelate(itemId, numIid);
+	public void unRelateItem(Long itemId, Long numIid, String skuId) {
+		if (getRelatedItemId(numIid, skuId) != null) {
+			itemDao.unRelate(itemId, numIid, skuId);
 		}
 	}	
 	
@@ -120,8 +116,8 @@ public class ItemService {
 	 * @param numIid
 	 * @return
 	 */
-	public Long getRelatedItemId(Long numIid) {
-		return itemDao.getRelatedItemId(numIid);
+	public Long getRelatedItemId(Long numIid, String skuId) {
+		return itemDao.getRelatedItemId(numIid, skuId);
 	}	
 	
 	public void deleteItem(Long id) {

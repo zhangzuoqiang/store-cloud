@@ -16,7 +16,7 @@ import javax.persistence.Transient;
 public class TradeOrder {
 
 	/**
-	 * 子订单编号
+	 * 交易子订单序号
 	 */
 	private Long id;
 
@@ -25,6 +25,14 @@ public class TradeOrder {
 	 */
 	private String buyerNick;
 
+	
+	/*--------- 商品信息 ---------*/
+	
+	/**
+	 * 商品数字ID(淘宝)
+	 */
+	private Long numIid;
+	
 	/**
 	 * 商品标题
 	 */
@@ -41,7 +49,7 @@ public class TradeOrder {
 	private long num;
 	
 	/**
-	 * 库存可销售数量（不持久化）
+	 * 库存可销售数量（不持久化,从库存接口获取）
 	 * -1 表示未关联
 	 */
 	private long stockNum;
@@ -60,11 +68,6 @@ public class TradeOrder {
 	 * 应付金额（商品价格 * 商品数量 + 手工调整金额 - 订单优惠金额）。精确到2位小数;单位:元。如:200.07，表示:200元7分
 	 */
 	private String totalFee;	
-
-	/**
-	 * 商品数字ID
-	 */
-	private Long numIid;
 
 	/**
 	 * 子订单来源,如jhs(聚划算)、taobao(淘宝)、wap(无线)

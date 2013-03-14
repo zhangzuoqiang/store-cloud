@@ -44,6 +44,8 @@
 	<input type="hidden" name="shippingType" value="${trade.shippingType}">
 	<input type="hidden" name="buyerMemo" value="${trade.buyerMemo}">
 	<input type="hidden" name="payTime" value="${trade.payTime}">
+	<input type="hidden" name="buyerMessage" value="${trade.buyerMessage}">
+	
 	<!-- 目前只支持湘潭仓 -->
 	<input type="hidden" name="centro.id" value="1">
 	<!-- 当前用户 -->
@@ -84,7 +86,8 @@
 	<c:set var="i" value="0" />
 	<c:forEach items="${trade.orders}" var="order">
 		<tr>
-		<td>${order.title}</td>
+		<td>${order.title}<br>
+			${order.skuPropertiesName}</td>
 		<td>${order.totalFee}</td>
 		<td>${order.num}</td>
 		<td>
@@ -148,8 +151,8 @@
 	<label></label>
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
-                <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>买家备注</p>
-                ${trade.hasBuyerMessage? trade.buyerMemo:"无备注"}
+        	<p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>买家留言</p>
+        	${trade.buyerMessage}
  		</div>
 	</div>
 

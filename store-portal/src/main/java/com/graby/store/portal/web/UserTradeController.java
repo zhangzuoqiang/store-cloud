@@ -91,7 +91,8 @@ public class UserTradeController {
 		for (TradeOrder order : orders) {
 			// 放置库存信息， 目前只支持单库存，如未来支持多库存这里要做改造
 			Long numIid = order.getNumIid();
-			Long itemId = itemServie.getRelatedItemId(numIid);
+			String skuId = order.getSkuId();
+			Long itemId = itemServie.getRelatedItemId(numIid ,skuId);
 			if (itemId == null) {
 				order.setStockNum(-1);
 			} else {

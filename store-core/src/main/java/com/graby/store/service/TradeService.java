@@ -59,7 +59,7 @@ public class TradeService {
 	}
 	
 	/**
-	 * 订单点发货时, 创建系统订单,同时产生出货单.
+	 * 订单点发货时, 创建系统订单.
 	 * 
 	 * @param trade
 	 */
