@@ -30,10 +30,9 @@
 	<form class="form-search">
 		<input id="q" name="q" type="text" class="span5" placeholder="根据标题查询商品..."/>
 		<a id="search" href="#" class="btn btn-primary">查询</a>
-		<span class="offset1 .pull-right">关联到:${item.title}</span>
 	</form>
 	
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped">
 		<thead>
 			<tr>
 			<th>商品标题</th>
