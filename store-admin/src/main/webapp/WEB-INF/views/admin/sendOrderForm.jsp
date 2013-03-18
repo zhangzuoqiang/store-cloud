@@ -125,8 +125,8 @@
 			    <div>
 			    	<span class="span2"><strong>运输公司选择：</strong></span>
 			    	<select name="expressCompany">
-			    	<c:forEach items="${express}" var="e">
-			    		<option value="${e}">${e}</option>
+			    	<c:forEach items="${expressCompanys}" var="e">
+			    		<option value="${e.key}">${e.value}</option>
 			    	</c:forEach>
 			    	</select>
 			    </div>

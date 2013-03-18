@@ -1,16 +1,14 @@
 package com.graby.store.common;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Express {
 	
-	public static final List<String> expressCompanys = new ArrayList<String>();
+	public static final Map<String, String> 	expressCompanys = new LinkedHashMap<String, String>();
 	
 	static {
-		expressCompanys.add("韵达");
-		expressCompanys.add("申通");
-		expressCompanys.add("顺丰");
-		expressCompanys.add("圆通");
+		expressCompanys.put("YUNDA", "韵达");
+		expressCompanys.put("SF", "顺丰");
 	}
 }

@@ -33,8 +33,6 @@ public class TradeMapping {
 	// 淘宝交易ID
 	private Long tid;
 	
-	// 交易状态
-	private String status;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,14 +58,6 @@ public class TradeMapping {
 
 	public void setTid(Long tid) {
 		this.tid = tid;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 	
 }

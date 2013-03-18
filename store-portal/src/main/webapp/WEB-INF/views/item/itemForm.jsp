@@ -34,7 +34,7 @@
 			<div class="control-group">
 				<label for="item_title" class="control-label">商品编号（条形码）:</label>
 				<div class="controls">
-					<input type="text" name="code"  value="${item.code}" class="input-large required" minlength="5"/>
+					<input type="text" name="code"  value="${item.code}" class="input-large required" minlength="8"/>
 					<p class="help-block">SKU对应的商品条形码</p>
 				</div>
 			</div>	

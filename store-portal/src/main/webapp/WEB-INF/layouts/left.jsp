@@ -17,7 +17,7 @@
 	<h1>订单管理</h1>
 	<div class="submenu">
 		<a href="${ctx}/trade/wait">待发货订单</a>
-		<a href="#">物流通配送追踪</a>
+		<a href="${ctx}/trade/list">物流通配送追踪</a>
 		<a href="#">统计信息</a>
 	</div>
 </div>

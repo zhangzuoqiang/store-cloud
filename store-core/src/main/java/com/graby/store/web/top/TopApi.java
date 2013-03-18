@@ -14,11 +14,13 @@ import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.domain.Item;
+import com.taobao.api.domain.Shipping;
 import com.taobao.api.domain.Shop;
 import com.taobao.api.domain.Trade;
 import com.taobao.api.request.ItemGetRequest;
 import com.taobao.api.request.ItemsInventoryGetRequest;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
+import com.taobao.api.request.LogisticsOfflineSendRequest;
 import com.taobao.api.request.ShopGetRequest;
 import com.taobao.api.request.TradeFullinfoGetRequest;
 import com.taobao.api.request.TradesSoldGetRequest;
@@ -26,6 +28,7 @@ import com.taobao.api.request.UserGetRequest;
 import com.taobao.api.response.ItemGetResponse;
 import com.taobao.api.response.ItemsInventoryGetResponse;
 import com.taobao.api.response.ItemsOnsaleGetResponse;
+import com.taobao.api.response.LogisticsOfflineSendResponse;
 import com.taobao.api.response.ShopGetResponse;
 import com.taobao.api.response.TradeFullinfoGetResponse;
 import com.taobao.api.response.TradesSoldGetResponse;
@@ -68,6 +71,19 @@ public class TopApi {
 		/** 包含：TRADE_CLOSED、TRADE_CLOSED_BY_TAOBAO */
 		String TRADE_ALL_CLOSED = "ALL_CLOSED";
 		
+	}
+	
+	/**
+	 * 物流公司
+	 * @author huabiao.mahb
+	 *
+	 */
+	public interface CompanyCode {
+		/** 韵达 */
+		String YUNDA = "YUNDA";
+
+		/** 顺丰 */
+		String SF = "SF";
 	}
 
 
@@ -237,6 +253,22 @@ public class TopApi {
 		req.setTid(tid);
 		TradeFullinfoGetResponse resp = client.execute(req, session());
 		return resp.getTrade();
+	}
+	
+	/**
+	 * 用户调用该接口可实现自己联系发货（线下物流），使用该接口发货，交易订单状态会直接变成卖家已发货。不支持货到付款、在线下单类型的订单。
+	 * @param tid 交易号
+	 * @param outSid 运单号 like 1200722815552 
+	 * @param companyCode 物流公司编号 like YUNDA
+	 * @throws ApiException 
+	 */
+	public Shipping tradeShipping(Long tid, String outSid, String companyCode) throws ApiException {
+		LogisticsOfflineSendRequest req=new LogisticsOfflineSendRequest();
+		req.setTid(tid);
+		req.setOutSid(outSid);
+		req.setCompanyCode(companyCode);
+		LogisticsOfflineSendResponse resp = client.execute(req , session());
+		return resp.getShipping();
 	}
 
 	private String session() {

@@ -25,6 +25,14 @@ public interface TradeDao {
 	public Long getRelatedTradeId(Long tid);
 	
 	/**
+	 * 根据系统交易ID查询淘宝交易ID
+	 * @param tradeId
+	 * @return
+	 */
+	public Long getRelatedTid(Long tradeId);
+	
+	
+	/**
 	 * 查询最近50条待处理订单(等待物流通审核)
 	 * @return
 	 */
@@ -36,4 +44,23 @@ public interface TradeDao {
 	 * @param status
 	 */
 	public void setTradeStatus(Long tradeId, String status);
+	
+	/**
+	 * 获取用户订单总数
+	 * @param userId
+	 * @param status
+	 * @return
+	 */
+	public long getTotalResults(Long userId, String status);
+	
+	/**
+	 * 获取用户订单列表
+	 * @param userId
+	 * @param status
+	 * @param start
+	 * @param offset
+	 * @return
+	 */
+	public List<Trade> getTrades(Long userId, String status, long start, long offset);
+	
 }

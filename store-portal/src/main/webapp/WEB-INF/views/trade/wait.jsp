@@ -70,7 +70,7 @@
 						由物流宝发货				
 					</c:if>
 					<c:if test="${trade.buyerRate == true}">
-						<span class="label label-success">物流通配送中</span>
+						<span class="label label-success">物流通配送</span>
 					</c:if>						
 					<c:if test="${ (trade.isForceWlb == false) && (trade.buyerRate == false)}">
 						<a href="${ctx}/trade/deal/tb/${trade.tid}" class="btn btn-primary">开始处理</a></td>				

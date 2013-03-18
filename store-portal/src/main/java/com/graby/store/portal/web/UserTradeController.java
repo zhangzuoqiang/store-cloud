@@ -20,6 +20,7 @@ import com.graby.store.inventory.Accounts;
 import com.graby.store.inventory.InventoryService;
 import com.graby.store.service.ItemService;
 import com.graby.store.service.TradeService;
+import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
 import com.graby.store.web.top.TradeAdapter;
 import com.taobao.api.ApiException;
@@ -115,9 +116,24 @@ public class UserTradeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/send/confirm")
-	public String confirm(Trade trade, RedirectAttributes redirectAttributes) {
+	public String sendConfirm(Trade trade, RedirectAttributes redirectAttributes) {
 		tradeService.createTrade(trade);
 		return "redirect:/trade/wait";
 	}
-
+	
+	/**
+	 * 查询交易订单
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "list", method=RequestMethod.GET)
+	public String trades(
+			@RequestParam(value = "status", defaultValue = "") String status,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			Model model) throws ApiException {
+		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), status, page, 10);
+		model.addAttribute("trades", trades);
+		return "trade/tradeList";
+	}
+	
 }

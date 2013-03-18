@@ -25,6 +25,8 @@ import com.graby.store.inventory.AccountTemplate;
 import com.graby.store.inventory.InventoryService;
 import com.graby.store.inventory.InventoryService.AccountEntrys;
 import com.graby.store.web.auth.ShiroContextUtils;
+import com.graby.store.web.top.TopApi;
+import com.taobao.api.ApiException;
 
 @Component
 @Transactional(readOnly = true)
@@ -47,6 +49,9 @@ public class ShipOrderService {
 	
 	@Autowired
 	private TradeService tradeService;
+	
+	@Autowired
+	private TopApi topApi;
 
 	private String formateDate(Date date, String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
@@ -292,28 +297,37 @@ public class ShipOrderService {
 	 * 提交出货单，仓库发货
 	 * @param order
 	 * @return
+	 * @throws ApiException 
 	 */
-	public ShipOrder submitSendOrder(ShipOrder order) {
-		ShipOrder entity = getShipOrder(order.getId());
-		entity.setExpressCompany(order.getExpressCompany());
-		entity.setExpressOrderno(order.getExpressOrderno());
-		entity.setLastUpdateDate(new Date());
-		entity.setLastUpdateUser(order.getLastUpdateUser());
-		List<ShipOrderDetail> details = entity.getDetails();
+	public ShipOrder submitSendOrder(ShipOrder order) throws ApiException {
+		
+		// 更新基本信息（运单号、运输公司）
+		ShipOrder sendOrderEntity = getShipOrder(order.getId());
+		sendOrderEntity.setExpressCompany(order.getExpressCompany());
+		sendOrderEntity.setExpressOrderno(order.getExpressOrderno());
+		sendOrderEntity.setLastUpdateDate(new Date());
+		sendOrderEntity.setLastUpdateUser(order.getLastUpdateUser());
+		
 		// 库存记账-仓库发货
+		List<ShipOrderDetail> details = sendOrderEntity.getDetails();
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
-				inventoryService.input(entity.getCentroId(), 
-						entity.getCreateUser().getId(),
+				inventoryService.input(sendOrderEntity.getCentroId(), 
+						sendOrderEntity.getCreateUser().getId(),
 						detail.getItem().getId(),
 						detail.getNum(), 
 						AccountTemplate.STORAGE_SEND);
 			}
 		}
-		entity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
-		updateShipOrder(entity);
+		// 更新出货单状态-等待用户签收
+		sendOrderEntity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
+		updateShipOrder(sendOrderEntity);
 		
-		return entity;
+		tradeService.setStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
+		
+		// 更新淘宝物流信息-已发货，等待用户确认
+		topApi.tradeShipping(tradeService.getRelatedTid(sendOrderEntity.getTradeId()), sendOrderEntity.getExpressOrderno(), sendOrderEntity.getExpressCompany());	
+		return sendOrderEntity;
 	}
 	
 	/**

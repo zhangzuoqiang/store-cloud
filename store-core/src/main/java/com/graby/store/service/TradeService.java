@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +43,15 @@ public class TradeService {
 	public Long getRelatedTradeId(Long tid) {
 		return tradeDao.getRelatedTradeId(tid);
 	}
+	
+	/**
+	 * 根据系统交易ID查询淘宝交易ID
+	 * @param tid
+	 * @return
+	 */
+	public Long getRelatedTid(Long tradeId) {
+		return tradeDao.getRelatedTid(tradeId);
+	}	
 	
 	/**
 	 * 校验订单是否能提交
@@ -93,14 +105,12 @@ public class TradeService {
 		Trade trade = getTrade(tradeId);
 		ShipOrder shipOrder = geneShipOrder(trade);
 		shipOrderService.createSendShipOrder(shipOrder);
-		
-		// TODO 测试后恢复
-		tradeDao.setTradeStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
+		setStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
 		return shipOrder;
 	}
 	
 	public void setStatus(Long tradeId, String status) {
-		
+		tradeDao.setTradeStatus(tradeId, status);
 	}
 	
 	/**
@@ -110,6 +120,25 @@ public class TradeService {
 	public List<Trade> findWaitAuditTrades() {
 		return tradeDao.findWaitAuditTrades();
 	}
+	
+	/**
+	 * 查询用户交易订单 
+	 * @param userId 用户ID
+	 * @return
+	 */
+	public Page<Trade> findUserTrades(Long userId, String status, long pageNo, long pageSize) {
+		StringBuffer buf = new StringBuffer();
+		buf.append("%").append(status).append("%");
+		status = buf.toString();
+		long start = (pageNo-1)*pageSize;
+		long offset = pageSize;
+		List<Trade> trades = tradeDao.getTrades(userId, status, start, offset);
+		long total = tradeDao.getTotalResults(userId, status);
+		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
+		Page<Trade> page = new PageImpl<Trade>(trades, pageable, total);
+		return page;
+	}
+	
 	
 	/**
 	 * 获取交易订单

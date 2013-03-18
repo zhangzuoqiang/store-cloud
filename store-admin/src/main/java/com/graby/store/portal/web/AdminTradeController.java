@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.graby.store.common.Express;
 import com.graby.store.entity.Item;
@@ -108,7 +107,7 @@ public class AdminTradeController {
 	public String doSendOrderForm(@PathVariable("id") Long orderId, Model model) {
 		ShipOrder sendOrder = shipOrderService.getShipOrder(orderId);
 		model.addAttribute("order", sendOrder);
-		model.addAttribute("express", Express.expressCompanys);
+		model.addAttribute("expressCompanys", Express.expressCompanys);
 		return "/admin/sendOrderForm";
 	}
 	
@@ -117,9 +116,10 @@ public class AdminTradeController {
 	 * @param orderId
 	 * @param model
 	 * @return
+	 * @throws ApiException 
 	 */
 	@RequestMapping(value = "send/submit", method=RequestMethod.POST)
-	public String submitOrder(ShipOrder order, Model model) {
+	public String submitOrder(ShipOrder order, Model model) throws ApiException {
 		shipOrderService.submitSendOrder(order);
 		return "redirect:/trade/send/waits";
 	}

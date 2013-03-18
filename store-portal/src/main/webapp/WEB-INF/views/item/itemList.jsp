@@ -30,7 +30,7 @@
 		$(document).ready(function() {
 			$('#confirm').confirm({
 				'title' : '删除商品',
-				'message' : '确认删除该商品！',
+				'message' : '确认删除该商品 ？',
 			});
 		});	    
 	</script>

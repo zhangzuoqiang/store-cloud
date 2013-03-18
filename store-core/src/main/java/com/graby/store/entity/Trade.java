@@ -40,6 +40,11 @@ public class Trade {
 	    String TRADE_WAIT_EXPRESS_SHIP = "TRADE_WAIT_EXPRESS_SHIP";
 	    
 	    /**
+	     * 等待买家签收（物流已发送）
+	     */
+	    String TRADE_WAIT_BUYER_RECEIVED = "TRADE_WAIT_BUYER_RECEIVED";	    
+	    
+	    /**
 	     * 交易成功（买家成功收件）
 	     */
 	    String TRADE_FINISHED = "TRADE_FINISHED";
