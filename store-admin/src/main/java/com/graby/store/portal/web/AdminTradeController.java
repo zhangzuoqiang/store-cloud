@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.graby.store.common.Express;
 import com.graby.store.entity.Item;
@@ -137,7 +138,7 @@ public class AdminTradeController {
 	}
 	
 	/**
-	 * 出库单处理页面 (打印分拣单、审核分拣单、打印快递运单、出库确认)
+	 * 用户签收页面
 	 * @param orderId
 	 * @param model
 	 * @return
@@ -147,6 +148,19 @@ public class AdminTradeController {
 		ShipOrder sendOrder = shipOrderService.getShipOrder(orderId);
 		model.addAttribute("order", sendOrder);
 		return "/admin/signForm";
+	}
+	
+	/**
+	 * 点击用户签收
+	 * @param order
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "sign/submit/{id}", method=RequestMethod.GET)
+	public String submitSign(@PathVariable(value = "id")Long orderId, Model model) {
+		ShipOrder sendOrder = shipOrderService.signSendOrder(orderId);
+		model.addAttribute("order", sendOrder);
+		return "admin/signSuccess";
 	}
 	
 }

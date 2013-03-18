@@ -110,7 +110,7 @@ public class AccountTemplate {
 	 * 借:冻结
 	 * 贷:已销售
 	 */
-	public static AccountTemplate TRADE_FINISH =  new AccountTemplate(Accounts.FROZEN, Accounts.SALED);
+	public static AccountTemplate BUYER_RECEIVED =  new AccountTemplate(Accounts.FROZEN, Accounts.SALED);
 	
 	
 	/**

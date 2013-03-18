@@ -19,6 +19,7 @@ import com.graby.store.dao.mybatis.ShipOrderDao;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.ShipOrderDetail;
+import com.graby.store.entity.Trade;
 import com.graby.store.entity.User;
 import com.graby.store.inventory.AccountTemplate;
 import com.graby.store.inventory.InventoryService;
@@ -43,6 +44,9 @@ public class ShipOrderService {
 
 	@Autowired
 	private InventoryService inventoryService;
+	
+	@Autowired
+	private TradeService tradeService;
 
 	private String formateDate(Date date, String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
@@ -284,6 +288,11 @@ public class ShipOrderService {
 		}
 	}
 	
+	/**
+	 * 提交出货单，仓库发货
+	 * @param order
+	 * @return
+	 */
 	public ShipOrder submitSendOrder(ShipOrder order) {
 		ShipOrder entity = getShipOrder(order.getId());
 		entity.setExpressCompany(order.getExpressCompany());
@@ -306,8 +315,29 @@ public class ShipOrderService {
 		
 		return entity;
 	}
-
 	
+	/**
+	 * 出货单用户签收确认
+	 * @param orderId
+	 */
+	public ShipOrder signSendOrder(Long orderId) {
+		ShipOrder order = getShipOrder(orderId);
+		order.setStatus(ShipOrder.SendOrderStatus.SEND_FINISH);
+		updateShipOrder(order);
+		tradeService.setStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
+		List<ShipOrderDetail> details = order.getDetails();
+		// 库存记账-买家签收
+		if (CollectionUtils.isNotEmpty(details)) {
+			for (ShipOrderDetail detail : details) {
+				inventoryService.input(order.getCentroId(), 
+						order.getCreateUser().getId(),
+						detail.getItem().getId(),
+						detail.getNum(), 
+						AccountTemplate.BUYER_RECEIVED);
+			}
+		}		
+		return order;
+	}
 	
 	@Transactional(readOnly = false)
 	public void updateShipOrder(ShipOrder order) {

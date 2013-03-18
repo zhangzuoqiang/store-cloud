@@ -85,6 +85,7 @@
 	<tbody>
 	<c:set var="i" value="0" />
 	<c:forEach items="${trade.orders}" var="order">
+		<input type="hidden" value="${order.numIid}">
 		<tr>
 		<td>${order.title}<br>
 			${order.skuPropertiesName}</td>

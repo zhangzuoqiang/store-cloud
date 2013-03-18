@@ -42,7 +42,7 @@ public class Trade {
 	    /**
 	     * 交易成功（买家成功收件）
 	     */
-	    String TRADE_FINISHED = "TRADE_FINISHED";	
+	    String TRADE_FINISHED = "TRADE_FINISHED";
 	    
 	    /**
 	     * 交易关闭， 库存解冻，商品可销量减少，交易量增加。

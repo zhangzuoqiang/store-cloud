@@ -8,8 +8,9 @@
 <html>
 <head>
 	<title>登录页</title>
+	<script src="${ctx}/static/jquery-validation/1.10.0/jquery.validate.ext.js" type="text/javascript"></script>
 	<link href="${ctx}/static/bootstrap/2.2.2/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-	<link href="${ctx}/static/styles/default.css" type="text/css" rel="stylesheet" />	
+	<link href="${ctx}/static/jquery-validation/1.10.0/validate.css" type="text/css" rel="stylesheet" />	
 	<script>
 		$(document).ready(function() {
 			$("#loginForm").validate();
@@ -29,6 +30,8 @@
 	<%
 	}
 	%>
+	<fieldset>
+		<legend><small>物流通后台登陆页面</small></legend>
 		<div class="control-group">
 			<label for="username" class="control-label">名称:</label>
 			<div class="controls">
@@ -45,10 +48,11 @@
 		<div class="control-group">
 			<div class="controls">
 				<label class="checkbox" for="rememberMe"><input type="checkbox" id="rememberMe" name="rememberMe"/> 记住我</label>
-				<input id="submit_btn" class="btn btn-primary" type="submit" value="登录"/> <a class="btn" href="${ctx}/register">注册</a>
-			 	<span class="help-block">(管理员: <b>admin/admin</b>, 普通用户: <b>user/user</b>)</span>
+				<input id="submit_btn" class="btn btn-primary" type="submit" value="登录"/>
+			 	<span class="help-block">(管理员: <b>admin/admin</b>)</span>
 			</div>
 		</div>
+	</fieldset>
 	</form>
 </body>
 </html>

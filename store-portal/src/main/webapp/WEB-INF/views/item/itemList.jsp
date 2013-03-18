@@ -6,7 +6,7 @@
 <html>
 <head>
 	<title>商品管理</title>
-	<script src="${ctx}/static/bootstrap-plugin-js/bootstrap-tooltip.js" type="text/javascript"></script>
+	<script src="${ctx}/static/bootstrap-plugin-js/bootstrap-confirm.js" type="text/javascript"></script>
 	<script>
 	
 		//$(function () {
@@ -26,11 +26,13 @@
 			var elm =$(".r_"+eid); 
 			elm.hide();
 	    });
-		
-		$(document).on("click", ".confirm", function(e) {
-			if (!confirm("确认删除该商品"))
-       			event.preventDefault();
-	    });	
+	    
+		$(document).ready(function() {
+			$('#confirm').confirm({
+				'title' : '删除商品',
+				'message' : '确认删除该商品！',
+			});
+		});	    
 	</script>
 	
 </head>
@@ -42,6 +44,11 @@
 			    var url = $(this).attr('href');
 			    $(target).load(url);
 			});	
+			
+			$('#confirm').confirm({
+				'title' : '删除',
+				'message' : '确认删除该商品',
+			});			
 		});
 	</script>
 
@@ -83,7 +90,7 @@
 					</c:forEach>
 				</td>
 				<td><a href="${ctx}/item/mapping/${item.id}" data-toggle="modal" data-target="#mappingModal" data-backdrop="false">关联淘宝商品</a></td>
-				<td><a href="${ctx}/item/delete/${item.id}" class="confirm">删除商品</a>
+				<td><a href="${ctx}/item/delete/${item.id}" class="confirm" id="confirm">删除商品</a>
 				</td>
 			</tr>
 		</c:forEach>
