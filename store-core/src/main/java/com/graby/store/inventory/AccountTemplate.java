@@ -51,66 +51,66 @@ public class AccountTemplate {
 	/**
 	 * 厂家发送入库单
 	 * 
-	 * 借:在途 (借方)
-	 * 贷:商家库存 (待方)
+	 * 借:商家库存 
+	 * 贷:在途 
 	 */
-	public static AccountTemplate SHOP_SEND =  new AccountTemplate(Accounts.ONTHEWAY, Accounts.SHOP_INVENTORY);
+	public static AccountTemplate SHOP_SEND =  new AccountTemplate(Accounts.SHOP_INVENTORY, Accounts.ONTHEWAY);
 
 	/**
 	 * 厂家发送入库单取消
-	 * 借：商家库存 (待方)
-	 * 贷：在途 (借方)
+	 * 借：在途
+	 * 贷: 商家库存 
 	 */
-	public static AccountTemplate SHOP_SEND_CANCEL = new AccountTemplate(Accounts.SHOP_INVENTORY, Accounts.ONTHEWAY);
+	public static AccountTemplate SHOP_SEND_CANCEL = new AccountTemplate(Accounts.ONTHEWAY, Accounts.SHOP_INVENTORY);
 	
 	/**
 	 * 仓库入库
 	 * 
-	 * 借：可销售 (借方)  
-	 * 待：在途 (借方)
+	 * 借：在途   
+	 * 待：可销售
 	 */
-	public static AccountTemplate STORAGE_RECEIVED_SALEABLE =  new AccountTemplate(Accounts.SALEABLE, Accounts.ONTHEWAY);
+	public static AccountTemplate STORAGE_RECEIVED_SALEABLE =  new AccountTemplate(Accounts.ONTHEWAY, Accounts.SALEABLE);
 	
 	/**
 	 * 仓库入库
 	 * 
-	 * 借：残次(借方)  
-	 * 待：在途 (借方)
+	 * 借：在途
+	 * 待：残次
 	 */
-	public static AccountTemplate STORAGE_RECEIVED_BADNESS_DEFECT =  new AccountTemplate(Accounts.BADNESS_DEFECT, Accounts.ONTHEWAY);
+	public static AccountTemplate STORAGE_RECEIVED_BADNESS_DEFECT =  new AccountTemplate(Accounts.ONTHEWAY, Accounts.BADNESS_DEFECT);
 	
 	/**
 	 * 仓库入库
 	 * 
-	 * 借： 机损(借方)  
-	 * 待：在途 (借方)
+	 * 借：在途 
+	 * 待：机损
 	 */
-	public static AccountTemplate STORAGE_RECEIVED_BADNESS_DEMAGE_MACHINE =  new AccountTemplate(Accounts.BADNESS_DEMAGE_MACHINE, Accounts.ONTHEWAY);
+	public static AccountTemplate STORAGE_RECEIVED_BADNESS_DEMAGE_MACHINE =  new AccountTemplate(Accounts.ONTHEWAY, Accounts.BADNESS_DEMAGE_MACHINE);
 	
 	/**
 	 * 仓库入库
 	 * 
-	 * 借： 箱损(借方)  
-	 * 待：在途 (借方)
+	 * 借：在途
+	 * 待：箱损
 	 */
-	public static AccountTemplate STORAGE_RECEIVED_BADNESS_DEMAGE_BOX =  new AccountTemplate(Accounts.BADNESS_DEMAGE_BOX, Accounts.ONTHEWAY);
+	public static AccountTemplate STORAGE_RECEIVED_BADNESS_DEMAGE_BOX =  new AccountTemplate(Accounts.ONTHEWAY, Accounts.BADNESS_DEMAGE_BOX);
 	
 	
 	/**
 	 * 出库单确认(仓库发货) 
 	 *
-	 * 借:冻结  (借)
-	 * 贷:可销售 (借)
+	 * 借:可销售 
+	 * 贷:冻结
 	 */
-	public static AccountTemplate STORAGE_SEND =  new AccountTemplate(Accounts.FROZEN, Accounts.SALEABLE);
+	public static AccountTemplate STORAGE_SEND =  new AccountTemplate(Accounts.SALEABLE, Accounts.FROZEN);
 	
 	/**
 	 * 用户成功接收 (交易成功)
 	 * 
-	 * 借:已销售(借)
-	 * 贷:冻结 (借)
+	 * 借:冻结
+	 * 贷:已销售
 	 */
-	public static AccountTemplate TRADE_FINISH =  new AccountTemplate(Accounts.SALED, Accounts.FROZEN);
+	public static AccountTemplate TRADE_FINISH =  new AccountTemplate(Accounts.FROZEN, Accounts.SALED);
 	
 	
 	/**

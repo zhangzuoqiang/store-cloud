@@ -22,49 +22,48 @@ public class Accounts {
 
 	public static final String CODE_ONTHEWAY = "101";
 
-	/* ----------- 借方 ----------- */
+	/* ----------- 贷方 ----------- */
+	/**
+	 * 商铺方库存
+	 */
+	public static Account SHOP_INVENTORY = new Account(Direction.DEBIT, CODE_SHOP_INVENTORY);
 	
 	/**
 	 * 在途
 	 */
-	public static Account ONTHEWAY = new Account(Direction.CREDIT, CODE_ONTHEWAY);
+	public static Account ONTHEWAY = new Account(Direction.DEBIT, CODE_ONTHEWAY);
 
 	/**
 	 * 可销售
 	 */
-	public static Account SALEABLE = new Account(Direction.CREDIT, CODE_SALEABLE);
+	public static Account SALEABLE = new Account(Direction.DEBIT, CODE_SALEABLE);
 
 	/**
 	 * 不良品：残次
 	 */
-	public static Account BADNESS_DEFECT = new Account(Direction.CREDIT, CODE_BADNESS_DEFECT);
+	public static Account BADNESS_DEFECT = new Account(Direction.DEBIT, CODE_BADNESS_DEFECT);
 
 	/**
 	 * 不良品：机损
 	 */
-	public static Account BADNESS_DEMAGE_MACHINE = new Account(Direction.CREDIT, CODE_BADNESS_DEMAGE_MACHINE);
+	public static Account BADNESS_DEMAGE_MACHINE = new Account(Direction.DEBIT, CODE_BADNESS_DEMAGE_MACHINE);
 
 	/**
 	 * 不良品：箱损
 	 */
-	public static Account BADNESS_DEMAGE_BOX = new Account(Direction.CREDIT, CODE_BADNESS_DEMAGE_BOX);
+	public static Account BADNESS_DEMAGE_BOX = new Account(Direction.DEBIT, CODE_BADNESS_DEMAGE_BOX);
 
 	/**
 	 * 冻结
 	 */
-	public static Account FROZEN = new Account(Direction.CREDIT, CODE_FROZEN);
+	public static Account FROZEN = new Account(Direction.DEBIT, CODE_FROZEN);
 
 	/**
 	 * 已售出
 	 */
 	public static Account SALED = new Account(Direction.DEBIT, CODE_SALED);
 
-	/* ----------- 贷方 ----------- */
-
-	/**
-	 * 商铺方库存
-	 */
-	public static Account SHOP_INVENTORY = new Account(Direction.CREDIT, CODE_SHOP_INVENTORY);
+	/* ----------- 借方 ----------- */
 
 	/**
 	 * 库存科目条目

@@ -40,18 +40,21 @@
 					<label for="item_title" class="control-label">商品名称:</label>
 					<div class="controls">
 						<input type="text" name="title"  value="${item.title}" class="input-large required" minlength="3"/>
+						<p class="help-block">商品标题必须精确到SKU(库存最小可以单位)， 如A3时尚春款修身打底衫T恤 女 长袖13180 尺寸:XL; 颜色:天蓝色</p>
 					</div>
 				</div>	
 				<div class="control-group">
 					<label class="control-label">商品编号（条形码）:</label>
 					<div class="controls">
 						<input type="text" name="code"  value="${item.code}" class="input-large required" minlength="5"/>
+						<p class="help-block">SKU对应的商品条形码</p>
 					</div>
 				</div>	
 				<div class="control-group">
 					<label class="control-label">重量（单位：克）:</label>
 					<div class="controls">
-						<input type="text" name="weight"  value="${item.weight}" class="input-large required" minlength="3" />
+						<input type="text" name="weight"  value="${item.weight}" class="input-large required digits" minlength="1" />
+						<p class="help-block">商品重量（带包装），用于结算快递费用。</p>
 					</div>
 				</div>	
 				<div class="control-group">
