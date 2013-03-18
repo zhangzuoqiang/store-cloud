@@ -6,10 +6,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
+import com.graby.store.base.AppException;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
@@ -262,12 +264,15 @@ public class TopApi {
 	 * @param companyCode 物流公司编号 like YUNDA
 	 * @throws ApiException 
 	 */
-	public Shipping tradeShipping(Long tid, String outSid, String companyCode) throws ApiException {
+	public Shipping tradeOfflineShipping(Long tid, String outSid, String companyCode) throws ApiException {
 		LogisticsOfflineSendRequest req=new LogisticsOfflineSendRequest();
 		req.setTid(tid);
 		req.setOutSid(outSid);
 		req.setCompanyCode(companyCode);
 		LogisticsOfflineSendResponse resp = client.execute(req , session());
+		if (StringUtils.isNotEmpty(resp.getErrorCode())) {
+			throw new AppException(resp.getSubMsg());
+		}
 		return resp.getShipping();
 	}
 

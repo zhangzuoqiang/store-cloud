@@ -28,7 +28,7 @@
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
 			<th>收货地址</th>
-			<th>发货处理</th>
+			<th>订单状态</th>
 			</tr></thead>
 			<tbody>
 			<c:forEach items="${trades.content}" var="trade">
@@ -66,15 +66,20 @@
 					 	${trade.receiverAddress}
 					</td>
 					<td>
-					<c:if test="${trade.isForceWlb == true}">
-						由物流宝发货				
+					<c:if test="${trade.status == 'TRADE_WAIT_CENTRO_AUDIT'}">
+						等待物流通审核			
 					</c:if>
-					<c:if test="${trade.buyerRate == true}">
-						<span class="label label-success">物流通配送</span>
-					</c:if>						
-					<c:if test="${ (trade.isForceWlb == false) && (trade.buyerRate == false)}">
-						<a href="${ctx}/trade/deal/tb/${trade.tid}" class="btn btn-primary">开始处理</a></td>				
+					<c:if test="${trade.status == 'TRADE_WAIT_EXPRESS_SHIP'}">
+						物流通审核通过，等待快递配送
 					</c:if>
+					<c:if test="${trade.status == 'TRADE_WAIT_BUYER_RECEIVED'}">
+						物流通已发货 请通知买家等待签收<br>
+						<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.tid}">通知</a>
+					</c:if>					
+					<c:if test="${(trade.isForceWlb == false) && (trade.status == 'unrelated')}">
+						<a href="${ctx}/trade/deal/tb/${trade.tid}">物流通发货</a></td>				
+					</c:if>
+					
 				</tr>
 			</c:forEach>
 			</tbody>

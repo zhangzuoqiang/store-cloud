@@ -5,13 +5,25 @@
 
 	<!-- 关联淘宝交易ID和系统交易ID -->
 	<insert id="createTradeMapping" useGeneratedKeys="true" keyColumn="id">
-		insert into sc_trade_mapping (tid, trade_id)
-		values (#{tid}, #{tradeId})
+		insert into sc_trade_mapping (tid, trade_id, status)
+		values (#{tid}, #{tradeId}, 'TRADE_WAIT_CENTRO_AUDIT')
 	</insert>
+	
+	<update id="updateTradeMappingStatus"> 
+        update sc_trade_mapping set status=#{1}
+        where trade_id=#{0}
+    </update>  
+	
 	
 	<!-- 获取淘宝交易关联的系统交易ID -->
 	<select id="getRelatedTradeId" resultType="long">
 		select trade_id  from sc_trade_mapping
+		 where tid=#{0}
+	</select>
+	
+	<!-- 获取淘宝交易关联的系统交易ID -->
+	<select id="getRelatedMapping" resultType="TradeMapping">
+		select tid as "tid", trade_id as "tradeId", status from sc_trade_mapping
 		 where tid=#{0}
 	</select>
 	
@@ -38,7 +50,7 @@
 	WHERE a.`status`='TRADE_WAIT_CENTRO_AUDIT' LIMIT 50
 	</select>
 	
-	<update id="setTradeStatus"> 
+	<update id="updateTradeStatus"> 
         update sc_trade set status=#{1}
         where id=#{0}
     </update>    

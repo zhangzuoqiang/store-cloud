@@ -26,6 +26,13 @@
         where id=#{0}
     </update>    
     
+    <!-- 根据淘宝交易号查询出货单 -->
+    <select id="getShipOrderByTid" resultType="ShipOrder">
+		select b.tid, a.express_company as "expressCompany", a.express_orderno as "expressOrderno"  from sc_ship_order a
+		left join sc_trade_mapping b on a.trade_id = b.trade_id
+		where b.tid=#{0}
+	</select>
+	
     <!-- 查询在途入库单 -->
   	<select id="findEntryOrderOnWay" resultType="ShipOrder">
 		SELECT b.id as "createUser.id" , b.shop_name as "createUser.shopName", 

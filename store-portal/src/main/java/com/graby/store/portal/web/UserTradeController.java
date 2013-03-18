@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.graby.store.entity.Item;
+import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
+import com.graby.store.entity.TradeMapping;
 import com.graby.store.entity.TradeOrder;
 import com.graby.store.inventory.Accounts;
 import com.graby.store.inventory.InventoryService;
 import com.graby.store.service.ItemService;
+import com.graby.store.service.ShipOrderService;
 import com.graby.store.service.TradeService;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
@@ -48,6 +51,9 @@ public class UserTradeController {
 
 	@Autowired
 	private ItemService itemServie;
+	
+	@Autowired
+	private ShipOrderService shipOrderService;
 
 	/**
 	 * 查询所有等待买家发货交易订单
@@ -61,9 +67,9 @@ public class UserTradeController {
 
 		if (CollectionUtils.isNotEmpty(trades.getContent())) {
 			for (com.taobao.api.domain.Trade tbTrade : trades) {
-				Long sysTradeId = tradeService.getRelatedTradeId(tbTrade.getTid());
-				// 这里特殊用这个字段标注该订单已被系统创建
-				tbTrade.setBuyerRate(sysTradeId != null);				
+				TradeMapping mapping =tradeService.getRelatedMapping(tbTrade.getTid());
+				// 这里特殊用这个字段标注该订单状态
+				tbTrade.setStatus(mapping == null ? "unrelated" : mapping.getStatus());
 			}
 		}
 		model.addAttribute("trades", trades);
@@ -134,6 +140,14 @@ public class UserTradeController {
 		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), status, page, 10);
 		model.addAttribute("trades", trades);
 		return "trade/tradeList";
+	}
+	
+	@RequestMapping(value = "notify/{tid}", method = RequestMethod.GET)
+	public String notifyUser(@PathVariable("tid") Long tid, RedirectAttributes redirectAttributes) throws ApiException {
+		ShipOrder order = shipOrderService.getShipOrderByTid(tid);
+		topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
+		redirectAttributes.addFlashAttribute("message", "发送成功");
+		return "redirect:/trade/wait";
 	}
 	
 }

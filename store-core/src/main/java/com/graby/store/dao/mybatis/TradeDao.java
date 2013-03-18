@@ -3,6 +3,7 @@ package com.graby.store.dao.mybatis;
 import java.util.List;
 
 import com.graby.store.base.MyBatisRepository;
+import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 
@@ -18,6 +19,13 @@ public interface TradeDao {
 	public void createTradeMapping(TradeMapping tradeMapping);
 	
 	/**
+	 * 更新订单映射表状态。
+	 * @param tradeId 系统交易号
+	 * @param status
+	 */
+	public void updateTradeMappingStatus(Long tradeId, String status);
+	
+	/**
 	 * 查询淘宝交易ID是否已存在系统交易ID
 	 * @param tid 淘宝交易ID
 	 * @return 系统交易ID
@@ -25,12 +33,18 @@ public interface TradeDao {
 	public Long getRelatedTradeId(Long tid);
 	
 	/**
+	 * 查询淘宝交易ID关联的Mapping
+	 * @param tid
+	 * @return
+	 */
+	public TradeMapping getRelatedMapping(Long tid);
+	
+	/**
 	 * 根据系统交易ID查询淘宝交易ID
 	 * @param tradeId
 	 * @return
 	 */
 	public Long getRelatedTid(Long tradeId);
-	
 	
 	/**
 	 * 查询最近50条待处理订单(等待物流通审核)
@@ -43,7 +57,7 @@ public interface TradeDao {
 	 * @param tradeId
 	 * @param status
 	 */
-	public void setTradeStatus(Long tradeId, String status);
+	public void updateTradeStatus(Long tradeId, String status);
 	
 	/**
 	 * 获取用户订单总数

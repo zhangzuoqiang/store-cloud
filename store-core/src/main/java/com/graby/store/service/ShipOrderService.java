@@ -241,18 +241,30 @@ public class ShipOrderService {
 	/* ------------ 出库单 ------------ */
 
 	/**
-	 * 查询所有出库单
+	 * 查询所有出库单(带处理)
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderWaits() {
 		return shipOrderDao.findSendOrderWaits();
 	}
 
+	/**
+	 * 查询所有出库单(带用户签收)
+	 * @return
+	 */
 	public List<ShipOrder> findSendOrderSignWaits() {
 		return shipOrderDao.findSendOrderSignWaits();
 	}
 	
-	
+	/**
+	 * 根据淘宝交易号查询出货单
+	 * @param tid
+	 * @return
+	 */
+	public ShipOrder getShipOrderByTid(Long tid) {
+		return shipOrderDao.getShipOrderByTid(tid);
+	}
+	 
 	/**
 	 * 保存出库单
 	 * 
@@ -322,11 +334,8 @@ public class ShipOrderService {
 		// 更新出货单状态-等待用户签收
 		sendOrderEntity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
 		updateShipOrder(sendOrderEntity);
-		
-		tradeService.setStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
-		
-		// 更新淘宝物流信息-已发货，等待用户确认
-		topApi.tradeShipping(tradeService.getRelatedTid(sendOrderEntity.getTradeId()), sendOrderEntity.getExpressOrderno(), sendOrderEntity.getExpressCompany());	
+		// 更新交易订单状态-等待用户签收
+		tradeService.updateStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
 		return sendOrderEntity;
 	}
 	
@@ -338,7 +347,7 @@ public class ShipOrderService {
 		ShipOrder order = getShipOrder(orderId);
 		order.setStatus(ShipOrder.SendOrderStatus.SEND_FINISH);
 		updateShipOrder(order);
-		tradeService.setStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
+		tradeService.updateStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
 		List<ShipOrderDetail> details = order.getDetails();
 		// 库存记账-买家签收
 		if (CollectionUtils.isNotEmpty(details)) {

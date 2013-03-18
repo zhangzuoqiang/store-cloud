@@ -44,6 +44,10 @@ public class TradeService {
 		return tradeDao.getRelatedTradeId(tid);
 	}
 	
+	public TradeMapping getRelatedMapping(Long tid) {
+		return tradeDao.getRelatedMapping(tid);
+	}
+	
 	/**
 	 * 根据系统交易ID查询淘宝交易ID
 	 * @param tid
@@ -105,12 +109,14 @@ public class TradeService {
 		Trade trade = getTrade(tradeId);
 		ShipOrder shipOrder = geneShipOrder(trade);
 		shipOrderService.createSendShipOrder(shipOrder);
-		setStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
+		updateStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
+		tradeDao.updateTradeMappingStatus(trade.getTid(), Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
 		return shipOrder;
 	}
 	
-	public void setStatus(Long tradeId, String status) {
-		tradeDao.setTradeStatus(tradeId, status);
+	public void updateStatus(Long tradeId, String status) {
+		tradeDao.updateTradeStatus(tradeId, status);
+		tradeDao.updateTradeMappingStatus(tradeId, status);
 	}
 	
 	/**

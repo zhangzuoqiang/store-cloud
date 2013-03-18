@@ -97,5 +97,13 @@
 	
 	<!-- 交易订单适配器 -->
 	<bean id="tradeAdapter" class="com.graby.store.web.top.TradeAdapter"/>
+	
+	<!-- 统一异常页面跳转 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+	    <!-- 定义默认的异常处理页面，当该异常类型的注册时使用 -->  
+	    <property name="defaultErrorView" value="error/error"></property>  
+	    <!-- 定义异常处理页面用来获取异常信息的变量名，默认名为exception -->  
+	    <property name="exceptionAttribute" value="ex"></property>  
+	</bean>  	
 
 </beans>
