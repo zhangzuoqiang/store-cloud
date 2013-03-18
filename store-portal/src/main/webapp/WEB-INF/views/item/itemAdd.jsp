@@ -60,7 +60,7 @@
 				<div class="control-group">
 					<label for="item_title" class="control-label">描述:</label>
 					<div class="controls">
-						<textarea id="remark" name="remark" class="input-large">${item.description}</textarea>
+						<textarea id="description" name="description" class="input-large">${item.description}</textarea>
 					</div>
 				</div>	
 				<div class="form-actions">

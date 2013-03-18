@@ -193,11 +193,11 @@ public class ShipOrderService {
 	public boolean sendEntryOrder(Long id) {
 		ShipOrder order = this.getShipOrder(id);
 		List<ShipOrderDetail> details = order.getDetails();
-		// 库存记账
+		// 库存记账-商铺发送入库单
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
 				inventoryService.input(order.getCentroId(), 
-						ShiroContextUtils.getUserid(), 
+						order.getCreateUser().getId(), 
 						detail.getItem().getId(),
 						detail.getNum(), 
 						AccountTemplate.SHOP_SEND);
@@ -238,6 +238,11 @@ public class ShipOrderService {
 	public List<ShipOrder> findSendOrderWaits() {
 		return shipOrderDao.findSendOrderWaits();
 	}
+
+	public List<ShipOrder> findSendOrderSignWaits() {
+		return shipOrderDao.findSendOrderSignWaits();
+	}
+	
 	
 	/**
 	 * 保存出库单
@@ -278,6 +283,31 @@ public class ShipOrderService {
 			}
 		}
 	}
+	
+	public ShipOrder submitSendOrder(ShipOrder order) {
+		ShipOrder entity = getShipOrder(order.getId());
+		entity.setExpressCompany(order.getExpressCompany());
+		entity.setExpressOrderno(order.getExpressOrderno());
+		entity.setLastUpdateDate(new Date());
+		entity.setLastUpdateUser(order.getLastUpdateUser());
+		List<ShipOrderDetail> details = entity.getDetails();
+		// 库存记账-仓库发货
+		if (CollectionUtils.isNotEmpty(details)) {
+			for (ShipOrderDetail detail : details) {
+				inventoryService.input(entity.getCentroId(), 
+						entity.getCreateUser().getId(),
+						detail.getItem().getId(),
+						detail.getNum(), 
+						AccountTemplate.STORAGE_SEND);
+			}
+		}
+		entity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
+		updateShipOrder(entity);
+		
+		return entity;
+	}
+
+	
 	
 	@Transactional(readOnly = false)
 	public void updateShipOrder(ShipOrder order) {

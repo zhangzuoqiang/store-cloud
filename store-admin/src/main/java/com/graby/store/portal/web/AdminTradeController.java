@@ -1,6 +1,5 @@
 package com.graby.store.portal.web;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,14 +119,34 @@ public class AdminTradeController {
 	 */
 	@RequestMapping(value = "send/submit", method=RequestMethod.POST)
 	public String submitOrder(ShipOrder order, Model model) {
-		ShipOrder entity = shipOrderService.getShipOrder(order.getId());
-		entity.setExpressCompany(order.getExpressCompany());
-		entity.setExpressOrderno(order.getExpressOrderno());
-		entity.setLastUpdateDate(new Date());
-		entity.setLastUpdateUser(order.getLastUpdateUser());
-		entity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
-		shipOrderService.updateShipOrder(entity);
+		shipOrderService.submitSendOrder(order);
 		return "redirect:/trade/send/waits";
+	}
+	
+	/**
+	 * 等待用户签收订单列表
+	 * @param order
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "sign/waits")
+	public String signWaits(Model model) {
+		List<ShipOrder> sendOrders  = shipOrderService.findSendOrderSignWaits();
+		model.addAttribute("orders", sendOrders);
+		return "/admin/signWaits";
+	}
+	
+	/**
+	 * 出库单处理页面 (打印分拣单、审核分拣单、打印快递运单、出库确认)
+	 * @param orderId
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "send/sign/{id}", method=RequestMethod.GET)
+	public String signSendOrder(@PathVariable("id") Long orderId, Model model) {
+		ShipOrder sendOrder = shipOrderService.getShipOrder(orderId);
+		model.addAttribute("order", sendOrder);
+		return "/admin/signForm";
 	}
 	
 }

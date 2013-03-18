@@ -43,4 +43,12 @@
 		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED'
 	</select>
 	
+	<!-- 查询待用户签收出库单 -->
+  	<select id="findSendOrderSignWaits" resultType="ShipOrder">
+		SELECT b.shop_name as "createUser.shopName", create_date as "createDate",
+		a.id, a.centro_id as centroId, a.orderno
+		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
+		WHERE type='send' and a.status='WAIT_BUYER_RECEIVED'
+	</select>	
+	
 </mapper> 

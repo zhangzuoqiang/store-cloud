@@ -15,5 +15,6 @@ public interface ShipOrderDao {
 	void setOrderStatus(Long orderId, String status);
 	List<ShipOrder> findEntryOrderOnWay();
 	List<ShipOrder> findSendOrderWaits();
+	List<ShipOrder> findSendOrderSignWaits();
 	
 }
