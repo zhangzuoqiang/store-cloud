@@ -146,8 +146,13 @@ public class UserTradeController {
 	public String notifyUser(@PathVariable("tid") Long tid, RedirectAttributes redirectAttributes) throws ApiException {
 		ShipOrder order = shipOrderService.getShipOrderByTid(tid);
 		topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
-		redirectAttributes.addFlashAttribute("message", "发送成功");
-		return "redirect:/trade/wait";
+		StringBuffer successMessage = new StringBuffer();
+		successMessage.append("交易号:").append(tid);
+		successMessage.append("已通知用户等待签收<br>");
+		successMessage.append("物流公司:").append(order.getExpressCompany());
+		successMessage.append("运单号:").append(order.getExpressOrderno());
+		redirectAttributes.addFlashAttribute("message", successMessage.toString());
+		return "trade/notified";
 	}
 	
 }

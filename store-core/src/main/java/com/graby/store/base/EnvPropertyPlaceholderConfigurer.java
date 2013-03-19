@@ -29,14 +29,15 @@ public class EnvPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigu
 	protected String resolvePlaceholder(String placeholder, Properties props, int systemPropertiesMode) {
 		String propVal = null;
 		if (curMode != null) {
+			String replaceHolder = placeholder;
 			if (curMode.equalsIgnoreCase("online")) {
-				placeholder = placeholder + "_ONLINE";
+				replaceHolder = "online." + placeholder;
 			} else if (curMode.equalsIgnoreCase("test")) {
-				placeholder = placeholder + "_TEST";
+				replaceHolder = "test." + placeholder;
 			} else if (curMode.equalsIgnoreCase("dev")) {
-				placeholder = placeholder + "_DEV";
+				replaceHolder = "dev." + placeholder;
 			}
-			propVal = super.resolvePlaceholder(placeholder, props, systemPropertiesMode);
+			propVal = super.resolvePlaceholder(replaceHolder, props, systemPropertiesMode);
 		}
 		
 		if (propVal == null) {
@@ -45,16 +46,22 @@ public class EnvPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigu
 		
 		// default dev mode
 		if (propVal == null) {
-			placeholder = placeholder + "_DEV";
+			placeholder = "dev." + placeholder;
 			propVal = super.resolvePlaceholder(placeholder, props, systemPropertiesMode);
 		}
+		logger.info(placeholder + "=" + propVal);
 		return propVal;
 	}
 	
 	@Override
 	protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess, Properties props)
 			throws BeansException {
-		curMode = resolveSystemProperty("PRODUCTION");		
+		curMode = resolveSystemProperty("mode");		
+		if (curMode != null && curMode.equalsIgnoreCase("online")) {
+			logger.info("配置模式-线上模式");
+		} else {
+			logger.info("配置模式-开发模式");
+		}
 		super.processProperties(beanFactoryToProcess, props);
 	}
 	

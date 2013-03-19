@@ -14,7 +14,15 @@
 
 	<description>Spring公共配置 </description>
 	
+	<!-- 
 	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/application.properties" />
+	 -->
+    <bean id="configBean" class="com.graby.store.base.EnvPropertyPlaceholderConfigurer"> 
+        <property name="location"> 
+            <value>classpath:application.properties</value> 
+        </property> 
+    </bean> 
+
 
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
 	<context:component-scan base-package="com.graby.store">
@@ -31,8 +39,8 @@
 		<property name="jpaProperties">
 			<props>
 				<!-- 自动更新表结构 -->
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<!-- 命名规则 My_NAME->MyName --> 
 				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
 			</props>

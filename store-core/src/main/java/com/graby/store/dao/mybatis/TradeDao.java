@@ -3,7 +3,6 @@ package com.graby.store.dao.mybatis;
 import java.util.List;
 
 import com.graby.store.base.MyBatisRepository;
-import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 

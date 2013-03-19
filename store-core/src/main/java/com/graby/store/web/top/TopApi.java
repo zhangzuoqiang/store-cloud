@@ -15,6 +15,7 @@ import com.graby.store.base.AppException;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
+import com.taobao.api.TaobaoResponse;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.Shipping;
 import com.taobao.api.domain.Shop;
@@ -26,7 +27,7 @@ import com.taobao.api.request.LogisticsOfflineSendRequest;
 import com.taobao.api.request.ShopGetRequest;
 import com.taobao.api.request.TradeFullinfoGetRequest;
 import com.taobao.api.request.TradesSoldGetRequest;
-import com.taobao.api.request.UserGetRequest;
+import com.taobao.api.request.UserSellerGetRequest;
 import com.taobao.api.response.ItemGetResponse;
 import com.taobao.api.response.ItemsInventoryGetResponse;
 import com.taobao.api.response.ItemsOnsaleGetResponse;
@@ -34,7 +35,7 @@ import com.taobao.api.response.LogisticsOfflineSendResponse;
 import com.taobao.api.response.ShopGetResponse;
 import com.taobao.api.response.TradeFullinfoGetResponse;
 import com.taobao.api.response.TradesSoldGetResponse;
-import com.taobao.api.response.UserGetResponse;
+import com.taobao.api.response.UserSellerGetResponse;
 
 public class TopApi {
 	
@@ -81,6 +82,7 @@ public class TopApi {
 	 *
 	 */
 	public interface CompanyCode {
+		
 		/** 韵达 */
 		String YUNDA = "YUNDA";
 
@@ -88,8 +90,8 @@ public class TopApi {
 		String SF = "SF";
 	}
 
-
-
+	// 默认开发环境
+	
 	private String appKey = "1021395257";
 	private String appSecret = "sandbox0475ca7f0a4a47a3d5303014e";
 	private String serverUrl = "http://gw.api.tbsandbox.com/router/rest";
@@ -100,21 +102,23 @@ public class TopApi {
 		client = new DefaultTaobaoClient(serverUrl, appKey, appSecret, "json");
 	}
 
+	// 默认商品页面大小
 	private static final int ITEM_PAGE_SIZE = 10;
 	
 	// 商品属性
 	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,valid_thru,sku,skus";
 
 	/**
-	 * 获取当前用的nick
+	 * 获取当前卖家nick
 	 * 
 	 * @return
 	 * @throws ApiException
 	 */
 	public String getNick(String sessionKey) throws ApiException {
-		UserGetRequest req = new UserGetRequest();
+		UserSellerGetRequest req=new UserSellerGetRequest();
 		req.setFields("nick");
-		UserGetResponse resp = client.execute(req, sessionKey);
+		UserSellerGetResponse resp = client.execute(req, sessionKey);
+		errorMsgConvert(resp);
 		return resp.getUser().getNick();
 	}
 
@@ -129,6 +133,7 @@ public class TopApi {
 		req.setFields("sid,cid,title,nick,desc,bulletin,pic_path,created,modified");
 		req.setNick(nick);
 		ShopGetResponse resp = client.execute(req);
+		errorMsgConvert(resp);
 		return resp.getShop();
 	}
 
@@ -158,10 +163,6 @@ public class TopApi {
 		return results;
 	}
 	
-	private static String replProps(String skuPvs) {
-		return null;
-	}
-	
 	/**
 	 * 获取出售中的商品列表
 	 * @param q
@@ -175,7 +176,9 @@ public class TopApi {
 		req.setFields("num_iid");
 		req.setQ(q);
 		req.setPageNo(pageNo);
+		req.setPageSize(pageSize);
 		ItemsOnsaleGetResponse resp = client.execute(req, session());
+		errorMsgConvert(resp);
 		return resp.getItems();
 	}
 	
@@ -189,6 +192,7 @@ public class TopApi {
 		req.setPageNo(pageNo);
 		req.setPageSize(pageSize);
 		ItemsInventoryGetResponse resp = client.execute(req, session());
+		errorMsgConvert(resp);
 		return resp.getItems();
 	}
 
@@ -205,6 +209,7 @@ public class TopApi {
 		req.setFields(ITEM_PROPS);
 		req.setNumIid(numId);
 		ItemGetResponse resp = client.execute(req, session());
+		errorMsgConvert(resp);
 		return resp.getItem();
 	}
 
@@ -230,6 +235,7 @@ public class TopApi {
 		req.setPageNo(pageNo);
 		req.setPageSize(pageSize);
 		TradesSoldGetResponse resp = client.execute(req, session());
+		errorMsgConvert(resp);
 		PageRequest pageable = new PageRequest((int) (pageNo - 1), (int) pageSize);
 		List<Trade> trades = resp.getTrades();
 		Long totalResults = resp.getTotalResults();
@@ -254,6 +260,7 @@ public class TopApi {
 		req.setFields(props);
 		req.setTid(tid);
 		TradeFullinfoGetResponse resp = client.execute(req, session());
+		errorMsgConvert(resp);
 		return resp.getTrade();
 	}
 	
@@ -270,9 +277,7 @@ public class TopApi {
 		req.setOutSid(outSid);
 		req.setCompanyCode(companyCode);
 		LogisticsOfflineSendResponse resp = client.execute(req , session());
-		if (StringUtils.isNotEmpty(resp.getErrorCode())) {
-			throw new AppException(resp.getSubMsg());
-		}
+		errorMsgConvert(resp);
 		return resp.getShipping();
 	}
 
@@ -292,6 +297,11 @@ public class TopApi {
 		this.serverUrl = serverUrl;
 	}
 
+	private void errorMsgConvert(TaobaoResponse resp) {
+		if (StringUtils.isNotEmpty(resp.getErrorCode())) {
+			throw new AppException(resp.getSubMsg());
+		}
+	}
 	
 	public static void main(String[] args) throws ApiException {
 		String s = "12345:12345:风格:蓝色;12345:32654:风格:红色;"; 

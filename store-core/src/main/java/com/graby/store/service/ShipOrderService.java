@@ -25,7 +25,6 @@ import com.graby.store.inventory.AccountTemplate;
 import com.graby.store.inventory.InventoryService;
 import com.graby.store.inventory.InventoryService.AccountEntrys;
 import com.graby.store.web.auth.ShiroContextUtils;
-import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
 
 @Component
@@ -50,9 +49,6 @@ public class ShipOrderService {
 	@Autowired
 	private TradeService tradeService;
 	
-	@Autowired
-	private TopApi topApi;
-
 	private String formateDate(Date date, String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		return format.format(date);

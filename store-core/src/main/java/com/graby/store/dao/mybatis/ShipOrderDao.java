@@ -17,4 +17,5 @@ public interface ShipOrderDao {
 	List<ShipOrder> findSendOrderWaits();
 	List<ShipOrder> findSendOrderSignWaits();
 	public ShipOrder getShipOrderByTid(Long tid);
+	
 }
