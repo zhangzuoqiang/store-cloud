@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 /**
  * 商品库存
  */
@@ -41,6 +43,7 @@ public class ItemInventory {
 		return item;
 	}
 
+	@Index(name="idx_account")
 	public String getAccount() {
 		return account;
 	}

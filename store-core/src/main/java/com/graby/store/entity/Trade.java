@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Index;
+
 
 /**
  * 交易订单
@@ -233,6 +235,21 @@ public class Trade {
 	public User getUser() {
 		return user;
 	}
+
+	@Index(name="idx_status")
+	public String getStatus() {
+		return status;
+	}
+	
+	@Index(name="idx_tid")
+	public Long getTid() {
+		return tid;
+	}
+
+	@Index(name="idx_shipping_type")
+	public String getShippingType() {
+		return shippingType;
+	}
 	
 	@Transient
 	public String getItemTitles() {
@@ -257,10 +274,6 @@ public class Trade {
 
 	public String getBuyerArea() {
 		return buyerArea;
-	}
-
-	public String getShippingType() {
-		return shippingType;
 	}
 
 	public String getBuyerMemo() {
@@ -379,10 +392,6 @@ public class Trade {
 		this.orders.add(order);
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
@@ -391,9 +400,7 @@ public class Trade {
 		this.centro = centro;
 	}
 
-	public Long getTid() {
-		return tid;
-	}
+
 
 	public void setTid(Long tid) {
 		this.tid = tid;

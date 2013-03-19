@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.Index;
 
 import com.google.common.collect.ImmutableList;
 
@@ -46,6 +47,7 @@ public class User {
 		return ImmutableList.copyOf(StringUtils.split(roles, ","));
 	}
 
+	@Index(name="idx_username")
 	public String getUsername() {
 		return username;
 	}
@@ -63,6 +65,7 @@ public class User {
 		return salt;
 	}
 
+	@Index(name="idx_roles")
 	public String getRoles() {
 		return roles;
 	}

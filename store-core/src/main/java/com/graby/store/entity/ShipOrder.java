@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 /**
  * 发货单 包括入库单和出库单
  * 
@@ -154,7 +156,7 @@ public class ShipOrder {
 	public Long getId() {
 		return id;
 	}
-
+	
 	@OneToMany(mappedBy = "order")
 	public List<ShipOrderDetail> getDetails() {
 		return details;
@@ -171,9 +173,30 @@ public class ShipOrder {
 	public User getLastUpdateUser() {
 		return lastUpdateUser;
 	}
-
+	
+	@Index(name="idx_type")
+	public String getType() {
+		return type;
+	}
+	
+	@Index(name="idx_status")
 	public String getStatus() {
 		return status;
+	}
+	
+	@Index(name="idx_centro_id")
+	public Long getCentroId() {
+		return centroId;
+	}
+	
+	@Index(name="idx_trade_id")
+	public Long getTradeId() {
+		return tradeId;
+	}
+	
+	@Index(name="idx_express_order_no")
+	public String getExpressOrderno() {
+		return expressOrderno;
 	}
 
 	public String getOriginPersion() {
@@ -188,16 +211,8 @@ public class ShipOrder {
 		return expressCompany;
 	}
 
-	public String getExpressOrderno() {
-		return expressOrderno;
-	}
-
 	public String getReceiverAddress() {
 		return receiverAddress;
-	}
-
-	public Long getCentroId() {
-		return centroId;
 	}
 
 	public int getTotalnum() {
@@ -292,10 +307,6 @@ public class ShipOrder {
 		this.details = items;
 	}
 
-	public String getType() {
-		return type;
-	}
-
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -354,10 +365,6 @@ public class ShipOrder {
 
 	public void setReceiverZip(String receiverZip) {
 		this.receiverZip = receiverZip;
-	}
-
-	public Long getTradeId() {
-		return tradeId;
 	}
 
 	public void setTradeId(Long tradeId) {

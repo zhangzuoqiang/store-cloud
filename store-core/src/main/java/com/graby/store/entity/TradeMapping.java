@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 /**
  * 淘宝交易订单映射
  * 
@@ -43,10 +45,12 @@ public class TradeMapping {
 		return id;
 	}
 
+	@Index(name="idx_trade_id")
 	public Long getTradeId() {
 		return tradeId;
 	}
 
+	@Index(name="idx_tid")
 	public Long getTid() {
 		return tid;
 	}

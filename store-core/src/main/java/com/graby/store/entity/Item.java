@@ -10,12 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 @Entity
 @Table(name = "sc_item")
 public class Item {
 
-	public final String TYPE_NORMAL="normal";
-	
+	public final String TYPE_NORMAL = "normal";
+
 	private Long id;
 	private String code;
 	private Long userid;
@@ -24,60 +26,64 @@ public class Item {
 	private String type;
 	private String description;
 	private Set<ItemMapping> mapping = new HashSet<ItemMapping>();
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
 
-	@OneToMany(mappedBy="item")
+	@OneToMany(mappedBy = "item")
 	public Set<ItemMapping> getMapping() {
 		return mapping;
-	}	
-
-	public String getTitle() {
-		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
+	@Index(name = "idx_userid")
 	public Long getUserid() {
 		return userid;
 	}
 
-	public void setUserid(Long userid) {
-		this.userid = userid;
+	@Index(name = "idx_code")
+	public String getCode() {
+		return code;
 	}
 
-	public String getDescription() {
-		return description;
+	@Index(name = "idx_type")
+	public String getType() {
+		return type;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	@Index(name = "idx_title")
+	public String getTitle() {
+		return title;
 	}
 
 	public Long getWeight() {
 		return weight;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setUserid(Long userid) {
+		this.userid = userid;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public void setWeight(Long weight) {
 		this.weight = weight;
 	}
 
-	public String getType() {
-		return type;
-	}
-
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public String getCode() {
-		return code;
 	}
 
 	public void setCode(String code) {
@@ -87,9 +93,9 @@ public class Item {
 	public void setMapping(Set<ItemMapping> tbItemMapping) {
 		this.mapping = tbItemMapping;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
-	}	
+	}
 
 }
