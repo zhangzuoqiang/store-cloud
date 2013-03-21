@@ -49,7 +49,6 @@ public class EnvPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigu
 			placeholder = "dev." + placeholder;
 			propVal = super.resolvePlaceholder(placeholder, props, systemPropertiesMode);
 		}
-		logger.info(placeholder + "=" + propVal);
 		return propVal;
 	}
 	
@@ -57,11 +56,11 @@ public class EnvPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigu
 	protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess, Properties props)
 			throws BeansException {
 		curMode = resolveSystemProperty("mode");		
-		if (curMode != null && curMode.equalsIgnoreCase("online")) {
-			logger.info("配置模式-线上模式");
-		} else {
-			logger.info("配置模式-开发模式");
-		}
+//		if (curMode != null && curMode.equalsIgnoreCase("online")) {
+//			logger.info("配置模式-线上模式");
+//		} else {
+//			logger.info("配置模式-开发模式");
+//		}
 		super.processProperties(beanFactoryToProcess, props);
 	}
 	

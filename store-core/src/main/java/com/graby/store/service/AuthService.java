@@ -7,12 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.security.utils.Digests;
-import org.springside.modules.utils.Encodes;
 
 import com.graby.store.base.ServiceException;
 import com.graby.store.dao.mybatis.UserDao;
 import com.graby.store.entity.User;
+import com.graby.store.util.Digests;
+import com.graby.store.util.Encodes;
 import com.graby.store.web.auth.ShiroDbRealm.ShiroUser;
 
 @Component

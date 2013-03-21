@@ -78,7 +78,7 @@
 	<!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 和 artifactId 即可 -->
 	<dependencyManagement>
 		<dependencies>
-			<!-- SPRINGSIDE MODULES begin -->
+			<!-- SPRINGSIDE MODULES begin 
 			<dependency>
 				<groupId>org.springside</groupId>
 				<artifactId>springside-core</artifactId>
@@ -89,7 +89,7 @@
 				<artifactId>springside-extension</artifactId>
 				<version>${springside.version}</version>
 			</dependency>
-			<!-- SPRINGSIDE MODULES end -->
+			SPRINGSIDE MODULES end -->
 
 			<!-- SPRING basic begin(一般不需要显式定义) -->
 			<dependency>

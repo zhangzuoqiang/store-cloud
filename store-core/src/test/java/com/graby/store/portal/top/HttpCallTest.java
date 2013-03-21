@@ -2,11 +2,8 @@ package com.graby.store.portal.top;
 
 import java.util.List;
 
-import org.springside.modules.mapper.JsonMapper;
-
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
-import com.taobao.api.TaobaoClient;
 import com.taobao.api.domain.Product;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
 import com.taobao.api.request.ProductsGetRequest;
@@ -61,10 +58,7 @@ public class HttpCallTest {
 		req.setPageSize(40L);
 		ProductsGetResponse response = client.execute(req);
 		List<Product> prods = response.getProducts();
-		JsonMapper json = new JsonMapper();
-		for (Product product : prods) {
-			System.out.println(json.toJson(product));
-		}
+
 	}
 
 	public static void testItemGet() {

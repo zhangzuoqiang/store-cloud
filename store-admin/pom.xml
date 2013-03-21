@@ -33,11 +33,6 @@
 			<version>1.0</version>
 		</dependency>
 
-		<!-- SPRINGSIDE -->
-		<dependency>
-			<groupId>org.springside</groupId>
-			<artifactId>springside-core</artifactId>
-		</dependency>
 
 		<!-- hibernate -->
 		<dependency>

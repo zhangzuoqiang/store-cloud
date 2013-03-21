@@ -49,7 +49,7 @@
 	<!-- Dialect 配置 -->
 	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="databasePlatform">
-			<bean factory-method="getDialect" class="org.springside.modules.persistence.Hibernates">
+			<bean factory-method="getDialect" class="com.graby.store.base.Hibernates">
 				<constructor-arg ref="dataSource"/>
 			</bean>
 		</property>
