@@ -51,7 +51,7 @@
 	
 	<!-- 查询已关联的淘宝商品 -->
 	<select id="itemMapped" parameterType="long" resultType="ItemMapping">
-		select id as id,num_iid as "numIid",title as "title",detail_url as "detailUrl"
+		select id as id,num_iid as "numIid",title as "title",detail_url as "detailUrl", sku_id as "skuId"
 		from sc_item_mapping
 		where item_id = #{id}
 	</select>	

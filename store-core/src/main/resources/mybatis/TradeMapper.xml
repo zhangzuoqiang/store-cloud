@@ -3,6 +3,87 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graby.store.dao.mybatis.TradeDao">
 
+	
+	<select id="getTrade" parameterType="long"  resultMap="TradeEntity">
+		SELECT
+		  `id`,
+		  `buyer_alipay_no`,
+		  `buyer_area`,
+		  `buyer_email`,
+		  `buyer_memo`,
+		  `buyer_message`,
+		  `buyer_nick`,
+		  `has_buyer_message`,
+		  `lg_aging`,
+		  `lg_aging_type`,
+		  `pay_time`,
+		  `receiver_address`,
+		  `receiver_city`,
+		  `receiver_district`,
+		  `receiver_mobile`,
+		  `receiver_name`,
+		  `receiver_phone`,
+		  `receiver_state`,
+		  `receiver_zip`,
+		  `shipping_type`,
+		  `status`,
+		  `tid`,
+		  `trade_from`,
+		  `centro_id`,
+		  `user_id`
+		FROM `sc_trade`	where id=#{0}
+	</select>
+	
+	<resultMap id="TradeEntity" type="Trade">
+		<result property="id" column="id"/>
+		<result property="buyerArea" column="buyer_area"/>
+		<result property="buyerMemo" column="buyer_memo"/>
+		<result property="receiverAddress" column="receiver_address"/>
+		<result property="tradeFrom" column="trade_from"/>
+		<result property="payTime" column="pay_time"/>
+		<result property="buyerNick" column="buyer_nick"/>
+		<result property="receiverName" column="receiver_name"/>
+		<result property="tid" column="tid"/>
+		<result property="receiverPhone" column="receiver_phone"/>
+		<result property="shippingType" column="shipping_type"/>
+		<result property="receiverDistrict" column="receiver_district"/>
+		<result property="status" column="status"/>
+		<result property="receiverMobile" column="receiver_mobile"/>
+		<result property="buyerMessage" column="buyer_message"/>
+		<result property="buyerEmail" column="buyer_email"/>
+		<result property="receiverCity" column="receiver_city"/>
+		<result property="hasBuyerMessage" column="has_buyer_message"/>
+		<result property="centro.id" column="centro_id"/>
+		<result property="lgAgingType" column="lg_aging_type"/>
+		<result property="receiverZip" column="receiver_zip"/>
+		<result property="lgAging" column="lg_aging"/>
+		<result property="user.id" column="user_id"/>
+		<result property="buyerAlipayNo" column="buyer_alipay_no"/>
+		<result property="receiverState" column="receiver_state"/>
+		<collection property="orders" column="id" javaType="ArrayList" ofType="TradeOrder" select="fetchTradeOrders"/>  
+	</resultMap>	
+	
+	<select id="fetchTradeOrders" parameterType="long" resultType="TradeOrder">
+		SELECT
+		  `id`,
+		  `adjust_fee` as "adjustFee",
+		  `buyer_nick` as "buyerNick",
+		  `discount_fee` as "discountFee",
+		  `num`,
+		  `num_iid` as "numIid",
+		  `order_from` as "orderFrom",
+		  `pic_path` as "picPath",
+		  `sku_id` as "skuId",
+		  `sku_properties_name` as "skuPropertiesName",
+		  `timeout_action_time` as "timeoutActionTime",
+		  `title`,
+		  `total_fee` as "totalFee",
+		  `item_id` as "item.id",
+		  `trade_id` as "tradeId"
+		FROM `sc_trade_order` where trade_id=#{id}
+	</select>
+	
+	
 	<!-- 关联淘宝交易ID和系统交易ID -->
 	<insert id="createTradeMapping" useGeneratedKeys="true" keyColumn="id">
 		insert into sc_trade_mapping (tid, trade_id, status)

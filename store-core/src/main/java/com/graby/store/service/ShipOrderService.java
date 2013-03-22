@@ -286,10 +286,10 @@ public class ShipOrderService {
 		shipOrder.setStatus(ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
 		shipOrder.setCentroId(1L);
 		shipOrder.setLastUpdateDate(now);
-		Long userid = ShiroContextUtils.getUserid();
-		user = new User();
-		user.setId(userid);
-		shipOrder.setLastUpdateUser(user);
+//		Long userid = ShiroContextUtils.getUserid();
+//		user = new User();
+//		user.setId(userid);
+//		shipOrder.setLastUpdateUser(user);
 		orderJpaDao.save(shipOrder);
 
 		List<ShipOrderDetail> items = shipOrder.getDetails();

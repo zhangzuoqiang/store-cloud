@@ -8,8 +8,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.graby.store.entity.ShipOrder;
+import com.graby.store.entity.Trade;
 
-public class BeanProperty {
+public class MyBatisUtils {
 	
 	public static String underScore2CamelCase(String strs) {  
 	    String[] elems = strs.split("_");  
@@ -55,12 +56,22 @@ public class BeanProperty {
 	}  
 	
 	public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		Trade t = new Trade();
+		Map<String,Object> map = BeanUtils.describe(t);
+		
+		StringBuffer buf = new StringBuffer();
+		for (String p : map.keySet()) {
+			buf.append("<result property=\"").append(p).append("\" column=\"").append(camelCase2Underscore(p)).append("\"/>\n");
+		}
+		System.out.println(buf.toString());
+	}
+
+	private static void desc1() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		ShipOrder t = new ShipOrder();
 		Map<String,Object> map = BeanUtils.describe(t);
 		
 		for (String p : map.keySet()) {
 			System.out.print(camelCase2Underscore(p) + " as \"" + p +  "\" ,");
 		}
-		
 	}
 }

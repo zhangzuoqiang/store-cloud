@@ -10,6 +10,8 @@ import com.graby.store.entity.TradeMapping;
 public interface TradeDao {
 	
 	
+	public Trade getTrade(Long id);
+	
 	/**
 	 * 关联淘宝交易ID和系统交易ID
 	 * @param tid
