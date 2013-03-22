@@ -12,11 +12,8 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
 	default-lazy-init="true">
 
-	<description>Spring公共配置 </description>
+	<description>Spring配置 </description>
 	
-	<!-- 
-	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/application.properties" />
-	 -->
     <bean id="configBean" class="com.graby.store.base.EnvPropertyPlaceholderConfigurer"> 
         <property name="location"> 
             <value>classpath:application.properties</value> 

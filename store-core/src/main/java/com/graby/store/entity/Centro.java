@@ -1,5 +1,7 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +15,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "sc_centro")
-public class Centro {
+public class Centro implements Serializable{
 
+	private static final long serialVersionUID = 7855809701869500049L;
+	
 	private Long id;
 	// 标题
 	private String name;

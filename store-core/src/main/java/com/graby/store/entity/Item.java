@@ -1,7 +1,8 @@
 package com.graby.store.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,12 @@ import org.hibernate.annotations.Index;
 
 @Entity
 @Table(name = "sc_item")
-public class Item {
+public class Item implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 981755267881595757L;
 
 	public final String TYPE_NORMAL = "normal";
 
@@ -25,7 +31,7 @@ public class Item {
 	private Long weight;
 	private String type;
 	private String description;
-	private Set<ItemMapping> mapping = new HashSet<ItemMapping>();
+	private List<ItemMapping> mapping = new ArrayList<ItemMapping>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +40,7 @@ public class Item {
 	}
 
 	@OneToMany(mappedBy = "item")
-	public Set<ItemMapping> getMapping() {
+	public List<ItemMapping> getMapping() {
 		return mapping;
 	}
 
@@ -90,7 +96,7 @@ public class Item {
 		this.code = code;
 	}
 
-	public void setMapping(Set<ItemMapping> tbItemMapping) {
+	public void setMapping(List<ItemMapping> tbItemMapping) {
 		this.mapping = tbItemMapping;
 	}
 

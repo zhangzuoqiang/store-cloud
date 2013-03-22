@@ -18,7 +18,7 @@ public interface ItemDao {
 	long getTotalResults(Long userId);
 	
 	// 用户获取商品(分页)
-	List<Item> getItems(Map<String, Object> params);
+	List<Item> getItems(Long userId, long start, long offset);
 	
 	// 解除关联淘宝商品
 	void unRelate(Long itemId, Long numIid, String skuId);	

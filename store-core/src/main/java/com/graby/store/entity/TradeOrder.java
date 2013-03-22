@@ -1,5 +1,6 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -13,7 +14,12 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "sc_trade_order")
-public class TradeOrder {
+public class TradeOrder implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1598440936042592403L;
 
 	/**
 	 * 交易子订单序号

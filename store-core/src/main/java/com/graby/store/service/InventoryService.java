@@ -1,4 +1,4 @@
-package com.graby.store.inventory;
+package com.graby.store.service;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.graby.store.dao.mybatis.InventoryDao;
-import com.graby.store.inventory.Accounts.Account;
+import com.graby.store.service.InvAccounts.Account;
 
 @Component
 @Transactional(readOnly = true)
@@ -29,7 +29,7 @@ public class InventoryService {
 	 * @param template
 	 *            记账模板
 	 */
-	public void input(Long centroId, Long userId, Long itemId, long num, AccountTemplate template) {
+	public void input(Long centroId, Long userId, Long itemId, long num, InvAccountTemplate template) {
 		// 借方
 		Account credit = template.getCredit();
 		increase(centroId, userId, itemId, credit.getCode(), credit.getDirection().isCredit() ? num : -num);
@@ -46,8 +46,8 @@ public class InventoryService {
 	 * @param itemId
 	 * @param entrys
 	 */
-	public void inputs(Long centroId, Long userId, Long itemId, AccountEntry[] entrys) {
-		for (AccountEntry e : entrys) {
+	public void inputs(Long centroId, Long userId, Long itemId, InvAccountEntry[] entrys) {
+		for (InvAccountEntry e : entrys) {
 			input(centroId, userId, itemId, e.getNum(), e.getAccountTemplate());
 		}
 	}
@@ -93,69 +93,4 @@ public class InventoryService {
 	}
 	
 	
-	/**
-	 * 记账条目
-	 */
-	public static class AccountEntry {
-
-		private AccountTemplate accountTemplate;
-		private long num;
-
-		public AccountEntry(AccountTemplate template, long num) {
-			this.accountTemplate = template;
-			this.num = num;
-		}
-
-		public long getNum() {
-			return num;
-		}
-
-		public AccountTemplate getAccountTemplate() {
-			return accountTemplate;
-		}
-	}
-
-	/**
-	 * 批量记账条目，一般为1个订单的明细对应多种记账模板。
-	 */
-	public static class AccountEntrys {
-
-		private Long centroId;
-		private Long userId;
-		private Long itemId;
-		private AccountEntry[] entrys;
-
-		public Long getItemId() {
-			return itemId;
-		}
-
-		public AccountEntry[] getEntrys() {
-			return entrys;
-		}
-
-		public void setItemId(Long itemId) {
-			this.itemId = itemId;
-		}
-
-		public void setEntrys(AccountEntry[] entrys) {
-			this.entrys = entrys;
-		}
-
-		public Long getCentroId() {
-			return centroId;
-		}
-
-		public Long getUserId() {
-			return userId;
-		}
-
-		public void setCentroId(Long centroId) {
-			this.centroId = centroId;
-		}
-
-		public void setUserId(Long userId) {
-			this.userId = userId;
-		}
-	}
-
 }

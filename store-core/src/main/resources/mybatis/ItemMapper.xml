@@ -12,17 +12,6 @@
 		#{userid}, #{code}, #{title}, #{weight}, #{description})
 	</insert>
 	
-	<!-- 商品 -->
-	<resultMap id="itemDetailMap" type="Item">
-		<result property="id" column="id" />
-		<result property="userid" column="userid" />
-		<result property="code" column="code" />
-		<result property="title" column="title" />
-		<result property="weight" column="weight" />
-		<result property="description" column="description" />
-		<collection property="tbItemMapping" column="id" javaType="ArrayList" ofType="ItemMapping" select="related"/>  
-	</resultMap>
-	
 	<!-- 查询单个商品 -->
 	<select id="get" parameterType="int" resultType="Item">
 		select id, code, userid, weight, title, description
@@ -37,29 +26,42 @@
 	</select>
 	
 	<!-- 获取用户商品列表 -->
-	<select id="getItems" parameterType="map" resultMap="itemDetailMap">
+	<select id="getItems"  resultMap="itemEntity">
 		select id, userid, code, title, weight, description
 		from sc_item a 
-		where userid=#{userId} limit #{start},#{offset}
+		where userid=#{0} limit #{1},#{2}
 	</select>
+	
+	<!-- 商品 -->
+	<resultMap id="itemEntity" type="Item">
+		<result property="id" column="id" />
+		<result property="userid" column="userid" />
+		<result property="code" column="code" />
+		<result property="title" column="title" />
+		<result property="type" column="type" />
+		<result property="weight" column="weight" />
+		<result property="description" column="description" />
+		<collection property="mapping" column="id" javaType="ArrayList" ofType="ItemMapping" select="itemMapped"/>  
+	</resultMap>	
 
 	<!-- 解除关联淘宝商品 -->
 	<delete id="unRelate">
 		delete from sc_item_mapping	where item_id=#{0} and num_iid=#{1} and sku_id = #{2}
 	</delete>
 	
+	<!-- 查询已关联的淘宝商品 -->
+	<select id="itemMapped" parameterType="long" resultType="ItemMapping">
+		select id as id,num_iid as "numIid",title as "title",detail_url as "detailUrl"
+		from sc_item_mapping
+		where item_id = #{id}
+	</select>	
+	
 	<!--获取淘宝商品已关联的商品ID -->
 	<select id="getRelatedItemId" resultType="long">
 		select item_id from sc_item_mapping
 		where num_iid = #{0} and sku_id = #{1}
 	</select>
-	
-	<!-- 查询已关联的淘宝商品 -->
-	<select id="related" parameterType="long" resultType="map">
-		select tb_item_id as id, tb_item_title as title, tb_item_detailurl as detailurl
-		from sc_item_mapping
-		where item_id = #{id}
-	</select>	
+		
 	
 	<!-- 删除商品 -->
 	<delete id="delete" parameterType="int">

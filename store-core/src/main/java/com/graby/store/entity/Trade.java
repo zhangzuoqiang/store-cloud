@@ -1,5 +1,6 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,8 +25,13 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @Table(name = "sc_trade")
-public class Trade {
+public class Trade implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1537169007391002970L;
+
 	/**
 	 * 交易状态
 	 */

@@ -1,5 +1,7 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +17,15 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @Table(name = "sc_trade_mapping")
-public class TradeMapping {
+public class TradeMapping implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5858869718493852851L;
+
+
 	public TradeMapping() {
 		
 	}

@@ -1,5 +1,6 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +23,16 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @Table(name = "sc_ship_order")
-public class ShipOrder {
+public class ShipOrder implements Serializable{
 
 	
 	/* ------------- 发货单类型状态 -------------*/
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7865318877174354850L;
+
 	/** 入库单  */
 	public static final String TYPE_ENTRY = "entry";
 	

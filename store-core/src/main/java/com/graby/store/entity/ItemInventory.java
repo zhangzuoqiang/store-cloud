@@ -1,5 +1,7 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +17,13 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @Table(name = "sc_item_inventory")
-public class ItemInventory {
+public class ItemInventory implements Serializable{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1962047713857439779L;
 	// 序号
 	private Long id;
 	// 商品

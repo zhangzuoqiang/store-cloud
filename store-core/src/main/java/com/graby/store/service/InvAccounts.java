@@ -1,9 +1,11 @@
-package com.graby.store.inventory;
+package com.graby.store.service;
+
+import java.io.Serializable;
 
 /**
  * 科目 
  */
-public class Accounts {
+public class InvAccounts {
 
 
 	public static final String CODE_SHOP_INVENTORY = "201";
@@ -70,7 +72,9 @@ public class Accounts {
 	 * 
 	 * @author huabiao.mahb
 	 */
-	public static class Account {
+	public static class Account implements Serializable {
+
+		private static final long serialVersionUID = 1L;
 
 		public Account(Direction direction, String code) {
 			this.direction = direction;

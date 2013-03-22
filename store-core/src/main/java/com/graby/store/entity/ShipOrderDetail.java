@@ -1,5 +1,7 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +12,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "sc_ship_order_detail")
-public class ShipOrderDetail {
+public class ShipOrderDetail implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7428439750730206579L;
 
 	private Long id;
 

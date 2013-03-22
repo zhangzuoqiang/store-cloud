@@ -21,9 +21,6 @@ import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.User;
-import com.graby.store.inventory.AccountTemplate;
-import com.graby.store.inventory.InventoryService;
-import com.graby.store.inventory.InventoryService.AccountEntrys;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 
@@ -187,7 +184,9 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public ShipOrder getShipOrder(Long id) {
-		return orderJpaDao.findOne(id);
+		// TODO shipOrderDao.getShipOrder(id);  后期优化不用hibernate
+		// orderJpaDao.findOne(id);
+		return shipOrderDao.getShipOrder(id);
 	}
 
 	/**
@@ -205,7 +204,7 @@ public class ShipOrderService {
 						order.getCreateUser().getId(), 
 						detail.getItem().getId(),
 						detail.getNum(), 
-						AccountTemplate.SHOP_SEND);
+						InvAccountTemplate.SHOP_SEND);
 			}
 			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_STORAGE_RECEIVED);
 			return true;
@@ -221,10 +220,10 @@ public class ShipOrderService {
 	 * @param entrys
 	 *            TODO
 	 */
-	public void recivedEntryOrder(Long id, List<AccountEntrys> entrys) {
+	public void recivedEntryOrder(Long id, List<InvAccountEntrys> entrys) {
 		// 库存记账
 		if (CollectionUtils.isNotEmpty(entrys)) {
-			for (AccountEntrys accountEntrys : entrys) {
+			for (InvAccountEntrys accountEntrys : entrys) {
 				inventoryService.inputs(accountEntrys.getCentroId(), 
 						accountEntrys.getUserId(), 
 						accountEntrys.getItemId(),
@@ -324,7 +323,7 @@ public class ShipOrderService {
 						sendOrderEntity.getCreateUser().getId(),
 						detail.getItem().getId(),
 						detail.getNum(), 
-						AccountTemplate.STORAGE_SEND);
+						InvAccountTemplate.STORAGE_SEND);
 			}
 		}
 		// 更新出货单状态-等待用户签收
@@ -352,7 +351,7 @@ public class ShipOrderService {
 						order.getCreateUser().getId(),
 						detail.getItem().getId(),
 						detail.getNum(), 
-						AccountTemplate.BUYER_RECEIVED);
+						InvAccountTemplate.BUYER_RECEIVED);
 			}
 		}		
 		return order;

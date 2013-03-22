@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,18 +60,13 @@ public class ItemService {
 	 * @return
 	 */
 	public Page<Item> findPageUserItems(Long userId, int pageNo, int pageSize) {
-//		Map<String, Object> params = new HashMap<String, Object>();
-//		long start = (pageNo-1)*pageSize;
-//		params.put("start", start);
-//		params.put("offset", pageSize);
-//		params.put("userId", userId);
-//		List<Item> items = itemDao.getItems(params);
-//		long total = itemDao.getTotalResults(userId);
-//		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
-//		Page<Item> page = new PageImpl<Item>(items, pageable, total);
-//		return page;
 		pageNo = pageNo -1;
-		return itemJpaDao.findByUserid(userId, new PageRequest(pageNo, pageSize));
+		long start = pageNo*pageSize;
+		List<Item> items = itemDao.getItems(userId, start, pageSize);
+		long total = itemDao.getTotalResults(userId);
+		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
+		Page<Item> page = new PageImpl<Item>(items, pageable, total);
+		return page;
 	}
 	
 	public List<Item> findUserItems(Long userid) {

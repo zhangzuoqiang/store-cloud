@@ -1,4 +1,4 @@
-package com.graby.store.common;
+package com.graby.store.base;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

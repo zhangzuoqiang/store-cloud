@@ -4,7 +4,9 @@
 	default-lazy-init="true">
 
 	<description>Shiro安全配置</description>
-
+	
+	<bean  class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+  
 	<!-- Shiro's main business-tier object for web-enabled applications -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="shiroDbRealm" />
@@ -12,8 +14,8 @@
 	</bean>
 
 	<!-- 項目自定义的Realm, 所有accountService依赖的dao都需要用depends-on声明 -->
-	<bean id="shiroDbRealm" class="com.graby.store.web.auth.ShiroDbRealm" depends-on="userDao">
-		<property name="authService" ref="authService"/>
+	<bean id="shiroDbRealm" class="com.graby.store.admin.auth.ShiroDbRealm">
+		<property name="authRemote" ref="authRemote"/>
 	</bean>
 	
 	<!-- Shiro Filter -->
@@ -23,7 +25,6 @@
 		<property name="successUrl" value="/home" />
 		<property name="filterChainDefinitions">
 			<value>
-				/top_auth = anon
 				/login = authc
 				/logout = logout
 				/favicon.ico = anon

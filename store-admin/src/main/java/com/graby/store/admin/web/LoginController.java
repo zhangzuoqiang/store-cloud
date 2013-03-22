@@ -1,4 +1,4 @@
-package com.graby.store.portal.web;
+package com.graby.store.admin.web;
 
 import java.io.IOException;
 

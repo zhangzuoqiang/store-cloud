@@ -1,5 +1,7 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +13,12 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "sc_item_mapping")
-public class ItemMapping {
+public class ItemMapping implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5814544884361480265L;
 	private Long id;
 	// 本地商品
 	private Item item;

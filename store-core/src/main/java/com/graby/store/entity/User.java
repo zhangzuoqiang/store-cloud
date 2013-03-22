@@ -1,5 +1,6 @@
 package com.graby.store.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,8 +23,10 @@ import com.google.common.collect.ImmutableList;
 
 @Entity
 @Table(name = "sc_user")
-public class User {
+public class User implements Serializable {
 
+	private static final long serialVersionUID = 2617282959202191953L;
+	
 	private Long id;
 	private String username;
 	private String password;

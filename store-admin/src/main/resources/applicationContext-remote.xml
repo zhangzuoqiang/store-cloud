@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	default-lazy-init="true">
+
+	<description>Spring Remote 配置 </description>
+
+    <bean id="configBean" class="com.graby.store.base.EnvPropertyPlaceholderConfigurer"> 
+        <property name="location"> 
+            <value>classpath:application.properties</value> 
+        </property> 
+    </bean> 
+    
+	<bean id="remoteClient"
+		class="com.graby.store.admin.remote.ClientProxyFactoryBean"
+		abstract="true">
+		<property name="hostUrl" value="${remote.host.url}" />
+	</bean>
+
+	<bean id="authRemote" parent="remoteClient">
+		<property name="serviceUrl" value="auth.call" />
+		<property name="serviceInterface" value="com.graby.store.remote.AuthRemote" />
+	</bean>
+
+	<bean id="inventoryRemote" parent="remoteClient">
+		<property name="serviceUrl" value="inventory.call" />
+		<property name="serviceInterface" value="com.graby.store.remote.InventoryRemote" />
+	</bean>
+
+	<bean id="itemRemote" parent="remoteClient">
+		<property name="serviceUrl" value="item.call" />
+		<property name="serviceInterface" value="com.graby.store.remote.ItemRemote" />
+	</bean>
+
+	<bean id="shipOrderRemote" parent="remoteClient">
+		<property name="serviceUrl" value="ship.call" />
+		<property name="serviceInterface" value="com.graby.store.remote.ShipOrderRemote" />
+	</bean>
+	
+	<bean id="tradeRemote" parent="remoteClient">
+		<property name="serviceUrl" value="trade.call" />
+		<property name="serviceInterface" value="com.graby.store.remote.TradeRemote" />
+	</bean>	
+
+</beans>

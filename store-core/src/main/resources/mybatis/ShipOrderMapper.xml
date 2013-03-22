@@ -26,12 +26,81 @@
         where id=#{0}
     </update>    
     
+	<!-- 查询用户出货单 -->
+    <select id="getShipOrder" parameterType="long" resultMap="ShipOrderEntity">
+		select	
+		  `id`,
+		  `centro_id`,
+		  `create_date`,
+		  `express_company`,
+		  `express_orderno`,
+		  `fetch_date`,
+		  `last_update_date`,
+		  `orderno`,
+		  `origin_persion`,
+		  `origin_phone`,
+		  `receiver_address`,
+		  `receiver_city`,
+		  `receiver_district`,
+		  `receiver_mobile`,
+		  `receiver_name`,
+		  `receiver_phone`,
+		  `receiver_state`,
+		  `receiver_zip`,
+		  `remark`,
+		  `status`,
+		  `totalnum`,
+		  `trade_id`,
+		  `type`,
+		  `create_userid`,
+		  `last_update_userid`		
+		from sc_ship_order a where id=#{0}
+	</select>
+	
+	<resultMap id="ShipOrderEntity" type="ShipOrder">
+		<result property="id" column="id" />
+		<result property="centroId" column="centro_id" />
+		<result property="createDate" column="create_date" />
+		<result property="expressCompany" column="express_company" />
+		<result property="expressOrderno" column="express_orderno" />
+		<result property="fetchDate" column="fetch_date" />
+		<result property="lastUpdateDate" column="last_update_date" />
+		<result property="orderno" column="orderno" />
+		<result property="originPersion" column="origin_persion" />
+		<result property="originPhone" column="origin_phone" />
+		<result property="receiverAddress" column="receiver_address" />
+		<result property="receiverCity" column="receiver_city" />
+		<result property="receiverDistrict" column="receiver_district" />
+		<result property="receiverMobile" column="receiver_mobile" />
+		<result property="receiverName" column="receiver_name" />
+		<result property="receiverPhone" column="receiver_phone" />
+		<result property="receiverState" column="receiver_state" />
+		<result property="receiverZip" column="receiver_zip" />
+		<result property="receiverPhone" column="receiver_phone" />
+		<result property="remark" column="remark" />
+		<result property="status" column="status" />
+		<result property="totalnum" column="totalnum" />
+		<result property="tradeId" column="trade_id" />
+		<result property="type" column="type" />
+		<result property="createUser.id" column="create_userid" />
+		<result property="lastUpdateUser.id" column="last_update_userid" />
+		<collection property="details" column="id" javaType="ArrayList" ofType="ShipOrderDetail" select="shipOrderDetailMapped"/>  
+	</resultMap>
+	
+	<select id="shipOrderDetailMapped" parameterType="long" resultType="ShipOrderDetail">
+		SELECT  a.id, num, sku_properties_name AS "skuPropertiesName", item_id AS "item.id", order_id AS "order.id",
+		b.`title` AS "item.title" , b.`weight` AS "item.weight"
+		FROM sc_ship_order_detail a LEFT JOIN sc_item b ON a.`item_id` = b.`id`		
+		WHERE order_id =  #{id}
+	</select>		
+	
     <!-- 根据淘宝交易号查询出货单 -->
     <select id="getShipOrderByTid" resultType="ShipOrder">
 		select b.tid, a.express_company as "expressCompany", a.express_orderno as "expressOrderno"  from sc_ship_order a
 		left join sc_trade_mapping b on a.trade_id = b.trade_id
 		where b.tid=#{0}
 	</select>
+	
 	
     <!-- 查询在途入库单 -->
   	<select id="findEntryOrderOnWay" resultType="ShipOrder">
