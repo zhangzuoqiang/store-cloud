@@ -1,0 +1,1 @@
+D:/WinSCP/winscp.exe  scp:store-cloud/store-portal/target/store-portal.war root@121.196.129.75:/home/admin/store/dist/root.war
