@@ -103,7 +103,7 @@ public class TopApi {
 	}
 
 	// 默认商品页面大小
-	private static final int ITEM_PAGE_SIZE = 300;
+	private static final int ITEM_PAGE_SIZE = 20;
 	
 	// 商品属性
 	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,valid_thru,sku,skus";

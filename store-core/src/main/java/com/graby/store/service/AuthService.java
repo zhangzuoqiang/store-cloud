@@ -13,6 +13,7 @@ import com.graby.store.dao.mybatis.UserDao;
 import com.graby.store.entity.User;
 import com.graby.store.util.Digests;
 import com.graby.store.util.Encodes;
+import com.graby.store.util.EncryptUtil;
 import com.graby.store.web.auth.ShiroDbRealm.ShiroUser;
 
 @Component
@@ -40,7 +41,8 @@ public class AuthService {
 			newUser.setShopName(shopName);
 			newUser.setRoles("user");
 			newUser.setUsername(nick);
-			newUser.setPlainPassword(nick);
+			String passwd = EncryptUtil.md5(nick);
+			newUser.setPlainPassword(passwd);
 			entryptPassword(newUser);
 			newUser.setDescription("淘宝卖家账号");
 			userDao.save(newUser);

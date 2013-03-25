@@ -13,7 +13,14 @@ import com.taobao.api.ApiException;
 public class HomeController {
 
 	@RequestMapping(value = "")
-	public String auth(HttpServletRequest request, HttpServletResponse response) throws ApiException {
+	public String index(HttpServletRequest request, HttpServletResponse response) throws ApiException {
 		return "welcome";
 	}
+	
+	@RequestMapping(value = "/welcome")
+	public String welcome(HttpServletRequest request, HttpServletResponse response) throws ApiException {
+		return "welcome";
+	}
+	
+	
 }

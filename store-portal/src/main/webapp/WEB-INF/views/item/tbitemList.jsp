@@ -16,8 +16,8 @@
 		
 		$(document).ready(function(){
 		  	$("#search").click(function(){
-		  		var action = "${ctx}/item/mapping/${item.id}?q=" + $("#q").val()
-			  	htmlobj=$.ajax({url:action,async:false,type:"post",contentType: "application/x-www-form-urlencoded; charset=utf-8"});
+		  		var action = "${ctx}/item/mapping/${item.id}?q=" + $("#q").val();
+			  	htmlobj=$.ajax({url:action,async:false,type:"post"});
 			  	$("#rbody").html(htmlobj.responseText);
 		  	});
 		});
