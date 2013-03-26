@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.remoting.caucho.HessianServiceExporter;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 import org.springframework.remoting.support.RemoteExporter;
 import org.springframework.web.HttpRequestHandler;
@@ -28,7 +27,7 @@ public class RemotingServiceExporter extends RemoteExporter implements Controlle
 		httpInvoker.setService(service);
 	}
 
-	public void setServiceInterface(Class serviceInterface) {
+	public void setServiceInterface(@SuppressWarnings("rawtypes") Class serviceInterface) {
 		super.setServiceInterface(serviceInterface);
 		httpInvoker.setServiceInterface(serviceInterface);
 	}

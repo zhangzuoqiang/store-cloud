@@ -18,7 +18,7 @@
         <property name="location"> 
             <value>classpath:application.properties</value> 
         </property> 
-    </bean> 
+    </bean>
 
 
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
@@ -109,6 +109,6 @@
 	    <property name="defaultErrorView" value="error/error"></property>  
 	    <!-- 定义异常处理页面用来获取异常信息的变量名，默认名为exception -->  
 	    <property name="exceptionAttribute" value="ex"></property>  
-	</bean>  	
+	</bean>
 
 </beans>

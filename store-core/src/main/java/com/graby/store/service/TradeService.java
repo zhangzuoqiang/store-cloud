@@ -109,12 +109,11 @@ public class TradeService {
 		Trade trade = getTrade(tradeId);
 		ShipOrder shipOrder = geneShipOrder(trade);
 		shipOrderService.createSendShipOrder(shipOrder);
-		updateStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
-		tradeDao.updateTradeMappingStatus(trade.getTid(), Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
+		updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
 		return shipOrderService.getShipOrder(shipOrder.getId());
 	}
 	
-	public void updateStatus(Long tradeId, String status) {
+	public void updateTradeStatus(Long tradeId, String status) {
 		tradeDao.updateTradeStatus(tradeId, status);
 		tradeDao.updateTradeMappingStatus(tradeId, status);
 	}
@@ -153,8 +152,6 @@ public class TradeService {
 	 */
 	public Trade getTrade(Long id) {
 		return tradeDao.getTrade(id);
-		//Trade trade = tradeJpaDao.findOne(id);
-//		/return trade;
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.graby.store.base.GroupMap;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.service.InvAccountEntrys;
 import com.taobao.api.ApiException;
@@ -83,11 +84,17 @@ public interface ShipOrderRemote {
 	public void recivedEntryOrder(Long id, List<InvAccountEntrys> entrys);
 
 	/**
-	 * 查询所有出库单(带处理)
+	 * 查询所有出库单(未处理)
 	 * 
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderWaits();
+	
+	/**
+	 * 分组查询所有出库单(未处理)
+	 * @return
+	 */
+	public GroupMap<String, ShipOrder> findGroupSendOrderWaits();
 
 	/**
 	 * 查询所有出库单(带用户签收)

@@ -39,7 +39,7 @@ public class RemotingAnnotationHandlerMapping extends AbstractDetectingUrlHandle
 
 	private boolean useDefaultSuffixPattern = true;
 
-	private final Map<Class, RemotingService> cachedMappings = new HashMap<Class, RemotingService>();
+	private final Map<Class<?>, RemotingService> cachedMappings = new HashMap<Class<?>, RemotingService>();
 
 
 	/**

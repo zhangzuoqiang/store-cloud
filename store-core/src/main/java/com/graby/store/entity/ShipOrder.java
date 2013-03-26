@@ -113,6 +113,9 @@ public class ShipOrder implements Serializable{
 	// 收货方详细地址
 	private String receiverAddress;
 
+	// 收货人的所在省份
+	private String receiverState;
+	
 	// 收货人的所在城市
 	private String receiverCity;
 
@@ -128,8 +131,6 @@ public class ShipOrder implements Serializable{
 	// 收货人的电话号码
 	private String receiverPhone;
 
-	// 收货人的所在省份
-	private String receiverState;
 
 	// 收货人的邮编
 	private String receiverZip;

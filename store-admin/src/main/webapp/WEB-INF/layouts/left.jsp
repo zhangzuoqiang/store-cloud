@@ -9,6 +9,7 @@
 	<h1>订单管理</h1>
 	<div class="submenu">
 		<a href="${ctx}/trade/waits">待审核交易订单</a>
+		<a href="${ctx}/trade/send/gwaits">未处理出库单</a>
 		<a href="${ctx}/trade/send/waits">待出库交易定单</a>
 		<a href="${ctx}/trade/sign/waits">等待用户签收</a>
 	</div>

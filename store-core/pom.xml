@@ -21,7 +21,7 @@
 	</properties>
 
 	<dependencies>
-	
+
 		<!-- Top API -->
 		<dependency>
 			<groupId>com.taobao</groupId>
@@ -46,7 +46,7 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 		</dependency>
-		
+
 		<!-- mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -56,7 +56,7 @@
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 		</dependency>
-		
+
 		<!-- dbcp connection pool -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -81,7 +81,7 @@
 			<groupId>asm</groupId>
 			<artifactId>asm</artifactId>
 		</dependency>
-		
+
 		<!-- jdbc driver -->
 		<dependency>
 			<groupId>${jdbc.driver.groupId}</groupId>
@@ -91,6 +91,19 @@
 		</dependency>
 		<!-- PERSISTENCE end -->
 
+		<!-- Rule -->
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+			<version>5.5.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-spring</artifactId>
+			<version>5.5.0.Final</version>
+		</dependency>
+
+	    
 		<!-- SECURITY begin -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
@@ -149,39 +162,33 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 		</dependency>
 		<!-- JSON end -->
-		
+
 		<!-- Excel -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.7</version>
 		</dependency>
-		
+
 		<!-- Common -->
 		<dependency>
-		   <groupId>commons-collections</groupId>
-		   <artifactId>commons-collections</artifactId>
-		   <version>3.2.1</version>
-		</dependency>		
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>r05</version>
-		</dependency>		
+		</dependency>
 
 
 		<!-- TEST begin -->
-		<dependency>
-			<groupId>org.springside</groupId>
-			<artifactId>springside-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -201,7 +208,7 @@
 		</dependency>
 		<!-- TEST end -->
 	</dependencies>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -350,7 +357,7 @@
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.version}</version>
-				<configuration>				
+				<configuration>
 					<systemProperties>
 						<systemProperty>
 							<name>spring.profiles.active</name>

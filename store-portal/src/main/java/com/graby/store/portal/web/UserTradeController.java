@@ -115,7 +115,7 @@ public class UserTradeController {
 	}
 
 	/**
-	 * 发货处理
+	 * 下单发货
 	 * 
 	 * @param trade
 	 * @param model

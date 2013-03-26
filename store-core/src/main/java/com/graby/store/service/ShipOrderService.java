@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.drools.runtime.StatefulKnowledgeSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.graby.store.base.GroupMap;
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
 import com.graby.store.dao.jpa.ShipOrderJpaDao;
 import com.graby.store.dao.mybatis.ShipOrderDao;
@@ -45,6 +47,9 @@ public class ShipOrderService {
 	
 	@Autowired
 	private TradeService tradeService;
+	
+	@Autowired
+	private StatefulKnowledgeSession ksession;	
 	
 	private String formateDate(Date date, String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
@@ -184,8 +189,6 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public ShipOrder getShipOrder(Long id) {
-		// TODO shipOrderDao.getShipOrder(id);  后期优化不用hibernate
-		// orderJpaDao.findOne(id);
 		return shipOrderDao.getShipOrder(id);
 	}
 
@@ -236,15 +239,30 @@ public class ShipOrderService {
 	/* ------------ 出库单 ------------ */
 
 	/**
-	 * 查询所有出库单(带处理)
+	 * 查询所有出库单(待处理)
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderWaits() {
 		return shipOrderDao.findSendOrderWaits();
 	}
-
+	
 	/**
-	 * 查询所有出库单(带用户签收)
+	 * 按规则分类所有出库单(待处理)
+	 * @return
+	 */
+	public GroupMap<String, ShipOrder> findGroupSendOrderWaits() {
+		GroupMap<String, ShipOrder> results =new GroupMap<String,ShipOrder>();
+		ksession.setGlobal("results", results);
+		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits();
+		for (ShipOrder shipOrder : orders) {
+			ksession.insert(shipOrder);
+		}
+		ksession.fireAllRules();
+		return results;
+	}
+	
+	/**
+	 * 查询所有出库单(等待用户签收)
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderSignWaits() {
@@ -267,29 +285,16 @@ public class ShipOrderService {
 	 */
 	public void createSendShipOrder(ShipOrder shipOrder) {
 		Date now = new Date();
-		User user = shipOrder.getCreateUser();
-		if (user == null) {
-			Long userid = ShiroContextUtils.getUserid();
-			user = new User();
-			user.setId(userid);
-		}
 		if (shipOrder.getId() == null) {
 			String orderno = geneOrderno(ShipOrder.TYPE_SEND);
 			shipOrder.setType(ShipOrder.TYPE_SEND);
 			shipOrder.setOrderno(orderno);
 			shipOrder.setCreateDate(now);
-			if (user != null) {
-				shipOrder.setCreateUser(user);
-			}
 		}
 		// 等待仓库发货
 		shipOrder.setStatus(ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
 		shipOrder.setCentroId(1L);
 		shipOrder.setLastUpdateDate(now);
-//		Long userid = ShiroContextUtils.getUserid();
-//		user = new User();
-//		user.setId(userid);
-//		shipOrder.setLastUpdateUser(user);
 		orderJpaDao.save(shipOrder);
 
 		List<ShipOrderDetail> items = shipOrder.getDetails();
@@ -330,7 +335,7 @@ public class ShipOrderService {
 		sendOrderEntity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
 		updateShipOrder(sendOrderEntity);
 		// 更新交易订单状态-等待用户签收
-		tradeService.updateStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
+		tradeService.updateTradeStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
 		return sendOrderEntity;
 	}
 	
@@ -342,7 +347,7 @@ public class ShipOrderService {
 		ShipOrder order = getShipOrder(orderId);
 		order.setStatus(ShipOrder.SendOrderStatus.SEND_FINISH);
 		updateShipOrder(order);
-		tradeService.updateStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
+		tradeService.updateTradeStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
 		List<ShipOrderDetail> details = order.getDetails();
 		// 库存记账-买家签收
 		if (CollectionUtils.isNotEmpty(details)) {

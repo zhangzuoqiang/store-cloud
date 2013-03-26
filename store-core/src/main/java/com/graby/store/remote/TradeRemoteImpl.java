@@ -49,7 +49,7 @@ public class TradeRemoteImpl implements TradeRemote {
 
 	@Override
 	public void updateTradeStatus(Long tradeId, String status) {
-		tradeService.updateStatus(tradeId, status);
+		tradeService.updateTradeStatus(tradeId, status);
 	}
 
 	@Override

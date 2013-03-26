@@ -1,0 +1,37 @@
+/*
+ * 根据省份选择快递公司
+ */
+
+package com.graby.store.rule
+ 
+import com.graby.store.entity.ShipOrder;
+global com.graby.store.base.GroupMap results;  
+
+#顺丰
+rule "SF_EXPRESS"
+    when
+        $order : ShipOrder(receiverState == "广东省")
+    then
+        $order.setExpressCompany("SF");
+        results.put("SF", $order);
+end
+
+#圆通
+rule "OYT_EXPRESS"
+    when
+        $order : ShipOrder(receiverState == "北京")
+    then
+        $order.setExpressCompany("OYT");
+        results.put("OYT", $order);
+end
+
+#不识别的
+rule "UNKOWN_EXPRESS"
+    when
+        $order : ShipOrder(
+        	receiverState != "广东省",
+        	receiverState != "北京"
+        )
+    then
+        results.put("UNKOWN", $order);
+end

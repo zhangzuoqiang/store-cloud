@@ -9,7 +9,7 @@ import org.springframework.remoting.httpinvoker.HttpInvokerRequestExecutor;
 import org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor;
 import org.springframework.remoting.support.UrlBasedRemoteAccessor;
 
-public class ClientProxyFactoryBean extends UrlBasedRemoteAccessor implements FactoryBean, InitializingBean {
+public class ClientProxyFactoryBean extends UrlBasedRemoteAccessor implements FactoryBean<Object>, InitializingBean {
 
 	private String hostUrl;
 
@@ -23,6 +23,7 @@ public class ClientProxyFactoryBean extends UrlBasedRemoteAccessor implements Fa
 		super.setServiceUrl(serviceUrl);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void setServiceInterface(Class serviceInterface) {
 		super.setServiceInterface(serviceInterface);
 	}
@@ -35,6 +36,7 @@ public class ClientProxyFactoryBean extends UrlBasedRemoteAccessor implements Fa
 		return this.serviceProxy;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Class getObjectType() {
 		return getServiceInterface();
 	}
@@ -48,6 +50,7 @@ public class ClientProxyFactoryBean extends UrlBasedRemoteAccessor implements Fa
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void afterPropertiesSet() {
 		serviceProxy = ProxyFactory.getProxy(getServiceInterface(),
 				ProxyBeanFactory.getHttpInvoerProxyFactoryBean(this.getServiceInterface(), this.getServiceUrl()));
@@ -57,6 +60,7 @@ public class ClientProxyFactoryBean extends UrlBasedRemoteAccessor implements Fa
 
 class ProxyBeanFactory {
 
+	@SuppressWarnings("rawtypes")
 	public static HttpInvokerProxyFactoryBean getHttpInvoerProxyFactoryBean(Class serviceInterface, String serverUrl) {
 		HttpInvokerProxyFactoryBean factory = new HttpInvokerProxyFactoryBean();
 		HttpInvokerRequestExecutor httpInvokerExRequestExecutor = new SimpleHttpInvokerRequestExecutor();

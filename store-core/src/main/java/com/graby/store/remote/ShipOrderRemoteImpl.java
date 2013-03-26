@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
+import com.graby.store.base.GroupMap;
 import com.graby.store.base.remote.service.RemotingService;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.service.InvAccountEntrys;
@@ -95,6 +96,11 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	@Override
 	public void updateShipOrder(ShipOrder order) {
 		shipOrderService.updateShipOrder(order);		
+	}
+
+	@Override
+	public GroupMap<String, ShipOrder> findGroupSendOrderWaits() {
+		return shipOrderService.findGroupSendOrderWaits();
 	}
 
 }

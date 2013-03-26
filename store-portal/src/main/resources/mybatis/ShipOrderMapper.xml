@@ -29,31 +29,31 @@
 	<!-- 查询用户出货单 -->
     <select id="getShipOrder" parameterType="long" resultMap="ShipOrderEntity">
 		select	
-		  `id`,
-		  `centro_id`,
-		  `create_date`,
-		  `express_company`,
-		  `express_orderno`,
-		  `fetch_date`,
-		  `last_update_date`,
-		  `orderno`,
-		  `origin_persion`,
-		  `origin_phone`,
-		  `receiver_address`,
-		  `receiver_city`,
-		  `receiver_district`,
-		  `receiver_mobile`,
-		  `receiver_name`,
-		  `receiver_phone`,
-		  `receiver_state`,
-		  `receiver_zip`,
-		  `remark`,
-		  `status`,
-		  `totalnum`,
-		  `trade_id`,
-		  `type`,
-		  `create_userid`,
-		  `last_update_userid`		
+		  id,
+		  centro_id,
+		  create_date,
+		  express_company,
+		  express_orderno,
+		  fetch_date,
+		  last_update_date,
+		  orderno,
+		  origin_persion,
+		  origin_phone,
+		  receiver_address,
+		  receiver_city,
+		  receiver_district,
+		  receiver_mobile,
+		  receiver_name,
+		  receiver_phone,
+		  receiver_state,
+		  receiver_zip,
+		  remark,
+		  status,
+		  totalnum,
+		  trade_id,
+		  type,
+		  create_userid,
+		  last_update_userid		
 		from sc_ship_order a where id=#{0}
 	</select>
 	
@@ -89,8 +89,8 @@
 	
 	<select id="shipOrderDetailMapped" parameterType="long" resultType="ShipOrderDetail">
 		SELECT  a.id, num, sku_properties_name AS "skuPropertiesName", item_id AS "item.id", order_id AS "order.id",
-		b.`title` AS "item.title" , b.`weight` AS "item.weight"
-		FROM sc_ship_order_detail a LEFT JOIN sc_item b ON a.`item_id` = b.`id`		
+		b.title AS "item.title" , b.weight AS "item.weight"
+		FROM sc_ship_order_detail a LEFT JOIN sc_item b ON a.item_id = b.id		
 		WHERE order_id =  #{id}
 	</select>		
 	
@@ -104,17 +104,31 @@
 	
     <!-- 查询在途入库单 -->
   	<select id="findEntryOrderOnWay" resultType="ShipOrder">
-		SELECT b.id as "createUser.id" , b.shop_name as "createUser.shopName", 
-		a.id, a.express_orderno as expressOrderno, a.centro_id as centroId,
-		a.express_company as expressCompany, a.orderno, a.totalnum, a.fetch_date as "fetchDate"
+		SELECT b.id as "createUser.id" , 
+		b.shop_name as "createUser.shopName", 
+		a.id, 
+		a.express_orderno as expressOrderno, 
+		a.centro_id as centroId,
+		a.express_company as expressCompany, 
+		a.orderno, a.totalnum, 
+		a.fetch_date as "fetchDate"
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
 		WHERE type='entry' and a.status='ENTRY_WAIT_STORAGE_RECEIVED'
 	</select>
 	
 	<!-- 查询待出库单 -->
   	<select id="findSendOrderWaits" resultType="ShipOrder">
-		SELECT b.shop_name as "createUser.shopName", create_date as "createDate",
-		a.id, a.centro_id as centroId, a.orderno
+		SELECT 
+		b.shop_name as "createUser.shopName", 
+		create_date as "createDate",
+		a.id, a.centro_id as centroId,
+		a.receiver_address as "receiverAddress", 
+		a.receiver_city as "receiverCity",
+		a.receiver_state as "receiverState", 
+		a.receiver_name as "receiverName", 
+		a.receiver_district as "receiverDistrict", 
+		a.receiver_zip as "receiverZip",
+		a.orderno
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
 		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED'
 	</select>
