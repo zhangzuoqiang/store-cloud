@@ -26,7 +26,7 @@
     </control>
     <control controlID="9" controlTypeID="com.balsamiq.mockups::Button" x="209" y="36" w="142" h="47" measuredW="115" measuredH="27" zOrder="6" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>%u83B7%u53D6%u672A%u5904%u7406%u8BA2%u5355</text>
+        <text>%u52A0%u8F7D%u672A%u5904%u7406%u8BA2%u5355</text>
       </controlProperties>
     </control>
     <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="850" y="36" w="181" h="39" measuredW="146" measuredH="38" zOrder="7" locked="false" isInGroup="-1">
@@ -118,12 +118,12 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="31" controlTypeID="com.balsamiq.mockups::Label" x="1086" y="366" w="156" h="56" measuredW="193" measuredH="25" zOrder="23" locked="false" isInGroup="-1">
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Label" x="1086" y="351" w="156" h="93" measuredW="499" measuredH="25" zOrder="23" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>true</bold>
         <color>13576743</color>
         <size>16</size>
-        <text>%u8FD0%u8F93%u516C%u53F8%u53EF%u4ECE%u4E0B%u62C9%u6846%u9009%u62E9</text>
+        <text>%u8FD9%u91CC%u662F%u4E0B%u62C9%u63A7%u4EF6%uFF0C%u9ED8%u8BA4%u9009%u62E9%u4F20%u9012%u8FC7%u6765%u7684%u8FD0%u8F93%u516C%u53F8%uFF0C%u4E5F%u53EF%u4E0B%u62C9%u6846%u9009%u62E9</text>
       </controlProperties>
     </control>
     <control controlID="32" controlTypeID="com.balsamiq.mockups::Arrow" x="305" y="60" w="46" h="98" measuredW="150" measuredH="100" zOrder="24" locked="false" isInGroup="-1">
@@ -171,7 +171,7 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="31" y="231" w="129" h="80" measuredW="414" measuredH="25" zOrder="29" locked="false" isInGroup="-1">
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="31" y="231" w="129" h="120" measuredW="414" measuredH="25" zOrder="29" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>true</bold>
         <color>2101837</color>
