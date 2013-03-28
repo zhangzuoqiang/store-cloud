@@ -131,6 +131,7 @@
 		a.orderno
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
 		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED'
+		ORDER BY b.id
 	</select>
 	
 	<!-- 查询待用户签收出库单 -->

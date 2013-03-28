@@ -14,8 +14,7 @@
 
 	<drools:kbase id="kbase">
 		<drools:resources>
-			<drools:resource type="DRL"
-				source="classpath:rule/send-by-state.drl" />
+			<drools:resource type="DRL"	source="classpath:rule/send-by-state.drl" />
 		</drools:resources>
 	</drools:kbase>
 

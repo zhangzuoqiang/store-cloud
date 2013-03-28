@@ -13,7 +13,7 @@ rule "SF_EXPRESS"
         $order : ShipOrder(receiverState == "广东省")
     then
         $order.setExpressCompany("SF");
-        results.put("SF", $order);
+        results.put("顺丰快递", $order);
 end
 
 #圆通
@@ -22,7 +22,7 @@ rule "OYT_EXPRESS"
         $order : ShipOrder(receiverState == "北京")
     then
         $order.setExpressCompany("OYT");
-        results.put("OYT", $order);
+        results.put("圆通快递", $order);
 end
 
 #不识别的
@@ -33,5 +33,5 @@ rule "UNKOWN_EXPRESS"
         	receiverState != "北京"
         )
     then
-        results.put("UNKOWN", $order);
+        results.put("未归类", $order);
 end
