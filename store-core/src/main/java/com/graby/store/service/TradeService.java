@@ -79,7 +79,7 @@ public class TradeService {
 	 * 
 	 * @param trade
 	 */
-	public void createTrade(Trade trade) {
+	public Trade createTrade(Trade trade) {
 		// 保存至系统订单
 		Long tradeId =getRelatedTradeId(trade.getTid());
 		if (tradeId == null) {
@@ -98,6 +98,7 @@ public class TradeService {
 			TradeMapping mapping = new TradeMapping(trade.getTid(), trade.getId());
 			tradeDao.createTradeMapping(mapping);
 		}
+		return trade;
 	}
 	
 	/**
@@ -161,7 +162,7 @@ public class TradeService {
 	 */
 	private ShipOrder geneShipOrder(com.graby.store.entity.Trade trade) {
 		ShipOrder shipOrder = new ShipOrder();
-		shipOrder.setCentroId(1L);
+		shipOrder.setCentroId(trade.getCentro().getId());
 		shipOrder.setTradeId(trade.getId());
 		shipOrder.setReceiverAddress(trade.getReceiverAddress());
 		shipOrder.setReceiverCity(trade.getReceiverCity());

@@ -252,12 +252,15 @@ public class ShipOrderService {
 	 */
 	public GroupMap<String, ShipOrder> findGroupSendOrderWaits(Long centroId) {
 		GroupMap<String, ShipOrder> results =new GroupMap<String,ShipOrder>();
-		ksession.setGlobal("results", results);
 		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId);
 		for (ShipOrder shipOrder : orders) {
 			ksession.insert(shipOrder);
 		}
 		ksession.fireAllRules();
+		for (ShipOrder shipOrder : orders) {
+			String expressCompany = shipOrder.getExpressCompany();
+			results.put(expressCompany == null ? "other" : expressCompany, shipOrder);
+		}
 		return results;
 	}
 	
@@ -293,7 +296,6 @@ public class ShipOrderService {
 		}
 		// 等待仓库发货
 		shipOrder.setStatus(ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
-		shipOrder.setCentroId(1L);
 		shipOrder.setLastUpdateDate(now);
 		orderJpaDao.save(shipOrder);
 

@@ -27,9 +27,6 @@ import org.hibernate.annotations.Index;
 @Table(name = "sc_trade")
 public class Trade implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1537169007391002970L;
 
 	/**

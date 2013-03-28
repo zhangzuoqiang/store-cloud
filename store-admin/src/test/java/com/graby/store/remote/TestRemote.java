@@ -30,14 +30,14 @@ public class TestRemote extends AbstractJUnit4SpringContextTests{
 	
 	@Test
 	public void testFindOrder() {
-		GroupMap<String, ShipOrder> orderMap = shipOrderRemote.findGroupSendOrderWaits(1L);
+		GroupMap<String, ShipOrder> orderMap = shipOrderRemote.findGroupSendOrderWaits(2L);
 		for (String key : orderMap.getKeySet()) {
 			List<ShipOrder> orders = orderMap.getList(key);
 			for (ShipOrder shipOrder : orders) {
-				System.out.println(key + ":" + shipOrder.getReceiverState());	
+				System.out.println(key + ":" + shipOrder.getReceiverState() + ", " + shipOrder.getId());	
 			}
-			
 		}
+		System.out.println(orderMap.getSize());
 	}
 	
 }

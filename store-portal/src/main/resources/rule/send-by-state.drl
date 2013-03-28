@@ -5,33 +5,92 @@
 package com.graby.store.rule
  
 import com.graby.store.entity.ShipOrder;
-global com.graby.store.base.GroupMap results;  
 
-#顺丰
-rule "SF_EXPRESS"
+#顺丰速运
+rule "SF"
+    when
+        $order : ShipOrder(receiverState == "湖南省")
+    then
+        $order.setExpressCompany("sf");
+end
+
+#圆通速递
+rule "OYT"
     when
         $order : ShipOrder(receiverState == "广东省")
     then
-        $order.setExpressCompany("SF");
-        results.put("顺丰快递", $order);
+    	$order.setExpressCompany("oyt");
 end
 
-#圆通
-rule "OYT_EXPRESS"
+#邮政EMS
+rule "POST"
+    when
+        $order : ShipOrder(receiverState == "浙江省")
+    then
+   		$order.setExpressCompany("post");
+end
+
+#申通速递
+rule "STO"
+    when
+        $order : ShipOrder(receiverState == "江苏省")
+    then
+      	$order.setExpressCompany("sto");
+end
+
+#韵达速递
+rule "YUNDA"
     when
         $order : ShipOrder(receiverState == "北京")
     then
-        $order.setExpressCompany("OYT");
-        results.put("圆通快递", $order);
+        $order.setExpressCompany("yunda");
 end
 
-#不识别的
-rule "UNKOWN_EXPRESS"
+#中通速递
+rule "ZTO"
     when
-        $order : ShipOrder(
-        	receiverState != "广东省",
-        	receiverState != "北京"
-        )
+        $order : ShipOrder(receiverState == "深圳")
     then
-        results.put("未归类", $order);
+        $order.setExpressCompany("zto");
+end
+
+#汇通速递
+rule "HTKY"
+    when
+        $order : ShipOrder(receiverState == "上海")
+    then
+        $order.setExpressCompany("htky");
+end
+
+#天天速递
+rule "TTKDEX"
+    when
+        $order : ShipOrder(receiverState == "广西省")
+    then
+        $order.setExpressCompany("ttkdex");
+end
+
+#德邦物流
+rule "DBL"
+    when
+        $order : ShipOrder(receiverState == "台湾")
+    then
+        $order.setExpressCompany("dbl");
+end
+
+#龙邦速递
+rule "LB"
+    when
+        $order : ShipOrder(receiverState == "江西省")
+    then
+        $order.setExpressCompany("lb");
+end
+
+
+#全峰快递
+rule "QFKD"
+    when
+        $order : ShipOrder(receiverState == "陕西省")
+    then
+        $order.setExpressCompany("qfkd");
 end
