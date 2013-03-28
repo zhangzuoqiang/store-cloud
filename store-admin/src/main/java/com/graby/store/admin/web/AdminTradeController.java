@@ -105,7 +105,7 @@ public class AdminTradeController {
 	 */
 	@RequestMapping(value = "send/gwaits", method=RequestMethod.GET)
 	public String gsendWaits(Model model) throws ApiException {
-		GroupMap<String, ShipOrder> orderGroup = shipOrderRemote.findGroupSendOrderWaits();
+		GroupMap<String, ShipOrder> orderGroup = shipOrderRemote.findGroupSendOrderWaits(1L);
 		model.addAttribute("waits", orderGroup);
 		return "/admin/sendOrderGwaits";
 	}	

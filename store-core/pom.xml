@@ -102,8 +102,13 @@
 			<artifactId>drools-spring</artifactId>
 			<version>5.5.0.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>2.5.16</version>
+		</dependency>
 
-	    
+
 		<!-- SECURITY begin -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
@@ -152,6 +157,12 @@
 		</dependency>
 		<!-- WEB end -->
 
+		<!-- Remoting -->
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
+		</dependency>
+
 		<!-- JSON begin -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -194,18 +205,16 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- jetty -->
 		<dependency>
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-webapp</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jsp</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>		
 		<!-- TEST end -->
 	</dependencies>
 

@@ -1,11 +1,11 @@
-package com.graby.test;
+package com.graby.store.remote;
 
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
 import com.graby.store.entity.User;
 import com.graby.store.remote.AuthRemote;
 
-public class TestMain {
+public class TestHttpInvoker {
 	public static void main(String[] args) {
 		t1();
 	}

@@ -99,8 +99,8 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	}
 
 	@Override
-	public GroupMap<String, ShipOrder> findGroupSendOrderWaits() {
-		return shipOrderService.findGroupSendOrderWaits();
+	public GroupMap<String, ShipOrder> findGroupSendOrderWaits(Long centroId) {
+		return shipOrderService.findGroupSendOrderWaits(centroId);
 	}
 
 }

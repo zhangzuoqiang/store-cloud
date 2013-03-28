@@ -91,10 +91,10 @@ public interface ShipOrderRemote {
 	public List<ShipOrder> findSendOrderWaits();
 	
 	/**
-	 * 分组查询所有出库单(未处理)
+	 * 分组查询所有未处理出库单
 	 * @return
 	 */
-	public GroupMap<String, ShipOrder> findGroupSendOrderWaits();
+	public GroupMap<String, ShipOrder> findGroupSendOrderWaits(Long centroId);
 
 	/**
 	 * 查询所有出库单(带用户签收)

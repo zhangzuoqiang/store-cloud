@@ -243,17 +243,17 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderWaits() {
-		return shipOrderDao.findSendOrderWaits();
+		return shipOrderDao.findSendOrderWaits(1L);
 	}
 	
 	/**
 	 * 按规则分类所有出库单(待处理)
 	 * @return
 	 */
-	public GroupMap<String, ShipOrder> findGroupSendOrderWaits() {
+	public GroupMap<String, ShipOrder> findGroupSendOrderWaits(Long centroId) {
 		GroupMap<String, ShipOrder> results =new GroupMap<String,ShipOrder>();
 		ksession.setGlobal("results", results);
-		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits();
+		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId);
 		for (ShipOrder shipOrder : orders) {
 			ksession.insert(shipOrder);
 		}

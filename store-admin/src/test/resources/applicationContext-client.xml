@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	default-lazy-init="true">
+
+	
+	<bean id="remoteClient" class="com.graby.store.base.remote.client.ClientFactoryBean" abstract="true">
+		<property name="type" value="hessian"/>  
+	    <property name="hostUrl" value="http://localhost"/>  
+	</bean>
+	
+	<bean id="centroRemote" parent="remoteClient">
+		<property name="serviceUrl" value="/centro.call"/>
+		<property name="serviceInterface" value="com.graby.store.remote.CentroRemote"/>
+	</bean>
+
+	<bean id="shipOrderRemote" parent="remoteClient">
+		<property name="serviceUrl" value="/ship.call"/>
+		<property name="serviceInterface" value="com.graby.store.remote.ShipOrderRemote"/>
+	</bean>
+	
+</beans>

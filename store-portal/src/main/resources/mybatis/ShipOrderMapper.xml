@@ -117,7 +117,7 @@
 	</select>
 	
 	<!-- 查询待出库单 -->
-  	<select id="findSendOrderWaits" resultType="ShipOrder">
+  	<select id="findSendOrderWaits" parameterType="long" resultType="ShipOrder">
 		SELECT 
 		b.shop_name as "createUser.shopName", 
 		create_date as "createDate",
@@ -130,7 +130,7 @@
 		a.receiver_zip as "receiverZip",
 		a.orderno
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
-		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED'
+		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED' and a.centro_id=#{0}
 		ORDER BY b.id
 	</select>
 	
