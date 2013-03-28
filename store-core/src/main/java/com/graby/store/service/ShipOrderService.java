@@ -259,7 +259,7 @@ public class ShipOrderService {
 		ksession.fireAllRules();
 		for (ShipOrder shipOrder : orders) {
 			String expressCompany = shipOrder.getExpressCompany();
-			results.put(expressCompany == null ? "other" : expressCompany, shipOrder);
+			results.put(expressCompany == null ? "OTHER" : expressCompany, shipOrder);
 		}
 		return results;
 	}

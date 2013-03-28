@@ -11,7 +11,7 @@ rule "SF"
     when
         $order : ShipOrder(receiverState == "湖南省")
     then
-        $order.setExpressCompany("sf");
+        $order.setExpressCompany("SF");
 end
 
 #圆通速递
@@ -19,7 +19,7 @@ rule "OYT"
     when
         $order : ShipOrder(receiverState == "广东省")
     then
-    	$order.setExpressCompany("oyt");
+    	$order.setExpressCompany("OYT");
 end
 
 #邮政EMS
@@ -27,7 +27,7 @@ rule "POST"
     when
         $order : ShipOrder(receiverState == "浙江省")
     then
-   		$order.setExpressCompany("post");
+   		$order.setExpressCompany("POST");
 end
 
 #申通速递
@@ -35,7 +35,7 @@ rule "STO"
     when
         $order : ShipOrder(receiverState == "江苏省")
     then
-      	$order.setExpressCompany("sto");
+      	$order.setExpressCompany("STO");
 end
 
 #韵达速递
@@ -43,7 +43,7 @@ rule "YUNDA"
     when
         $order : ShipOrder(receiverState == "北京")
     then
-        $order.setExpressCompany("yunda");
+        $order.setExpressCompany("YUNDA");
 end
 
 #中通速递
@@ -51,7 +51,7 @@ rule "ZTO"
     when
         $order : ShipOrder(receiverState == "深圳")
     then
-        $order.setExpressCompany("zto");
+        $order.setExpressCompany("ZTO");
 end
 
 #汇通速递
@@ -59,7 +59,7 @@ rule "HTKY"
     when
         $order : ShipOrder(receiverState == "上海")
     then
-        $order.setExpressCompany("htky");
+        $order.setExpressCompany("HTKY");
 end
 
 #天天速递
@@ -67,7 +67,7 @@ rule "TTKDEX"
     when
         $order : ShipOrder(receiverState == "广西省")
     then
-        $order.setExpressCompany("ttkdex");
+        $order.setExpressCompany("TTKDEX");
 end
 
 #德邦物流
@@ -75,7 +75,7 @@ rule "DBL"
     when
         $order : ShipOrder(receiverState == "台湾")
     then
-        $order.setExpressCompany("dbl");
+        $order.setExpressCompany("DBL");
 end
 
 #龙邦速递
@@ -83,7 +83,7 @@ rule "LB"
     when
         $order : ShipOrder(receiverState == "江西省")
     then
-        $order.setExpressCompany("lb");
+        $order.setExpressCompany("LB");
 end
 
 
@@ -92,5 +92,5 @@ rule "QFKD"
     when
         $order : ShipOrder(receiverState == "陕西省")
     then
-        $order.setExpressCompany("qfkd");
+        $order.setExpressCompany("QFKD");
 end
