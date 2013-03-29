@@ -110,5 +110,24 @@
 	    <!-- 定义异常处理页面用来获取异常信息的变量名，默认名为exception -->  
 	    <property name="exceptionAttribute" value="ex"></property>  
 	</bean>
+	
+	<!-- 快递公司 -->
+	<bean id="expressMap" class="org.springframework.beans.factory.config.MapFactoryBean">  
+	  <property name="sourceMap">  
+	      <map>  
+	        <entry key="SF" value="顺丰速运"/>  
+	        <entry key="OYT" value="圆通速递"/>  
+	        <entry key="POST" value="中国邮政EMS"/>  
+	        <entry key="STO" value="申通速递"/>  
+	        <entry key="YUNDA" value="韵达速递"/>  
+	        <entry key="ZTO" value="中通速递"/> 
+	        <entry key="HTKY" value="汇通速递"/> 
+	        <entry key="TTKDEX" value="天天速递"/> 
+	        <entry key="DBL" value="德邦物流"/> 
+	        <entry key="LB" value="龙邦速递"/> 
+	        <entry key="QFKD" value="全峰快递"/> 
+	      </map>  
+	  </property>  
+	</bean> 	
 
 </beans>

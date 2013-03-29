@@ -4,8 +4,8 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <div id="header">
-	<shiro:user>
-		<i class="icon-user"></i>
-		<shiro:principal property="shopname"/>
-	</shiro:user>
+	<h1 class="small">
+	&nbsp;&nbsp;<img src = "${ctx}/static/images/package.png">
+    &nbsp;&nbsp;物流通 【<shiro:principal property="shopname"/>】
+    </h1>
 </div>

@@ -30,7 +30,7 @@ import com.taobao.api.ApiException;
 @RequestMapping(value = "/item")
 public class ItemController {
 
-	private static final int PAGE_SIZE = 10;
+	private static final int PAGE_SIZE = 25;
 	
 	@Autowired
 	private TopApi topApi;

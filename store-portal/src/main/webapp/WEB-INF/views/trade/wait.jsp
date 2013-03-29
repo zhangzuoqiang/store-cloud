@@ -15,7 +15,9 @@
 	
 	<ul id="tab" class="nav nav-tabs">
       <li class="active"><a href="#taobao" data-toggle="tab">淘宝订单</a></li>
+      <!-- 
       <li><a href="#custom" data-toggle="tab">手工订单</a></li>
+       -->
    </ul>
 
 	<div class="tab-content">  
