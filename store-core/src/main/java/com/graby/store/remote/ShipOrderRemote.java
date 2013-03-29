@@ -102,7 +102,7 @@ public interface ShipOrderRemote {
 	 *   key=快递公司编码
 	 *   value=归类的出库单列表
 	 */
-	public GroupMap<String, ShipOrder> findGroupSendOrderWaits(Long centroId);
+	public List<ShipOrder> findGroupSendOrderWaits(Long centroId);
 
 	/**
 	 * 查询所有出库单(带用户签收)

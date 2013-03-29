@@ -102,8 +102,11 @@ public class ShipOrder implements Serializable{
 	// 发货方联系电话
 	private String originPhone;
 
-	// 运输公司名称
+	// 运输公司编码
 	private String expressCompany;
+	
+	// 运输公司名称
+	private String expressCompanyName;
 
 	// 运输公司运单号
 	private String expressOrderno;
@@ -212,6 +215,12 @@ public class ShipOrder implements Serializable{
 	public String getShopName() {
 		return createUser.getShopName();
 	}
+	
+	@Transient
+	public String getExpressCompanyName() {
+		return expressCompanyName;
+	}
+	
 	
 	public String getOriginPersion() {
 		return originPersion;
@@ -383,6 +392,10 @@ public class ShipOrder implements Serializable{
 
 	public void setTradeId(Long tradeId) {
 		this.tradeId = tradeId;
+	}
+
+	public void setExpressCompanyName(String expressCompanyName) {
+		this.expressCompanyName = expressCompanyName;
 	}
 
 }

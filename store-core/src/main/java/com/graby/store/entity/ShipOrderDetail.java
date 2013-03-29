@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "sc_ship_order_detail")
@@ -47,6 +48,11 @@ public class ShipOrderDetail implements Serializable{
 		return item;
 	}
 
+	@Transient
+	public String getItemTitle() {
+		return item.getTitle();
+	}
+	
 	public long getNum() {
 		return num;
 	}
@@ -74,5 +80,6 @@ public class ShipOrderDetail implements Serializable{
 	public void setSkuPropertiesName(String skuPropertiesName) {
 		this.skuPropertiesName = skuPropertiesName;
 	}
+
 	
 }

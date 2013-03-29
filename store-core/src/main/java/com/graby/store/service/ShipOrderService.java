@@ -1,9 +1,12 @@
 package com.graby.store.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.drools.runtime.StatefulKnowledgeSession;
@@ -14,7 +17,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.graby.store.base.GroupMap;
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
 import com.graby.store.dao.jpa.ShipOrderJpaDao;
 import com.graby.store.dao.mybatis.ShipOrderDao;
@@ -50,6 +52,9 @@ public class ShipOrderService {
 	
 	@Autowired
 	private StatefulKnowledgeSession ksession;	
+	
+	@Resource
+	private Map<String,String> expressMap;
 	
 	private String formateDate(Date date, String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
@@ -250,16 +255,20 @@ public class ShipOrderService {
 	 * 按规则分类所有出库单(待处理)
 	 * @return
 	 */
-	public GroupMap<String, ShipOrder> findGroupSendOrderWaits(Long centroId) {
-		GroupMap<String, ShipOrder> results =new GroupMap<String,ShipOrder>();
+	public List<ShipOrder> findGroupSendOrderWaits(Long centroId) {
 		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId);
 		for (ShipOrder shipOrder : orders) {
 			ksession.insert(shipOrder);
 		}
 		ksession.fireAllRules();
+		String companyCode;
+		String companyName;
+		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
-			String expressCompany = shipOrder.getExpressCompany();
-			results.put(expressCompany == null ? "OTHER" : expressCompany, shipOrder);
+			companyCode = shipOrder.getExpressCompany();
+			companyName = companyCode == null ? "未分类" : expressMap.get(companyCode);
+			shipOrder.setExpressCompanyName(companyName);
+			results.add(shipOrder);
 		}
 		return results;
 	}

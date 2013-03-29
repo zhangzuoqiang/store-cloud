@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import com.graby.store.base.GroupMap;
 import com.graby.store.entity.Centro;
 import com.graby.store.entity.ShipOrder;
 
@@ -30,14 +29,10 @@ public class TestRemote extends AbstractJUnit4SpringContextTests{
 	
 	@Test
 	public void testFindOrder() {
-		GroupMap<String, ShipOrder> orderMap = shipOrderRemote.findGroupSendOrderWaits(2L);
-		for (String key : orderMap.getKeySet()) {
-			List<ShipOrder> orders = orderMap.getList(key);
-			for (ShipOrder shipOrder : orders) {
-				System.out.println(key + ":" + shipOrder.getReceiverState() + ", " + shipOrder.getId());	
-			}
+		List<ShipOrder> orderMap = shipOrderRemote.findGroupSendOrderWaits(2L);
+		for (ShipOrder shipOrder : orderMap) {
+			System.out.println(shipOrder.getExpressCompany() + ":" + shipOrder.getExpressCompanyName() + "=" + shipOrder.getReceiverState());
 		}
-		System.out.println(orderMap.getSize());
 	}
 	
 }
