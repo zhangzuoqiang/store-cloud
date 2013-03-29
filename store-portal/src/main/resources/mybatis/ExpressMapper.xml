@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.graby.store.dao.mybatis.ExpressDao">
+
+	<select id="getExpress" parameterType="String" resultType="Express">
+		select id, code, company_name as "companyName"
+		from sc_express
+		where code=#{0}
+	</select>
+	
+	
+</mapper> 

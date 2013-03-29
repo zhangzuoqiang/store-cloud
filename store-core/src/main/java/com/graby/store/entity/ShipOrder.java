@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 
@@ -155,6 +156,7 @@ public class ShipOrder implements Serializable{
 	// 最后更新时间
 	private Date lastUpdateDate;
 	
+	
 	/** 发货商品明细 */
 	private List<ShipOrderDetail> details = new ArrayList<ShipOrderDetail>();
 
@@ -206,6 +208,11 @@ public class ShipOrder implements Serializable{
 		return expressOrderno;
 	}
 
+	@Transient
+	public String getShopName() {
+		return createUser.getShopName();
+	}
+	
 	public String getOriginPersion() {
 		return originPersion;
 	}
@@ -377,4 +384,5 @@ public class ShipOrder implements Serializable{
 	public void setTradeId(Long tradeId) {
 		this.tradeId = tradeId;
 	}
+
 }

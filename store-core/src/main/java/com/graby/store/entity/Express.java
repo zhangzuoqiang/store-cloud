@@ -27,9 +27,6 @@ public class Express implements Serializable {
 	// 公司名称
 	private String companyName;
 	
-	// 递增规则
-	private String increaseRule;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
@@ -44,10 +41,6 @@ public class Express implements Serializable {
 		return companyName;
 	}
 
-	public String getIncreaseRule() {
-		return increaseRule;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -60,8 +53,5 @@ public class Express implements Serializable {
 		this.companyName = companyName;
 	}
 
-	public void setIncreaseRule(String increaseRule) {
-		this.increaseRule = increaseRule;
-	}
 	
 }
