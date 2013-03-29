@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.graby.store.entity.Centro;
 
+/**
+ * 仓库服务
+ * serviceUrl = "/centro.call"
+ */
 public interface CentroRemote {
 	
 	/**

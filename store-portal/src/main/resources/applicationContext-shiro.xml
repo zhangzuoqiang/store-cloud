@@ -23,7 +23,6 @@
 		<property name="successUrl" value="/home/welcome" />
 		<property name="filterChainDefinitions">
 			<value>
-				/home** = anon
 				/top_auth = anon
 				/favicon.ico = anon
 				/static/** = anon

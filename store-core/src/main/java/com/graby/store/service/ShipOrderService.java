@@ -294,7 +294,7 @@ public class ShipOrderService {
 			shipOrder.setOrderno(orderno);
 			shipOrder.setCreateDate(now);
 		}
-		// 等待仓库发货
+		// 等待物流接收
 		shipOrder.setStatus(ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
 		shipOrder.setLastUpdateDate(now);
 		orderJpaDao.save(shipOrder);

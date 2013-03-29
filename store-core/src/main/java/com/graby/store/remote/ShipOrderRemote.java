@@ -9,6 +9,10 @@ import com.graby.store.entity.ShipOrder;
 import com.graby.store.service.InvAccountEntrys;
 import com.taobao.api.ApiException;
 
+/**
+ * 货单服务
+ * serviceUrl = "/ship.call"
+ */
 public interface ShipOrderRemote {
 
 	/**
@@ -92,7 +96,10 @@ public interface ShipOrderRemote {
 	
 	/**
 	 * 分组查询所有未处理出库单
-	 * @return
+	 * @param centroId 仓库ID
+	 * @return GroupMap 结构
+	 *   key=快递公司编码
+	 *   value=归类的出库单列表
 	 */
 	public GroupMap<String, ShipOrder> findGroupSendOrderWaits(Long centroId);
 

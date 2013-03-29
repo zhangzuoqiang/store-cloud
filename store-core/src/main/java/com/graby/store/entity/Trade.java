@@ -57,7 +57,7 @@ public class Trade implements Serializable{
 	    /**
 	     * 交易关闭， 库存解冻，商品可销量减少，交易量增加。
 	     */
-	    String TRADE_CLOSED = "TRADE_CLOSED";	 	    
+	    String TRADE_CLOSED = "TRADE_CLOSED";
 	    
 	    /**
 	     * 付款以前，卖家或买家主动关闭交易

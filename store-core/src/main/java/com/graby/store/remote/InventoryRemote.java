@@ -1,5 +1,9 @@
 package com.graby.store.remote;
 
+/**
+ * 库存服务
+ * serviceUrl = "/inventory.call"
+ */
 public interface InventoryRemote {
 
 	/**

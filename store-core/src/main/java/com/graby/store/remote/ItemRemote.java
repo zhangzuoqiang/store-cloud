@@ -6,6 +6,10 @@ import org.springframework.data.domain.Page;
 
 import com.graby.store.entity.Item;
 
+/**
+ * 商品服务
+ * serviceUrl = "/item.call"
+ */
 public interface ItemRemote {
 
 	/**
