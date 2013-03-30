@@ -6,6 +6,6 @@
 <div id="header">
 	<h1 class="small">
 	&nbsp;&nbsp;<img src = "${ctx}/static/images/package.png">
-    &nbsp;&nbsp;物流通 【<shiro:principal property="shopname"/>】
+    &nbsp;&nbsp;物流通&nbsp; <shiro:principal property="shopname"/>
     </h1>
 </div>
