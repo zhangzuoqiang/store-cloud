@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -335,6 +336,8 @@ public class ShipOrderService {
 	 */
 	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
 		for (Map<String, String> map : orderMaps) {
+			Assert.assertNotNull(map.get("expressCompany"), "运输公司不能为空");
+			Assert.assertNotNull(map.get("expressOrderno"), "运单号不能为空");
 			shipOrderDao.setSendOrderExpress(map);
 		}
 	}
