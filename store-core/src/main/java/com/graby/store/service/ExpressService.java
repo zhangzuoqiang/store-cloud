@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -36,9 +34,6 @@ public class ExpressService {
 	 */
 	private Map<String, Express> expresses = new HashMap<String, Express>();
 	
-	/** Logger */
-	protected final Log logger = LogFactory.getLog(getClass());
-
 	/**
 	 * 根据编码获取快递公司名称
 	 * @param code
