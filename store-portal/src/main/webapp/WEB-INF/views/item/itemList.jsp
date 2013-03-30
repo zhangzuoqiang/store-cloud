@@ -80,7 +80,7 @@
 			          		<a id="tb_title" href="${tbitem.detailUrl}" rel='tooltip' title="${tbitem.skuId}" target="_blank">
 			          			${tbitem.title}
 			          		</a>
-							<a href="${ctx}/item/unrelate/${item.id}/${tbitem.numIid}/${tbitem.skuId == null ? "0" : tbitem.skuId}" 
+							<a href="${ctx}/item/unrelate/${item.id}/${tbitem.numIid}/${tbitem.skuId == null ? "0" : tbitem.skuId}?page=${page}" 
 								class="r_tb_link_${tbitem.numIid}_${tbitem.skuId} hide"><i class="icon-remove"></i></a>
 							<br>			          		
 			          	</div>
@@ -89,8 +89,8 @@
 					</div>
 					</c:forEach>
 				</td>
-				<td><a href="${ctx}/item/mapping/${item.id}" data-toggle="modal" data-target="#mappingModal" data-backdrop="false">关联淘宝商品</a></td>
-				<td><a href="${ctx}/item/delete/${item.id}" class="confirm" id="confirm">删除商品</a>
+				<td><a href="${ctx}/item/mapping/${item.id}?page=${page}" data-toggle="modal" data-target="#mappingModal" data-backdrop="false">关联淘宝商品</a></td>
+				<td><a href="${ctx}/item/delete/${item.id}?page=${page}" class="confirm" id="confirm">删除商品</a>
 				</td>
 			</tr>
 		</c:forEach>

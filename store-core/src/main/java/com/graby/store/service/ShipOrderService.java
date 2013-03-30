@@ -32,6 +32,9 @@ import com.taobao.api.ApiException;
 @Transactional(readOnly = true)
 public class ShipOrderService {
 
+	// 未处理出库单默认查询条数
+	private static final int WAIT_SEND_ORDER_DEFAULT_ROWS = 1000;
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -248,15 +251,19 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderWaits() {
-		return shipOrderDao.findSendOrderWaits(1L);
+		return shipOrderDao.findSendOrderWaits(1L, WAIT_SEND_ORDER_DEFAULT_ROWS);
 	}
 	
+
 	/**
-	 * 按规则分类所有出库单(待处理)
-	 * @return
+	 * 按规则分类所有未处理出库单
+	 * 
+	 * 先查询仓库的所有待处理出库单，按规则将运输公司和运输公司编码填充到出库单。
+	 * @param centroId 仓库ID
+	 * @return 出库单列表
 	 */
 	public List<ShipOrder> findGroupSendOrderWaits(Long centroId) {
-		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId);
+		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId, WAIT_SEND_ORDER_DEFAULT_ROWS);
 		for (ShipOrder shipOrder : orders) {
 			ksession.insert(shipOrder);
 		}
@@ -291,7 +298,7 @@ public class ShipOrderService {
 	}
 	 
 	/**
-	 * 保存出库单
+	 * 创建出库单
 	 * 
 	 * @param shipOrder
 	 */
@@ -315,6 +322,23 @@ public class ShipOrderService {
 			}
 		}
 	}
+	
+	/**
+	 * 运单打印成功，注册运单信息。
+	 * 
+	 * @param Map printedOrders 已完成打印的出货单
+	 * Map结构:
+	 * id=出货单ID
+	 * expressCompany=运输公司CODE
+	 * expressOrderno=运单号
+	 * 
+	 */
+	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
+		for (Map<String, String> map : orderMaps) {
+			shipOrderDao.setSendOrderExpress(map);
+		}
+	}
+	
 	
 	/**
 	 * 提交出货单，仓库发货
@@ -369,7 +393,7 @@ public class ShipOrderService {
 						detail.getNum(), 
 						InvAccountTemplate.BUYER_RECEIVED);
 			}
-		}		
+		}
 		return order;
 	}
 	

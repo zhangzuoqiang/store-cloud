@@ -1,6 +1,7 @@
 package com.graby.store.remote;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -78,11 +79,6 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	}
 
 	@Override
-	public void createSendShipOrder(ShipOrder shipOrder) {
-		shipOrderService.createSendShipOrder(shipOrder);
-	}
-
-	@Override
 	public ShipOrder submitSendOrder(ShipOrder order) throws ApiException {
 		return shipOrderService.submitSendOrder(order);
 	}
@@ -92,14 +88,15 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 		return shipOrderService.signSendOrder(orderId);
 	}
 
-	@Override
-	public void updateShipOrder(ShipOrder order) {
-		shipOrderService.updateShipOrder(order);		
-	}
 
 	@Override
 	public List<ShipOrder> findGroupSendOrderWaits(Long centroId) {
 		return shipOrderService.findGroupSendOrderWaits(centroId);
 	}
+	
+	@Override
+	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
+		shipOrderService.setSendOrderExpress(orderMaps);
+	}	
 
 }

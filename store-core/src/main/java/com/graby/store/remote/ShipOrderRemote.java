@@ -1,10 +1,10 @@
 package com.graby.store.remote;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import com.graby.store.base.GroupMap;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.service.InvAccountEntrys;
 import com.taobao.api.ApiException;
@@ -103,6 +103,17 @@ public interface ShipOrderRemote {
 	 *   value=归类的出库单列表
 	 */
 	public List<ShipOrder> findGroupSendOrderWaits(Long centroId);
+	
+	/**
+	 * 运单打印成功，更新出库单物流信息。
+	 * @param orderMaps 已完成打印的出货单
+	 * Map结构:
+	 * id=出货单ID
+	 * expressCompany=运输公司CODE
+	 * expressOrderno=运单号
+	 * 
+	 */
+	public void setSendOrderExpress(List<Map<String,String>> orderMaps);
 
 	/**
 	 * 查询所有出库单(带用户签收)
@@ -119,12 +130,6 @@ public interface ShipOrderRemote {
 	 */
 	public ShipOrder getShipOrderByTid(Long tid);
 
-	/**
-	 * 保存出库单
-	 * 
-	 * @param shipOrder
-	 */
-	public void createSendShipOrder(ShipOrder shipOrder);
 
 	/**
 	 * 提交出货单，仓库发货. 记录商品库存到可销售到冻结 更新出货单交易订单状态到等待用户签收
@@ -142,11 +147,5 @@ public interface ShipOrderRemote {
 	 */
 	public ShipOrder signSendOrder(Long orderId);
 
-	/**
-	 * 更新出货单
-	 * 
-	 * @param order
-	 */
-	public void updateShipOrder(ShipOrder order);
 
 }

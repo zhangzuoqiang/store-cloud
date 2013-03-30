@@ -1,6 +1,7 @@
 package com.graby.store.dao.mybatis;
 
 import java.util.List;
+import java.util.Map;
 
 import com.graby.store.base.MyBatisRepository;
 import com.graby.store.entity.ShipOrder;
@@ -16,9 +17,10 @@ public interface ShipOrderDao {
 	void deleteDetail(Long detailId);
 	void sendEntryOrder(Long orderId);
 	void setOrderStatus(Long orderId, String status);
+	void setSendOrderExpress(Map<String,String> orders);
 	
 	List<ShipOrder> findEntryOrderOnWay();
-	List<ShipOrder> findSendOrderWaits(Long centroId);
+	List<ShipOrder> findSendOrderWaits(Long centroId, int rownum);
 	List<ShipOrder> findSendOrderSignWaits();
 
 	

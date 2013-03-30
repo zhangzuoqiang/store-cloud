@@ -130,8 +130,7 @@
 		a.receiver_zip as "receiverZip",
 		a.orderno
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
-		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED' and a.centro_id=#{0}
-		ORDER BY b.id
+		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED' and a.centro_id=#{0} limit #{1}
 	</select>
 	
 	<!-- 查询待用户签收出库单 -->
@@ -142,4 +141,13 @@
 		WHERE type='send' and a.status='WAIT_BUYER_RECEIVED'
 	</select>	
 	
+	<!-- 运单打印成功，更新出货单物流信息。 -->
+	<update id="setSendOrderExpress" parameterType="map">
+        update sc_ship_order set 
+          	express_company=#{expressCompany},
+          	express_orderno=#{expressOrderno},
+        	status='WAIT_EXPRESS_PICKING'
+        where id=#{id} and status='WAIT_EXPRESS_RECEIVED'
+    </update>
+    	
 </mapper> 

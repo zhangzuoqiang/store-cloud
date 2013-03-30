@@ -62,7 +62,10 @@ public class ShipOrder implements Serializable{
 		/**  WAIT_EXPRESS_RECEIVED ：创建成功，等待物流接收　*/
 		public static final String WAIT_EXPRESS_RECEIVED = "WAIT_EXPRESS_RECEIVED";
 		
-		/**  WAIT_EXPRESS_SEND ：物流接收成功，打印并发送货物，等待买家收件 　*/
+		/**  WAIT_EXPRESS_PICKING ：运单打印成功，等待拣货。　*/
+		public static final String WAIT_EXPRESS_PICKING = "WAIT_EXPRESS_PICKING";
+		
+		/**  WAIT_EXPRESS_SEND ：物流方已发货，等待买家签收 　*/
 		public static final String WAIT_BUYER_RECEIVED = "WAIT_BUYER_RECEIVED";
 		
 		/**  SEND_FINISH : 出库单发货完成  */

@@ -10,7 +10,7 @@
 			if (typeof skuid != "undefined"){
     			sku = skuid; 
 			}
-			var url = "${ctx}/item/relate/" + itemid + "/" + + tbitemid + "/" + sku;
+			var url = "${ctx}/item/relate/" + itemid + "/" + + tbitemid + "/" + sku + "?page=" + ${page};
 			window.location = url;
 		}
 		

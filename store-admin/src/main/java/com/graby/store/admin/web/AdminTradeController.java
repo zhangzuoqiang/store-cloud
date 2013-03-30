@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.graby.store.base.ExpressFactory;
-import com.graby.store.base.GroupMap;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
@@ -98,17 +97,6 @@ public class AdminTradeController {
 		return "/admin/sendOrderWaits";
 	}
 	
-	/**
-	 * 查询所有待处理出库单
-	 * @return
-	 * @throws ApiException
-	 */
-	@RequestMapping(value = "send/gwaits", method=RequestMethod.GET)
-	public String gsendWaits(Model model) throws ApiException {
-//		List<String, ShipOrder> orderGroup = shipOrderRemote.findGroupSendOrderWaits(1L);
-//		model.addAttribute("waits", orderGroup);
-		return "/admin/sendOrderGwaits";
-	}	
 	
 	/**
 	 * 出库单处理页面 (打印分拣单、审核分拣单、打印快递运单、出库确认)

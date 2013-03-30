@@ -30,7 +30,7 @@ import com.taobao.api.ApiException;
 @RequestMapping(value = "/item")
 public class ItemController {
 
-	private static final int PAGE_SIZE = 25;
+	private static final int PAGE_SIZE = 15;
 	
 	@Autowired
 	private TopApi topApi;
@@ -44,6 +44,7 @@ public class ItemController {
 		Long userId = ShiroContextUtils.getUserid();
 		Page<Item> items = itemService.findPageUserItems(userId, pageNumber, PAGE_SIZE);
 		model.addAttribute("items", items);
+		model.addAttribute("page", pageNumber);
 		return "item/itemList";
 	}
 
@@ -52,12 +53,14 @@ public class ItemController {
 	public String tblist(
 			@RequestParam(value = "q", defaultValue = "") String q,
 			@PathVariable("id") Long id,
-			Model model, 
-			ServletRequest request) throws ApiException {
+			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			Model model
+			) throws ApiException {
 		List<com.taobao.api.domain.Item> tbItems = topApi.getTopItems(q);
 		Item item = itemService.getItem(id);
 		model.addAttribute("tbitems", tbItems);
 		model.addAttribute("item", item);
+		model.addAttribute("page", pageNumber);
 		return "item/tbitemList";
 	}
 	
@@ -65,10 +68,11 @@ public class ItemController {
 	@RequestMapping(value = "relate/{itemid}/{tbitemid}/{skuid}")
 	public String relate(@PathVariable("itemid") Long itemid, 
 						@PathVariable("tbitemid") Long tbitemid,
-						@PathVariable("skuid") String skuid) throws ApiException {
+						@PathVariable("skuid") String skuid,
+						@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws ApiException {
 		com.taobao.api.domain.Item tbItem = topApi.getItem(tbitemid);
 		itemService.relateItem(itemid, tbItem, skuid);
-		return "redirect:/item/list";
+		return "redirect:/item/list?page="+pageNumber;
 	}
 	
 	// 关联淘宝商品
@@ -76,10 +80,11 @@ public class ItemController {
 	public String unrelate(
 			@PathVariable("itemid") Long itemid, 
 			@PathVariable("tbitemid") Long tbitemid, 
-			@PathVariable("skuid") String skuid) 
-					throws ApiException {
+			@PathVariable("skuid") String skuid,
+			@RequestParam(value = "page", defaultValue = "1") int pageNumber) 
+			throws ApiException {
 		itemService.unRelateItem(itemid, tbitemid, skuid);
-		return "redirect:/item/list";
+		return "redirect:/item/list?page=" + pageNumber;
 	}	
 	
 	// 上传商品页面
