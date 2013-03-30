@@ -9,8 +9,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.drools.core.util.StringUtils;
 import org.drools.runtime.StatefulKnowledgeSession;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.graby.store.base.AppException;
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
 import com.graby.store.dao.jpa.ShipOrderJpaDao;
 import com.graby.store.dao.mybatis.ShipOrderDao;
@@ -336,9 +337,15 @@ public class ShipOrderService {
 	 */
 	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
 		for (Map<String, String> map : orderMaps) {
-			Assert.assertNotNull(map.get("expressCompany"), "运输公司不能为空");
-			Assert.assertNotNull(map.get("expressOrderno"), "运单号不能为空");
+			assetNotNull(map.get("expressCompany"), "运输公司编码不能为空");
+			assetNotNull(map.get("expressOrderno"), "运单号不能为空");
 			shipOrderDao.setSendOrderExpress(map);
+		}
+	}
+	
+	private void assetNotNull(String str, String msg) {
+		if (StringUtils.isEmpty(str)) {
+			throw new AppException(msg);
 		}
 	}
 	
