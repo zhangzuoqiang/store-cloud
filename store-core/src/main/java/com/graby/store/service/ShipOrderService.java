@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.drools.core.util.StringUtils;
 import org.drools.runtime.StatefulKnowledgeSession;
@@ -18,7 +16,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.graby.store.base.AppException;
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
 import com.graby.store.dao.jpa.ShipOrderJpaDao;
 import com.graby.store.dao.mybatis.ShipOrderDao;
@@ -58,8 +55,8 @@ public class ShipOrderService {
 	@Autowired
 	private StatefulKnowledgeSession ksession;	
 	
-	@Resource
-	private Map<String,String> expressMap;
+	@Autowired
+	private ExpressService expressService; 
 	
 	private String formateDate(Date date, String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
@@ -275,7 +272,7 @@ public class ShipOrderService {
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
 			companyCode = shipOrder.getExpressCompany();
-			companyName = companyCode == null ? "未分类" : expressMap.get(companyCode);
+			companyName = companyCode == null ? "未分类" : expressService.getExpressCompanyName(companyCode);
 			shipOrder.setExpressCompanyName(companyName);
 			results.add(shipOrder);
 		}
@@ -335,20 +332,36 @@ public class ShipOrderService {
 	 * expressOrderno=运单号
 	 * 
 	 */
-	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
-		for (Map<String, String> map : orderMaps) {
-			assetNotNull(map.get("expressCompany"), "运输公司编码不能为空");
-			assetNotNull(map.get("expressOrderno"), "运单号不能为空");
-			shipOrderDao.setSendOrderExpress(map);
+	public String setSendOrderExpress(List<Map<String,String>> orderMaps) {
+		StringBuffer result = new StringBuffer();
+		if (CollectionUtils.isNotEmpty(orderMaps)) {
+			String id;
+			String code;
+			String orderno;
+			String err;
+			for (Map<String, String> map : orderMaps) {
+				id = map.get("id");
+				code = map.get("expressCompany");
+				orderno = map.get("expressOrderno");
+				err = "{" + id + ":" + code + ":" + orderno + "}";
+				if (StringUtils.isEmpty(code) || StringUtils.isEmpty(orderno)) {
+					result.append(err);
+					continue;
+				}
+				boolean validate = expressService.validate(code, orderno);
+				if (validate) {
+					shipOrderDao.setSendOrderExpress(map);
+				} else {
+					result.append(err);
+				}
+			}
+		}
+		if (result.length() == 0) {
+			return "success";
+		} else {
+			return "运单号不符合规则：" + result.toString() ;
 		}
 	}
-	
-	private void assetNotNull(String str, String msg) {
-		if (StringUtils.isEmpty(str)) {
-			throw new AppException(msg);
-		}
-	}
-	
 	
 	/**
 	 * 提交出货单，仓库发货

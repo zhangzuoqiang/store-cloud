@@ -113,7 +113,7 @@ public interface ShipOrderRemote {
 	 * expressOrderno=运单号
 	 * 
 	 */
-	public void setSendOrderExpress(List<Map<String,String>> orderMaps);
+	public String setSendOrderExpress(List<Map<String,String>> orderMaps);
 
 	/**
 	 * 查询所有出库单(带用户签收)
