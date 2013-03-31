@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/WEB-INF/layouts/">
 	<excludes>
+		<pattern>/*.html</pattern>
 		<pattern>/static/*</pattern>
 		<pattern>/api/*</pattern>
 		<pattern>/top_auth*</pattern>
