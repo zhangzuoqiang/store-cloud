@@ -167,7 +167,6 @@ public class TopApi {
 		List<Item> results = new ArrayList<Item>();
 		for (Item item : items) {
 			Item e = getItem(item.getNumIid());
-			// TODO 正则去掉sku propnames
 			results.add(e);
 		}
 		return results;
