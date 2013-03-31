@@ -31,7 +31,14 @@ public class DelegatingFilterExProxy extends DelegatingFilterProxy {
 			IOException {
 		if (request instanceof  HttpServletRequest) {
 			String url = ((HttpServletRequest)request).getRequestURL().toString();
-			if (pathMatcher.match(excludePatterns, url)) {
+			if (excludePatterns.indexOf(",") >0) {
+				String[] patterns = excludePatterns.split(",");
+				for (String p : patterns) {
+					if (pathMatcher.match(p, url)) {
+						return;
+					}
+				}
+			} else if (pathMatcher.match(excludePatterns, url)) {
 				filterChain.doFilter(request, response);
 				return;
 			}
