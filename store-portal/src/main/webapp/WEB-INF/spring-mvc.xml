@@ -26,6 +26,8 @@
 	<!-- 上传支持 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	
+	<mvc:resources mapping="/html/**" location="/WEB-INF/html/" />
+	
 	<!-- 定义无Controller的path<->view直接映射 -->
 	<mvc:view-controller path="" view-name="redirect:/home"/>
 	<mvc:view-controller path="/" view-name="redirect:/home"/>

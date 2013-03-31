@@ -35,6 +35,7 @@ public class DelegatingFilterExProxy extends DelegatingFilterProxy {
 				String[] patterns = excludePatterns.split(",");
 				for (String p : patterns) {
 					if (pathMatcher.match(p.trim(), url)) {
+						filterChain.doFilter(request, response);
 						return;
 					}
 				}

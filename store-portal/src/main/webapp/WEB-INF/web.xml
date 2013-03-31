@@ -55,7 +55,7 @@
 		</init-param>
 		<init-param>
 			<param-name>excludePatterns</param-name>
-			<param-value>**/*.call, **/xtaoAuth*</param-value>
+			<param-value>**/*.call,**/xtaoAuth.html</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
