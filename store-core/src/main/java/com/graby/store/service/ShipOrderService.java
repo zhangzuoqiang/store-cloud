@@ -144,15 +144,21 @@ public class ShipOrderService {
 	 */
 	@Transactional(readOnly = false)
 	public void saveShipOrderDetail(Long orderId, Long itemId, long num) {
-		ShipOrderDetail detail = new ShipOrderDetail();
-		ShipOrder order = new ShipOrder();
-		order.setId(orderId);
-		Item item = new Item();
-		item.setId(itemId);
-		detail.setOrder(order);
-		detail.setItem(item);
-		detail.setNum(num);
-		entryOrderDetailJpaDao.save(detail);
+		Long detailId = shipOrderDao.getEntryOrderDetail(orderId, itemId);
+		if (detailId == null) {
+			ShipOrderDetail detail = new ShipOrderDetail();
+			ShipOrder order = new ShipOrder();
+			order.setId(orderId);
+			Item item = new Item();
+			item.setId(itemId);
+			detail.setOrder(order);
+			detail.setItem(item);
+			detail.setNum(num);
+			entryOrderDetailJpaDao.save(detail);
+		} else {
+			shipOrderDao.increaseEntryOrderDetail(detailId, num);
+		}
+
 	}
 
 	/**

@@ -116,6 +116,17 @@
 		WHERE type='entry' and a.status='ENTRY_WAIT_STORAGE_RECEIVED'
 	</select>
 	
+	<select id="getEntryOrderDetail" resultType="long">
+		SELECT id
+		FROM sc_ship_order_detail WHERE order_id=#{0} and item_id=#{1}
+	</select>
+	
+	<update id="increaseEntryOrderDetail"> 
+        update sc_ship_order_detail set num = num + #{1}
+        where id=#{0}
+    </update> 
+    
+	
 	<!-- 查询待出库单 -->
   	<select id="findSendOrderWaits" parameterType="long" resultType="ShipOrder">
 		SELECT 

@@ -15,6 +15,7 @@ import com.graby.store.dao.mybatis.ItemDao;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ItemMapping;
 import com.graby.store.web.auth.ShiroContextUtils;
+import com.taobao.api.ApiException;
 
 @Component
 @Transactional(readOnly = true)
@@ -28,6 +29,9 @@ public class ItemService {
 	
 	@Autowired
 	private ItemMappingJpaDao itemMappingJpaDao;
+	
+	@Autowired
+	private ItemTopSync itemTopSync;
 	
 	@Transactional(readOnly = false)
 	public void saveItem(Item item) {
@@ -55,15 +59,17 @@ public class ItemService {
 	/**
 	 * 获取用户商品
 	 * @param userId
+	 * @param q TODO
 	 * @param pageNo
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Item> findPageUserItems(Long userId, int pageNo, int pageSize) {
+	public Page<Item> findPageUserItems(Long userId, String q, int pageNo, int pageSize) {
 		pageNo = pageNo -1;
 		long start = pageNo*pageSize;
-		List<Item> items = itemDao.getItems(userId, start, pageSize);
-		long total = itemDao.getTotalResults(userId);
+		q = "%"+q+"%";
+		List<Item> items = itemDao.getItems(userId, q, start, pageSize);
+		long total = itemDao.getTotalResults(userId, q);
 		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
 		Page<Item> page = new PageImpl<Item>(items, pageable, total);
 		return page;
@@ -81,7 +87,7 @@ public class ItemService {
 	 * @param tbItemUrl
 	 */
 	@Transactional(readOnly = false)
-	public void relateItem(Long itemId,	com.taobao.api.domain.Item tbItem,	String  skuid ) {
+	public void relateItem(Long itemId,	com.taobao.api.domain.Item tbItem,	Long  skuid ) {
 		if (getRelatedItemId(tbItem.getNumIid(), skuid) == null) {
 			ItemMapping mapping = new ItemMapping();
 			Item localItem = new Item();
@@ -100,7 +106,7 @@ public class ItemService {
 	 * @param itemId
 	 * @param numIid
 	 */
-	public void unRelateItem(Long itemId, Long numIid, String skuId) {
+	public void unRelateItem(Long itemId, Long numIid, Long skuId) {
 		if (getRelatedItemId(numIid, skuId) != null) {
 			itemDao.unRelate(itemId, numIid, skuId);
 		}
@@ -112,12 +118,17 @@ public class ItemService {
 	 * @param numIid
 	 * @return
 	 */
-	public Long getRelatedItemId(Long numIid, String skuId) {
+	public Long getRelatedItemId(Long numIid, Long skuId) {
 		return itemDao.getRelatedItemId(numIid, skuId);
 	}	
 	
 	public void deleteItem(Long id) {
+		itemDao.unRelateAll(id);
 		itemDao.delete(id);
+	}
+
+	public void syncTop() throws ApiException {
+		itemTopSync.sync();
 	}
 	
 }

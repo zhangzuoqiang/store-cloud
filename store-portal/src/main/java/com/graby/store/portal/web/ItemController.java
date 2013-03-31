@@ -40,9 +40,12 @@ public class ItemController {
 
 	// 商品列表
 	@RequestMapping(value = "list")
-	public String list(@RequestParam(value = "page", defaultValue = "1") int pageNumber, Model model, ServletRequest request) {
+	public String list(
+			@RequestParam(value = "q", defaultValue = "") String q,
+			@RequestParam(value = "page", defaultValue = "1") int pageNumber, 
+			Model model) {
 		Long userId = ShiroContextUtils.getUserid();
-		Page<Item> items = itemService.findPageUserItems(userId, pageNumber, PAGE_SIZE);
+		Page<Item> items = itemService.findPageUserItems(userId, q, pageNumber, PAGE_SIZE);
 		model.addAttribute("items", items);
 		model.addAttribute("page", pageNumber);
 		return "item/itemList";
@@ -56,7 +59,7 @@ public class ItemController {
 			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
 			Model model
 			) throws ApiException {
-		List<com.taobao.api.domain.Item> tbItems = topApi.getTopItems(q);
+		List<com.taobao.api.domain.Item> tbItems = topApi.getItems(q, 20);
 		Item item = itemService.getItem(id);
 		model.addAttribute("tbitems", tbItems);
 		model.addAttribute("item", item);
@@ -68,7 +71,7 @@ public class ItemController {
 	@RequestMapping(value = "relate/{itemid}/{tbitemid}/{skuid}")
 	public String relate(@PathVariable("itemid") Long itemid, 
 						@PathVariable("tbitemid") Long tbitemid,
-						@PathVariable("skuid") String skuid,
+						@PathVariable("skuid") Long skuid,
 						@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws ApiException {
 		com.taobao.api.domain.Item tbItem = topApi.getItem(tbitemid);
 		itemService.relateItem(itemid, tbItem, skuid);
@@ -80,7 +83,7 @@ public class ItemController {
 	public String unrelate(
 			@PathVariable("itemid") Long itemid, 
 			@PathVariable("tbitemid") Long tbitemid, 
-			@PathVariable("skuid") String skuid,
+			@PathVariable("skuid") Long skuid,
 			@RequestParam(value = "page", defaultValue = "1") int pageNumber) 
 			throws ApiException {
 		itemService.unRelateItem(itemid, tbitemid, skuid);

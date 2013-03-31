@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
 import com.graby.store.base.AppException;
 import com.graby.store.web.auth.ShiroContextUtils;
@@ -37,6 +41,7 @@ import com.taobao.api.response.TradeFullinfoGetResponse;
 import com.taobao.api.response.TradesSoldGetResponse;
 import com.taobao.api.response.UserSellerGetResponse;
 
+@Component
 public class TopApi {
 	
 	/**
@@ -91,13 +96,18 @@ public class TopApi {
 	}
 
 	// 默认开发环境
-	
+	@Value("${top.appkey}")
 	private String appKey = "1021395257";
+	
+	@Value("${top.appSecret}")
 	private String appSecret = "sandbox0475ca7f0a4a47a3d5303014e";
+	
+	@Value("${top.serverUrl}")
 	private String serverUrl = "http://gw.api.tbsandbox.com/router/rest";
 
 	private DefaultTaobaoClient client;
 
+	@PostConstruct
 	public void init() {
 		client = new DefaultTaobaoClient(serverUrl, appKey, appSecret, "json");
 	}
@@ -138,15 +148,15 @@ public class TopApi {
 	}
 
 	/**
-	 * 获取当前所有商品(库存+出售)
-	 * 最大20条
+	 * 获取当前用户商品(库存+出售)
+	 * @param size 大小
 	 * 
 	 * @return
 	 * @throws ApiException
 	 */
-	public List<Item> getTopItems(String q) throws ApiException {
-		List<Item> onsaleItems = getOnsaleItems(q, 1, ITEM_PAGE_SIZE);
-		List<Item> inventoryItems = getInventoryItems(q, 1, ITEM_PAGE_SIZE);
+	public List<Item> getItems(String q, int size) throws ApiException {
+		List<Item> onsaleItems = getOnsaleItems(q, 1, size);
+		List<Item> inventoryItems = getInventoryItems(q, 1, size);
 		List<Item> items = new ArrayList<Item>();
 		if (CollectionUtils.isNotEmpty(onsaleItems)) {
 			items.addAll(onsaleItems);
@@ -299,17 +309,23 @@ public class TopApi {
 
 	private void errorMsgConvert(TaobaoResponse resp) {
 		if (StringUtils.isNotEmpty(resp.getErrorCode())) {
-			throw new AppException(resp.getSubMsg());
+			throw new AppException(resp.getMsg() + resp.getSubMsg());
 		}
 	}
 	
 	public static void main(String[] args) throws ApiException {
-		String s = "12345:12345:风格:蓝色;12345:32654:风格:红色;"; 
-		String regex = "[:].+?;";
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(s);
-		while (m.find()) {
-			System.out.println(m.group());
+		String val = "12345:12345:风格:蓝色;12345:32654:风格:红色;"; 
+//		String regex = "+[:]+";
+//		Pattern p = Pattern.compile(regex);
+//		Matcher m = p.matcher(s);
+//		while (m.find()) {
+//			System.out.println(m.group());
+//		}
+		String[] ss = val.split(";");
+		for (String s : ss) {
+			String[] cc = s.split(":");
+			String e = cc[2] + ":" + cc[3];
+			System.out.println(e);
 		}
 	}
 }

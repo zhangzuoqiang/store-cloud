@@ -57,6 +57,13 @@
 		<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>
 	</c:if>
 	
+	<legend></legend>
+	
+	<form class="form-search" action="${ctx}/item/list">
+		<input id="q" name="q" type="text" class="span3" placeholder="根据标题查询商品..."/>
+		<button class="btn btn-primary">查询</button>
+	</form>
+	
 	<table id="contentTable" class="table table-striped ">
 		<thead>
 			<tr>

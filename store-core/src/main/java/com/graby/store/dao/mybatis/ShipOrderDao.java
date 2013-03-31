@@ -19,6 +19,9 @@ public interface ShipOrderDao {
 	void setOrderStatus(Long orderId, String status);
 	void setSendOrderExpress(Map<String,String> orders);
 	
+	Long getEntryOrderDetail(Long orderId, Long itemId);
+	void increaseEntryOrderDetail(Long detailId, long num);
+	
 	List<ShipOrder> findEntryOrderOnWay();
 	List<ShipOrder> findSendOrderWaits(Long centroId, int rownum);
 	List<ShipOrder> findSendOrderSignWaits();

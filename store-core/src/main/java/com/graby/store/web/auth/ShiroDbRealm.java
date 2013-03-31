@@ -86,7 +86,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	public void initCredentialsMatcher() {
 		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(AuthService.HASH_ALGORITHM);
 		matcher.setHashIterations(AuthService.HASH_INTERATIONS);
-
 		setCredentialsMatcher(matcher);
 	}
 

@@ -83,7 +83,7 @@ public class TradeOrder implements Serializable{
 	/**
 	 * 商品的最小库存单位Sku的id.可以通过taobao.item.sku.get获取详细的Sku信息
 	 */
-	private String skuId;
+	private Long skuId;
 	
 	/**
 	 * SKU的值。如：机身颜色:黑色;手机套餐:官方标配
@@ -227,11 +227,11 @@ public class TradeOrder implements Serializable{
 		this.discountFee = discountFee;
 	}
 
-	public String getSkuId() {
+	public Long getSkuId() {
 		return skuId;
 	}
 
-	public void setSkuId(String skuId) {
+	public void setSkuId(Long skuId) {
 		this.skuId = skuId;
 	}
 

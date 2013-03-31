@@ -21,15 +21,15 @@
 	
 	
 	<!-- 获取用户商品总数 -->
-	<select id="getTotalResults" parameterType="long" resultType="long">
-		select count(1) from sc_item where userid=#{userId}
+	<select id="getTotalResults" resultType="long">
+		select count(1) from sc_item where userid=#{0} and title like#{1}
 	</select>
 	
 	<!-- 获取用户商品列表 -->
 	<select id="getItems"  resultMap="itemEntity">
 		select id, userid, code, title, weight, description
 		from sc_item a 
-		where userid=#{0} limit #{1},#{2}
+		where userid=#{0} and title like#{1} limit #{2},#{3}
 	</select>
 	
 	<!-- 商品 -->
@@ -48,6 +48,11 @@
 	<delete id="unRelate">
 		delete from sc_item_mapping	where item_id=#{0} and num_iid=#{1} and sku_id = #{2}
 	</delete>
+	
+	<delete id="unRelateAll">
+		delete from sc_item_mapping	where item_id=#{0}
+	</delete>
+	
 	
 	<!-- 查询已关联的淘宝商品 -->
 	<select id="itemMapped" parameterType="long" resultType="ItemMapping">

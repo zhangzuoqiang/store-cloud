@@ -41,7 +41,7 @@
 			<div class="control-group">
 				<label for="item_title" class="control-label">重量（单位：克）:</label>
 				<div class="controls">
-					<input type="text" name="weight"  value="${item.weight}" class="input-large required digits" minlength="1" disabled/>
+					<input type="text" name="weight"  value="${item.weight}" class="input-large required digits" minlength="1"/>
 					<p class="help-block">商品重量（带包装），用于结算快递费用。</p>
 				</div>
 			</div>	

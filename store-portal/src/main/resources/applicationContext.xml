@@ -92,17 +92,6 @@
 	
 	<bean id="userCache" class="com.graby.store.cache.CacheMapImpl"/>
 	
-	<!-- TOP接口 -->
-	<bean id="topApi" class="com.graby.store.web.top.TopApi"
-		init-method="init">
-		<property name="appKey" value="${top.appkey}" />
-		<property name="appSecret" value="${top.appSecret}" />
-		<property name="serverUrl" value="${top.serverUrl}" />
-	</bean>
-	
-	<!-- 交易订单适配器 -->
-	<bean id="tradeAdapter" class="com.graby.store.web.top.TradeAdapter"/>
-	
 	<!-- 统一异常页面跳转 -->
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
 	    <!-- 定义默认的异常处理页面，当该异常类型的注册时使用 -->  

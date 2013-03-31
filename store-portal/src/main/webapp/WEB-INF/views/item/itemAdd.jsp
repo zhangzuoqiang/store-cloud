@@ -13,7 +13,30 @@
 			$("#item_title").focus();
 			//为inputForm注册validate函数
 			$("#inputForm").validate();
+			// 同步按钮
+			$('#btn_sycn').click(function () {
+	        	var btn = $(this);
+		        btn.button('loading');
+		        $('#sync_result').html(" loading ....");
+		        sync();
+		    });			
 		});
+		
+		function sync() {
+			$.ajax({ 
+                type: 'get', 
+                url: '${ctx}/rest/item/sync',
+                success: function() {
+                	$('#btn_sycn').button('reset');
+                	$('#sync_result').html("同步成功");
+                },
+                error:function() {
+	                $('#btn_sycn').button('reset');
+	                $('#sync_result').html("同步失败");
+                }
+        	}); 
+		}
+
 	</script>
 </head>
 <body>
@@ -21,17 +44,15 @@
 	<legend><small>添加商品</small></legend>
 
 	<ul class="nav nav-tabs">
-	  <li class="active"><a href="#single" data-toggle="tab">单个商品</a></li>
-	  <li><a href="#upload" data-toggle="tab">批量上传</a></li>
-	  <!-- 
-	  <li><a href="#import" data-toggle="tab">导入淘宝商品</a></li>
-	   -->
+	  <li class="active"><a href="#single" data-toggle="tab">添加单个商品</a></li>
+	  <li><a href="#upload" data-toggle="tab">批量上传商品</a></li>
+	  <li><a href="#import" data-toggle="tab">同步淘宝商品</a></li>
 	</ul>
 	
     <div class="tab-content">
     	
+    	<!-- 单个商品添加 -->
     	<div class="tab-pane active" id="single">
-	    <!-- 单个商品添加 -->
 		<form id="inputForm" action="${ctx}/item/create" method="post" class="form-horizontal">
 			<input type="hidden" name="id" value="${item.id}"/>
 			<input type="hidden" name="type" value="${item.type}"/>
@@ -71,6 +92,7 @@
 		</form>
 		</div>    
     
+    	<!-- 批量商品上传 -->
     	<div class="tab-pane" id="upload">
 		<form id="uploadForm" action="${ctx}/item/upload" method="post" enctype="multipart/form-data" class="form-horizontal">
 		<fieldset>
@@ -88,10 +110,13 @@
 		</form>
 		</div>
 		
-		<div class="tab-pane" id="import">
-			<div>
-				<label>初始化</label>
-				<a href="#" class="btn btn-primary">一键导入所有淘宝商品</a>
+		<!-- 淘宝商品导入 -->
+		<div class="tab-pane " id="import">
+			<div class="container">
+				<button id="btn_sycn" data-loading-text="数据同步中..." class="btn btn-primary btn-large">
+                    同步淘宝数据
+                 </button>
+                 <label id="sync_result"></label>
 			</div>
 		</div>
 	</div>

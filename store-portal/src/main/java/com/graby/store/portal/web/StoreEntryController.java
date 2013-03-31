@@ -2,7 +2,6 @@ package com.graby.store.portal.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -135,12 +134,15 @@ public class StoreEntryController {
 	 * @return
 	 */
 	@RequestMapping(value = "item/{id}")
-	public String item(@PathVariable("id") Long orderId,	Model model) {
+	public String item(
+			@PathVariable("id") Long orderId,	
+			@RequestParam(value = "q", defaultValue = "") String q, 
+			Model model) {
 		ShipOrder order = shipOrderService.getShipOrder(orderId);
 		Long userId = ShiroContextUtils.getUserid();
-		List<Item> items = itemService.findUserItems(userId);
+		Page<Item> page = itemService.findPageUserItems(userId, q, 1, 3000);
 		model.addAttribute("order", order);
-		model.addAttribute("items", items);
+		model.addAttribute("items", page.getContent());
 		return "store/entryItem";
 	}
 	

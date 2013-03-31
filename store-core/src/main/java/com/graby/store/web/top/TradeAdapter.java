@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeOrder;
@@ -11,6 +12,7 @@ import com.taobao.api.ApiException;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.Order;
 
+@Component
 public class TradeAdapter {
 	
 	@Autowired
@@ -71,7 +73,8 @@ public class TradeAdapter {
 				localOrder.setDiscountFee(order.getDiscountFee());
 				localOrder.setTotalFee(order.getTotalFee());			
 				localOrder.setNum(order.getNum());
-				localOrder.setSkuId(order.getSkuId());
+				Long skuId = order.getSkuId() == null ? 0L : Long.parseLong(order.getSkuId());
+				localOrder.setSkuId(skuId);
 				localOrder.setSkuPropertiesName(order.getSkuPropertiesName());
 				trade.addOrder(localOrder);
 			}

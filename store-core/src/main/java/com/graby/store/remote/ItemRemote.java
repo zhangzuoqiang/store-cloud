@@ -44,6 +44,6 @@ public interface ItemRemote {
 	 * @param numIid
 	 * @return
 	 */
-	public Long getRelatedItemId(Long numIid, String skuId);
+	public Long getRelatedItemId(Long numIid, Long skuId);
 
 }

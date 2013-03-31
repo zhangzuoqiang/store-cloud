@@ -26,7 +26,6 @@
 			var elm =$(".a_"+eid); 
 			elm.hide();
 	    });	    
-	    
 
 	</script>
 </head>
@@ -74,7 +73,12 @@
 		</form>
 	</div>
 	
-	<legend><small>可添加商品列表</small></legend>
+	
+	<form class="form-search" action="${ctx}/store/entry/item/${order.id}">
+		<input id="q" name="q" type="text" class="span3" placeholder="根据标题查询商品..."/>
+		<button class="btn btn-primary">查询</button>
+	</form></legend>
+	
 	<table id="contentTable" class="table table-striped table-condensed">
 		<thead>
 			<tr>
@@ -92,7 +96,7 @@
 				<td>${item.weight}</td>
 				<td  width="500" style="word-wrap: break-word; word-break : break-all;">
 					<div >
-						<input type="text" id="${item.id}_num" data="${item.id}" class="span4 send_num" placeholder="请输入商品数量..">
+						<input type="text" id="${item.id}_num" data="${item.id}" class="span4 send_num" placeholder="请输入商品数量.."/>
 					    <a class=" a_f_${item.id}_num btn hide" href="javascript:addItem(${item.id},'${item.id}_num');">添加</a>
 					</div>
 				</td>

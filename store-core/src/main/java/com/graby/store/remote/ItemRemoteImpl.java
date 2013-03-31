@@ -22,7 +22,7 @@ public class ItemRemoteImpl implements ItemRemote {
 
 	@Override
 	public Page<Item> findPageUserItems(Long userId, int pageNo, int pageSize) {
-		return itemService.findPageUserItems(userId, pageNo, pageSize);
+		return itemService.findPageUserItems(userId, "", pageNo, pageSize);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class ItemRemoteImpl implements ItemRemote {
 	}
 
 	@Override
-	public Long getRelatedItemId(Long numIid, String skuId) {
+	public Long getRelatedItemId(Long numIid, Long skuId) {
 		return itemService.getRelatedItemId(numIid, skuId);
 	}
 
