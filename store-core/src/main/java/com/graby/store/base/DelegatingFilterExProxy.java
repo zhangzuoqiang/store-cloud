@@ -34,21 +34,23 @@ public class DelegatingFilterExProxy extends DelegatingFilterProxy {
 			if (excludePatterns.indexOf(",") >0) {
 				String[] patterns = excludePatterns.split(",");
 				for (String p : patterns) {
-					if (pathMatcher.match(p, url)) {
+					if (pathMatcher.match(p.trim(), url)) {
 						return;
 					}
 				}
-			} else if (pathMatcher.match(excludePatterns, url)) {
-				filterChain.doFilter(request, response);
-				return;
+			} else {
+				if (pathMatcher.match(excludePatterns, url)) {
+					filterChain.doFilter(request, response);
+					return;
+				}
 			}
 		}
 		super.doFilter(request, response, filterChain);
 	}
 	
 	public static void main(String[] args) {
-		String path = "http://127.0.0.1/auth.call";
-		String pattern = "**/*.call";
+		String path = "http://127.0.0.1/xtaoAuth.html";
+		String pattern = "**/xtaoAuth*";
 		PathMatcher pathMatcher = new AntPathMatcher();
 		System.out.println(pathMatcher.match(pattern, path));
 	}
