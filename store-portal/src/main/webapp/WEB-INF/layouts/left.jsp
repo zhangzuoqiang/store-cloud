@@ -12,12 +12,16 @@
 	<div class="submenu">
 		<a href="${ctx}/store/info">库存状态</a>
 		<a href="${ctx}/store/entry/list">入库单</a>
+		<!-- 
 		<a href="#">出库单</a>
+		 -->
 	</div>
 	<h1>订单管理</h1>
 	<div class="submenu">
 		<a href="${ctx}/trade/wait">待发货订单</a>
 		<a href="${ctx}/trade/list">物流通配送追踪</a>
+		<!-- 
 		<a href="#">统计信息</a>
+		 -->
 	</div>
 </div>

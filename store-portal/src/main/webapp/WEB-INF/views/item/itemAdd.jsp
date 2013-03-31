@@ -46,7 +46,9 @@
 	<ul class="nav nav-tabs">
 	  <li class="active"><a href="#single" data-toggle="tab">添加单个商品</a></li>
 	  <li><a href="#upload" data-toggle="tab">批量上传商品</a></li>
+	  <!-- 
 	  <li><a href="#import" data-toggle="tab">同步淘宝商品</a></li>
+	   -->
 	</ul>
 	
     <div class="tab-content">
