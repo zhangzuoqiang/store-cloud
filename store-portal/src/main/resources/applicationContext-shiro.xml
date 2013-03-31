@@ -23,7 +23,7 @@
 		<property name="successUrl" value="/home/welcome" />
 		<property name="filterChainDefinitions">
 			<value>
-				/xtaoAuth.html
+				/xtaoAuth.html = anon
 				/top_auth = anon
 				/favicon.ico = anon
 				/static/** = anon
