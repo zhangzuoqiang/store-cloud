@@ -226,6 +226,9 @@ public class ShipOrder implements Serializable{
 	
 	
 	public String getOriginPersion() {
+		if (originPersion == null) {
+			return createUser.getShopName();
+		}
 		return originPersion;
 	}
 

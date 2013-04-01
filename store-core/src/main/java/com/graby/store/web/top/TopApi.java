@@ -2,8 +2,6 @@ package com.graby.store.web.top;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
@@ -26,6 +24,7 @@ import com.taobao.api.domain.Shop;
 import com.taobao.api.domain.Trade;
 import com.taobao.api.request.ItemGetRequest;
 import com.taobao.api.request.ItemsInventoryGetRequest;
+import com.taobao.api.request.ItemsListGetRequest;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
 import com.taobao.api.request.LogisticsOfflineSendRequest;
 import com.taobao.api.request.ShopGetRequest;
@@ -34,6 +33,7 @@ import com.taobao.api.request.TradesSoldGetRequest;
 import com.taobao.api.request.UserSellerGetRequest;
 import com.taobao.api.response.ItemGetResponse;
 import com.taobao.api.response.ItemsInventoryGetResponse;
+import com.taobao.api.response.ItemsListGetResponse;
 import com.taobao.api.response.ItemsOnsaleGetResponse;
 import com.taobao.api.response.LogisticsOfflineSendResponse;
 import com.taobao.api.response.ShopGetResponse;
@@ -81,21 +81,8 @@ public class TopApi {
 		
 	}
 	
-	/**
-	 * 物流公司
-	 * @author huabiao.mahb
-	 *
-	 */
-	public interface CompanyCode {
-		
-		/** 韵达 */
-		String YUNDA = "YUNDA";
-
-		/** 顺丰 */
-		String SF = "SF";
-	}
-
-	// 默认开发环境
+	// ----------------- 默认开发环境 ----------------- //
+	
 	@Value("${top.appkey}")
 	private String appKey = "1021395257";
 	
@@ -112,9 +99,6 @@ public class TopApi {
 		client = new DefaultTaobaoClient(serverUrl, appKey, appSecret, "json");
 	}
 
-	// 默认商品页面大小
-	private static final int ITEM_PAGE_SIZE = 20;
-	
 	// 商品属性
 	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,valid_thru,sku,skus";
 
@@ -165,12 +149,19 @@ public class TopApi {
 			items.addAll(inventoryItems);
 		}
 		List<Item> results = new ArrayList<Item>();
-		for (Item item : items) {
-			Item e = getItem(item.getNumIid());
-			results.add(e);
+		
+		PageRequest pageable = new PageRequest(0, 20);
+		if (CollectionUtils.isNotEmpty(results)) {
+			Page<Item> page = new PageImpl<Item>(results);
+//			for (Item item : items) {
+//				Item e = getItem(item.getNumIid());
+//				results.add(e);
+//			}	
 		}
 		return results;
 	}
+	
+	
 	
 	/**
 	 * 获取出售中的商品列表
@@ -220,6 +211,14 @@ public class TopApi {
 		ItemGetResponse resp = client.execute(req, session());
 		errorMsgConvert(resp);
 		return resp.getItem();
+	}
+	
+	public List<Item> getItems(String numiids) throws ApiException {
+		ItemsListGetRequest req=new ItemsListGetRequest();
+		req.setFields(ITEM_PROPS);
+		req.setNumIids(numiids);
+		ItemsListGetResponse resp = client.execute(req , session());
+		return resp.getItems();
 	}
 
 	/**
@@ -312,19 +311,7 @@ public class TopApi {
 		}
 	}
 	
-	public static void main(String[] args) throws ApiException {
-		String val = "12345:12345:风格:蓝色;12345:32654:风格:红色;"; 
-//		String regex = "+[:]+";
-//		Pattern p = Pattern.compile(regex);
-//		Matcher m = p.matcher(s);
-//		while (m.find()) {
-//			System.out.println(m.group());
-//		}
-		String[] ss = val.split(";");
-		for (String s : ss) {
-			String[] cc = s.split(":");
-			String e = cc[2] + ":" + cc[3];
-			System.out.println(e);
-		}
+	public static void main(String[] args) {
+		System.out.println(19%19);
 	}
 }
