@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.graby.store.base.AppException;
+import com.graby.store.base.Pagination;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
@@ -100,7 +101,7 @@ public class TopApi {
 	}
 
 	// 商品属性
-	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,valid_thru,sku,skus";
+	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,valid_thru,sku";
 
 	/**
 	 * 获取当前卖家nick
@@ -133,7 +134,7 @@ public class TopApi {
 
 	/**
 	 * 获取当前用户商品(库存+出售)
-	 * @param size 大小
+	 * @param size 抓取数量
 	 * 
 	 * @return
 	 * @throws ApiException
@@ -148,16 +149,30 @@ public class TopApi {
 		if (CollectionUtils.isNotEmpty(inventoryItems)) {
 			items.addAll(inventoryItems);
 		}
-		List<Item> results = new ArrayList<Item>();
-		
-		PageRequest pageable = new PageRequest(0, 20);
-		if (CollectionUtils.isNotEmpty(results)) {
-			Page<Item> page = new PageImpl<Item>(results);
-//			for (Item item : items) {
-//				Item e = getItem(item.getNumIid());
-//				results.add(e);
-//			}	
+		if (items.size() < 20) {
+			return items;
 		}
+		
+		// 需要分页
+		List<Item> results = new ArrayList<Item>(items.size());
+		Pagination<Item> page = new Pagination<Item>(20);
+		page.setTotalCount(items.size());
+		StringBuffer line = new StringBuffer();
+		String numIids;
+		int cur  = page.getFirst();
+		do {
+			page.setPageNo(cur);
+			int start = page.getPageSize()* (page.getPageNo()-1);
+			long end = page.isHasNext()? page.getPageSize()*page.getPageNo() : page.getTotalCount();
+			for (int i = start; i < end; i++) {
+				line.append(items.get(i).getNumIid());
+				line.append(i < (end-1) ? "," : "");
+			}
+			numIids = line.toString();
+			results.addAll(getItems(numIids));
+			line = new StringBuffer();
+			cur++;	
+		} while (page.isHasNext());
 		return results;
 	}
 	
@@ -213,10 +228,10 @@ public class TopApi {
 		return resp.getItem();
 	}
 	
-	public List<Item> getItems(String numiids) throws ApiException {
+	public List<Item> getItems(String numIids) throws ApiException {
 		ItemsListGetRequest req=new ItemsListGetRequest();
 		req.setFields(ITEM_PROPS);
-		req.setNumIids(numiids);
+		req.setNumIids(numIids);
 		ItemsListGetResponse resp = client.execute(req , session());
 		return resp.getItems();
 	}

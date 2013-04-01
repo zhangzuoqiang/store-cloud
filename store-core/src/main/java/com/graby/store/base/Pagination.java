@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
  * @param <T> Page中记录的类型.
  *
  */
-public class Page<T> {
+public class Pagination<T> {
 	
 	// 公共变量 //
 	public static final String ASC = "asc";
@@ -30,15 +30,15 @@ public class Page<T> {
 
 	// 构造函数 //
 
-	public Page() {
+	public Pagination() {
 		super();
 	}
 
-	public Page(final int pageSize) {
+	public Pagination(final int pageSize) {
 		setPageSize(pageSize);
 	}
 
-	public Page(final int pageSize, final boolean autoCount) {
+	public Pagination(final int pageSize, final boolean autoCount) {
 		setPageSize(pageSize);
 		this.autoCount = autoCount;
 	}
