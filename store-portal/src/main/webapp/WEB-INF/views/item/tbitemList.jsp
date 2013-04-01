@@ -16,7 +16,7 @@
 		
 		$(document).ready(function(){
 		  	$("#search").click(function(){
-		  		var action = "${ctx}/item/mapping/${item.id}?q=" + $("#q").val();
+		  		var action = "${ctx}/item/mapping/${item.id}?q=" + $("#q2").val();
 			  	htmlobj=$.ajax({url:action,async:false,type:"post"});
 			  	$("#rbody").html(htmlobj.responseText);
 		  	});
@@ -29,7 +29,7 @@
 	<div id="rbody">
 	
 	<form class="form-search">
-		<input id="q" name="q" type="text" class="span5" placeholder="根据标题查询商品..."/>
+		<input id="q2" name="q2" type="text" class="span5" placeholder="根据标题查询商品..."/>
 		<a id="search" href="#" class="btn btn-primary">查询</a>
 	</form>
 	
