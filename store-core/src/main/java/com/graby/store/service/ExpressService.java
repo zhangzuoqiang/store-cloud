@@ -40,7 +40,8 @@ public class ExpressService {
 	 * @return
 	 */
 	public String getExpressCompanyName(String code) {
-		return expresses.get(code).getName();
+		Express company = expresses.get(code);
+		return company == null ? "" : company.getName();
 	}
 	
 	/**

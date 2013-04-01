@@ -19,7 +19,7 @@ rule "OYT"
     when
         $order : ShipOrder(receiverState == "广东省")
     then
-    	$order.setExpressCompany("OYT");
+    	$order.setExpressCompany("YTO");
 end
 
 #邮政EMS

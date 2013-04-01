@@ -14,8 +14,8 @@
 
 	<!-- http://localhost http://www.wlpost.com-->
 	<bean id="remoteClient" class="com.graby.store.base.remote.client.ClientFactoryBean" abstract="true">
-		<property name="type" value="hessian"/>  
-	    <property name="hostUrl" value="http://www.wlpost.com"/>  
+		<property name="type" value="httpinvoker"/>  
+	    <property name="hostUrl" value="http://localhost"/>  
 	</bean>
 	
 	<bean id="centroRemote" parent="remoteClient">
