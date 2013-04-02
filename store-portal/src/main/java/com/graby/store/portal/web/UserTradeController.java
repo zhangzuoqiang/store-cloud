@@ -92,8 +92,7 @@ public class UserTradeController {
 		// unstock   : 订购商品无库存
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
-		model.addAttribute("unrelated", tradeMap.getList("unrelated"));
-		model.addAttribute("unstock", tradeMap.getList("unstock"));
+		model.addAttribute("failed", tradeMap.getList("failed"));
 		return "trade/waits";
 	}	
 

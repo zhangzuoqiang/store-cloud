@@ -15,8 +15,7 @@
 	
 	<ul id="tab" class="nav nav-pills">
       <li class="active"><a href="#useable" data-toggle="tab">可发送</a></li>
-      <li><a href="#unrelated" data-toggle="tab">未关联订单</a></li>
-      <li><a href="#unstock" data-toggle="tab">无库存订单</a></li>
+      <li><a href="#failed" data-toggle="tab">不可发送</a></li>
       <li><a href="#related" data-toggle="tab">已处理订单</a></li>
    </ul>
    
@@ -25,7 +24,6 @@
     	<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
 			<th>建单时间</th>
-			
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
@@ -84,11 +82,10 @@
 		</table>
     	</div>
     	
-    	<div id="unrelated" class="tab-pane" >
+    	<div id="failed" class="tab-pane" >
    		<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
 			<th>建单时间</th>
-			
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
@@ -96,10 +93,9 @@
 			<th>商品</th>
 			</tr></thead>
 			<tbody>
-			<c:forEach items="${unrelated}" var="trade">
+			<c:forEach items="${failed}" var="trade">
 				<tr>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
-					
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
 	                卖家包邮
@@ -132,7 +128,16 @@
 					</td>
 					<td>
 						<c:forEach items="${trade.orders}" var="order">
-							${order.title} <br>
+							${order.title}
+							<span id="err" class="label label-important"> 
+							<c:if test="${order.stockNum == -1}">
+								未关联商品
+							</c:if>
+							<c:if test="${order.stockNum == 0}">
+								无库存
+							</c:if>
+							</span><br>
+							
 						</c:forEach>
 					</td>			
 				</tr>

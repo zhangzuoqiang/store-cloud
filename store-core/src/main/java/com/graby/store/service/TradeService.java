@@ -59,8 +59,7 @@ public class TradeService {
 	 * 查询600个等待发货的淘宝订单， 分组归类。
 	 * useable   : 可发送的
 	 * related   : 已由物流通处理的
-	 * unrelated : 订购商品未关联的
-	 * unstock   : 订购商品无库存
+	 * failed   : 订购商品 未关联的 无库存
 	 * @return
 	 * @throws ApiException 
 	 */
@@ -86,19 +85,14 @@ public class TradeService {
 				Long itemId = itemServie.getRelatedItemId(numIid ,skuId);
 				if (itemId == null) {
 					// 未关联
-					groupResults.put("unrelated", trade);
+					order.setStockNum(-1);
+					groupResults.put("failed", trade);
 				} else {
 					long stockNum = inventoryService.getValue(1L, itemId, InvAccounts.CODE_SALEABLE);
 					order.setStockNum(stockNum);
 					Item item = itemServie.getItem(itemId);
-					order.setItem(item);					
-					if (stockNum > 0) {
-						// 可发送的
-						groupResults.put("useable", trade);
-					} else {
-						// 无库存
-						groupResults.put("unstock", trade);
-					}
+					order.setItem(item);
+					groupResults.put(stockNum > 0? "useable" : "failed", trade);
 				}
 			}
 		}

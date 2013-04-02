@@ -224,11 +224,7 @@ public class ShipOrder implements Serializable{
 		return expressCompanyName;
 	}
 	
-	
 	public String getOriginPersion() {
-		if (originPersion == null) {
-			return createUser.getShopName();
-		}
 		return originPersion;
 	}
 
