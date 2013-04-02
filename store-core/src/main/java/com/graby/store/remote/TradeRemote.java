@@ -36,14 +36,6 @@ public interface TradeRemote {
 	Long getRelatedTid(Long tradeId);
 
 	/**
-	 * 校验订单是否能提交
-	 * 如有错误返回错误信息，没有则返回null
-	 * @param trade 系统交易
-	 * @return
-	 */
-	String validateTrade(Trade trade);
-
-	/**
 	 * 订单点发货时, 创建系统交易.
 	 * 
 	 * @param trade 系统交易

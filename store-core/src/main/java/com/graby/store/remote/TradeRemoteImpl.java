@@ -33,11 +33,6 @@ public class TradeRemoteImpl implements TradeRemote {
 	}
 
 	@Override
-	public String validateTrade(Trade trade) {
-		return tradeService.validateTrade(trade);
-	}
-
-	@Override
 	public void createTrade(Trade trade) {
 		tradeService.createTrade(trade);
 	}

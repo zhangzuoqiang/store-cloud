@@ -56,7 +56,7 @@ public class TradeService {
 	/* ====================== 交易相关查询 ======================= */
 	
 	/**
-	 * 查询600个等待发货的淘宝订单， 分组归类。
+	 * 查询500个等待发货的淘宝订单， 分组归类。
 	 * useable   : 可发送的
 	 * related   : 已由物流通处理的
 	 * failed   : 订购商品 未关联的 无库存
@@ -65,7 +65,7 @@ public class TradeService {
 	 */
 	public GroupMap<String, Trade> groupFindTopTrades() throws ApiException {
 		GroupMap<String, Trade> groupResults = new GroupMap<String, Trade>(); 
-		Page<com.taobao.api.domain.Trade> tradePage = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 1, 600);
+		Page<com.taobao.api.domain.Trade> tradePage = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 1, 500);
 		List<com.taobao.api.domain.Trade> trades = tradePage.getContent();
 		if (CollectionUtils.isEmpty(trades)) {return groupResults;}
 		
@@ -168,23 +168,6 @@ public class TradeService {
 		return tradeDao.getTrade(id);
 	}
 	
-	/**
-	 * 校验订单是否能提交
-	 * 如有错误返回错误信息，没有则返回null
-	 * @param trade
-	 * @return
-	 */
-	public String validateTrade(Trade trade) {
-		StringBuffer message = new StringBuffer();
-		List<TradeOrder> orders = trade.getOrders();
-		for (TradeOrder tradeOrder : orders) {
-			if (tradeOrder.getNum()<= 0 ) {
-				message.append("无库存或未关联商品：" + tradeOrder.getTitle());
-			}
-		}
-		return message.length() == 0 ? null : message.toString();
-	}
-	
 	/* ====================== 交易处理======================= */
 	
 	/**
@@ -193,16 +176,15 @@ public class TradeService {
 	 * @throws NumberFormatException
 	 * @throws ApiException
 	 */
-	public void createTradesFrom(String[] tids) throws NumberFormatException, ApiException {
+	public void createTradesFromTop(String[] tids) throws NumberFormatException, ApiException {
 		if (tids == null || tids.length == 0) {
 			return;
 		}
 		for (String tid : tids) {
-			com.taobao.api.domain.Trade trade = topApi.getTrade(Long.valueOf(tid));	
-			Trade entity = tradeAdapter.adapterFromTop(trade);
-			createTrade(entity);
+			com.taobao.api.domain.Trade topTrade = topApi.getTrade(Long.valueOf(tid));	
+			Trade trade = tradeAdapter.adapterFromTop(topTrade);
+			createTrade(trade);
 		}
-		
 	}
 	
 	/**

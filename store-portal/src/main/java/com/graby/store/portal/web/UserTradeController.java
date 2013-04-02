@@ -98,7 +98,7 @@ public class UserTradeController {
 	
 	@RequestMapping(value = "send")
 	public String send(@RequestParam(value = "tids", defaultValue = "") String[] tids) throws NumberFormatException, ApiException {
-		tradeService.createTradesFrom(tids);
+		tradeService.createTradesFromTop(tids);
 		return "redirect:/trade/waits";
 	}
 

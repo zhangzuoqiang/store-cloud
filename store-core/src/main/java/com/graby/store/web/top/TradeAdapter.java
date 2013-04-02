@@ -3,11 +3,13 @@ package com.graby.store.web.top;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeOrder;
+import com.graby.store.service.ItemService;
 import com.taobao.api.ApiException;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.Order;
@@ -18,8 +20,12 @@ public class TradeAdapter {
 	@Autowired
 	private TopApi topApi;
 	
+	@Autowired
+	private ItemService itemService;
+	
 	/**
 	 * 将淘宝交易订单适配成本地订单结构
+	 * TODO 商品
 	 * @param trade
 	 * @return
 	 * @throws ApiException 
@@ -64,6 +70,7 @@ public class TradeAdapter {
 			trade.addOrder(order);
 		} else {
 			for (Order order : orders) {
+				Long skuId = StringUtils.isEmpty(order.getSkuId()) ? 0L : Long.valueOf(order.getSkuId());
 				TradeOrder localOrder = new TradeOrder();
 				localOrder.setBuyerNick(order.getBuyerNick());
 				localOrder.setOrderFrom(order.getOrderFrom());
@@ -73,13 +80,20 @@ public class TradeAdapter {
 				localOrder.setDiscountFee(order.getDiscountFee());
 				localOrder.setTotalFee(order.getTotalFee());			
 				localOrder.setNum(order.getNum());
-				Long skuId = order.getSkuId() == null ? 0L : Long.parseLong(order.getSkuId());
 				localOrder.setSkuId(skuId);
+				localOrder.setItem(relatedItem(order.getNumIid(), skuId));
 				localOrder.setSkuPropertiesName(order.getSkuPropertiesName());
 				trade.addOrder(localOrder);
 			}
 			
 		}
 		return trade;
+	}
+	
+	private com.graby.store.entity.Item relatedItem(Long numIid, Long skuId) {
+		com.graby.store.entity.Item e = new com.graby.store.entity.Item();
+		Long itemId = itemService.getRelatedItemId(numIid, skuId);
+		e.setId(itemId);
+		return e;
 	}
 }
