@@ -10,7 +10,7 @@
 仓库：${centro}
 <thead><tr>
 	<th>商品名称</th>
-	<th>厂家库存</th>
+	<th>厂家出库</th>
 	<th>在途(发往仓库途中)</th>
 	<th>可销库存</th>
 	<th>不良品</th>
@@ -21,7 +21,7 @@
 		<c:forEach items="${values}" var="info">
 		<tr>
 			<td>${info.itemName}</td>
-			<td>${info.c1}</td>
+			<td>${-info.c1}</td>
 			<td>${info.c2}</td>
 			<td>${info.c3}</td>
 			<td>${info.ca}</td>

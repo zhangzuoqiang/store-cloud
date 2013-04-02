@@ -71,28 +71,34 @@ public class TradeService {
 		
 		for (com.taobao.api.domain.Trade topTrade : trades) {
 			Trade trade = tradeAdapter.adapterFromTop(topTrade);
-			// 是否已关联
+			// 是否已创建
 			TradeMapping mapping = getRelatedMapping(topTrade.getTid());
 			if (mapping != null) {
+				trade.setStatus(mapping.getStatus());
 				groupResults.put("related", trade);
-				continue;
-			}
-			// 已关联的订单处理
-			for (TradeOrder order : trade.getOrders()) {
-				Long numIid = order.getNumIid();
-				Long skuId = order.getSkuId();
-				// 是否已关联
-				Long itemId = itemServie.getRelatedItemId(numIid ,skuId);
-				if (itemId == null) {
-					// 未关联
-					order.setStockNum(-1);
-					groupResults.put("failed", trade);
-				} else {
-					long stockNum = inventoryService.getValue(1L, itemId, InvAccounts.CODE_SALEABLE);
-					order.setStockNum(stockNum);
-					Item item = itemServie.getItem(itemId);
-					order.setItem(item);
-					groupResults.put(stockNum > 0? "useable" : "failed", trade);
+			} else {
+				// 未创建的订单
+				for (TradeOrder order : trade.getOrders()) {
+					int errs = 0;
+					Long numIid = order.getNumIid();
+					Long skuId = order.getSkuId();
+					// 是否已关联
+					Long itemId = itemServie.getRelatedItemId(numIid ,skuId);
+					if (itemId == null) {
+						// 未关联
+						order.setStockNum(-1);
+						errs ++;
+					} else {
+						long stockNum = inventoryService.getValue(1L, itemId, InvAccounts.CODE_SALEABLE);
+						order.setStockNum(stockNum);
+						Item item = itemServie.getItem(itemId);
+						order.setItem(item);
+						// 库存数量
+						if (stockNum == 0) {
+							errs ++;	
+						}
+					}
+					groupResults.put(errs == 0? "useable" : "failed", trade);
 				}
 			}
 		}
@@ -182,7 +188,25 @@ public class TradeService {
 	/* ====================== 交易处理======================= */
 	
 	/**
-	 * 订单点发货时, 创建系统订单.
+	 * 根据淘宝交易ID批量创建系统交易
+	 * @param tids
+	 * @throws NumberFormatException
+	 * @throws ApiException
+	 */
+	public void createTradesFrom(String[] tids) throws NumberFormatException, ApiException {
+		if (tids == null || tids.length == 0) {
+			return;
+		}
+		for (String tid : tids) {
+			com.taobao.api.domain.Trade trade = topApi.getTrade(Long.valueOf(tid));	
+			Trade entity = tradeAdapter.adapterFromTop(trade);
+			createTrade(entity);
+		}
+		
+	}
+	
+	/**
+	 * 创建系统交易.
 	 * 
 	 * @param trade
 	 */

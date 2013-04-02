@@ -80,21 +80,27 @@ public class UserTradeController {
 	
 	/**
 	 * 查询所有等待买家发货交易订单（新版）
+	 * 
+ 	 * useable   : 可发送的
+	 * related   : 已由物流通处理的
+	 * failed 	 : 未关联或库存不足的
 	 * @return
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "waits")
 	public String waits(Model model) throws ApiException {
 		GroupMap<String,Trade> tradeMap = tradeService.groupFindTopTrades();
-		// useable   : 可发送的
-		// related   : 已由物流通处理的
-		// unrelated : 订购商品未关联的
-		// unstock   : 订购商品无库存
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
 		model.addAttribute("failed", tradeMap.getList("failed"));
 		return "trade/waits";
 	}	
+	
+	@RequestMapping(value = "send")
+	public String send(@RequestParam(value = "tids", defaultValue = "") String[] tids) throws NumberFormatException, ApiException {
+		tradeService.createTradesFrom(tids);
+		return "redirect:/trade/waits";
+	}
 
 	/**
 	 * 淘宝订单处理

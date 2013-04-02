@@ -50,6 +50,11 @@
 	<bean id="tradeRemote" parent="remoteClient">
 		<property name="serviceUrl" value="trade.call" />
 		<property name="serviceInterface" value="com.graby.store.remote.TradeRemote" />
+	</bean>
+	
+	<bean id="expressRemote" parent="remoteClient">
+		<property name="serviceUrl" value="express.call" />
+		<property name="serviceInterface" value="com.graby.store.remote.ExpressRemote" />
 	</bean>	
 
 </beans>
