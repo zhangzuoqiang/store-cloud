@@ -398,7 +398,7 @@ public class ShipOrderService {
 		// 更新出货单状态-等待用户签收
 		sendOrderEntity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
 		updateShipOrder(sendOrderEntity);
-		// 更新交易订单状态-等待用户签收
+		// 更新交易订单状态-等待用户签收 TODO
 		tradeService.updateTradeStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
 		return sendOrderEntity;
 	}
@@ -411,6 +411,7 @@ public class ShipOrderService {
 		ShipOrder order = getShipOrder(orderId);
 		order.setStatus(ShipOrder.SendOrderStatus.SEND_FINISH);
 		updateShipOrder(order);
+		// TODO
 		tradeService.updateTradeStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
 		List<ShipOrderDetail> details = order.getDetails();
 		// 库存记账-买家签收

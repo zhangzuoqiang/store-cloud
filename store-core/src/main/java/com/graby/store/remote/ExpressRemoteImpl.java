@@ -1,5 +1,7 @@
 package com.graby.store.remote;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.graby.store.base.remote.service.RemotingService;
@@ -15,6 +17,11 @@ public class ExpressRemoteImpl implements ExpressRemote {
 	@Override
 	public String getExpressCompanyName(String code) {
 		return expressService.getExpressCompanyName(code);
+	}
+
+	@Override
+	public Map<String, String> getExpressMap() {
+		return expressService.getExpressMap();
 	}
 	
 }

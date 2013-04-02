@@ -58,13 +58,6 @@ public interface TradeRemote {
 	ShipOrder createSendShipOrderByTradeId(Long tradeId);
 
 	/**
-	 * 更新交易状态
-	 * @param tradeId
-	 * @param status
-	 */
-	void updateTradeStatus(Long tradeId, String status);
-
-	/**
 	 * 查询最近50条待处理交易(等待物流通审核)
 	 * @return
 	 */

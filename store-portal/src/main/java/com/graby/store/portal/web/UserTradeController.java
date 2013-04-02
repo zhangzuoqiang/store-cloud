@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.graby.store.base.GroupMap;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
@@ -44,27 +45,28 @@ public class UserTradeController {
 	private TradeAdapter tradeAdapter;
 
 	@Autowired
+	private ItemService itemServie;
+	
+	@Autowired
 	private InventoryService inventoryService;
 
 	@Autowired
 	private TradeService tradeService;
 
-	@Autowired
-	private ItemService itemServie;
 	
 	@Autowired
 	private ShipOrderService shipOrderService;
 
 	/**
 	 * 查询所有等待买家发货交易订单
+	 * 老版
 	 * 
 	 * @return
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "wait")
-	public String list(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
+	public String wait(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
 		Page<com.taobao.api.domain.Trade> trades = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, page, 10);
-
 		if (CollectionUtils.isNotEmpty(trades.getContent())) {
 			for (com.taobao.api.domain.Trade tbTrade : trades) {
 				TradeMapping mapping =tradeService.getRelatedMapping(tbTrade.getTid());
@@ -75,6 +77,25 @@ public class UserTradeController {
 		model.addAttribute("trades", trades);
 		return "trade/wait";
 	}
+	
+	/**
+	 * 查询所有等待买家发货交易订单（新版）
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "waits")
+	public String waits(Model model) throws ApiException {
+		GroupMap<String,Trade> tradeMap = tradeService.groupFindTopTrades();
+		// useable   : 可发送的
+		// related   : 已由物流通处理的
+		// unrelated : 订购商品未关联的
+		// unstock   : 订购商品无库存
+		model.addAttribute("useable", tradeMap.getList("useable"));
+		model.addAttribute("related", tradeMap.getList("related"));
+		model.addAttribute("unrelated", tradeMap.getList("unrelated"));
+		model.addAttribute("unstock", tradeMap.getList("unstock"));
+		return "trade/waits";
+	}	
 
 	/**
 	 * 淘宝订单处理

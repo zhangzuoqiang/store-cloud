@@ -47,10 +47,6 @@ public class TradeRemoteImpl implements TradeRemote {
 		return tradeService.createSendShipOrderByTradeId(tradeId);
 	}
 
-	@Override
-	public void updateTradeStatus(Long tradeId, String status) {
-		tradeService.updateTradeStatus(tradeId, status);
-	}
 
 	@Override
 	public List<Trade> findWaitAuditTrades() {

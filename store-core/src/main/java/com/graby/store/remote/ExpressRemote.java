@@ -1,5 +1,7 @@
 package com.graby.store.remote;
 
+import java.util.Map;
+
 public interface ExpressRemote {
 	
 	/**
@@ -8,5 +10,11 @@ public interface ExpressRemote {
 	 * @return 快递公司名称
 	 */
 	String getExpressCompanyName(String code);
+	
+	/**
+	 * 获取快递公司
+	 * @return
+	 */
+	Map<String,String> getExpressMap();
 
 }

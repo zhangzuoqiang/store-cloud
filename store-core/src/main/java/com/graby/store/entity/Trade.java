@@ -216,6 +216,8 @@ public class Trade implements Serializable{
 	 */
 	private String itemTitles;
 	
+	/* ------------ 其他------------ */
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {

@@ -149,15 +149,20 @@ public class TopApi {
 		if (CollectionUtils.isNotEmpty(inventoryItems)) {
 			items.addAll(inventoryItems);
 		}
+		StringBuffer line = new StringBuffer();
 		if (items.size() < 20) {
-			return items;
+			for (int i = 0; i < 20; i++) {
+				line.append(items.get(i).getNumIid());
+				line.append(i < (20-1) ? "," : "");
+			}
+			line = new StringBuffer();
+			return getItems(line.toString());
 		}
 		
 		// 需要分页
 		List<Item> results = new ArrayList<Item>(items.size());
 		Pagination<Item> page = new Pagination<Item>(20);
 		page.setTotalCount(items.size());
-		StringBuffer line = new StringBuffer();
 		String numIids;
 		int cur  = page.getFirst();
 		do {
@@ -250,9 +255,9 @@ public class TopApi {
 	 */
 	public Page<Trade> getTrades(String status, long pageNo, long pageSize) throws ApiException {
 		TradesSoldGetRequest req = new TradesSoldGetRequest();
-		String props = "tid,num_iid,num,total_fee,status, cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
-				+ "buyer_nick,seller_nick,buyer_area,shipping_type,receiver_name,receiver_state,receiver_city,receiver_district,"
-				+ "receiver_address,receiver_zip,receiver_mobile,receiver_phone";
+		String props = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
+				+ "buyer_nick,seller_nick,buyer_area,shipping_type,receiver_name,receiver_state,receiver_city,receiver_district,buyer_memo,"
+				+ "receiver_address,receiver_zip,receiver_mobile,receiver_phone,has_buyer_message,buyer_message,orders";
 		req.setFields(props);
 		req.setStatus(status);
 		req.setPageNo(pageNo);

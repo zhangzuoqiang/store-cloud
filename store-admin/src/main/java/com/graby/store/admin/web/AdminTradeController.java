@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.graby.store.base.ExpressFactory;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeOrder;
+import com.graby.store.remote.ExpressRemote;
 import com.graby.store.remote.InventoryRemote;
 import com.graby.store.remote.ItemRemote;
 import com.graby.store.remote.ShipOrderRemote;
@@ -37,6 +37,9 @@ public class AdminTradeController {
 	
 	@Autowired
 	private ShipOrderRemote shipOrderRemote;
+	
+	@Autowired
+	private ExpressRemote expressRemote;
 	
 	/**
 	 * 查询所有未处理订单
@@ -108,7 +111,7 @@ public class AdminTradeController {
 	public String doSendOrderForm(@PathVariable("id") Long orderId, Model model) {
 		ShipOrder sendOrder = shipOrderRemote.getShipOrder(orderId);
 		model.addAttribute("order", sendOrder);
-		model.addAttribute("expressCompanys", ExpressFactory.expressCompanys);
+		model.addAttribute("expressCompanys", expressRemote.getExpressMap());
 		return "/admin/sendOrderForm";
 	}
 	
