@@ -151,9 +151,9 @@ public class TopApi {
 		}
 		StringBuffer line = new StringBuffer();
 		if (items.size() < 20) {
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < items.size(); i++) {
 				line.append(items.get(i).getNumIid());
-				line.append(i < (20-1) ? "," : "");
+				line.append(i < (items.size()-1) ? "," : "");
 			}
 			line = new StringBuffer();
 			return getItems(line.toString());
