@@ -155,7 +155,6 @@ public class TopApi {
 				line.append(items.get(i).getNumIid());
 				line.append(i < (items.size()-1) ? "," : "");
 			}
-			line = new StringBuffer();
 			return getItems(line.toString());
 		}
 		
