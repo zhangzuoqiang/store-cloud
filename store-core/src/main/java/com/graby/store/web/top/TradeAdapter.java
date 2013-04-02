@@ -7,9 +7,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.graby.store.entity.Centro;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeOrder;
+import com.graby.store.entity.User;
 import com.graby.store.service.ItemService;
+import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.Order;
@@ -32,6 +35,18 @@ public class TradeAdapter {
 	 */
 	public Trade adapterFromTop(com.taobao.api.domain.Trade from) throws ApiException {
 		Trade trade = new Trade();
+		
+		Long userid = ShiroContextUtils.getUserid();
+		if (userid != null) {
+			User user = new User();
+			user.setId(userid);
+			trade.setUser(user);
+		}
+		// 目前只支持单仓库
+		Centro centro =new Centro();
+		centro.setId(1L);
+		trade.setCentro(centro);
+		
 		// 主订单适配
 		trade.setTradeFrom(from.getTradeFrom());
 		trade.setTid(from.getTid());
