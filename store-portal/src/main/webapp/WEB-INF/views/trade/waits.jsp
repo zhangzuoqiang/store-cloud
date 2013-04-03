@@ -112,12 +112,14 @@
 					 	${trade.receiverAddress}
 					</td>
 					<td>
-						<c:forEach items="${trade.orders}" var="order">
-							${order.title}
-							<span class="label label-success">
-							${order.stockNum}
-							</span>  <i class="icon-ok"/>
-						</c:forEach>
+						<div>
+							<c:forEach items="${trade.orders}" var="order">
+								${order.title}
+								<span class="label label-success">
+								${order.stockNum}
+								</span> <br/>
+							</c:forEach>
+						</div>
 					</td>
 					<td>
 						<input type='checkbox' id='trade_select' name='trade_select[]' value='${trade.tid}' />
