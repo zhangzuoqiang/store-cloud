@@ -14,5 +14,5 @@ public interface AuthRemote {
 	 * @return 用户
 	 */
 	public User findUserByUsername(String username);
-
+	
 }

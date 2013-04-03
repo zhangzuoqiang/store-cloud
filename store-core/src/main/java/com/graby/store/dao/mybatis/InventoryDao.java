@@ -40,10 +40,10 @@ public interface InventoryDao {
 	/**
 	 * 库存统计
 	 * @param centroId
-	 * @param itemId
+	 * @param userId
 	 * @return
 	 */
-	List<Map<String, Long>> stat(Long centroId, Long itemId); 
+	List<Map<String, Long>> stat(Long centroId, Long userId); 
 	
 	/**
 	 * 按科目统计库存值

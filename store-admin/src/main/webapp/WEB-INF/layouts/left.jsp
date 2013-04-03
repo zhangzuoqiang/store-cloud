@@ -5,6 +5,7 @@
 	<h1>库存管理</h1>
 	<div class="submenu">
 		<a href="${ctx}/entry">待处理入库单</a>
+		<a href="${ctx}/stock">库存状态</a>
 	</div>
 	<h1>订单管理</h1>
 	<div class="submenu">

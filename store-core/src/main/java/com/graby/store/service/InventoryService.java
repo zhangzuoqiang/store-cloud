@@ -74,11 +74,11 @@ public class InventoryService {
 	/**
 	 * 库存统计
 	 * @param centroId
-	 * @param itemId
+	 * @param userId
 	 * @return
 	 */
-	public List<Map<String, Long>> stat(Long centroId, Long itemId) {
-		return inventoryDao.stat(centroId, itemId);
+	public List<Map<String, Long>> stat(Long centroId, Long userId) {
+		return inventoryDao.stat(centroId, userId);
 	}
 	
 	/**

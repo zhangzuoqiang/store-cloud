@@ -29,7 +29,7 @@
 	</delete>
 
 	<select id="findAll" parameterType="String" resultType="User">
-		select id, username, shop_name as shopName from sc_user
+		SELECT id, username, shop_name AS shopName FROM sc_user a WHERE a.username != 'admin'
 	</select>
 		
 	
