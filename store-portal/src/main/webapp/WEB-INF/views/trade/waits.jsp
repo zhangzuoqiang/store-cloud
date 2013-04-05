@@ -8,243 +8,66 @@
 <head>
 	<title>未处理订单</title>
 	<script  type="text/javascript">
+	
+	function delayEnable(time){
+	    var hander = setInterval(function () {
+	    	time--;
+	        if (time > 0) {
+	        	$('#fetch').text('重新抓单需等待(' +time+'秒)');
+	        } else {
+	        	$('#fetch').text('一键抓取淘宝订单');
+	        	$('#fetch').attr('disabled',false);
+	        	clearInterval(hander);
+	        }
+	    }, 1000);	
+	}
+			
 	$(function() {
-		
-		// 全选事件
-	   	$("#checkAll").click(function() {
-	   		if($(this).attr("checked") == "checked") {
-	   			$("input[name='trade_select[]']").each(function() {
-	            	$(this).attr("checked", true);
-	        	});
-	   		} else {
-	   			$("input[name='trade_select[]']").each(function() {
-	            	$(this).attr("checked", false);
-	        	});
-	   		}
-		});
-		
-		// 发送物流通按钮
-		$('#tab').bind('click', function (e) {
-	    	if(e.target.text=='可发送') {
-	       		$("#submit").css("visibility", "visible");
-	       	} else {
-	       		$("#submit").css("visibility", "hidden");
-	       	}
+		// 发送事件
+		$('#fetch').bind('click', function (e) {
+			$('#fetch').attr('disabled',true);
+			delayEnable(20);
+			// ajax action
+			var action = "${ctx}/trade/waits/fetch";
+			htmlobj=$.ajax({
+				url:action,
+				async:true,
+				type:"post",
+				success: function(msg) {
+                   $("#fetchBody").html(htmlobj.responseText);
+                },
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+                }
+			});
+			
 	    });
-	    
-	    // 发送事件
-	   $('#submit').bind('click', function (e) {
-	   		var chk_value =[];  
-		  		$('input[name="trade_select[]"]:checked').each(function(){  
-		   		chk_value.push($(this).val());  
-	  		});  
-	  		if (chk_value.length==0) {
-	  			alert('你还没有选择任何订单！');
-	  		} else {
-	  			var action = "${ctx}/trade/send?tids=" + chk_value;
-	  			window.location.href=action;
-	  		}
-	   });
-		
+	   
+	   	// Loading 按钮
+		$('#loadingDiv')
+		.hide()
+		.ajaxStart(function() {
+		    $(this).show();
+		})
+		.ajaxStop(function() {
+		    $(this).hide();
+		});
 	});
+	
 	
 	</script>
 </head>
 <body>
-
-	<legend><small>来自淘宝订单</small></legend>
 	
-	<div class="row">
-		<div class="span4">
-			<ul id="tab" class="nav nav-pills">
-		      <li class="active"><a href="#useable" data-toggle="tab">可发送</a></li>
-		      <li><a href="#failed" data-toggle="tab">库存不足</a></li>
-		      <li><a href="#related" data-toggle="tab">已提交</a></li>
-		  	</ul>
-	  	</div>
-	  	<div class="span4 pull-right">
-	  		<a id="submit" href="#" class="btn btn-success pull-right">物流通发货</a>
-	  	</div>
+	<legend></legend>
+  	<div class="span4">
+  		<a id="fetch" href="#" class="btn btn-primary"><i class="icon-inbox icon-white"></i> 一键抓取淘宝订单</a>
+  	</div>
+  	
+	<div id="fetchBody">
+		<div id="loadingDiv">
+			<img src = "${ctx}/static/images/fetch.gif">
+		</div>
 	</div>
    
-    <div class="tab-content">
-    	<div id="useable" class="tab-pane active" >
-    	<table id="contentTable" class="table table-striped table-condensed"  >
-			<thead><tr>
-			<th>建单时间</th>
-			<th>物流方式</th>
-			<th>是否次日达\三日达</th>
-			<th>收货地址</th>
-			<th>商品(库存)</th>
-			<th><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>
-			</tr></thead>
-			<tbody>
-			<c:forEach items="${useable}" var="trade">
-				<tr>
-					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
-					<td>
-	                <c:if test="${trade.shippingType == 'free'}">
-	                卖家包邮
-	                </c:if>
-	                <c:if test="${trade.shippingType == 'post'}">
-	                平邮
-	                </c:if>  
-	                <c:if test="${trade.shippingType == 'express'}">
-	                快递
-	                </c:if> 
-	                <c:if test="${trade.shippingType == 'ems'}">
-	                EMS
-	                </c:if>  
-	                <c:if test="${trade.shippingType == 'virtual'}">
-	                虚拟发货
-	                </c:if> 
-	                </td>
-	                <td>
-	                	<c:if test="${trade.lgAgingType != null}">
-	                	${trade.lgAgingType} ${trade.lgAging}
-	                	</c:if>
-	                	<c:if test="${trade.lgAgingType == null}">
-	                	 无要求
-	                	</c:if>                	
-	                </td>
-
-					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
-					 	${trade.receiverAddress}
-					</td>
-					<td>
-						<div>
-							<c:forEach items="${trade.orders}" var="order">
-								${order.title}
-								<span class="label label-success">
-								${order.stockNum}
-								</span> <br/>
-							</c:forEach>
-						</div>
-					</td>
-					<td>
-						<input type='checkbox' id='trade_select' name='trade_select[]' value='${trade.tid}' />
-					</td>
-				</tr>
-			</c:forEach>
-			</tbody>
-		</table>
-    	</div>
-    	
-    	<div id="failed" class="tab-pane" >
-   		<table id="contentTable" class="table table-striped table-condensed"  >
-			<thead><tr>
-			<th>建单时间</th>
-			<th>物流方式</th>
-			<th>是否次日达\三日达</th>
-			<th>收货人</th>
-			<th>收货地址</th>
-			<th>商品</th>
-			</tr></thead>
-			<tbody>
-			<c:forEach items="${failed}" var="trade">
-				<tr>
-					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
-					<td>
-	                <c:if test="${trade.shippingType == 'free'}">
-	                卖家包邮
-	                </c:if>
-	                <c:if test="${trade.shippingType == 'post'}">
-	                平邮
-	                </c:if>  
-	                <c:if test="${trade.shippingType == 'express'}">
-	                快递
-	                </c:if> 
-	                <c:if test="${trade.shippingType == 'ems'}">
-	                EMS
-	                </c:if>  
-	                <c:if test="${trade.shippingType == 'virtual'}">
-	                虚拟发货
-	                </c:if> 
-	                </td>
-	                <td>
-	                	<c:if test="${trade.lgAgingType != null}">
-	                	${trade.lgAgingType} ${trade.lgAging}
-	                	</c:if>
-	                	<c:if test="${trade.lgAgingType == null}">
-	                	 无要求
-	                	</c:if>                	
-	                </td>
-					<td>${trade.receiverName}</td>
-					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
-					 	${trade.receiverAddress}
-					</td>
-					<td>
-						<c:forEach items="${trade.orders}" var="order">
-							${order.title}
-							<span id="err" class="label label-important"> 
-							<c:if test="${order.stockNum == -1}">
-								未关联商品
-							</c:if>
-							<c:if test="${order.stockNum == 0}">
-								无库存
-							</c:if>
-							</span><br>
-						</c:forEach>
-					</td>			
-				</tr>
-			</c:forEach>
-			</tbody>
-		</table>
-    	</div>
-    	
-    	<div id="related" class="tab-pane" >
-   		<table id="contentTable" class="table table-striped table-condensed"  >
-			<thead><tr>
-			<th>建单时间</th>
-			<th>物流方式</th>
-			<th>是否次日达\三日达</th>
-			<th>收货人</th>
-			<th>收货地址</th>
-			<th>订单状态</th>
-			</tr></thead>
-			<tbody>
-			<c:forEach items="${related}" var="trade">
-				<tr>
-					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
-					<td>
-	                <c:if test="${trade.shippingType == 'free'}">
-	                卖家包邮
-	                </c:if>
-	                <c:if test="${trade.shippingType == 'post'}">
-	                平邮
-	                </c:if>  
-	                <c:if test="${trade.shippingType == 'express'}">
-	                快递
-	                </c:if> 
-	                <c:if test="${trade.shippingType == 'ems'}">
-	                EMS
-	                </c:if>  
-	                <c:if test="${trade.shippingType == 'virtual'}">
-	                虚拟发货
-	                </c:if> 
-	                </td>
-	                <td>
-	                	<c:if test="${trade.lgAgingType != null}">
-	                	${trade.lgAgingType} ${trade.lgAging}
-	                	</c:if>
-	                	<c:if test="${trade.lgAgingType == null}">
-	                	 无要求
-	                	</c:if>                	
-	                </td>
-	                
-					<td>${trade.receiverName}</td>
-					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
-					 	${trade.receiverAddress}
-					</td>
-					<td>
-						${trade.status}
-					</td>		
-				</tr>
-			</c:forEach>
-			</tbody>
-		</table>    	    	
-    	</div>    	    	    	
-    </div>
-
 </body>
 </html>

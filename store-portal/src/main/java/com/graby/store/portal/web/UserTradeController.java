@@ -64,7 +64,7 @@ public class UserTradeController {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = "wait")
+	@RequestMapping(value = "/wait")
 	public String wait(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
 		Page<com.taobao.api.domain.Trade> trades = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, page, 10);
 		if (CollectionUtils.isNotEmpty(trades.getContent())) {
@@ -78,6 +78,11 @@ public class UserTradeController {
 		return "trade/wait";
 	}
 	
+	@RequestMapping(value = "/waits")
+	public String waitsForward() throws ApiException {
+		return "trade/waits";
+	}	
+	
 	/**
 	 * 查询所有等待买家发货交易订单（新版）
 	 * 
@@ -87,16 +92,16 @@ public class UserTradeController {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = "waits")
-	public String waits(Model model) throws ApiException {
+	@RequestMapping(value = "/waits/fetch")
+	public String fetch(Model model) throws ApiException {
 		GroupMap<String,Trade> tradeMap = tradeService.groupFindTopTrades();
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
 		model.addAttribute("failed", tradeMap.getList("failed"));
-		return "trade/waits";
+		return "trade/waitsFetch";
 	}	
 	
-	@RequestMapping(value = "send")
+	@RequestMapping(value = "/send")
 	public String send(@RequestParam(value = "tids", defaultValue = "") String[] tids) throws NumberFormatException, ApiException {
 		tradeService.createTradesFromTop(tids);
 		return "redirect:/trade/waits";
@@ -158,7 +163,7 @@ public class UserTradeController {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = "list", method=RequestMethod.GET)
+	@RequestMapping(value = "/list", method=RequestMethod.GET)
 	public String trades(
 			@RequestParam(value = "status", defaultValue = "") String status,
 			@RequestParam(value = "page", defaultValue = "1") int page,
@@ -168,7 +173,7 @@ public class UserTradeController {
 		return "trade/tradeList";
 	}
 	
-	@RequestMapping(value = "notify/{tid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/notify/{tid}", method = RequestMethod.GET)
 	public String notifyUser(@PathVariable("tid") Long tid, RedirectAttributes redirectAttributes) throws ApiException {
 		ShipOrder order = shipOrderService.getShipOrderByTid(tid);
 		topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());

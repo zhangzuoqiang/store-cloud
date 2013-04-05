@@ -7,6 +7,7 @@
 		<pattern>/top_auth*</pattern>
 		<pattern>/item/mapping*</pattern>
 		<pattern>/login*</pattern>
+		<pattern>/trade/waits/fetch</pattern>
 	</excludes>
 	
 	<decorator name="main" page="default.jsp">
