@@ -21,6 +21,6 @@
 		<a href="${ctx}/trade/waits">未处理订单(批量)</a>
 		<a href="${ctx}/trade/wait">未处理订单(单条)</a>
 		<a href="${ctx}/trade/notifys">通知用户签收</a>
-		<a href="${ctx}/trade/trace">物流信息追踪</a>
+		<a href="#">物流信息追踪</a>
 	</div>
 </div>

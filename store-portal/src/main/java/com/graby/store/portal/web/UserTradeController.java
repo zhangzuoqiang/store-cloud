@@ -206,6 +206,7 @@ public class UserTradeController {
 	 * @return
 	 */
 	public String expressTraces() {
+		//topApi.getExpressTrace(tid)
 		return null;
 	}
 	
