@@ -2,12 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
-<head></head>
+<head>
+</head>
 <body>
 
-<legend><small></small></legend>
+<c:if test="${empty stat}">
+	无库存信息
+</c:if>
+
+<c:if test="${not empty stat}">
 <table id="contentTable" class="table table-striped table-condensed"  >
-仓库：${centro}
 <thead><tr>
 	<th>商品编码</th>
 	<th>商品名称</th>
@@ -19,7 +23,7 @@
 	<th>已售出</th>
 	</tr></thead>
 	<tbody>
-		<c:forEach items="${values}" var="info">
+		<c:forEach items="${stat}" var="info">
 		<tr>
 			<td>${info.itemCode}</td>
 			<td>${info.itemName}</td>
@@ -33,6 +37,6 @@
 		</c:forEach>
 	</tbody>
 </table>
-	
+</c:if>
 </body>
 </html>

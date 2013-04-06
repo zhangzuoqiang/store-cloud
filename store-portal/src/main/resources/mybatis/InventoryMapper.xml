@@ -31,7 +31,8 @@
 		 SUM(IF(account like '103%', num, 0)) AS "ca", 
 		 SUM(IF(account = '104', num, 0)) AS "c7", 
 		 SUM(IF(account = '105', num, 0)) AS "c8", 
-		   b.title as "itemName"
+		 b.title as "itemName",
+		 b.code as "itemCode"
 		FROM
 		  sc_item_inventory a left join sc_item b on b.id = a.item_id
 		WHERE centro_id = #{0} and user_id = #{1}

@@ -25,13 +25,18 @@ public class InventoryController {
 	private InventoryRemote inventoryRemote;
 
 	@RequestMapping(value = "")
-	public String stock(@RequestParam(value = "userid", defaultValue = "0") Long userId, Model model) throws ApiException {
+	public String show(@RequestParam(value = "userid", defaultValue = "0") Long userId, Model model) throws ApiException {
 		List<User> users = userRemote.findAll();
 		model.addAttribute("users", users);
+		return "admin/shopInventory";
+	}
+	
+	@RequestMapping(value = "/ajax/detail")
+	public String detail(@RequestParam(value = "userid", defaultValue = "0") Long userId, Model model) throws ApiException {
 		if (userId != 0L) {
 			List<Map<String, Long>> stat = inventoryRemote.stat(1L, userId);
 			model.addAttribute("stat", stat);
 		}
-		return "admin/inventory";
-	}
+		return "admin/shopInventoryDetail";
+	}	
 }
