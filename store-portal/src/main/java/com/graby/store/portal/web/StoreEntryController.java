@@ -192,6 +192,25 @@ public class StoreEntryController {
 		
 	}	
 	
+	/**
+	 * 取消入库单
+	 * @param id
+	 * @param model
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequestMapping(value = "cancel/{id}", method = RequestMethod.GET)
+	public String cancelOrderEntry(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+		if (!shipOrderService.cancelEntryOrder(id)) {
+			redirectAttributes.addAttribute("message", "取消发送失败");
+			return "redirect:/store/entry/item/" + id;
+		}  else {
+			redirectAttributes.addAttribute("message", "入库单取消发送成功。");
+			return "redirect:/store/entry/list";
+		}
+		
+	}
+	
 	@InitBinder
 	public void InitBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

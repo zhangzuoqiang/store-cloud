@@ -3,7 +3,7 @@
 	<excludes>
 		<pattern>/*.html</pattern>
 		<pattern>/static/*</pattern>
-		<pattern>/api/*</pattern>
+		<pattern>/rest/*</pattern>
 		<pattern>/top_auth*</pattern>
 		<pattern>/item/mapping*</pattern>
 		<pattern>/login*</pattern>

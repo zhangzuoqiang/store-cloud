@@ -15,9 +15,9 @@
 	        if (time > 0) {
 	        	$('#fetch').text('重新抓单需等待(' +time+'秒)');
 	        } else {
+	        	clearInterval(hander);
 	        	$('#fetch').text('一键抓取淘宝订单');
 	        	$('#fetch').attr('disabled',false);
-	        	clearInterval(hander);
 	        }
 	    }, 1000);	
 	}
@@ -26,7 +26,7 @@
 		// 发送事件
 		$('#fetch').bind('click', function (e) {
 			$('#fetch').attr('disabled',true);
-			delayEnable(20);
+			delayEnable(180);
 			// ajax action
 			var action = "${ctx}/trade/waits/fetch";
 			htmlobj=$.ajax({

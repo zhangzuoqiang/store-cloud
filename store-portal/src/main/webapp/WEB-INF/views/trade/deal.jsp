@@ -15,7 +15,6 @@
 				$("#submit_btn").attr("disabled",true);
 			}
 		});
-	</script>
 	</script>	
 </head>
 

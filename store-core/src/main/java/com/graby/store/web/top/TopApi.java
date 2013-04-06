@@ -22,21 +22,27 @@ import com.taobao.api.TaobaoResponse;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.Shipping;
 import com.taobao.api.domain.Shop;
+import com.taobao.api.domain.Sku;
 import com.taobao.api.domain.Trade;
+import com.taobao.api.domain.TransitStepInfo;
 import com.taobao.api.request.ItemGetRequest;
+import com.taobao.api.request.ItemSkuGetRequest;
 import com.taobao.api.request.ItemsInventoryGetRequest;
 import com.taobao.api.request.ItemsListGetRequest;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
 import com.taobao.api.request.LogisticsOfflineSendRequest;
+import com.taobao.api.request.LogisticsTraceSearchRequest;
 import com.taobao.api.request.ShopGetRequest;
 import com.taobao.api.request.TradeFullinfoGetRequest;
 import com.taobao.api.request.TradesSoldGetRequest;
 import com.taobao.api.request.UserSellerGetRequest;
 import com.taobao.api.response.ItemGetResponse;
+import com.taobao.api.response.ItemSkuGetResponse;
 import com.taobao.api.response.ItemsInventoryGetResponse;
 import com.taobao.api.response.ItemsListGetResponse;
 import com.taobao.api.response.ItemsOnsaleGetResponse;
 import com.taobao.api.response.LogisticsOfflineSendResponse;
+import com.taobao.api.response.LogisticsTraceSearchResponse;
 import com.taobao.api.response.ShopGetResponse;
 import com.taobao.api.response.TradeFullinfoGetResponse;
 import com.taobao.api.response.TradesSoldGetResponse;
@@ -232,6 +238,15 @@ public class TopApi {
 		return resp.getItem();
 	}
 	
+	public Sku getSku(Long numIid, Long skuId) throws ApiException {
+		ItemSkuGetRequest req=new ItemSkuGetRequest();
+		req.setFields("sku_id,iid,properties,quantity,price,outer_id,created,modified,status");
+		req.setSkuId(skuId);
+		req.setNumIid(numIid);
+		ItemSkuGetResponse resp = client.execute(req);
+		return resp.getSku();
+	}
+	
 	public List<Item> getItems(String numIids) throws ApiException {
 		ItemsListGetRequest req=new ItemsListGetRequest();
 		req.setFields(ITEM_PROPS);
@@ -306,6 +321,25 @@ public class TopApi {
 		LogisticsOfflineSendResponse resp = client.execute(req , session());
 		errorMsgConvert(resp);
 		return resp.getShipping();
+	}
+	
+	/**
+	 * 用户根据淘宝交易号查询物流流转信息
+	 * @return
+	 * @throws ApiException
+	 */
+	public ExpressTrace getExpressTrace(Long tid) throws ApiException {
+		LogisticsTraceSearchRequest req=new LogisticsTraceSearchRequest();
+		ExpressTrace trace = new ExpressTrace();
+		req.setTid(tid);
+		req.setSellerNick(ShiroContextUtils.getNickname());
+		LogisticsTraceSearchResponse resp = client.execute(req);
+		errorMsgConvert(resp);
+		trace.setStatus(resp.getStatus());
+		trace.setCompanyName(resp.getCompanyName());
+		trace.setExpressOrderno(resp.getOutSid());
+		trace.setTraceList(resp.getTraceList());
+		return trace;
 	}
 
 	private String session() {

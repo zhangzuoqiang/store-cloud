@@ -131,4 +131,8 @@ public class ItemService {
 		itemTopSync.sync();
 	}
 	
+	public void syncTop(Long numIid,Long skuId) throws ApiException {
+		itemTopSync.sync(numIid, skuId);
+	}	
+	
 }

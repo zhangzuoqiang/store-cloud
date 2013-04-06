@@ -21,10 +21,10 @@
 	</c:if>
 	<br>
 	<div class="row">
-		<form name="reflushForm" action="" class="form-search">
+		<form name="reflushForm" action="" class="nav nav-pills">
 			<select name="status" onchange="javascript:document.reflushForm.submit()">
 				<option value="ENTRY_WAIT_SELLER_SEND"  <c:if test="${status == 'ENTRY_WAIT_SELLER_SEND'}">selected</c:if> >待发送</option>
-				<option value="ENTRY_WAIT_STORAGE_RECEIVED"   <c:if test="${status == 'ENTRY_WAIT_STORAGE_RECEIVED'}">selected</c:if>>已发送,等待仓库审核。</option>
+				<option value="ENTRY_WAIT_STORAGE_RECEIVED"   <c:if test="${status == 'ENTRY_WAIT_STORAGE_RECEIVED'}">selected</c:if>>已发送</option>
 				<option value="ENTRY_FINISH" <c:if test="${status == 'ENTRY_FINISH'}">selected</c:if>>仓库已接收</option>
 			</select>
 		</form>
@@ -61,12 +61,20 @@
 				</td>
 				<td style="vertical-align: middle;">
 					<c:if test="${order.status == 'ENTRY_WAIT_SELLER_SEND'}">
-					  	<a href="${ctx}/store/entry/update/${order.id}">单据信息编辑</a><br>
-					  	<a href="${ctx}/store/entry/item/${order.id}">发货商品管理</a><br>
-					  	<a href="${ctx}/store/entry/delete/${order.id}" class="confirm">删除</a>
+						<div class="btn-group">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="icon-edit"></i> 操作
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="${ctx}/store/entry/update/${order.id}">单据信息编辑</a></li>
+								<li><a href="${ctx}/store/entry/item/${order.id}">发货商品管理</a></li>
+								<li><a href="${ctx}/store/entry/delete/${order.id}" class="confirm">删除</a></li>
+							</ul>
+						</div>
 					</c:if>
 					<c:if test="${order.status == 'ENTRY_WAIT_STORAGE_RECEIVED'}">
-						取消发送
+						<a href="${ctx}/store/entry/cancel/${order.id}">取消发送</a>
 					</c:if>
 				</td>
 			</tr>

@@ -50,9 +50,6 @@ import com.graby.store.service.InvAccounts.Account;
  */
 public class InvAccountTemplate implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8711535452948265436L;
 
 	/**
@@ -61,14 +58,16 @@ public class InvAccountTemplate implements Serializable {
 	 * 借:商家库存 
 	 * 贷:在途 
 	 */
-	public static InvAccountTemplate SHOP_SEND =  new InvAccountTemplate(InvAccounts.SHOP_INVENTORY, InvAccounts.ONTHEWAY);
-
+	public static InvAccountTemplate SHIP_ENTRY_SEND =  new InvAccountTemplate(InvAccounts.SHOP_INVENTORY, InvAccounts.ONTHEWAY);
+	
 	/**
-	 * 厂家发送入库单取消
-	 * 借：在途
-	 * 贷: 商家库存 
+	 * 厂家取消发送入库单
+	 * 
+	 * 借:在途
+	 * 贷:商家库存  
 	 */
-	public static InvAccountTemplate SHOP_SEND_CANCEL = new InvAccountTemplate(InvAccounts.ONTHEWAY, InvAccounts.SHOP_INVENTORY);
+	public static InvAccountTemplate SHIP_ENTRY_CANCEL =  new InvAccountTemplate(InvAccounts.ONTHEWAY, InvAccounts.SHOP_INVENTORY);	
+
 	
 	/**
 	 * 仓库入库

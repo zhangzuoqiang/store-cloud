@@ -176,12 +176,13 @@
 							${order.title}
 							<span id="err" class="label label-important"> 
 							<c:if test="${order.stockNum == -1}">
-								未关联商品
+								未关联 
 							</c:if>
 							<c:if test="${order.stockNum == 0}">
 								无库存
 							</c:if>
-							</span><br>
+							</span>
+							<br>
 						</c:forEach>
 					</td>			
 				</tr>

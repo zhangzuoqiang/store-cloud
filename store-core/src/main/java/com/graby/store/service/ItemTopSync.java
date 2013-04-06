@@ -25,6 +25,10 @@ public class ItemTopSync {
 	@Autowired
 	private ItemService itemService;
 	
+	/**
+	 * 同步所有淘宝商品（库存+在售）
+	 * @throws ApiException
+	 */
 	public void sync() throws ApiException {
 		List<Item> items = topApi.getItems("", 3000);
 		if (CollectionUtils.isEmpty(items)) return;
@@ -33,30 +37,43 @@ public class ItemTopSync {
 			// 并关联淘宝商品
 			List<Sku> skus = item.getSkus();
 			if (CollectionUtils.isEmpty(skus)) {
-				Long itemId = itemService.getRelatedItemId(item.getNumIid(), 0L);
-				if (itemId == null) {
-					sync(item, 0L, "");
-				}
+				sync(item, null);
 			} else {
 				for (Sku sku : skus) {
-					Long itemId = itemService.getRelatedItemId(item.getNumIid(), sku.getSkuId());
-					if (itemId == null) {
-						sync(item, sku.getSkuId(), sku.getPropertiesName());
-					}
+					sync(item, sku);
 				}
 			}
 		}
 	}
 	
-	private void sync(Item item, Long skuid, String skuTitle) {
+	private void sync(Item item, Sku sku) {
+		Long relatedId = itemService.getRelatedItemId(item.getNumIid(), sku == null ? 0L : sku.getSkuId());
+		if (relatedId != null) {
+			return;
+		}
 		com.graby.store.entity.Item copy = new com.graby.store.entity.Item();
 		copy.setCode("000000000");
-		String title = item.getTitle() + " " + spl(skuTitle);
+		String title = item.getTitle();
+		if (sku != null) {
+			title += " " + spl(sku.getPropertiesName());
+		}
 		copy.setTitle(title);
 		copy.setWeight(0L);
 		copy.setDescription(item.getDesc());
 		itemService.saveItem(copy);
-		itemService.relateItem(copy.getId(), item, skuid);
+		itemService.relateItem(copy.getId(), item, sku == null ? 0L : sku.getSkuId());
+	}
+	
+	/**
+	 * 同步淘宝商品（单挑）
+	 * @param numIid
+	 * @param skuId
+	 * @throws ApiException
+	 */
+	public void sync(Long numIid, Long skuId) throws ApiException {
+		Item item = topApi.getItem(numIid);
+		Sku sku = topApi.getSku(numIid, skuId);
+		sync(item, sku);
 	}
 	
 	private static String spl(String val) {

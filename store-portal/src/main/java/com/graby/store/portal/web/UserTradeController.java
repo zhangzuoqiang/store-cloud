@@ -59,7 +59,7 @@ public class UserTradeController {
 
 	/**
 	 * 查询所有等待买家发货交易订单
-	 * 老版
+	 * (单条老版)
 	 * 
 	 * @return
 	 * @throws ApiException
@@ -78,6 +78,24 @@ public class UserTradeController {
 		return "trade/wait";
 	}
 	
+	/**
+	 * 下单发货（单条接口）
+	 * 
+	 * @param trade
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/send/confirm")
+	public String sendConfirm(Trade trade, RedirectAttributes redirectAttributes) {
+		tradeService.createTrade(trade);
+		return "redirect:/trade/wait";
+	}	
+	
+	/**
+	 * 批量查询淘宝交易订单（多条）
+	 * @return
+	 * @throws ApiException
+	 */
 	@RequestMapping(value = "/waits")
 	public String waitsForward() throws ApiException {
 		return "trade/waits";
@@ -101,6 +119,13 @@ public class UserTradeController {
 		return "trade/waitsFetch";
 	}	
 	
+	/**
+	 * 根据淘宝交易ID批量创建系统交易
+	 * @param tids
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws ApiException
+	 */
 	@RequestMapping(value = "/send")
 	public String send(@RequestParam(value = "tids", defaultValue = "") String[] tids) throws NumberFormatException, ApiException {
 		tradeService.createTradesFromTop(tids);
@@ -145,45 +170,43 @@ public class UserTradeController {
 		return "trade/deal";
 	}
 
-	/**
-	 * 下单发货
-	 * 
-	 * @param trade
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/send/confirm")
-	public String sendConfirm(Trade trade, RedirectAttributes redirectAttributes) {
-		tradeService.createTrade(trade);
-		return "redirect:/trade/wait";
-	}
 	
 	/**
 	 * 查询交易订单
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public String trades(
+	@RequestMapping(value = "/notifys", method=RequestMethod.GET)
+	public String notifyTrades(
 			@RequestParam(value = "status", defaultValue = "") String status,
 			@RequestParam(value = "page", defaultValue = "1") int page,
 			Model model) throws ApiException {
-		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), status, page, 10);
+		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED, page, 15);
 		model.addAttribute("trades", trades);
 		return "trade/tradeList";
 	}
 	
+	
+	/**
+	 * 通知用户签收
+	 * @param tid
+	 * @param redirectAttributes
+	 * @return
+	 * @throws ApiException
+	 */
 	@RequestMapping(value = "/notify/{tid}", method = RequestMethod.GET)
-	public String notifyUser(@PathVariable("tid") Long tid, RedirectAttributes redirectAttributes) throws ApiException {
+	public String notifyUser(@PathVariable("tid") Long tid) throws ApiException {
 		ShipOrder order = shipOrderService.getShipOrderByTid(tid);
 		topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
-		StringBuffer successMessage = new StringBuffer();
-		successMessage.append("交易号:").append(tid);
-		successMessage.append("已通知用户等待签收<br>");
-		successMessage.append("物流公司:").append(order.getExpressCompany());
-		successMessage.append("运单号:").append(order.getExpressOrderno());
-		redirectAttributes.addFlashAttribute("message", successMessage.toString());
-		return "trade/notified";
+		return "redirect:/trade/notify/list";
+	}
+	
+	/**
+	 * 返回物流跟踪信息
+	 * @return
+	 */
+	public String expressTraces() {
+		return null;
 	}
 	
 }

@@ -106,10 +106,6 @@
 			</div>
 		</fieldset>
 	</form>
-	<script>
-		$(function(){
-			$('#fetch_date').datepicker();
-		};
-	</script>
+
 </body>
 </html>

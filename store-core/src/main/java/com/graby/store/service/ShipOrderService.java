@@ -220,7 +220,7 @@ public class ShipOrderService {
 						order.getCreateUser().getId(), 
 						detail.getItem().getId(),
 						detail.getNum(), 
-						InvAccountTemplate.SHOP_SEND);
+						InvAccountTemplate.SHIP_ENTRY_SEND);
 			}
 			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_STORAGE_RECEIVED);
 			return true;
@@ -229,6 +229,30 @@ public class ShipOrderService {
 		}
 	}
 
+	/**
+	 * 取消发送入库单
+	 * 
+	 * @param id
+	 */
+	public boolean cancelEntryOrder(Long id) {
+		ShipOrder order = this.getShipOrder(id);
+		List<ShipOrderDetail> details = order.getDetails();
+		// 库存记账-商铺发送入库单
+		if (CollectionUtils.isNotEmpty(details)) {
+			for (ShipOrderDetail detail : details) {
+				inventoryService.input(order.getCentroId(), 
+						order.getCreateUser().getId(), 
+						detail.getItem().getId(),
+						detail.getNum(), 
+						InvAccountTemplate.SHIP_ENTRY_CANCEL);
+			}
+			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_SELLER_SEND);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * 接收发送入库单
 	 * 
