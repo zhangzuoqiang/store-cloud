@@ -137,6 +137,8 @@
 		a.receiver_city as "receiverCity",
 		a.receiver_state as "receiverState", 
 		a.receiver_name as "receiverName", 
+		a.receiver_mobile as "receiverMobile",
+		a.receiver_phone as "receiverPhone", 
 		a.receiver_district as "receiverDistrict", 
 		a.receiver_zip as "receiverZip",
 		a.orderno
