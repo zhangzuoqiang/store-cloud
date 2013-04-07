@@ -97,6 +97,21 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	@Override
 	public String setSendOrderExpress(List<Map<String,String>> orderMaps) {
 		return shipOrderService.setSendOrderExpress(orderMaps);
+	}
+
+	@Override
+	public List<ShipOrder> findSendOrderPickings(Long centroId) {
+		return shipOrderService.findSendOrderPickings(centroId);
+	}
+
+	@Override
+	public void reExpressShipOrder(Long[] orderids) {
+		shipOrderService.reExpressShipOrder(orderids);
 	}	
+	
+	@Override
+	public void submits(Long[] orderids) {
+		shipOrderService.submits(orderids);
+	}
 
 }

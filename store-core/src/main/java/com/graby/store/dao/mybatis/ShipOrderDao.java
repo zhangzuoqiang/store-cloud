@@ -24,6 +24,7 @@ public interface ShipOrderDao {
 	
 	List<ShipOrder> findEntryOrderOnWay();
 	List<ShipOrder> findSendOrderWaits(Long centroId, int rownum);
+	List<ShipOrder> findSendOrderPickings(Long centroId, int rownum);
 	List<ShipOrder> findSendOrderSignWaits();
 
 	
