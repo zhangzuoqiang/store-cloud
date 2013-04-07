@@ -50,7 +50,7 @@ public class ItemExcelReader {
 			item.setWeight(widght.longValue());
 			// 类型
 			String type = typeCell.getStringCellValue();
-			item.setType(type.equals("普通商品")? "normal" : "combine");
+			item.setType(type.equals("组合商品")? "combine" : "normal");
 			// 描述
 			item.setDescription(descCell.getStringCellValue());
 			items.add(item);

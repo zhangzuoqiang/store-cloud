@@ -17,9 +17,6 @@ import org.hibernate.annotations.Index;
 @Table(name = "sc_item")
 public class Item implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 981755267881595757L;
 
 	public final String TYPE_NORMAL = "normal";
@@ -30,6 +27,7 @@ public class Item implements Serializable {
 	private String title;
 	private Long weight;
 	private String type;
+	private String position;
 	private String description;
 	private List<ItemMapping> mapping = new ArrayList<ItemMapping>();
 
@@ -62,6 +60,11 @@ public class Item implements Serializable {
 	@Index(name = "idx_title")
 	public String getTitle() {
 		return title;
+	}
+	
+	@Index(name = "idx_position")
+	public String getPosition() {
+		return position;
 	}
 
 	public Long getWeight() {
@@ -102,6 +105,10 @@ public class Item implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 }

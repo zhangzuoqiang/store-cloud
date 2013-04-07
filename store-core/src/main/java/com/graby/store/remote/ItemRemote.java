@@ -45,5 +45,12 @@ public interface ItemRemote {
 	 * @return
 	 */
 	public Long getRelatedItemId(Long numIid, Long skuId);
+	
+	/**
+	 * 设置商品库位
+	 * @param itemId
+	 * @param position
+	 */
+	public void position(Long itemId, String position);	
 
 }

@@ -33,4 +33,7 @@ public interface ItemDao {
 	// 查询已关联的淘宝商品
 	Map<String,Object> related(Long itemId);
 	
+	// 更新商品库位
+	void updatePositin(Long itemId, String position);
+	
 }

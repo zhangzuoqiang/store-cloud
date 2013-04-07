@@ -72,5 +72,11 @@
 	<delete id="delete" parameterType="int">
 	     delete from sc_item where id=#{id}
 	</delete>
+
+	<!-- 更新商品库位 -->
+   <update id="updatePositin"> 
+        update sc_item set position=#{1}  
+        where item_id=#{0}
+    </update> 
 	
 </mapper> 

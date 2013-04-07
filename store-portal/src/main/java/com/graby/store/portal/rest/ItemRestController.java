@@ -29,8 +29,21 @@ public class ItemRestController {
 	 
 	@RequestMapping(value = "/relate/{numIid}/{skuId}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<String> relateItem(@PathVariable("numIid") Long numIid, @PathVariable("skuId") Long skuId) throws ApiException {
+	public ResponseEntity<String> relateItem(
+			@PathVariable("numIid") Long numIid, 
+			@PathVariable("skuId") Long skuId) 
+			throws ApiException {
 		itemService.syncTop(numIid, skuId);
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}	
+	
+	@RequestMapping(value = "/position/{itemId}/{position}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> positionItem(
+			@PathVariable("itemId") Long itemId,
+			@PathVariable("position") String position) 
+			throws ApiException {
+		itemService.position(itemId, position);
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}	
 }

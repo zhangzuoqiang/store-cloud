@@ -122,15 +122,38 @@ public class ItemService {
 		return itemDao.getRelatedItemId(numIid, skuId);
 	}	
 	
+	/**
+	 * 删除商品
+	 * @param id
+	 */
 	public void deleteItem(Long id) {
 		itemDao.unRelateAll(id);
 		itemDao.delete(id);
 	}
 
+	/**
+	 * 设置商品库位
+	 * @param itemId
+	 * @param position
+	 */
+	public void position(Long itemId, String position) {
+		itemDao.updatePositin(itemId, position);
+	}
+	
+	/**
+	 * 同步所有淘宝商品
+	 * @throws ApiException
+	 */
 	public void syncTop() throws ApiException {
 		itemTopSync.sync();
 	}
 	
+	/**
+	 * 同步淘宝商品
+	 * @param numIid
+	 * @param skuId
+	 * @throws ApiException
+	 */
 	public void syncTop(Long numIid,Long skuId) throws ApiException {
 		itemTopSync.sync(numIid, skuId);
 	}	
