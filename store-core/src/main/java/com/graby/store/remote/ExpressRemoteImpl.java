@@ -23,5 +23,10 @@ public class ExpressRemoteImpl implements ExpressRemote {
 	public Map<String, String> getExpressMap() {
 		return expressService.getExpressMap();
 	}
+
+	@Override
+	public boolean validate(String code, String orderno) {
+		return expressService.validate(code, orderno);
+	}
 	
 }

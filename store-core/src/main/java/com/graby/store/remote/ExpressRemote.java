@@ -16,5 +16,13 @@ public interface ExpressRemote {
 	 * @return
 	 */
 	Map<String,String> getExpressMap();
+	
+	/**
+	 * 运单规则校验
+	 * @param code
+	 * @param orderno
+	 * @return
+	 */
+	boolean validate(String code, String orderno);
 
 }
