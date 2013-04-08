@@ -99,7 +99,7 @@
 			<div class="control-group">
 				<div class="controls">
 					<input type="file" name="file"/> 
-					<a href="${ctx}/static/download/商品模板.xls" class="">下载商品模板 <small>(商品模板.xls)</small></a>
+					<a href="${ctx}/static/download/item.xls" class="">下载商品模板 <small>(商品模板.xls)</small></a>
 				</div>
 			</div>	
 			<div class="form-actions">

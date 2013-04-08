@@ -146,12 +146,9 @@ public class TradeService {
 	 * @return
 	 */
 	public Page<Trade> findUserTrades(Long userId, String status, long pageNo, long pageSize) {
-		StringBuffer buf = new StringBuffer();
-		buf.append("%").append(status).append("%");
-		status = buf.toString();
 		long start = (pageNo-1)*pageSize;
 		long offset = pageSize;
-		List<Trade> trades = tradeDao.getTrades(userId, status, start, offset);
+		List<Trade> trades = tradeDao.getTrades(userId, "%"+status+"%", start, offset);
 		long total = tradeDao.getTotalResults(userId, status);
 		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
 		Page<Trade> page = new PageImpl<Trade>(trades, pageable, total);

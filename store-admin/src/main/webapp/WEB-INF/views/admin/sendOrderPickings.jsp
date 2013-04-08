@@ -63,7 +63,7 @@
 	<div class="row">
 	  	<div class="pull-right">
 	  		<a id="btn_express" href="#" class="btn btn-info">重新打印运单</a>
-	  		<a id="btn_print" href="#" class="btn btn-inverse">打印拣货单</a>
+	  		<a id="btn_print" href="#" class="btn btn-info">打印拣货单</a>
 	  		<a id="btn_submit" href="#" class="btn btn-success">确认已出库</a>
 	  	</div>
 	</div>
@@ -75,6 +75,7 @@
 		<th>出库单号</th>
 		<th>运输公司</th>
 		<th>运单号</th>
+		<th>状态</th>
 		<th><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>
 		</tr></thead>
 		<tbody>
@@ -85,6 +86,7 @@
 				<td>${order.orderno}</td>
 				<td>${order.expressCompany}</td>
 				<td>${order.expressOrderno}</td>
+				<td>运单已打印,等待拣货.</td>
 				<td><input type='checkbox' id='trade_select' name='order_select[]' value='${order.id}' /></td>
 			</tr>
 		</c:forEach>

@@ -131,6 +131,22 @@ public class UserTradeController {
 		tradeService.createTradesFromTop(tids);
 		return "redirect:/trade/waits";
 	}
+	
+	/**
+	 * 仓库已接收订单
+	 * 
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "/received")
+	public String received(
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "status", defaultValue = "") String status,
+			Model model) throws ApiException {
+		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), status, page, 10);
+		model.addAttribute("trades", trades);
+		return "trade/received";
+	}	
 
 	/**
 	 * 淘宝订单处理(单条)
