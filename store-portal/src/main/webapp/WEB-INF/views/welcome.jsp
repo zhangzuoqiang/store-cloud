@@ -14,6 +14,6 @@
  <body>
      <div id="msg" class="hint alert alert-success">
      </div>
-     <input type="button" id="btn" value="click" />
+     <input type="button" class="hide" id="btn" value="click" />
  </body>
  </html>

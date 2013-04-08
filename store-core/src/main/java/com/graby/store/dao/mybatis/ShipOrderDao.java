@@ -17,6 +17,7 @@ public interface ShipOrderDao {
 	void deleteDetail(Long detailId);
 	void sendEntryOrder(Long orderId);
 	void setOrderStatus(Long orderId, String status);
+	void setTradeStatus(Long orderId, String status);
 	void setSendOrderExpress(Map<String,String> orders);
 	
 	Long getEntryOrderDetail(Long orderId, Long itemId);

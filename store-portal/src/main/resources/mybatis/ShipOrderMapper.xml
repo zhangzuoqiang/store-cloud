@@ -26,7 +26,12 @@
         update sc_ship_order set status=#{1}
         where id=#{0}
     </update>    
-    
+
+	<update id="setTradeStatus"> 
+	  	UPDATE sc_trade a	SET  STATUS=#{1}
+		WHERE a.id=(SELECT trade_id FROM  sc_ship_order b WHERE b.id=#{0}) 
+    </update> 
+        
 	<!-- 查询用户出货单 -->
     <select id="getShipOrder" parameterType="long" resultMap="ShipOrderEntity">
 		select	
