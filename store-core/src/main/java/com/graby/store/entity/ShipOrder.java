@@ -232,7 +232,7 @@ public class ShipOrder implements Serializable{
 		StringBuffer buf = new StringBuffer();
 		for (Iterator<ShipOrderDetail> iterator = details.iterator(); iterator.hasNext();) {
 			ShipOrderDetail detail = iterator.next();
-			buf.append(detail.getItemCode()).append(" ").append(detail.getItemTitle()).append(" ").append(detail.getNum());
+			buf.append(detail.getItemTitle()).append(" ").append(detail.getNum());
 			if (iterator.hasNext()) {
 				buf.append(",");	
 			}
@@ -421,7 +421,7 @@ public class ShipOrder implements Serializable{
 		StringBuffer buf = new StringBuffer();
 		for (Iterator<ShipOrderDetail> iterator = details.iterator(); iterator.hasNext();) {
 			ShipOrderDetail detail = iterator.next();
-			buf.append(detail.getItemCode()).append(" ").append(detail.getItemTitle()).append(" ").append(detail.getNum());
+			buf.append(detail.getItemTitle()).append(" ").append(detail.getNum());
 			if (iterator.hasNext()) {
 				buf.append(",");	
 			}
