@@ -13,6 +13,7 @@ public class TestExpressRemote extends AbstractJUnit4SpringContextTests{
 	
 	@Test
 	public void testFindAll() {
+		System.out.println(expressRemote.validate("SF", "123331123"));
 		System.out.println(expressRemote.getExpressMap());
 		System.out.println(expressRemote.getExpressCompanyName("SF"));
 	}
