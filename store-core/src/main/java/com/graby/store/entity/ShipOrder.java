@@ -166,6 +166,8 @@ public class ShipOrder implements Serializable{
 	/** 发货商品明细 */
 	private List<ShipOrderDetail> details = new ArrayList<ShipOrderDetail>();
 	
+	// 发货明细字符串
+	private String items;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -235,7 +237,8 @@ public class ShipOrder implements Serializable{
 				buf.append(",");	
 			}
 		}
-		return buf.toString();
+		items = buf.toString();
+		return items;
 	}
 	
 	public String getOriginPersion() {
@@ -412,6 +415,18 @@ public class ShipOrder implements Serializable{
 
 	public void setExpressCompanyName(String expressCompanyName) {
 		this.expressCompanyName = expressCompanyName;
+	}
+
+	public void setItems(String items) {
+		StringBuffer buf = new StringBuffer();
+		for (Iterator<ShipOrderDetail> iterator = details.iterator(); iterator.hasNext();) {
+			ShipOrderDetail detail = iterator.next();
+			buf.append(detail.getItemCode()).append(" ").append(detail.getItemTitle()).append(" ").append(detail.getNum());
+			if (iterator.hasNext()) {
+				buf.append(",");	
+			}
+		}
+		this.items =  buf.toString();
 	}
 
 }
