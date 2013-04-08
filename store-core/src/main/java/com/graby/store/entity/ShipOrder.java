@@ -3,6 +3,7 @@ package com.graby.store.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -162,9 +163,9 @@ public class ShipOrder implements Serializable{
 	// 最后更新时间
 	private Date lastUpdateDate;
 	
-	
 	/** 发货商品明细 */
 	private List<ShipOrderDetail> details = new ArrayList<ShipOrderDetail>();
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -222,6 +223,19 @@ public class ShipOrder implements Serializable{
 	@Transient
 	public String getExpressCompanyName() {
 		return expressCompanyName;
+	}
+	
+	@Transient
+	public String getItems() {
+		StringBuffer buf = new StringBuffer();
+		for (Iterator<ShipOrderDetail> iterator = details.iterator(); iterator.hasNext();) {
+			ShipOrderDetail detail = iterator.next();
+			buf.append(detail.getItemCode()).append(" ").append(detail.getItemTitle()).append(" ").append(detail.getNum());
+			if (iterator.hasNext()) {
+				buf.append(",");	
+			}
+		}
+		return buf.toString();
 	}
 	
 	public String getOriginPersion() {
