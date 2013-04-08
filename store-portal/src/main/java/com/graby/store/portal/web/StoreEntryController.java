@@ -152,15 +152,22 @@ public class StoreEntryController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "item/add/{orderid}/{itemid}/{num}")
+	@RequestMapping(value = "ajax/item/add/{orderid}/{itemid}/{num}")
 	public String itemAdd(
 			@PathVariable("orderid") Long orderId,
 			@PathVariable("itemid") Long itemId,
 			@PathVariable("num") long num
 			) {
 		shipOrderService.saveShipOrderDetail(orderId, itemId, num);
-		return "redirect:/store/entry/item/" + orderId;
-	}	
+		return "redirect:/store/entry/ajax/detail/" + orderId;
+	}
+	
+	@RequestMapping(value = "ajax/detail/{id}")
+	public String itemDetail(@PathVariable("id") Long orderId, Model model) {
+		ShipOrder order = shipOrderService.getShipOrder(orderId);
+		model.addAttribute("order", order);
+		return "store/entryDetail";
+	}
 	
 	/**
 	 * 入库单商品管理-删除商品

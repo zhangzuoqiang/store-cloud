@@ -6,11 +6,32 @@
 <head>
 	<title>商品管理</title>
 	<script>
-	
+		function isNum(s) {
+		    if (s!=null && s!="") {
+		        return !isNaN(s);
+		    }
+		    return false;
+		}
+		
 		function addItem(itemid, numid) {
 			var num_val = $('#'+numid).val();
-			var actionUrl = "${ctx}/store/entry/item/add/" + ${order.id} + "/" + itemid + "/" + num_val;
-			window.location.href=actionUrl;
+			if (!isNum(num_val)) {
+				alert('请输入数字');
+				return;
+			}
+			var action = "${ctx}/store/entry/ajax/item/add/" + ${order.id} + "/" + itemid + "/" + num_val;
+			htmlobj=$.ajax({
+				url:action,
+				async:true,
+				type:"post",
+				success: function(msg) {
+                   $("#itemPanel").html(htmlobj.responseText);
+                },
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+                }
+			});
+			
+			$("#msg").html("成功添加" + num_val + "件").show(100).delay(1000).hide(400);
 		}
 		
 		$(document).on("mouseenter", ".add_opt", function(e) {
@@ -49,23 +70,25 @@
 		</tr>		
 	</table>	
 	
-	<table id="contentTable" class="table table-condensed alert">
-		<thead><tr>
-		<th>已添加商品</th><th>商品编号</th>
-		<th>重量(克)</th><th>数量</th><th>删除</th></tr></thead>
-		<tbody>
-		<c:forEach items="${order.details}" var="detail">
-			<tr>
-				<td>${detail.item.title}</td>
-				<td>${detail.item.code}</td>
-				<td>${detail.item.weight}</td>
-				<td>${detail.num}</td>
-				<td><a href="${ctx}/store/entry/item/delete/${order.id}/${detail.id}">删除</a></td>
-			</tr>
-		</c:forEach>
-		</tbody>
-	</table>
-	
+	<div id="itemPanel">
+		<table class="table table-condensed alert">
+			<thead><tr>
+			<th>已添加商品</th><th>商品编号</th>
+			<th>重量(克)</th><th>数量</th><th>删除</th></tr></thead>
+			<tbody>
+			<c:forEach items="${order.details}" var="detail">
+				<tr>
+					<td>${detail.item.title}</td>
+					<td>${detail.item.code}</td>
+					<td>${detail.item.weight}</td>
+					<td>${detail.num}</td>
+					<td><a href="${ctx}/store/entry/item/delete/${order.id}/${detail.id}">删除</a></td>
+				</tr>
+			</c:forEach>
+			</tbody>
+		</table>
+	</div>
+
 	<div class="form-actions"  style="text-align: right;">
 		<form action="${ctx}/store/entry/send/${order.id}" method="get">
 			<input id="submit_btn" class="btn btn-primary" type="submit" value="发送至仓库"/>&nbsp;
@@ -104,5 +127,8 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	
+	<div id="msg" class="hint hide alert alert-success">
+    </div>
 </body>
 </html>
