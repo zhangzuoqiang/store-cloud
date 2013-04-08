@@ -53,6 +53,11 @@ public class ShipOrderDetail implements Serializable{
 		return item.getTitle();
 	}
 	
+	@Transient
+	public String getItemCode() {
+		return item.getCode();
+	}
+	
 	public long getNum() {
 		return num;
 	}
