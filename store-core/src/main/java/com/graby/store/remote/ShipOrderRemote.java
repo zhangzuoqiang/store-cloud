@@ -115,7 +115,26 @@ public interface ShipOrderRemote {
 	public String setSendOrderExpress(List<Map<String,String>> orderMaps);
 
 	/**
-	 * 查询所有出库单(带用户签收)
+	 * 查询等待拣货出库单
+	 * @param centroId
+	 * @return
+	 */
+	public List<ShipOrder> findSendOrderPickings(Long centroId);
+	
+	/**
+	 * 重置货单为运单未打印状态。
+	 * @param orderids
+	 */
+	public void reExpressShipOrder(Long[] orderids);
+	
+	/**
+	 * 批量提交出库单，等待用户签收.
+	 * @param orderids
+	 */
+	public void submits(Long[] orderids);
+	
+	/**
+	 * 查询所有出库单(等待用户签收)
 	 * 
 	 * @return
 	 */

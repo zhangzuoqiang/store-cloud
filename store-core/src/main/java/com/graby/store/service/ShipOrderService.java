@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.drools.core.util.StringUtils;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ import com.taobao.api.ApiException;
 @Transactional(readOnly = true)
 public class ShipOrderService {
 
-	// 未处理出库单默认查询条数
-	private static final int WAIT_SEND_ORDER_DEFAULT_ROWS = 1000;
+	// 默认查询条数
+	private static final int DEFAULT_FETCH__ROWS = 1000;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -280,7 +281,7 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderWaits() {
-		return shipOrderDao.findSendOrderWaits(1L, WAIT_SEND_ORDER_DEFAULT_ROWS);
+		return shipOrderDao.findSendOrderWaits(1L, DEFAULT_FETCH__ROWS);
 	}
 	
 
@@ -292,7 +293,7 @@ public class ShipOrderService {
 	 * @return 出库单列表
 	 */
 	public List<ShipOrder> findGroupSendOrderWaits(Long centroId) {
-		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId, WAIT_SEND_ORDER_DEFAULT_ROWS);
+		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId, DEFAULT_FETCH__ROWS);
 		for (ShipOrder shipOrder : orders) {
 			ksession.insert(shipOrder);
 		}
@@ -362,6 +363,7 @@ public class ShipOrderService {
 	 * expressOrderno=运单号
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public String setSendOrderExpress(List<Map<String,String>> orderMaps) {
 		StringBuffer result = new StringBuffer();
 		if (CollectionUtils.isNotEmpty(orderMaps)) {
@@ -370,9 +372,10 @@ public class ShipOrderService {
 			String orderno;
 			String err;
 			for (Map<String, String> map : orderMaps) {
-				id = map.get("id");
-				code = map.get("expressCompany");
-				orderno = map.get("expressOrderno");
+				CaseInsensitiveMap cmap = new CaseInsensitiveMap(map);
+				id = (String)cmap.get("id");
+				code = (String)cmap.get("expressCompany");
+				orderno = (String)cmap.get("expressOrderno");
 				err = "{" + id + ":" + code + ":" + orderno + "}";
 				if (StringUtils.isEmpty(code) || StringUtils.isEmpty(orderno)) {
 					result.append(err);
@@ -380,7 +383,7 @@ public class ShipOrderService {
 				}
 				boolean validate = expressService.validate(code, orderno);
 				if (validate) {
-					shipOrderDao.setSendOrderExpress(map);
+					shipOrderDao.setSendOrderExpress(cmap);
 				} else {
 					result.append(err);
 				}
@@ -390,6 +393,41 @@ public class ShipOrderService {
 			return "success";
 		} else {
 			return "运单号不符合规则：" + result.toString() ;
+		}
+	}
+	
+	/**
+	 * 查询所有未拣货出库单
+	 * @param centroId
+	 * @return
+	 */
+	public List<ShipOrder> findSendOrderPickings(Long centroId) {
+		return shipOrderDao.findSendOrderPickings(centroId, DEFAULT_FETCH__ROWS);
+	}	
+	
+	/**
+	 * 重置货单为运单未打印状态。
+	 * @param orderids
+	 */
+	public void reExpressShipOrder(Long[] orderids) {
+		if (orderids == null || orderids.length == 0) {
+			return;
+		}
+		for (Long orderId : orderids) {
+			shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
+		}
+	}
+	
+	/**
+	 * 批量提交出库单，等待用户签收.
+	 * @param orderids
+	 */
+	public void submits(Long[] orderids) {
+		if (orderids == null || orderids.length == 0) {
+			return;
+		}
+		for (Long orderId : orderids) {
+			shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
 		}
 	}
 	

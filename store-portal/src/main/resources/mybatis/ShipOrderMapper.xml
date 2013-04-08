@@ -15,12 +15,13 @@
 	    delete from sc_ship_order_detail where id=#{id}
 	</delete>
 	
-	<!-- 发送入库单 -->
+	<!-- 商家发送入库单 -->
 	<update id="sendEntryOrder" parameterType="long"> 
         update sc_ship_order set status='ENTRY_WAIT_STORAGE_RECEIVED'
         where id=#{id}
     </update>
     
+    <!-- 设置货单状态 -->
 	<update id="setOrderStatus"> 
         update sc_ship_order set status=#{1}
         where id=#{0}
@@ -127,7 +128,7 @@
     </update> 
     
 	
-	<!-- 查询待出库单 -->
+	<!-- 查询待运单打印出库单 -->
   	<select id="findSendOrderWaits" parameterType="long" resultType="ShipOrder">
 		SELECT 
 		b.shop_name as "createUser.shopName", 
@@ -145,6 +146,27 @@
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
 		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED' and a.centro_id=#{0} limit #{1}
 	</select>
+	
+	<!-- 查询待拣货出库单 -->
+  	<select id="findSendOrderPickings" resultType="ShipOrder">
+		SELECT 
+		b.shop_name as "createUser.shopName", 
+		create_date as "createDate",
+		a.id, a.centro_id as centroId,
+		a.receiver_address as "receiverAddress", 
+		a.receiver_city as "receiverCity",
+		a.receiver_state as "receiverState", 
+		a.receiver_name as "receiverName", 
+		a.receiver_mobile as "receiverMobile",
+		a.receiver_phone as "receiverPhone", 
+		a.receiver_district as "receiverDistrict", 
+		a.receiver_zip as "receiverZip",
+		a.orderno,
+		a.express_company as "expressCompany",
+		a.express_orderno as "expressOrderno"
+		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
+		WHERE type='send' and a.status='WAIT_EXPRESS_PICKING' and a.centro_id=#{0} limit #{1}
+	</select>	
 	
 	<!-- 查询待用户签收出库单 -->
   	<select id="findSendOrderSignWaits" resultType="ShipOrder">

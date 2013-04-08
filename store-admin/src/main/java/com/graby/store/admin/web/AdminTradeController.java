@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
@@ -102,6 +103,44 @@ public class AdminTradeController {
 	}
 	
 
+	
+	/**
+	 * 查询所有待拣货出库单
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "send/pickings", method=RequestMethod.GET)
+	public String pickingList(Model model) throws ApiException {
+		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderPickings(1L);
+		model.addAttribute("orders", sendOrders);
+		return "/admin/sendOrderPickings";
+	}	
+	
+	/**
+	 * 重置拣货单为运单打印状态
+	 * @param ids
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "send/express")
+	public String pickings(@RequestParam(value = "ids", defaultValue = "") Long[] ids) throws NumberFormatException, ApiException {
+		shipOrderRemote.reExpressShipOrder(ids);
+		return "redirect:/trade/send/pickings";
+	}
+	
+	/**
+	 * 批量提交出库单
+	 * @param ids
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "send/submits")
+	public String submits(@RequestParam(value = "ids", defaultValue = "") Long[] ids) throws NumberFormatException, ApiException {
+		shipOrderRemote.submits(ids);
+		return "redirect:/trade/send/pickings";
+	}	
 	
 	
 	/**
