@@ -89,8 +89,13 @@
 	</resultMap>
 	
 	<select id="shipOrderDetailMapped" parameterType="long" resultType="ShipOrderDetail">
-		SELECT  a.id, num, sku_properties_name AS "skuPropertiesName", item_id AS "item.id", order_id AS "order.id",
-		b.title AS "item.title" , b.weight AS "item.weight"
+		SELECT  a.id, num, 
+		sku_properties_name AS "skuPropertiesName", 
+		item_id AS "item.id", 
+		order_id AS "order.id",
+		b.code AS "item.code" ,
+		b.title AS "item.title", 
+		b.weight AS "item.weight"
 		FROM sc_ship_order_detail a LEFT JOIN sc_item b ON a.item_id = b.id		
 		WHERE order_id =  #{id}
 	</select>		
@@ -129,7 +134,7 @@
     
 	
 	<!-- 查询待运单打印出库单 -->
-  	<select id="findSendOrderWaits" parameterType="long" resultType="ShipOrder">
+  	<select id="findSendOrderWaits" parameterType="long" resultMap="ShipOrderEntity">
 		SELECT 
 		b.shop_name as "createUser.shopName", 
 		create_date as "createDate",
@@ -148,7 +153,7 @@
 	</select>
 	
 	<!-- 查询待拣货出库单 -->
-  	<select id="findSendOrderPickings" resultType="ShipOrder">
+  	<select id="findSendOrderPickings" resultMap="ShipOrderEntity">
 		SELECT 
 		b.shop_name as "createUser.shopName", 
 		create_date as "createDate",
@@ -169,7 +174,7 @@
 	</select>	
 	
 	<!-- 查询待用户签收出库单 -->
-  	<select id="findSendOrderSignWaits" resultType="ShipOrder">
+  	<select id="findSendOrderSignWaits" resultMap="ShipOrderEntity">
 		SELECT b.shop_name as "createUser.shopName", create_date as "createDate",
 		a.id, a.centro_id as centroId, a.orderno
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id

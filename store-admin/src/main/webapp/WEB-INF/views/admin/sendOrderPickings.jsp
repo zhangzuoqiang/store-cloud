@@ -75,6 +75,7 @@
 		<th>出库单号</th>
 		<th>运输公司</th>
 		<th>运单号</th>
+		<th>商品</th>
 		<th>状态</th>
 		<th><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>
 		</tr></thead>
@@ -86,6 +87,11 @@
 				<td>${order.orderno}</td>
 				<td>${order.expressCompany}</td>
 				<td>${order.expressOrderno}</td>
+				<td>
+					<c:forEach items="${order.details}" var="detail">
+						${detail.item.code} ${detail.item.title} ${detail.num} <BR>
+					</c:forEach>
+				</td>
 				<td>运单已打印,等待拣货.</td>
 				<td><input type='checkbox' id='trade_select' name='order_select[]' value='${order.id}' /></td>
 			</tr>
