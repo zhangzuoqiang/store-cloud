@@ -236,7 +236,16 @@
 					 	${trade.receiverAddress}
 					</td>
 					<td>
-						${trade.status}
+						<c:if test="${trade.status == 'TRADE_WAIT_CENTRO_AUDIT'}">
+							等待物流通审核			
+						</c:if>
+						<c:if test="${trade.status == 'TRADE_WAIT_EXPRESS_SHIP'}">
+							物流通审核通过，快递配送中...
+						</c:if>
+						<c:if test="${trade.status == 'TRADE_WAIT_BUYER_RECEIVED'}">
+							物流通已发货 请通知买家等待签收<br>
+							<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.tid}">通知</a>
+						</c:if>					
 					</td>		
 				</tr>
 			</c:forEach>

@@ -92,7 +92,6 @@ public interface ShipOrderRemote {
 	 * 
 	 * @return
 	 */
-	@Deprecated
 	public List<ShipOrder> findSendOrderWaits();
 	
 	/**

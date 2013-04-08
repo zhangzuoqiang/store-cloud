@@ -120,20 +120,20 @@ public class UserTradeController {
 	}	
 	
 	/**
-	 * 根据淘宝交易ID批量创建系统交易
+	 * 根据淘宝交易ID批量创建系统交易订单
 	 * @param tids
 	 * @return
 	 * @throws NumberFormatException
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/send")
-	public String send(@RequestParam(value = "tids", defaultValue = "") String[] tids) throws NumberFormatException, ApiException {
+	public String send(@RequestParam(value = "tids") String[] tids) throws NumberFormatException, ApiException {
 		tradeService.createTradesFromTop(tids);
 		return "redirect:/trade/waits";
 	}
 
 	/**
-	 * 淘宝订单处理
+	 * 淘宝订单处理(单条)
 	 * 
 	 * @param id
 	 * @param model
@@ -172,7 +172,7 @@ public class UserTradeController {
 
 	
 	/**
-	 * 查询交易订单
+	 * 等待用户签收列表
 	 * @return
 	 * @throws ApiException
 	 */
@@ -201,13 +201,5 @@ public class UserTradeController {
 		return "redirect:/trade/notify/list";
 	}
 	
-	/**
-	 * 返回物流跟踪信息
-	 * @return
-	 */
-	public String expressTraces() {
-		//topApi.getExpressTrace(tid)
-		return null;
-	}
 	
 }

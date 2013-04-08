@@ -42,7 +42,7 @@ public class AdminTradeController {
 	private ExpressRemote expressRemote;
 	
 	/**
-	 * 查询所有未处理订单
+	 * 查询所有待审核订单
 	 * @return
 	 * @throws ApiException
 	 */
@@ -51,6 +51,18 @@ public class AdminTradeController {
 		List<Trade> trades = tradeRemote.findWaitAuditTrades();
 		model.addAttribute("trades", trades);
 		return "/admin/tradeWaits";
+	}
+	
+	/**
+	 * 查询所有待处理出库单
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "send/waits", method=RequestMethod.GET)
+	public String sendWaits(Model model) throws ApiException {
+		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderWaits();
+		model.addAttribute("orders", sendOrders);
+		return "/admin/sendOrderWaits";
 	}
 	
 	/**
@@ -85,20 +97,11 @@ public class AdminTradeController {
 	public String ship(@PathVariable("id") Long id, Model model) {
 		ShipOrder sendOrder = tradeRemote.createSendShipOrderByTradeId(id);
 		model.addAttribute("sendOrder", sendOrder);
-		return "redirect:/trade/send/do/" + sendOrder.getId();
+		// "redirect:/trade/send/do/" + sendOrder.getId();
+		return "redirect:/trade/waits";
 	}
 	
-	/**
-	 * 查询所有待处理出库单
-	 * @return
-	 * @throws ApiException
-	 */
-	@RequestMapping(value = "send/waits", method=RequestMethod.GET)
-	public String sendWaits(Model model) throws ApiException {
-		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderWaits();
-		model.addAttribute("orders", sendOrders);
-		return "/admin/sendOrderWaits";
-	}
+
 	
 	
 	/**

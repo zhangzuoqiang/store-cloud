@@ -24,7 +24,6 @@ import com.taobao.api.domain.Shipping;
 import com.taobao.api.domain.Shop;
 import com.taobao.api.domain.Sku;
 import com.taobao.api.domain.Trade;
-import com.taobao.api.domain.TransitStepInfo;
 import com.taobao.api.request.ItemGetRequest;
 import com.taobao.api.request.ItemSkuGetRequest;
 import com.taobao.api.request.ItemsInventoryGetRequest;
@@ -248,6 +247,9 @@ public class TopApi {
 	}
 	
 	public List<Item> getItems(String numIids) throws ApiException {
+		if (numIids == null || numIids.trim().length() == 0) {
+			return null;
+		}
 		ItemsListGetRequest req=new ItemsListGetRequest();
 		req.setFields(ITEM_PROPS);
 		req.setNumIids(numIids);
