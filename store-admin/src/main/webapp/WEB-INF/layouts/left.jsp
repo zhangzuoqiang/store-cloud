@@ -11,8 +11,11 @@
 	<h1>订单管理</h1>
 	<div class="submenu">
 		<a href="${ctx}/trade/waits">待审核交易订单</a>
-		<a href="${ctx}/trade/send/waits">快递运单设置(单条)</a>
-		<a href="${ctx}/trade/send/pickings">未处理拣货单</a>
-		<a href="${ctx}/trade/sign/waits">等待用户签收</a>
+		<a href="${ctx}/trade/send/pickings">拣货单处理</a>
+		<a href="${ctx}/trade/sign/waits">用户签收处理</a>
 	</div>
+	<h1>保留(待删除)</h1>
+	<div class="submenu">
+		<a href="${ctx}/trade/send/waits">快递单打印(单条)</a>
+	</div>	
 </div>

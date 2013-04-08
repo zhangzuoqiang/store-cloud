@@ -18,5 +18,4 @@ public class TestExpressRemote extends AbstractJUnit4SpringContextTests{
 		System.out.println(expressRemote.getExpressCompanyName("SF"));
 	}
 	
-	
 }

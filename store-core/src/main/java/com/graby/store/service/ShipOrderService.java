@@ -33,7 +33,7 @@ import com.taobao.api.ApiException;
 public class ShipOrderService {
 
 	// 默认查询条数
-	private static final int DEFAULT_FETCH__ROWS = 1000;
+	private static final int DEFAULT_FETCH_ROWS = 1000;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -281,7 +281,7 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderWaits() {
-		return shipOrderDao.findSendOrderWaits(1L, DEFAULT_FETCH__ROWS);
+		return shipOrderDao.findSendOrderWaits(1L, DEFAULT_FETCH_ROWS);
 	}
 	
 
@@ -293,7 +293,7 @@ public class ShipOrderService {
 	 * @return 出库单列表
 	 */
 	public List<ShipOrder> findGroupSendOrderWaits(Long centroId) {
-		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId, DEFAULT_FETCH__ROWS);
+		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId, DEFAULT_FETCH_ROWS);
 		for (ShipOrder shipOrder : orders) {
 			ksession.insert(shipOrder);
 		}
@@ -402,7 +402,7 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderPickings(Long centroId) {
-		return shipOrderDao.findSendOrderPickings(centroId, DEFAULT_FETCH__ROWS);
+		return shipOrderDao.findSendOrderPickings(centroId, DEFAULT_FETCH_ROWS);
 	}	
 	
 	/**
@@ -432,7 +432,7 @@ public class ShipOrderService {
 	}
 	
 	/**
-	 * 提交出货单，仓库发货
+	 * 提交出货单，仓库发货（单条）
 	 * @param order
 	 * @return
 	 * @throws ApiException 

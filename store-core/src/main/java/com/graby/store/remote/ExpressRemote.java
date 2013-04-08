@@ -19,8 +19,8 @@ public interface ExpressRemote {
 	
 	/**
 	 * 运单规则校验
-	 * @param code
-	 * @param orderno
+	 * @param code 快递公司编码
+	 * @param orderno 运单号
 	 * @return
 	 */
 	boolean validate(String code, String orderno);
