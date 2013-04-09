@@ -14,7 +14,6 @@ import com.graby.store.dao.jpa.ItemMappingJpaDao;
 import com.graby.store.dao.mybatis.ItemDao;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ItemMapping;
-import com.graby.store.util.SkuUtils;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 
@@ -83,12 +82,13 @@ public class ItemService {
 	/**
 	 * 关联淘宝商品
 	 * @param itemId
+	 * @param skuTitle TODO
 	 * @param tbitemId
 	 * @param tbItemTitle
 	 * @param tbItemUrl
 	 */
 	@Transactional(readOnly = false)
-	public void relateItem(Long itemId,	com.taobao.api.domain.Item tbItem,	Long  skuid ) {
+	public void relateItem(Long itemId,	com.taobao.api.domain.Item tbItem,	Long  skuid, String skuTitle ) {
 		if (getRelatedItemId(tbItem.getNumIid(), skuid) == null) {
 			ItemMapping mapping = new ItemMapping();
 			Item localItem = new Item();
@@ -96,7 +96,7 @@ public class ItemService {
 			mapping.setItem(localItem);
 			mapping.setNumIid(tbItem.getNumIid());
 			mapping.setSkuId(skuid);
-			SkuUtils.getTopSkuNames(tbItem.getPropsName());
+			mapping.setSkuTitle(skuTitle);
 			mapping.setTitle(tbItem.getTitle());
 			mapping.setDetailUrl(tbItem.getDetailUrl());
 			itemMappingJpaDao.save(mapping);			

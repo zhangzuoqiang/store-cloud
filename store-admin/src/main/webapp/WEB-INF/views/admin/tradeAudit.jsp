@@ -106,7 +106,7 @@
 				<input type="hidden" name="orders[${i}].item.id" value="${order.item.id}">
 				<input type="hidden" name="orders[${i}].title" value="${order.item.title}">
 				<c:set var="i" value="${i+1}"/>
-				${order.item.title}
+				${order.item.title} ${order.item.sku}
 				<span class="label label-success">
 				${order.stockNum}件
 				</span>  <i class="icon-ok"/>

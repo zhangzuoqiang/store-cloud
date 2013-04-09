@@ -20,9 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.graby.store.entity.Item;
 import com.graby.store.portal.util.ItemExcelReader;
 import com.graby.store.service.ItemService;
+import com.graby.store.util.SkuUtils;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
+import com.taobao.api.domain.Sku;
 
 @Controller
 @RequestMapping(value = "/item")
@@ -72,7 +74,9 @@ public class ItemController {
 						@PathVariable("skuid") Long skuid,
 						@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws ApiException {
 		com.taobao.api.domain.Item tbItem = topApi.getItem(tbitemid);
-		itemService.relateItem(itemid, tbItem, skuid);
+		Sku sku = topApi.getSku(tbItem.getNumIid(), skuid);
+		String skuTitle = sku == null ? "" : SkuUtils.convert(sku.getPropertiesName());
+		itemService.relateItem(itemid, tbItem, skuid, skuTitle);
 		return "redirect:/item/list?page="+pageNumber;
 	}
 	

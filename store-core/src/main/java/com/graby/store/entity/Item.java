@@ -27,6 +27,7 @@ public class Item implements Serializable {
 	private String title;
 	private Long weight;
 	private String type;
+	private String sku;
 	private String position;
 	private String description;
 	private List<ItemMapping> mapping = new ArrayList<ItemMapping>();
@@ -109,6 +110,14 @@ public class Item implements Serializable {
 
 	public void setPosition(String position) {
 		this.position = position;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 }

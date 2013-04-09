@@ -27,6 +27,8 @@ public class ItemMapping implements Serializable{
 	private String detailUrl;
 	// 淘宝商品SkuID
 	private Long skuId;
+	// sku标题
+	private String skuTitle;
 	// 淘宝商品介绍(不持久化)
 	private String desc;
 
@@ -89,6 +91,14 @@ public class ItemMapping implements Serializable{
 	
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public String getSkuTitle() {
+		return skuTitle;
+	}
+
+	public void setSkuTitle(String skuTitle) {
+		this.skuTitle = skuTitle;
 	}
 
 }

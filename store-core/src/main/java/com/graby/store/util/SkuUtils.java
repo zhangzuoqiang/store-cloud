@@ -9,7 +9,7 @@ public class SkuUtils {
 	 * @param val
 	 * @return
 	 */
-	public static String getTopSkuNames(String val) {
+	public static String convert(String val) {
 		if (StringUtils.isBlank(val)) {
 			return "";
 		}

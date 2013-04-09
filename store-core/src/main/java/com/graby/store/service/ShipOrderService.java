@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
 import com.graby.store.dao.jpa.ShipOrderJpaDao;
@@ -315,7 +316,7 @@ public class ShipOrderService {
 		StringBuffer content = new StringBuffer();
 		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
 			ShipOrderDetail detail =  iterator.next();
-			content.append(detail.getItemTitle() + " ").append(detail.getNum());
+			content.append(detail.getItemTitle() + " ").append(detail.getNum() + "件");
 			if (iterator.hasNext()) {
 				content.append(", ");
 			}
@@ -379,6 +380,8 @@ public class ShipOrderService {
 	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
 		if (CollectionUtils.isNotEmpty(orderMaps)) {
 			for (Map<String, String> map : orderMaps) {
+				Assert.notNull(map.get("expressCompany"), "物流公司不能为空");
+				Assert.notNull(map.get("expressOrderno"), "运单号不能为空");
 				shipOrderDao.setSendOrderExpress(map);
 			}
 		}

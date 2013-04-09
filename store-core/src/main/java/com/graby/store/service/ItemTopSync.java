@@ -53,15 +53,17 @@ public class ItemTopSync {
 		}
 		com.graby.store.entity.Item copy = new com.graby.store.entity.Item();
 		copy.setCode("000000000");
-		String title = item.getTitle();
-		if (sku != null) {
-			title += " " + SkuUtils.getTopSkuNames(sku.getPropertiesName());
-		}
-		copy.setTitle(title);
+		copy.setTitle(item.getTitle());
 		copy.setWeight(0L);
-		copy.setDescription(item.getDesc());
-		itemService.saveItem(copy);
-		itemService.relateItem(copy.getId(), item, sku == null ? 0L : sku.getSkuId());
+		if (sku == null) {
+			itemService.saveItem(copy);
+			itemService.relateItem(copy.getId(), item, 0L, null);	
+		} else {
+			String skuTitle = SkuUtils.convert(sku.getPropertiesName());
+			copy.setSku(skuTitle);
+			itemService.saveItem(copy);
+			itemService.relateItem(copy.getId(), item, sku.getSkuId(), skuTitle);
+		}
 	}
 	
 	/**

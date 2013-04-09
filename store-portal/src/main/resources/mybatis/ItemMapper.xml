@@ -14,7 +14,7 @@
 	
 	<!-- 查询单个商品 -->
 	<select id="get" parameterType="int" resultType="Item">
-		select id, code, userid, weight, title, description
+		select id, code, userid, weight, title, sku, description
 		from sc_item
 		where id=#{id}
 	</select>
@@ -27,7 +27,7 @@
 	
 	<!-- 获取用户商品列表 -->
 	<select id="getItems"  resultMap="itemEntity">
-		select id, userid, code, title, weight, description
+		select id, userid, code, title, weight, sku, description
 		from sc_item a 
 		where userid=#{0} and title like#{1} limit #{2},#{3}
 	</select>
@@ -38,6 +38,7 @@
 		<result property="userid" column="userid" />
 		<result property="code" column="code" />
 		<result property="title" column="title" />
+		<result property="sku" column="sku" />
 		<result property="type" column="type" />
 		<result property="weight" column="weight" />
 		<result property="description" column="description" />
@@ -56,7 +57,7 @@
 	
 	<!-- 查询已关联的淘宝商品 -->
 	<select id="itemMapped" parameterType="long" resultType="ItemMapping">
-		select id as id,num_iid as "numIid",title as "title",detail_url as "detailUrl", sku_id as "skuId"
+		select id as id,num_iid as "numIid",title as "title",detail_url as "detailUrl", sku_id as "skuId", sku_title as "skuTitle"
 		from sc_item_mapping
 		where item_id = #{id}
 	</select>	

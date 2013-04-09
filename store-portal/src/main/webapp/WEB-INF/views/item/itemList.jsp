@@ -28,7 +28,7 @@
 	    });
 	    
 		$(document).ready(function() {
-			$('#confirm').confirm({
+			$('.confirm').confirm({
 				'title' : '删除商品',
 				'message' : '确认删除该商品 ？',
 			});
@@ -67,11 +67,12 @@
 	<table id="contentTable" class="table table-striped ">
 		<thead>
 			<tr>
-			<th>商品编码</th>
-			<th>商品标题</th>
-			<th>重量(克)</th>
-			<th>已关联淘宝商品</th>
-			<th>管理</th>
+			<th class="span1">商品编码</th>
+			<th class="span3">商品标题</th>
+			<th class="span3">属性(sku)</th>
+			<th class="span2">重量(克)</th>
+			<th class="span3">已关联淘宝商品</th>
+			<th class="span2">管理</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -79,24 +80,22 @@
 			<tr>
 				<td><a href="${ctx}/item/update/${item.id}">${item.code}</a></td>
 				<td>${item.title}</td>
+				<td>${item.sku}</td>
 				<td>${item.weight}</td>
 				<td width="300" style="word-wrap: break-word; word-break : break-all;">
 					<c:forEach items="${item.mapping}" var="tbitem">
 					<div id="tb_link_${tbitem.numIid}_${tbitem.skuId}" class="tb_opt">
-			        	<div>
-			          		<a id="tb_title" href="${tbitem.detailUrl}" rel='tooltip' title="${tbitem.skuId}" target="_blank">
-			          			${tbitem.title}
-			          		</a>
-							<a href="${ctx}/item/unrelate/${item.id}/${tbitem.numIid}/${tbitem.skuId == null ? "0" : tbitem.skuId}?page=${page}" 
-								class="r_tb_link_${tbitem.numIid}_${tbitem.skuId} hide"><i class="icon-remove"></i></a>
-							<br>			          		
-			          	</div>
-
-					</div>
+		          		<a id="tb_title" href="${tbitem.detailUrl}" target="_blank">
+		          			${tbitem.title} ${tbitem.skuTitle}
+		          		</a>
+						<a href="${ctx}/item/unrelate/${item.id}/${tbitem.numIid}/${tbitem.skuId == null ? "0" : tbitem.skuId}?page=${page}" 
+							class="r_tb_link_${tbitem.numIid}_${tbitem.skuId} hide"><i class="icon-remove"></i></a>
+						<br>			          		
+				</div>
 					</c:forEach>
 				</td>
 				<td><a href="${ctx}/item/mapping/${item.id}?page=${page}" data-toggle="modal" data-target="#mappingModal" data-backdrop="false">关联淘宝商品</a></td>
-				<td><a href="${ctx}/item/delete/${item.id}?page=${page}" class="confirm" id="confirm">删除商品</a>
+				<td><a href="${ctx}/item/delete/${item.id}?page=${page}" class="confirm">删除商品</a>
 				</td>
 			</tr>
 		</c:forEach>
