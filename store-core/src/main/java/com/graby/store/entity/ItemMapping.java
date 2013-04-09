@@ -15,9 +15,6 @@ import javax.persistence.Transient;
 @Table(name = "sc_item_mapping")
 public class ItemMapping implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5814544884361480265L;
 	private Long id;
 	// 本地商品

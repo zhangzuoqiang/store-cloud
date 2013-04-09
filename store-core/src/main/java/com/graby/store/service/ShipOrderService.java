@@ -3,6 +3,7 @@ package com.graby.store.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -302,12 +303,26 @@ public class ShipOrderService {
 		String companyName;
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
+			shipOrder.setItems(itemTitles(shipOrder));
 			companyCode = shipOrder.getExpressCompany();
 			companyName = companyCode == null ? "未分类" : expressService.getExpressCompanyName(companyCode);
 			shipOrder.setExpressCompanyName(companyName);
 			results.add(shipOrder);
 		}
 		return results;
+	}
+	
+	// 商品列表
+	private String itemTitles(ShipOrder order) {
+		StringBuffer content = new StringBuffer();
+		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
+			ShipOrderDetail detail =  iterator.next();
+			content.append(detail.getItemTitle() + " ").append(detail.getNum());
+			if (iterator.hasNext()) {
+				content.append(", ");
+			}
+		}
+		return content.toString();
 	}
 	
 	/**
@@ -429,7 +444,6 @@ public class ShipOrderService {
 		for (Long orderId : orderids) {
 			shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
 			shipOrderDao.setTradeStatus(orderId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
-			//tradeService.updateTradeStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
 		}
 	}
 	

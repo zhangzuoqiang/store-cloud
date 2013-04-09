@@ -91,7 +91,6 @@
 								class="r_tb_link_${tbitem.numIid}_${tbitem.skuId} hide"><i class="icon-remove"></i></a>
 							<br>			          		
 			          	</div>
-			          	<!-- 删除关联 -->
 
 					</div>
 					</c:forEach>

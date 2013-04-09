@@ -3,10 +3,10 @@ package com.graby.store.service;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.graby.store.util.SkuUtils;
 import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
 import com.taobao.api.domain.Item;
@@ -55,7 +55,7 @@ public class ItemTopSync {
 		copy.setCode("000000000");
 		String title = item.getTitle();
 		if (sku != null) {
-			title += " " + spl(sku.getPropertiesName());
+			title += " " + SkuUtils.getTopSkuNames(sku.getPropertiesName());
 		}
 		copy.setTitle(title);
 		copy.setWeight(0L);
@@ -75,18 +75,5 @@ public class ItemTopSync {
 		Sku sku = topApi.getSku(numIid, skuId);
 		sync(item, sku);
 	}
-	
-	private static String spl(String val) {
-		if (StringUtils.isBlank(val)) {
-			return "";
-		}
-		String[] ss = val.split(";");
-		String[] cc;
-		String result = "";
-		for (String s : ss) {
-			cc = s.split(":");
-			result = cc[2] + ":" + cc[3];
-		}
-		return result;
-	}
+
 }

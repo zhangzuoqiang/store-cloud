@@ -74,17 +74,20 @@
 	
 	<table class="table optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	<thead><tr>
-		<th>订购商品名称</th>
-		<th>商品编号（条形码）</th>
-		<th>订购数量</th>		
-		<th>仓库 - 湘潭高新仓</th>
-		
+		<th class="span6">订购商品名称</th>
+		<th class="span3">商品编号（条形码）</th>
+		<th class="span2">订购数量</th>		
+		<th class="span4">仓库 - 湘潭高新仓</th>
 	</thead>
 	<tbody>
 	<c:set var="i" value="0" />
 	<c:forEach items="${trade.orders}" var="order">
 		<tr>
-		<td>${order.title}</td>
+		<td>
+			${order.title}<br>
+			<i class="icon-arrow-right"></i> ${order.skuPropertiesName}
+			<br>
+		</td>
 		<td>${order.item.code}</td>
 		<td>${order.num}</td>
 		<td>
@@ -103,8 +106,9 @@
 				<input type="hidden" name="orders[${i}].item.id" value="${order.item.id}">
 				<input type="hidden" name="orders[${i}].title" value="${order.item.title}">
 				<c:set var="i" value="${i+1}"/>
+				${order.item.title}
 				<span class="label label-success">
-				${order.stockNum}
+				${order.stockNum}件
 				</span>  <i class="icon-ok"/>
 			</c:if>				
 		</td>

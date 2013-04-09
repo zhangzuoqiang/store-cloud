@@ -14,6 +14,7 @@ import com.graby.store.dao.jpa.ItemMappingJpaDao;
 import com.graby.store.dao.mybatis.ItemDao;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ItemMapping;
+import com.graby.store.util.SkuUtils;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 
@@ -95,6 +96,7 @@ public class ItemService {
 			mapping.setItem(localItem);
 			mapping.setNumIid(tbItem.getNumIid());
 			mapping.setSkuId(skuid);
+			SkuUtils.getTopSkuNames(tbItem.getPropsName());
 			mapping.setTitle(tbItem.getTitle());
 			mapping.setDetailUrl(tbItem.getDetailUrl());
 			itemMappingJpaDao.save(mapping);			

@@ -3,7 +3,6 @@ package com.graby.store.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -139,7 +138,6 @@ public class ShipOrder implements Serializable{
 	// 收货人的电话号码
 	private String receiverPhone;
 
-
 	// 收货人的邮编
 	private String receiverZip;
 
@@ -229,15 +227,6 @@ public class ShipOrder implements Serializable{
 	
 	@Transient
 	public String getItems() {
-		StringBuffer buf = new StringBuffer();
-		for (Iterator<ShipOrderDetail> iterator = details.iterator(); iterator.hasNext();) {
-			ShipOrderDetail detail = iterator.next();
-			buf.append(detail.getItemTitle()).append(" ").append(detail.getNum());
-			if (iterator.hasNext()) {
-				buf.append(",");	
-			}
-		}
-		items = buf.toString();
 		return items;
 	}
 	
@@ -345,8 +334,8 @@ public class ShipOrder implements Serializable{
 		this.orderno = orderno;
 	}
 
-	public void setDetails(List<ShipOrderDetail> items) {
-		this.details = items;
+	public void setDetails(List<ShipOrderDetail> details) {
+		this.details = details;
 	}
 
 	public void setType(String type) {
@@ -418,15 +407,7 @@ public class ShipOrder implements Serializable{
 	}
 
 	public void setItems(String items) {
-		StringBuffer buf = new StringBuffer();
-		for (Iterator<ShipOrderDetail> iterator = details.iterator(); iterator.hasNext();) {
-			ShipOrderDetail detail = iterator.next();
-			buf.append(detail.getItemTitle()).append(" ").append(detail.getNum());
-			if (iterator.hasNext()) {
-				buf.append(",");	
-			}
-		}
-		this.items =  buf.toString();
+		this.items = items;
 	}
 
 }

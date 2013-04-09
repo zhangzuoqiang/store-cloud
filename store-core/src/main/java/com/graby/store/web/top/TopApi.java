@@ -106,7 +106,7 @@ public class TopApi {
 	}
 
 	// 商品属性
-	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,valid_thru,sku";
+	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,props_name,valid_thru,sku";
 
 	/**
 	 * 获取当前卖家nick
@@ -237,6 +237,13 @@ public class TopApi {
 		return resp.getItem();
 	}
 	
+	/**
+	 * 获取SKU
+	 * @param numIid
+	 * @param skuId
+	 * @return
+	 * @throws ApiException
+	 */
 	public Sku getSku(Long numIid, Long skuId) throws ApiException {
 		ItemSkuGetRequest req=new ItemSkuGetRequest();
 		req.setFields("sku_id,iid,properties,quantity,price,outer_id,created,modified,status");
@@ -246,6 +253,12 @@ public class TopApi {
 		return resp.getSku();
 	}
 	
+	/**
+	 * 批量获取商品
+	 * @param numIids
+	 * @return
+	 * @throws ApiException
+	 */
 	public List<Item> getItems(String numIids) throws ApiException {
 		if (numIids == null || numIids.trim().length() == 0) {
 			return null;
