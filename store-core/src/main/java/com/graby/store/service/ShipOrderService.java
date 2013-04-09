@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.CaseInsensitiveMap;
-import org.drools.core.util.StringUtils;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,7 +32,7 @@ import com.taobao.api.ApiException;
 public class ShipOrderService {
 
 	// 默认查询条数
-	private static final int DEFAULT_FETCH_ROWS = 1000;
+	private static final int DEFAULT_FETCH_ROWS = 200;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -378,36 +376,11 @@ public class ShipOrderService {
 	 * expressOrderno=运单号
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public String setSendOrderExpress(List<Map<String,String>> orderMaps) {
-		StringBuffer result = new StringBuffer();
+	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
 		if (CollectionUtils.isNotEmpty(orderMaps)) {
-			String id;
-			String code;
-			String orderno;
-			String err;
 			for (Map<String, String> map : orderMaps) {
-				CaseInsensitiveMap cmap = new CaseInsensitiveMap(map);
-				id = (String)cmap.get("id");
-				code = (String)cmap.get("expressCompany");
-				orderno = (String)cmap.get("expressOrderno");
-				err = "{" + id + ":" + code + ":" + orderno + "}";
-				if (StringUtils.isEmpty(code) || StringUtils.isEmpty(orderno)) {
-					result.append(err);
-					continue;
-				}
-				boolean validate = expressService.validate(code, orderno);
-				if (validate) {
-					shipOrderDao.setSendOrderExpress(cmap);
-				} else {
-					result.append(err);
-				}
+				shipOrderDao.setSendOrderExpress(map);
 			}
-		}
-		if (result.length() == 0) {
-			return "success";
-		} else {
-			return "运单号不符合规则：" + result.toString() ;
 		}
 	}
 	

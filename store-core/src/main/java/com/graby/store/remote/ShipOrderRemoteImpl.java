@@ -95,8 +95,8 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	}
 	
 	@Override
-	public String setSendOrderExpress(List<Map<String,String>> orderMaps) {
-		return shipOrderService.setSendOrderExpress(orderMaps);
+	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
+		shipOrderService.setSendOrderExpress(orderMaps);
 	}
 
 	@Override
