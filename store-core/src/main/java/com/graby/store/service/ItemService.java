@@ -91,15 +91,16 @@ public class ItemService {
 	public void relateItem(Long itemId,	com.taobao.api.domain.Item tbItem,	Long  skuid, String skuTitle ) {
 		if (getRelatedItemId(tbItem.getNumIid(), skuid) == null) {
 			ItemMapping mapping = new ItemMapping();
-			Item localItem = new Item();
-			localItem.setId(itemId);
-			mapping.setItem(localItem);
+			Item item = new Item();
+			item.setId(itemId);
+			mapping.setItem(item);
 			mapping.setNumIid(tbItem.getNumIid());
 			mapping.setSkuId(skuid);
 			mapping.setSkuTitle(skuTitle);
 			mapping.setTitle(tbItem.getTitle());
 			mapping.setDetailUrl(tbItem.getDetailUrl());
-			itemMappingJpaDao.save(mapping);			
+			itemMappingJpaDao.save(mapping);	
+			itemDao.updateSku(itemId, skuTitle);
 		}
 	}
 	
@@ -111,6 +112,7 @@ public class ItemService {
 	public void unRelateItem(Long itemId, Long numIid, Long skuId) {
 		if (getRelatedItemId(numIid, skuId) != null) {
 			itemDao.unRelate(itemId, numIid, skuId);
+			itemDao.updateSku(itemId, "");
 		}
 	}	
 	

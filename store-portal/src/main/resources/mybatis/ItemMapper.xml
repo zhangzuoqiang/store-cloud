@@ -80,4 +80,10 @@
         where item_id=#{0}
     </update> 
 	
+	<update id="updateSku"> 
+        update sc_item set sku= #{1} 
+        where id = #{0}
+    </update> 
+	
+	
 </mapper> 

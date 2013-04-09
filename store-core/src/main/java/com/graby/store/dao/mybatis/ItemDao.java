@@ -27,6 +27,9 @@ public interface ItemDao {
 	// 解除所有关联
 	void unRelateAll(Long itemId);
 	
+	// 更新商品sku
+	void updateSku(Long itemId, String sku);
+	
 	//查询淘宝商品已关联的系统商品ID
 	Long getRelatedItemId(Long numIid, Long skuId);
 	

@@ -87,13 +87,18 @@
 	<div id="itemPanel">
 		<table class="table table-condensed alert">
 			<thead><tr>
-			<th>已添加商品</th><th>商品编号</th>
-			<th>重量(克)</th><th>数量</th><th>删除</th></tr></thead>
+			<th>商品编号</th>
+			<th>商品标题</th>
+			<th>SKU</th>
+			<th>重量(克)</th>
+			<th>数量</th>
+			<th>删除</th></tr></thead>
 			<tbody>
 			<c:forEach items="${order.details}" var="detail">
 				<tr>
-					<td>${detail.item.title}</td>
 					<td>${detail.item.code}</td>
+					<td>${detail.item.title}</td>
+					<td>${detail.item.sku}</td>
 					<td>${detail.item.weight}</td>
 					<td>${detail.num}</td>
 					<td><a href="javascript:delItem(${detail.id})">删除</a></td>
@@ -121,8 +126,9 @@
 			<tr>
 			<th>商品编码</th>
 			<th>商品标题</th>
-			<th>重量(克)</th>
-			<th>操作</th>
+			<th>SKU</th>
+			<th class="span2">重量(克)</th>
+			<th class="span5">操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -130,12 +136,11 @@
 			<tr id="f_${item.id}_num" class="add_opt">
 				<td>${item.code}</td>
 				<td>${item.title}</td>
+				<td>${item.sku}</td>
 				<td>${item.weight}</td>
-				<td  width="500" style="word-wrap: break-word; word-break : break-all;">
-					<div >
-						<input type="text" id="${item.id}_num" data="${item.id}" class="span4 send_num" placeholder="请输入商品数量.."/>
-					    <a class=" a_f_${item.id}_num btn hide" href="javascript:addItem(${item.id},'${item.id}_num');">添加</a>
-					</div>
+				<td>
+					<input type="text" id="${item.id}_num" data="${item.id}" class="span5 send_num" placeholder="请输入数量.."/>
+					<a class=" a_f_${item.id}_num btn hide" href="javascript:addItem(${item.id},'${item.id}_num');">添加</a>
 				</td>
 			</tr>
 		</c:forEach>

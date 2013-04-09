@@ -246,7 +246,7 @@ public class TopApi {
 	 */
 	public Sku getSku(Long numIid, Long skuId) throws ApiException {
 		ItemSkuGetRequest req=new ItemSkuGetRequest();
-		req.setFields("sku_id,iid,properties,quantity,price,outer_id,created,modified,status");
+		req.setFields("sku_id,iid,properties,properties_name,quantity,price,outer_id,created,modified,status");
 		req.setSkuId(skuId);
 		req.setNumIid(numIid);
 		ItemSkuGetResponse resp = client.execute(req);

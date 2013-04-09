@@ -67,12 +67,12 @@
 	<table id="contentTable" class="table table-striped ">
 		<thead>
 			<tr>
-			<th class="span1">商品编码</th>
-			<th class="span3">商品标题</th>
-			<th class="span3">属性(sku)</th>
-			<th class="span2">重量(克)</th>
-			<th class="span3">已关联淘宝商品</th>
-			<th class="span2">管理</th>
+			<th>商品编码</th>
+			<th>商品标题</th>
+			<th>属性(sku)</th>
+			<th>重量(克)</th>
+			<th>已关联淘宝商品</th>
+			<th>管理</th>
 			</tr>
 		</thead>
 		<tbody>
