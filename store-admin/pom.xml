@@ -26,49 +26,8 @@
             <artifactId>store-core</artifactId>  
             <version>${project.version}</version>  
         </dependency>  
-		<!-- Top API -->
-		<dependency>
-			<groupId>com.taobao</groupId>
-			<artifactId>api</artifactId>
-			<version>1.0</version>
-		</dependency>
 
-
-		<!-- hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-ehcache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
-		</dependency>
 		
-		<!-- mybatis -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-spring</artifactId>
-		</dependency>
-		
-		<!-- dbcp connection pool -->
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
 		<!-- AOP -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -160,13 +119,15 @@
 		</dependency>
 		<!-- JSON end -->
 		
-		<!-- Excel -->
+
+		<!-- Print -->
 		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.7</version>
-		</dependency>
-		
+			<groupId>jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>3.5.3</version>
+		</dependency>	
+	  	
+	  	
 		<!-- Common -->
 		<dependency>
 		   <groupId>commons-collections</groupId>
@@ -342,7 +303,7 @@
 								<bannedDependencies>
 									<searchTransitive>true</searchTransitive>
 									<excludes>
-										<exclude>commons-logging</exclude>
+										<exclude>commons-logging*</exclude>
 										<exclude>aspectj:aspectj*</exclude>
 										<exclude>org.springframework:2.*</exclude>
 										<exclude>org.springframework:3.0.*</exclude>
