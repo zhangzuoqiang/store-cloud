@@ -19,11 +19,10 @@
 				alert('请输入数字');
 				return;
 			}
-			var action = "${ctx}/store/entry/ajax/item/add/" + ${order.id} + "/" + itemid + "/" + num_val;
+			var action = "${ctx}/store/entry/ajax/item/add/${order.id}/" + itemid + "/" + num_val;
 			htmlobj=$.ajax({
 				url:action,
 				async:true,
-				type:"post",
 				success: function(msg) {
                    $("#itemPanel").html(htmlobj.responseText);
                 },
@@ -33,6 +32,21 @@
 			
 			$("#msg").html("成功添加" + num_val + "件").show(100).delay(1000).hide(400);
 		}
+		
+		function delItem(detailId) {
+			var action = "${ctx}/store/entry/ajax/item/delete/${order.id}/" + detailId;
+			htmlobj=$.ajax({
+				url:action,
+				async:true,
+				success: function(msg) {
+                   $("#itemPanel").html(htmlobj.responseText);
+                },
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+                }
+			});
+			
+			$("#msg").html("删除成功").show(100).delay(1000).hide(400);
+		}		
 		
 		$(document).on("mouseenter", ".add_opt", function(e) {
 			$(this).css("background-color","#FFFFCC");
@@ -82,7 +96,7 @@
 					<td>${detail.item.code}</td>
 					<td>${detail.item.weight}</td>
 					<td>${detail.num}</td>
-					<td><a href="${ctx}/store/entry/item/delete/${order.id}/${detail.id}">删除</a></td>
+					<td><a href="javascript:delItem(${detail.id})">删除</a></td>
 				</tr>
 			</c:forEach>
 			</tbody>

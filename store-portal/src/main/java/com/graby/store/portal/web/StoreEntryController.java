@@ -175,10 +175,10 @@ public class StoreEntryController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "item/delete/{orderid}/{id}")
+	@RequestMapping(value = "ajax/item/delete/{orderid}/{id}")
 	public String itemDel(@PathVariable("orderid") Long orderId, @PathVariable("id") Long detailId) {
 		shipOrderService.deleteShipOrderDetail(detailId);
-		return "redirect:/store/entry/item/" + orderId;
+		return "redirect:/store/entry/ajax/detail/" + orderId;
 	}		
 	
 	/**
