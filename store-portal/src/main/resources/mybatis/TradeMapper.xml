@@ -131,7 +131,7 @@
 		receiver_state AS "receiverState"
 	FROM sc_trade a  
 		LEFT JOIN sc_user b ON b.id = a.user_id 
-	WHERE a.user_id=#{0} and a.status like #{1} limit #{2},#{3}
+	WHERE a.centro_id=1 and a.user_id=#{0} and a.status like #{1} limit #{2},#{3}
 	</select>	
 	
 	<!-- 查询未关闭订单 -->
@@ -147,7 +147,7 @@
 			receiver_state AS "receiverState"
 		FROM sc_trade a  
 			LEFT JOIN sc_user b ON b.id = a.user_id 
-		WHERE a.status!='TRADE_FINISHED' LIMIT #{0},#{1}
+		WHERE  a.centro_id=1 and a.status!='TRADE_FINISHED' LIMIT #{0},#{1}
 	</select>
 	<select id="countUnfinishedTrades" resultType="long">
 		SELECT 

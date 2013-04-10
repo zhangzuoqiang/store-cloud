@@ -17,16 +17,19 @@
 		<div class="tab-pane active" id="taobao">        
 		<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
+			<th>商铺</th>
 			<th>建单时间</th>
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
 			<th>收货地址</th>
+			<th>状态</th>
 			<th>操作</th>
 			</tr></thead>
 			<tbody>
 			<c:forEach items="${trades.content}" var="trade">
 				<tr>
+					<td>${trade.user.shopName} </td>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
@@ -57,6 +60,17 @@
 					<td>${trade.receiverName}</td>
 					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 					 	${trade.receiverAddress}
+					</td>
+					<td>
+						<c:if test="${trade.status == 'TRADE_WAIT_CENTRO_AUDIT'}">
+							等待物流通审核			
+						</c:if>
+						<c:if test="${trade.status == 'TRADE_WAIT_EXPRESS_SHIP'}">
+							物流通审核通过 快递配送中
+						</c:if>
+						<c:if test="${trade.status == 'TRADE_WAIT_BUYER_RECEIVED'}">
+							物流通已发货 等待签收
+						</c:if>	
 					</td>
 					<td>
 						<a class="btn btn-primary" href="${ctx}/trade/delete/${trade.id}">删除</a>
