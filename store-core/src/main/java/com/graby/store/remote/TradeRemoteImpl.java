@@ -57,5 +57,15 @@ public class TradeRemoteImpl implements TradeRemote {
 	public Trade getTrade(Long id) {
 		return tradeService.getTrade(id);
 	}
+	
+	@Override
+	public Page<Trade> findUnfinishedTrades(int pageNo, int pageSize) {
+		return tradeService.findUnfinishedTrades(pageNo, pageSize);
+	}
+
+	@Override
+	public void deleteTrade(Long tradeId) {
+		tradeService.deleteTrade(tradeId);		
+	}
 
 }

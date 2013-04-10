@@ -15,6 +15,7 @@
 		<a href="${ctx}/trade/waits">待审核交易订单</a>
 		<a href="${ctx}/trade/send/pickings">拣货单处理</a>
 		<a href="${ctx}/trade/sign/waits">用户签收处理</a>
+		<a href="${ctx}/trade/unfinish">未完成交易</a>
 	</div>
 	<h1>保留(待删除)</h1>
 	<div class="submenu">

@@ -9,7 +9,11 @@ import com.graby.store.entity.TradeMapping;
 @MyBatisRepository
 public interface TradeDao {
 	
-	
+	/**
+	 * 获取交易
+	 * @param id
+	 * @return
+	 */
 	public Trade getTrade(Long id);
 	
 	/**
@@ -54,6 +58,16 @@ public interface TradeDao {
 	public List<Trade> findWaitAuditTrades();
 	
 	/**
+	 * 查询未完成交易订单
+	 * @param page TODO
+	 * @param offset TODO
+	 * @return
+	 */
+	public List<Trade> findUnfinishedTrades(int pageNo, int pageSize);
+	public long countUnfinishedTrades();
+	
+	
+	/**
 	 * 设置订单状态
 	 * @param tradeId
 	 * @param status
@@ -77,5 +91,12 @@ public interface TradeDao {
 	 * @return
 	 */
 	public List<Trade> getTrades(Long userId, String status, long start, long offset);
+	
+	
+	// ** 删除交易信息：出货单明细、出货单、交易关联、交易订单 */
+	public void deleteShipOrderDetail(Long tradeId);
+	public void deleteShipOrder(Long tradeId);
+	public void deleteTradeMapping(Long tradeId);
+	public void deleteTrade(Long tradeId);
 	
 }

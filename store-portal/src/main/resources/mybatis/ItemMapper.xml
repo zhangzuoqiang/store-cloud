@@ -85,5 +85,10 @@
         where id = #{0}
     </update> 
 	
+	<update id="updateItemTitle"> 
+		UPDATE sc_item SET title = #{1} , sku = #{2}
+		WHERE id = #{0}
+    </update> 	
+
 	
 </mapper> 

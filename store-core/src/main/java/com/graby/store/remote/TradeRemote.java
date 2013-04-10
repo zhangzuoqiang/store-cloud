@@ -68,5 +68,19 @@ public interface TradeRemote {
 	 * @return
 	 */
 	Trade getTrade(Long id);
+	
+	/**
+	 * 查询未关闭交易
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	Page<Trade> findUnfinishedTrades(int pageNo, int pageSize);
+	
+	/**
+	 * 删除交易
+	 * @param tradeId
+	 */
+	void deleteTrade(Long tradeId);
 
 }

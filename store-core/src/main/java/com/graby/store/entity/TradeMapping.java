@@ -20,9 +20,6 @@ import org.hibernate.annotations.Index;
 public class TradeMapping implements Serializable{
 	
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5858869718493852851L;
 
 

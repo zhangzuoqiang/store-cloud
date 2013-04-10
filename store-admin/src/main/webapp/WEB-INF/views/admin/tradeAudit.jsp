@@ -75,8 +75,8 @@
 	<table class="table optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	<thead><tr>
 		<th class="span6">订购商品名称</th>
-		<th class="span3">商品编号（条形码）</th>
 		<th class="span2">订购数量</th>		
+		<th class="span3">商品编号（条形码）</th>
 		<th class="span4">仓库 - 湘潭高新仓</th>
 	</thead>
 	<tbody>
@@ -88,15 +88,15 @@
 			<i class="icon-arrow-right"></i> ${order.skuPropertiesName}
 			<br>
 		</td>
-		<td>${order.item.code}</td>
 		<td>${order.num}</td>
+		<td>${order.item.code}</td>
 		<td>
 			<c:if test="${order.stockNum == -1}">
 				<span id="err" class="label label-important">
 				未关联商品
 				</span>
 			</c:if>
-			<c:if test="${order.stockNum == 0}">
+			<c:if test="${order.stockNum <= 0}">
 				<span id="err" class="label label-important">
 				无库存
 				</span>
@@ -106,7 +106,8 @@
 				<input type="hidden" name="orders[${i}].item.id" value="${order.item.id}">
 				<input type="hidden" name="orders[${i}].title" value="${order.item.title}">
 				<c:set var="i" value="${i+1}"/>
-				${order.item.title} ${order.item.sku}
+				${order.item.title} <br>
+				<i class="icon-arrow-right"></i>${order.item.sku}
 				<span class="label label-success">
 				${order.stockNum}件
 				</span>  <i class="icon-ok"/>

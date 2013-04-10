@@ -75,10 +75,6 @@ public class ItemService {
 		return page;
 	}
 	
-	public List<Item> findUserItems(Long userid) {
-		return itemJpaDao.findByUserid(userid);
-	}
-	
 	/**
 	 * 关联淘宝商品
 	 * @param itemId
@@ -115,6 +111,16 @@ public class ItemService {
 			itemDao.updateSku(itemId, "");
 		}
 	}	
+	
+	/**
+	 * 更新商品标题及sku
+	 * @param itemId
+	 * @param itemTitle
+	 * @param skuTitle
+	 */
+	public void updateItemTitle(Long itemId, String itemTitle, String skuTitle) {
+		itemDao.updateItemTitle(itemId, itemTitle, skuTitle);
+	}
 	
 	/**
 	 * 淘宝商品关联的商品ID

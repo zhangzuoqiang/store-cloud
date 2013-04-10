@@ -5,12 +5,12 @@
 
 	
 	<select id="getTrade" parameterType="long"  resultMap="TradeEntity">
-		SELECT `id`,
-		  `buyer_alipay_no`, `buyer_area`, `buyer_email`, `buyer_memo`, `buyer_message`, `buyer_nick`,
-		  `has_buyer_message`,  `lg_aging`,  `lg_aging_type`,  `pay_time`,
-		  `receiver_address`,  `receiver_city`,  `receiver_district`,  `receiver_mobile`, `receiver_name`, `receiver_phone`, `receiver_state`,  `receiver_zip`,
-		  `shipping_type`,  `status`,  `tid`,  `trade_from`,  `centro_id`,  `user_id`
-		FROM `sc_trade`	where id=#{0}
+		SELECT id,
+		  buyer_alipay_no, buyer_area, buyer_email, buyer_memo, buyer_message, buyer_nick,
+		  has_buyer_message,  lg_aging,  lg_aging_type,  pay_time,
+		  receiver_address,  receiver_city,  receiver_district,  receiver_mobile, receiver_name, receiver_phone, receiver_state,  receiver_zip,
+		  shipping_type,  status,  tid,  trade_from,  centro_id,  user_id
+		FROM sc_trade	where id=#{0}
 	</select>
 	
 	<resultMap id="TradeEntity" type="Trade">
@@ -44,22 +44,22 @@
 	
 	<select id="fetchTradeOrders" parameterType="long" resultType="TradeOrder">
 		SELECT
-		  `id`,
-		  `adjust_fee` as "adjustFee",
-		  `buyer_nick` as "buyerNick",
-		  `discount_fee` as "discountFee",
-		  `num`,
-		  `num_iid` as "numIid",
-		  `order_from` as "orderFrom",
-		  `pic_path` as "picPath",
-		  `sku_id` as "skuId",
-		  `sku_properties_name` as "skuPropertiesName",
-		  `timeout_action_time` as "timeoutActionTime",
-		  `title`,
-		  `total_fee` as "totalFee",
-		  `item_id` as "item.id",
-		  `trade_id` as "tradeId"
-		FROM `sc_trade_order` where trade_id=#{id}
+		  id,
+		  adjust_fee as "adjustFee",
+		  buyer_nick as "buyerNick",
+		  discount_fee as "discountFee",
+		  num,
+		  num_iid as "numIid",
+		  order_from as "orderFrom",
+		  pic_path as "picPath",
+		  sku_id as "skuId",
+		  sku_properties_name as "skuPropertiesName",
+		  timeout_action_time as "timeoutActionTime",
+		  title,
+		  total_fee as "totalFee",
+		  item_id as "item.id",
+		  trade_id as "tradeId"
+		FROM sc_trade_order where trade_id=#{id}
 	</select>
 	
 	
@@ -92,22 +92,22 @@
 		 where trade_id=#{0}
 	</select>
 		
-	<!-- BUG TODO : GROUP_CONCAT(c.title ,'')  AS `itemTitles`  		
+	<!-- BUG TODO : GROUP_CONCAT(c.title ,'')  AS itemTitles  		
 		LEFT JOIN sc_trade_order c ON c.trade_id = a.id
 	 -->
 	<select id="findWaitAuditTrades" resultType="Trade">
-	SELECT 
-		a.id AS "id" ,tid AS "tid" , b.shop_name AS "user.shopName", 
-		buyer_area AS "buyerArea" ,buyer_memo AS "buyerMemo" ,receiver_address AS "receiverAddress" ,pay_time AS "payTime" ,
-		trade_from AS "tradeFrom" ,a.buyer_nick AS "buyerNick" ,receiver_name AS "receiverName" ,
-		receiver_phone AS "receiverPhone" ,shipping_type AS "shippingType" ,receiver_district AS "receiverDistrict" ,STATUS AS "status" ,
-		receiver_mobile AS "receiverMobile" ,buyer_email AS "buyerEmail" ,receiver_city AS "receiverCity" ,
-		has_buyer_message AS "hasBuyerMessage" ,centro_id AS "centro.id" ,lg_aging_type AS "lgAgingType" ,
-		receiver_zip AS "receiverZip" ,lg_aging AS "lgAging" ,user_id AS "user.id" ,buyer_alipay_no AS "buyerAlipayNo" ,
-		receiver_state AS "receiverState"
-	FROM sc_trade a  
-		LEFT JOIN sc_user b ON b.id = a.user_id 
-	WHERE a.`status`='TRADE_WAIT_CENTRO_AUDIT' LIMIT 50
+		SELECT 
+			a.id AS "id" ,tid AS "tid" , b.shop_name AS "user.shopName", 
+			buyer_area AS "buyerArea" ,buyer_memo AS "buyerMemo" ,receiver_address AS "receiverAddress" ,pay_time AS "payTime" ,
+			trade_from AS "tradeFrom" ,a.buyer_nick AS "buyerNick" ,receiver_name AS "receiverName" ,
+			receiver_phone AS "receiverPhone" ,shipping_type AS "shippingType" ,receiver_district AS "receiverDistrict" ,STATUS AS "status" ,
+			receiver_mobile AS "receiverMobile" ,buyer_email AS "buyerEmail" ,receiver_city AS "receiverCity" ,
+			has_buyer_message AS "hasBuyerMessage" ,centro_id AS "centro.id" ,lg_aging_type AS "lgAgingType" ,
+			receiver_zip AS "receiverZip" ,lg_aging AS "lgAging" ,user_id AS "user.id" ,buyer_alipay_no AS "buyerAlipayNo" ,
+			receiver_state AS "receiverState"
+		FROM sc_trade a  
+			LEFT JOIN sc_user b ON b.id = a.user_id 
+		WHERE a.status='TRADE_WAIT_CENTRO_AUDIT' LIMIT 50
 	</select>
 	
 	<update id="updateTradeStatus"> 
@@ -134,4 +134,43 @@
 	WHERE a.user_id=#{0} and a.status like #{1} limit #{2},#{3}
 	</select>	
 	
+	<!-- 查询未关闭订单 -->
+	<select id="findUnfinishedTrades" resultType="Trade">
+		SELECT 
+			a.id AS "id" ,tid AS "tid" , b.shop_name AS "user.shopName", 
+			buyer_area AS "buyerArea" ,buyer_memo AS "buyerMemo" ,receiver_address AS "receiverAddress" ,pay_time AS "payTime" ,
+			trade_from AS "tradeFrom" ,a.buyer_nick AS "buyerNick" ,receiver_name AS "receiverName" ,
+			receiver_phone AS "receiverPhone" ,shipping_type AS "shippingType" ,receiver_district AS "receiverDistrict" ,STATUS AS "status" ,
+			receiver_mobile AS "receiverMobile" ,buyer_email AS "buyerEmail" ,receiver_city AS "receiverCity" ,
+			has_buyer_message AS "hasBuyerMessage" ,centro_id AS "centro.id" ,lg_aging_type AS "lgAgingType" ,
+			receiver_zip AS "receiverZip" ,lg_aging AS "lgAging" ,user_id AS "user.id" ,buyer_alipay_no AS "buyerAlipayNo" ,
+			receiver_state AS "receiverState"
+		FROM sc_trade a  
+			LEFT JOIN sc_user b ON b.id = a.user_id 
+		WHERE a.status!='TRADE_FINISHED' LIMIT #{0},#{1}
+	</select>
+	<select id="countUnfinishedTrades" resultType="long">
+		SELECT 
+			count(1)
+		FROM sc_trade a  
+			LEFT JOIN sc_user b ON b.id = a.user_id 
+		WHERE a.status!='TRADE_FINISHED'
+	</select>	
+	
+	
+	<!-- 删除交易 -->
+	<delete id="deleteShipOrderDetail" parameterType="long">
+	   	DELETE * FROM sc_ship_order_detail a 
+		WHERE a.order_id = (SELECT id FROM sc_ship_order b WHERE b.trade_id=#{0})
+	</delete>
+	<delete id="deleteShipOrder" parameterType="long">
+	   DELETE * FROM sc_ship_order c WHERE c.trade_id=#{0}
+	</delete>
+	<delete id="deleteTradeMapping" parameterType="long">
+	   DELETE * FROM sc_trade_mapping d WHERE d.trade_id=#{0}
+	</delete>
+	<delete id="deleteTrade" parameterType="long">
+	   DELETE FROM sc_trade WHERE id=#{0}
+	</delete>
+
 </mapper> 

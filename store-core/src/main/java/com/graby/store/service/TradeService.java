@@ -264,5 +264,28 @@ public class TradeService {
 		return shipOrder;
 	}
 	
+	
+	public Page<Trade> findUnfinishedTrades(int pageNo, int pageSize) {
+		int start = (pageNo-1)*pageSize;
+		int offset = pageSize;
+		List<Trade> trades =  tradeDao.findUnfinishedTrades(start, offset);
+		long count = tradeDao.countUnfinishedTrades();
+		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
+		Page<Trade> page = new PageImpl<Trade>(trades, pageable, count);
+		return page;
+		
+	}
+	
+	/**
+	 * 删除交易订单
+	 * @param tradeId
+	 */
+	public void deleteTrade(Long tradeId) {
+		tradeDao.deleteShipOrderDetail(tradeId);
+		tradeDao.deleteShipOrder(tradeId);
+		tradeDao.deleteTradeMapping(tradeId);
+		tradeDao.deleteTrade(tradeId);
+	}
+	
 
 }

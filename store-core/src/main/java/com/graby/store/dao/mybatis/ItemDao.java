@@ -27,6 +27,9 @@ public interface ItemDao {
 	// 解除所有关联
 	void unRelateAll(Long itemId);
 	
+	// 更新商品标题及sku
+	void updateItemTitle(Long numIid, String itemTitle, String skuTitle);
+	
 	// 更新商品sku
 	void updateSku(Long itemId, String sku);
 	
