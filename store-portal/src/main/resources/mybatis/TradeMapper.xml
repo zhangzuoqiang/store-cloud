@@ -154,14 +154,14 @@
 			count(1)
 		FROM sc_trade a  
 			LEFT JOIN sc_user b ON b.id = a.user_id 
-		WHERE a.status!='TRADE_FINISHED'
+		WHERE  a.centro_id=1 and a.status!='TRADE_FINISHED'
 	</select>	
 	
 	
 	<!-- 删除交易 -->
 	<delete id="deleteShipOrderDetail" parameterType="long">
 	   	DELETE FROM sc_ship_order_detail
-		WHERE order_id = (SELECT id FROM sc_ship_order WHERE trade_id=#{0})
+		WHERE order_id in (SELECT id FROM sc_ship_order WHERE trade_id=#{0})
 	</delete>
 	<delete id="deleteShipOrder" parameterType="long">
 	   DELETE FROM sc_ship_order WHERE trade_id=#{0}
