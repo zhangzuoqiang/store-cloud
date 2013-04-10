@@ -186,7 +186,7 @@ public class TradeService {
 	
 	/**
 	 * 创建系统交易.
-	 * 
+	 * TODO 都用mybatis
 	 * @param trade
 	 */
 	public Trade createTrade(Trade trade) {

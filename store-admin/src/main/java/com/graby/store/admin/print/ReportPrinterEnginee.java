@@ -35,8 +35,6 @@ import com.graby.store.entity.ShipOrderDetail;
 
 /**
  * Jasper打印引擎
- * 
- * @author colt
  */
 public class ReportPrinterEnginee {
 

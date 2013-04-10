@@ -118,7 +118,6 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 		</dependency>
 		<!-- JSON end -->
-		
 
 		<!-- Print -->
 		<dependency>
@@ -126,7 +125,6 @@
 			<artifactId>jasperreports</artifactId>
 			<version>3.5.3</version>
 		</dependency>	
-	  	
 	  	
 		<!-- Common -->
 		<dependency>
