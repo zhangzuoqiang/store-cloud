@@ -160,15 +160,18 @@
 	
 	<!-- 删除交易 -->
 	<delete id="deleteShipOrderDetail" parameterType="long">
-	   	DELETE * FROM sc_ship_order_detail a 
-		WHERE a.order_id = (SELECT id FROM sc_ship_order b WHERE b.trade_id=#{0})
+	   	DELETE FROM sc_ship_order_detail
+		WHERE order_id = (SELECT id FROM sc_ship_order WHERE trade_id=#{0})
 	</delete>
 	<delete id="deleteShipOrder" parameterType="long">
-	   DELETE * FROM sc_ship_order c WHERE c.trade_id=#{0}
+	   DELETE FROM sc_ship_order WHERE trade_id=#{0}
 	</delete>
 	<delete id="deleteTradeMapping" parameterType="long">
-	   DELETE * FROM sc_trade_mapping d WHERE d.trade_id=#{0}
+	   DELETE FROM sc_trade_mapping WHERE trade_id=#{0}
 	</delete>
+	<delete id="deleteTradeOrder" parameterType="long">
+	  DELETE FROM sc_trade_order WHERE trade_id=#{0}
+	</delete>	
 	<delete id="deleteTrade" parameterType="long">
 	   DELETE FROM sc_trade WHERE id=#{0}
 	</delete>

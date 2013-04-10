@@ -271,7 +271,7 @@ public class TradeService {
 		List<Trade> trades =  tradeDao.findUnfinishedTrades(start, offset);
 		long count = tradeDao.countUnfinishedTrades();
 		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
-		Page<Trade> page = new PageImpl<Trade>(trades, pageable, count);
+		PageImpl<Trade> page = new PageImpl<Trade>(trades, pageable, count);
 		return page;
 		
 	}
@@ -284,6 +284,7 @@ public class TradeService {
 		tradeDao.deleteShipOrderDetail(tradeId);
 		tradeDao.deleteShipOrder(tradeId);
 		tradeDao.deleteTradeMapping(tradeId);
+		tradeDao.deleteTradeOrder(tradeId);
 		tradeDao.deleteTrade(tradeId);
 	}
 	

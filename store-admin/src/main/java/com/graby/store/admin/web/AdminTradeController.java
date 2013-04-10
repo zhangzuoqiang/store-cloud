@@ -55,19 +55,25 @@ public class AdminTradeController {
 		return "/admin/tradeWaits";
 	}
 	
-//	/**
-//	 * 查询所有未关闭订单
-//	 * @return
-//	 * @throws ApiException
-//	 */
-//	@RequestMapping(value = "unfinish", method=RequestMethod.GET)
-//	public String unfinish(
-//			@RequestParam(value = "page", defaultValue = "1") int page, 
-//			Model model) throws ApiException {
-//		Page<Trade> trades = tradeRemote.findUnfinishedTrades(page, 15);
-//		model.addAttribute("trades", trades);
-//		return "/admin/tradeUnfinishs";
-//	}
+	/**
+	 * 查询所有未关闭订单
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "unfinish", method=RequestMethod.GET)
+	public String unfinish(
+			@RequestParam(value = "page", defaultValue = "1") int page, 
+			Model model) throws ApiException {
+		Page<Trade> trades = tradeRemote.findUnfinishedTrades(page, 15);
+		model.addAttribute("trades", trades);
+		return "/admin/tradeUnfinishs";
+	}
+	
+	@RequestMapping(value = "delete/{id}", method=RequestMethod.GET)
+	public String deleteTrade(@PathVariable(value = "id")Long tradeId) {
+		tradeRemote.deleteTrade(tradeId);
+		return "redirect:/trade/unfinish";
+	}
 	
 	/**
 	 * 查询所有待处理出库单
@@ -226,10 +232,4 @@ public class AdminTradeController {
 		return "admin/signSuccess";
 	}
 	
-	
-	public String deleteTrade(@PathVariable(value = "id")Long tradeId) {
-//		tradeRemote.d
-		tradeRemote.deleteTrade(tradeId);
-		return null;
-	}
 }

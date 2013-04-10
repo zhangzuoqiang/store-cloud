@@ -59,13 +59,14 @@
 					 	${trade.receiverAddress}
 					</td>
 					<td>
-						<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.tid}">通知用户签收</a>
+						<a class="btn btn-primary" href="${ctx}/trade/delete/${trade.id}">删除</a>
 					</td>
 				</tr>
 			</c:forEach>
 			</tbody>
 		</table>
-		<tags:pagination page="${trades}" paginationSize="15"/>
+		<!-- -->
+		<tags:pagination page="${trades}" paginationSize="15"/> 
 		</div>
 	
 	</div>

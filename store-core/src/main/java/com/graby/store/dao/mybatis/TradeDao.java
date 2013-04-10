@@ -97,6 +97,7 @@ public interface TradeDao {
 	public void deleteShipOrderDetail(Long tradeId);
 	public void deleteShipOrder(Long tradeId);
 	public void deleteTradeMapping(Long tradeId);
+	public void deleteTradeOrder(Long tradeId);
 	public void deleteTrade(Long tradeId);
 	
 }

@@ -23,7 +23,7 @@
 	<bean id="remoteClient"
 		class="com.graby.store.base.remote.client.ClientFactoryBean"
 		abstract="true">
-		<property name="type" value="hessian"/>
+		<property name="type" value="httpinvoker"/>
 		<property name="hostUrl" value="${remote.host.url}" />
 	</bean>
 
