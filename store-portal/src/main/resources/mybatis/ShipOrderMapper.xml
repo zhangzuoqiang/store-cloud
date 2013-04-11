@@ -34,7 +34,7 @@
         
 	<!-- 查询用户出货单 -->
     <select id="getShipOrder" parameterType="long" resultMap="ShipOrderEntity">
-		select	id, sku, centro_id,  create_date,
+		select	id, centro_id,  create_date,
 		  express_company, express_orderno,
 		  fetch_date,last_update_date,  orderno,
 		  origin_persion, origin_phone,
@@ -80,7 +80,8 @@
 		item_id AS "item.id", 
 		order_id AS "order.id",
 		b.code AS "item.code" ,
-		b.title AS "item.title", 
+		b.title AS "item.title",
+		b.sku AS "item.sku", 
 		b.weight AS "item.weight"
 		FROM sc_ship_order_detail a LEFT JOIN sc_item b ON a.item_id = b.id		
 		WHERE order_id =  #{id}
