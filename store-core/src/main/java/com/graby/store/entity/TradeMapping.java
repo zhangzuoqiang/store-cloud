@@ -19,9 +19,7 @@ import org.hibernate.annotations.Index;
 @Table(name = "sc_trade_mapping")
 public class TradeMapping implements Serializable{
 	
-	
 	private static final long serialVersionUID = -5858869718493852851L;
-
 
 	public TradeMapping() {
 		

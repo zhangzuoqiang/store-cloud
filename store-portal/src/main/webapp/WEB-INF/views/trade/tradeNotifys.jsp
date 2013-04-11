@@ -59,7 +59,7 @@
 					 	${trade.receiverAddress}
 					</td>
 					<td>
-						<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.tid}">通知用户签收</a>
+						<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.id}">通知用户签收</a>
 					</td>
 				</tr>
 			</c:forEach>

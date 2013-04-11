@@ -9,7 +9,7 @@
 		  buyer_alipay_no, buyer_area, buyer_email, buyer_memo, buyer_message, buyer_nick,
 		  has_buyer_message,  lg_aging,  lg_aging_type,  pay_time,
 		  receiver_address,  receiver_city,  receiver_district,  receiver_mobile, receiver_name, receiver_phone, receiver_state,  receiver_zip,
-		  shipping_type,  status,  tid,  trade_from,  centro_id,  user_id
+		  shipping_type,  status,  trade_from,  centro_id,  user_id
 		FROM sc_trade	where id=#{0}
 	</select>
 	
@@ -22,7 +22,6 @@
 		<result property="payTime" column="pay_time"/>
 		<result property="buyerNick" column="buyer_nick"/>
 		<result property="receiverName" column="receiver_name"/>
-		<result property="tid" column="tid"/>
 		<result property="receiverPhone" column="receiver_phone"/>
 		<result property="shippingType" column="shipping_type"/>
 		<result property="receiverDistrict" column="receiver_district"/>
@@ -87,9 +86,10 @@
 		 where tid=#{0}
 	</select>
 	
+	<!-- 取第一个tid -->
 	<select id="getRelatedTid" resultType="long">
 		select tid  from sc_trade_mapping
-		 where trade_id=#{0}
+		 where trade_id=#{0} limit 1;
 	</select>
 		
 	<!-- BUG TODO : GROUP_CONCAT(c.title ,'')  AS itemTitles  		
@@ -97,7 +97,7 @@
 	 -->
 	<select id="findWaitAuditTrades" resultType="Trade">
 		SELECT 
-			a.id AS "id" ,tid AS "tid" , b.shop_name AS "user.shopName", 
+			a.id AS "id" , b.shop_name AS "user.shopName", 
 			buyer_area AS "buyerArea" ,buyer_memo AS "buyerMemo" ,receiver_address AS "receiverAddress" ,pay_time AS "payTime" ,
 			trade_from AS "tradeFrom" ,a.buyer_nick AS "buyerNick" ,receiver_name AS "receiverName" ,
 			receiver_phone AS "receiverPhone" ,shipping_type AS "shippingType" ,receiver_district AS "receiverDistrict" ,STATUS AS "status" ,
@@ -121,7 +121,7 @@
 	
     <select id="getTrades" resultType="Trade">
 	SELECT 
-		a.id AS "id" ,tid AS "tid" , b.shop_name AS "user.shopName", 
+		a.id AS "id" , b.shop_name AS "user.shopName", 
 		buyer_area AS "buyerArea" ,buyer_memo AS "buyerMemo" ,receiver_address AS "receiverAddress" ,pay_time AS "payTime" ,
 		trade_from AS "tradeFrom" ,a.buyer_nick AS "buyerNick" ,receiver_name AS "receiverName" ,
 		receiver_phone AS "receiverPhone" ,shipping_type AS "shippingType" ,receiver_district AS "receiverDistrict" ,STATUS AS "status" ,
@@ -137,7 +137,7 @@
 	<!-- 查询未关闭订单 -->
 	<select id="findUnfinishedTrades" resultType="Trade">
 		SELECT 
-			a.id AS "id" ,tid AS "tid" , b.shop_name AS "user.shopName", 
+			a.id AS "id" , b.shop_name AS "user.shopName", 
 			buyer_area AS "buyerArea" ,buyer_memo AS "buyerMemo" ,receiver_address AS "receiverAddress" ,pay_time AS "payTime" ,
 			trade_from AS "tradeFrom" ,a.buyer_nick AS "buyerNick" ,receiver_name AS "receiverName" ,
 			receiver_phone AS "receiverPhone" ,shipping_type AS "shippingType" ,receiver_district AS "receiverDistrict" ,STATUS AS "status" ,

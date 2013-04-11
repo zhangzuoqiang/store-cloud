@@ -34,7 +34,7 @@ public class TradeRemoteImpl implements TradeRemote {
 
 	@Override
 	public void createTrade(Trade trade) {
-		tradeService.createTrade(trade);
+		tradeService.createTrade(trade, null);
 	}
 
 	@Override

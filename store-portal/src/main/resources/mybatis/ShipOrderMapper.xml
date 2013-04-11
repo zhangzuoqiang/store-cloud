@@ -87,11 +87,11 @@
 		WHERE order_id =  #{id}
 	</select>		
 	
-    <!-- 根据淘宝交易号查询出货单 -->
-    <select id="getShipOrderByTid" resultType="ShipOrder">
-		select b.tid, a.express_company as "expressCompany", a.express_orderno as "expressOrderno"  from sc_ship_order a
-		left join sc_trade_mapping b on a.trade_id = b.trade_id
-		where b.tid=#{0}
+    <!-- 根据交易查询出货单 -->
+    <select id="getSendShipOrderByTradeId" resultType="ShipOrder">
+		select express_company as "expressCompany", express_orderno as "expressOrderno"  
+		from sc_ship_order 
+		where trade_id=#{0}
 	</select>
 	
 	

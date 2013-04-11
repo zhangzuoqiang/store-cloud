@@ -65,7 +65,9 @@ public class UserTradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/wait")
-	public String wait(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
+	public String wait(
+			@RequestParam(value = "page", defaultValue = "1") int page, 
+			Model model) throws ApiException {
 		Page<com.taobao.api.domain.Trade> trades = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, page, 10);
 		if (CollectionUtils.isNotEmpty(trades.getContent())) {
 			for (com.taobao.api.domain.Trade tbTrade : trades) {
@@ -87,7 +89,7 @@ public class UserTradeController {
 	 */
 	@RequestMapping(value = "/send/confirm")
 	public String sendConfirm(Trade trade, RedirectAttributes redirectAttributes) {
-		tradeService.createTrade(trade);
+		tradeService.createTrade(trade, null);
 		return "redirect:/trade/wait";
 	}	
 	
@@ -133,7 +135,7 @@ public class UserTradeController {
 	}
 	
 	/**
-	 * 仓库已接收订单
+	 * 当前用户仓库已接收订单
 	 * 
 	 * @return
 	 * @throws ApiException
@@ -199,7 +201,7 @@ public class UserTradeController {
 			Model model) throws ApiException {
 		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED, page, 15);
 		model.addAttribute("trades", trades);
-		return "trade/tradeList";
+		return "trade/tradeNotifys";
 	}
 	
 	
@@ -210,11 +212,12 @@ public class UserTradeController {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = "/notify/{tid}", method = RequestMethod.GET)
-	public String notifyUser(@PathVariable("tid") Long tid) throws ApiException {
-		ShipOrder order = shipOrderService.getShipOrderByTid(tid);
+	@RequestMapping(value = "/notify/{tradeId}", method = RequestMethod.GET)
+	public String notifyUser(@PathVariable("tradeId") Long tradeId) throws ApiException {
+		ShipOrder order = shipOrderService.getSendShipOrderByTradeId(tradeId);
+		Long tid = tradeService.getRelatedTid(tradeId);
 		topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
-		return "redirect:/trade/notify/list";
+		return "redirect:/trade/notifys";
 	}
 	
 	

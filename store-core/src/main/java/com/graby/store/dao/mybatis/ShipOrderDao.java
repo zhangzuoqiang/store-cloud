@@ -9,7 +9,7 @@ import com.graby.store.entity.ShipOrder;
 @MyBatisRepository
 public interface ShipOrderDao {
 
-	public ShipOrder getShipOrderByTid(Long tid);
+	public ShipOrder getSendShipOrderByTradeId(Long tid);
 	public ShipOrder getShipOrder(Long id);
 	
 	void deleteOrder(Long orderId);

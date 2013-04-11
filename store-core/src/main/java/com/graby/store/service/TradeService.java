@@ -1,9 +1,11 @@
 package com.graby.store.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,7 @@ import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 import com.graby.store.entity.TradeOrder;
+import com.graby.store.util.EncryptUtil;
 import com.graby.store.web.top.TopApi;
 import com.graby.store.web.top.TradeAdapter;
 import com.taobao.api.ApiException;
@@ -27,7 +30,11 @@ import com.taobao.api.ApiException;
 @Component
 @Transactional(readOnly = true)
 public class TradeService {
-
+	
+	// 是否合并淘宝订单
+	@Value("${trade.combine}")
+	private  boolean combine;
+	
 	@Autowired
 	private TradeJpaDao tradeJpaDao;
 	
@@ -178,21 +185,58 @@ public class TradeService {
 		if (tids == null || tids.length == 0) {
 			return;
 		}
+		GroupMap<String, com.taobao.api.domain.Trade> tradeGroup = new GroupMap<String, com.taobao.api.domain.Trade>();
 		for (String tid : tids) {
-			com.taobao.api.domain.Trade topTrade = topApi.getTrade(Long.valueOf(tid));	
-			Trade trade = tradeAdapter.adapterFromTop(topTrade);
-			createTrade(trade);
+			com.taobao.api.domain.Trade topTrade = topApi.getTrade(Long.valueOf(tid));
+			tradeGroup.put(hash(topTrade), topTrade);
 		}
+		
+		Set<String> keys = tradeGroup.getKeySet();
+		for (String key : keys) {
+			List<com.taobao.api.domain.Trade> topTrades = tradeGroup.getList(key);
+			// 是否合并订单
+			if (topTrades.size()>1 && combine) {
+				Long[] tidArray = new Long[topTrades.size()];
+				tidArray[0] = topTrades.get(0).getTid();
+				// 第一个订单
+				Trade trade = tradeAdapter.adapterFromTop(topTrades.get(0));
+				for (int i = 1; i < topTrades.size(); i++) {
+					Trade others = tradeAdapter.adapterFromTop(topTrades.get(i));
+					trade.getOrders().addAll(others.getOrders());
+					tidArray[i] = topTrades.get(i).getTid();
+				}
+				createTrade(trade, null);
+				for (Long tid : tidArray) {
+					mappingTrade(tid, trade.getId());
+				}
+			} else {
+				for (com.taobao.api.domain.Trade topTrade : topTrades) {
+					Trade trade = tradeAdapter.adapterFromTop(topTrade);
+					createTrade(trade, topTrade.getTid());
+				}
+			}
+		}
+		
 	}
+	
+	// 根据收货人详细地址
+	private String hash(com.taobao.api.domain.Trade trade) {
+		StringBuffer buf = new StringBuffer();
+		buf.append(trade.getReceiverState()).append(trade.getReceiverCity()).append(trade.getReceiverDistrict());
+		buf.append(trade.getReceiverAddress()).append(trade.getReceiverName());
+		return EncryptUtil.md5(buf.toString());
+	}
+	
 	
 	/**
 	 * 创建系统交易.
 	 * TODO 都用mybatis
 	 * @param trade
+	 * @param tid TODO
 	 */
-	public Trade createTrade(Trade trade) {
+	public Trade createTrade(Trade trade, Long tid) {
 		// 保存至系统订单
-		Long tradeId =getRelatedTradeId(trade.getTid());
+		Long tradeId =getRelatedTradeId(tid);
 		if (tradeId == null) {
 			// 状态等待物流通审核
 			trade.setStatus(Trade.Status.TRADE_WAIT_CENTRO_AUDIT);
@@ -202,13 +246,19 @@ public class TradeService {
 				for (TradeOrder tradeOrder : orders) {
 					tradeOrder.setTrade(trade);
 					tradeOrderJpaDao.save(tradeOrder);
-				}	
+				}
 			}
 			// 创建关联关系
-			TradeMapping mapping = new TradeMapping(trade.getTid(), trade.getId());
-			tradeDao.createTradeMapping(mapping);
+			mappingTrade(tid, trade.getId());
 		}
 		return trade;
+	}
+	
+	private void mappingTrade(Long tid, Long tradeId) {
+		if (tid != null) {
+			TradeMapping mapping = new TradeMapping(tid, tradeId);
+			tradeDao.createTradeMapping(mapping);
+		}
 	}
 	
 	/**
@@ -270,7 +320,7 @@ public class TradeService {
 		int offset = pageSize;
 		List<Trade> trades =  tradeDao.findUnfinishedTrades(start, offset);
 		long count = tradeDao.countUnfinishedTrades();
-		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
+		PageRequest pageable = new PageRequest(start, pageSize);
 		Page<Trade> page = new PageImpl<Trade>(trades, pageable, count);
 		return page;
 		

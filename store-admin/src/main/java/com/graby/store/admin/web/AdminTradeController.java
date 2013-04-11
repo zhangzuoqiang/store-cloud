@@ -64,7 +64,7 @@ public class AdminTradeController {
 	public String unfinish(
 			@RequestParam(value = "page", defaultValue = "1") int page, 
 			Model model) throws ApiException {
-		Page<Trade> trades = tradeRemote.findUnfinishedTrades(page, 15);
+		Page<Trade> trades = tradeRemote.findUnfinishedTrades(page, 10);
 		model.addAttribute("trades", trades);
 		return "/admin/tradeUnfinishs";
 	}

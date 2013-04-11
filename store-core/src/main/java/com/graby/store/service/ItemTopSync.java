@@ -49,6 +49,7 @@ public class ItemTopSync {
 	private void sync(Item item, Sku sku) {
 		Long relatedId = itemService.getRelatedItemId(item.getNumIid(), sku == null ? 0L : sku.getSkuId());
 		if (relatedId != null) {
+			// 更新标题和SKU
 			itemService.updateItemTitle(relatedId, item.getTitle(), sku == null ? "" : SkuUtils.convert(sku.getPropertiesName()));
 			return;
 		}

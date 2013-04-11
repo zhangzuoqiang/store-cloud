@@ -75,7 +75,7 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 
 	@Override
 	public ShipOrder getShipOrderByTid(Long tid) {
-		return shipOrderService.getShipOrderByTid(tid);
+		return shipOrderService.getSendShipOrderByTradeId(tid);
 	}
 
 	@Override

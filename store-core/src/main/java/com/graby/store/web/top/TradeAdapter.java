@@ -33,9 +33,8 @@ public class TradeAdapter {
 	 * @return
 	 * @throws ApiException 
 	 */
-	public Trade adapterFromTop(com.taobao.api.domain.Trade from) throws ApiException {
+	public Trade adapterFromTop(com.taobao.api.domain.Trade tTrade) throws ApiException {
 		Trade trade = new Trade();
-		
 		Long userid = ShiroContextUtils.getUserid();
 		if (userid != null) {
 			User user = new User();
@@ -48,40 +47,40 @@ public class TradeAdapter {
 		trade.setCentro(centro);
 		
 		// 主订单适配
-		trade.setTradeFrom(from.getTradeFrom());
-		trade.setTid(from.getTid());
-		trade.setBuyerNick(from.getBuyerNick());
-		trade.setBuyerEmail(from.getBuyerEmail());
-		trade.setBuyerAlipayNo(from.getBuyerAlipayNo());
-		trade.setPayTime(from.getPayTime());
-		trade.setBuyerArea(from.getBuyerArea());
-		trade.setShippingType(from.getShippingType());
-		trade.setBuyerMemo(from.getBuyerMemo());
-		trade.setReceiverAddress(from.getReceiverAddress());
-		trade.setReceiverCity(from.getReceiverCity());
-		trade.setReceiverDistrict(from.getReceiverDistrict());
-		trade.setReceiverMobile(from.getReceiverMobile());
-		trade.setReceiverName(from.getReceiverName());
-		trade.setReceiverPhone(from.getReceiverPhone());
-		trade.setReceiverState(from.getReceiverState());
-		trade.setReceiverZip(from.getReceiverZip());
-		trade.setLgAging(from.getLgAging());
-		trade.setLgAgingType(from.getLgAgingType());
-		trade.setBuyerMessage(from.getBuyerMessage());
-		trade.setHasBuyerMessage(from.getHasBuyerMessage());
+		trade.setTradeFrom(tTrade.getTradeFrom());
+		trade.setTid(tTrade.getTid());
+		trade.setBuyerNick(tTrade.getBuyerNick());
+		trade.setBuyerEmail(tTrade.getBuyerEmail());
+		trade.setBuyerAlipayNo(tTrade.getBuyerAlipayNo());
+		trade.setPayTime(tTrade.getPayTime());
+		trade.setBuyerArea(tTrade.getBuyerArea());
+		trade.setShippingType(tTrade.getShippingType());
+		trade.setBuyerMemo(tTrade.getBuyerMemo());
+		trade.setReceiverAddress(tTrade.getReceiverAddress());
+		trade.setReceiverCity(tTrade.getReceiverCity());
+		trade.setReceiverDistrict(tTrade.getReceiverDistrict());
+		trade.setReceiverMobile(tTrade.getReceiverMobile());
+		trade.setReceiverName(tTrade.getReceiverName());
+		trade.setReceiverPhone(tTrade.getReceiverPhone());
+		trade.setReceiverState(tTrade.getReceiverState());
+		trade.setReceiverZip(tTrade.getReceiverZip());
+		trade.setLgAging(tTrade.getLgAging());
+		trade.setLgAgingType(tTrade.getLgAgingType());
+		trade.setBuyerMessage(tTrade.getBuyerMessage());
+		trade.setHasBuyerMessage(tTrade.getHasBuyerMessage());
 		
 		// 子订单适配
-		List<Order> orders = from.getOrders();
+		List<Order> orders = tTrade.getOrders();
 		if (CollectionUtils.isEmpty(orders)) {
 			TradeOrder order = new TradeOrder();
-			Item item = topApi.getItem(from.getNumIid());
+			Item item = topApi.getItem(tTrade.getNumIid());
 			order.setTitle(item.getTitle());
-			order.setOrderFrom(from.getTradeFrom());
-			order.setNumIid(from.getNumIid());
-			order.setAdjustFee(from.getAdjustFee());
-			order.setDiscountFee(from.getDiscountFee());
-			order.setTotalFee(from.getTotalFee());			
-			order.setNum(from.getNum());
+			order.setOrderFrom(tTrade.getTradeFrom());
+			order.setNumIid(tTrade.getNumIid());
+			order.setAdjustFee(tTrade.getAdjustFee());
+			order.setDiscountFee(tTrade.getDiscountFee());
+			order.setTotalFee(tTrade.getTotalFee());			
+			order.setNum(tTrade.getNum());
 			trade.addOrder(order);
 		} else {
 			for (Order order : orders) {
@@ -100,7 +99,6 @@ public class TradeAdapter {
 				localOrder.setSkuPropertiesName(order.getSkuPropertiesName());
 				trade.addOrder(localOrder);
 			}
-			
 		}
 		return trade;
 	}

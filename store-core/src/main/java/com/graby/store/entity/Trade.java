@@ -245,7 +245,7 @@ public class Trade implements Serializable{
 		return status;
 	}
 	
-	@Index(name="idx_tid")
+	@Transient
 	public Long getTid() {
 		return tid;
 	}

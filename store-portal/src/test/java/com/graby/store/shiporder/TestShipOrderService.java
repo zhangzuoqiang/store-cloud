@@ -32,7 +32,7 @@ public class TestShipOrderService extends AbstractJUnit4SpringContextTests {
 		for (int i = 0; i < 3000; i++) {
 			int j = new Random().nextInt(states.length);
 			Trade trade = createTrade(states[j]);
-			trade = tradeService.createTrade(trade);
+			trade = tradeService.createTrade(trade, null);
 			tradeService.createSendShipOrderByTradeId(trade.getId());
 		}
 		

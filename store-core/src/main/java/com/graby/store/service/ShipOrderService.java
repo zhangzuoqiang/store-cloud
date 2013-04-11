@@ -334,11 +334,11 @@ public class ShipOrderService {
 	
 	/**
 	 * 根据淘宝交易号查询出货单
-	 * @param tid
+	 * @param tradeId
 	 * @return
 	 */
-	public ShipOrder getShipOrderByTid(Long tid) {
-		return shipOrderDao.getShipOrderByTid(tid);
+	public ShipOrder getSendShipOrderByTradeId(Long tradeId) {
+		return shipOrderDao.getSendShipOrderByTradeId(tradeId);
 	}
 	 
 	/**

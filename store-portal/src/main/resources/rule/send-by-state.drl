@@ -9,7 +9,7 @@ import com.graby.store.entity.ShipOrder;
 #顺丰速运
 rule "SF"
     when
-        $order : ShipOrder(receiverState == "湖南省")
+        $order : ShipOrder(receiverState == "湖南省222")
     then
         $order.setExpressCompany("YUNDA");
 end
