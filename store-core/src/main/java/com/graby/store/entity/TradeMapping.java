@@ -12,7 +12,7 @@ import org.hibernate.annotations.Index;
 
 /**
  * 淘宝交易订单映射
- * 
+ * 多个淘宝交易对应一个系统交易（根据收货方地址合并）
  * @author huabiao.mahb
  */
 @Entity

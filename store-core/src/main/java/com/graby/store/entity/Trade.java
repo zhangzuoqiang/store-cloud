@@ -20,7 +20,6 @@ import org.hibernate.annotations.Index;
 
 /**
  * 交易订单
- * 
  * @author huabiao.mahb
  */
 @Entity
@@ -404,8 +403,6 @@ public class Trade implements Serializable{
 	public void setCentro(Centro centro) {
 		this.centro = centro;
 	}
-
-
 
 	public void setTid(Long tid) {
 		this.tid = tid;

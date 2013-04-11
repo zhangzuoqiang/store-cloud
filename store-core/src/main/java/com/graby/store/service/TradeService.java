@@ -191,23 +191,23 @@ public class TradeService {
 	 * @param trade
 	 */
 	public Trade createTrade(Trade trade) {
-//		// 保存至系统订单
-//		Long tradeId =getRelatedTradeId(trade.getTid());
-//		if (tradeId == null) {
-//			// 状态等待物流通审核
-//			trade.setStatus(Trade.Status.TRADE_WAIT_CENTRO_AUDIT);
-//			tradeJpaDao.save(trade);
-//			List<TradeOrder> orders = trade.getOrders();
-//			if (CollectionUtils.isNotEmpty(orders)) {
-//				for (TradeOrder tradeOrder : orders) {
-//					tradeOrder.setTrade(trade);
-//					tradeOrderJpaDao.save(tradeOrder);
-//				}	
-//			}
-//			// 创建关联关系
-//			TradeMapping mapping = new TradeMapping(trade.getTid(), trade.getId());
-//			tradeDao.createTradeMapping(mapping);
-//		}
+		// 保存至系统订单
+		Long tradeId =getRelatedTradeId(trade.getTid());
+		if (tradeId == null) {
+			// 状态等待物流通审核
+			trade.setStatus(Trade.Status.TRADE_WAIT_CENTRO_AUDIT);
+			tradeJpaDao.save(trade);
+			List<TradeOrder> orders = trade.getOrders();
+			if (CollectionUtils.isNotEmpty(orders)) {
+				for (TradeOrder tradeOrder : orders) {
+					tradeOrder.setTrade(trade);
+					tradeOrderJpaDao.save(tradeOrder);
+				}	
+			}
+			// 创建关联关系
+			TradeMapping mapping = new TradeMapping(trade.getTid(), trade.getId());
+			tradeDao.createTradeMapping(mapping);
+		}
 		return trade;
 	}
 	
