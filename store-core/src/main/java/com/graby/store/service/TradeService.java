@@ -78,8 +78,8 @@ public class TradeService {
 				groupResults.put("related", trade);
 			} else {
 				// 未创建的订单
+				boolean useable = true;
 				for (TradeOrder order : trade.getOrders()) {
-					int errs = 0;
 					Long numIid = order.getNumIid();
 					Long skuId = order.getSkuId();
 					// 是否已关联
@@ -87,19 +87,19 @@ public class TradeService {
 					if (itemId == null) {
 						// 未关联
 						order.setStockNum(-1);
-						errs ++;
+						useable = false;
 					} else {
 						long stockNum = inventoryService.getValue(1L, itemId, InvAccounts.CODE_SALEABLE);
 						order.setStockNum(stockNum);
 						Item item = itemServie.getItem(itemId);
 						order.setItem(item);
 						// 库存数量
-						if (stockNum == 0) {
-							errs ++;	
+						if (stockNum <= 0) {
+							useable = false;
 						}
 					}
-					groupResults.put(errs == 0? "useable" : "failed", trade);
 				}
+				groupResults.put(useable? "useable" : "failed", trade);
 			}
 		}
 		return groupResults;
@@ -169,6 +169,7 @@ public class TradeService {
 	
 	/**
 	 * 根据淘宝交易ID批量创建系统交易
+	 * 合并收货方相同的订单。
 	 * @param tids
 	 * @throws NumberFormatException
 	 * @throws ApiException
@@ -190,24 +191,23 @@ public class TradeService {
 	 * @param trade
 	 */
 	public Trade createTrade(Trade trade) {
-		// 保存至系统订单
-		Long tradeId =getRelatedTradeId(trade.getTid());
-		if (tradeId == null) {
-			// 状态等待物流通审核
-			trade.setStatus(Trade.Status.TRADE_WAIT_CENTRO_AUDIT);
-			tradeJpaDao.save(trade);
-			List<TradeOrder> orders = trade.getOrders();
-			if (CollectionUtils.isNotEmpty(orders)) {
-				for (TradeOrder tradeOrder : orders) {
-					tradeOrder.setTrade(trade);
-					tradeOrderJpaDao.save(tradeOrder);
-				}	
-			}
-			
-			// 创建关联关系
-			TradeMapping mapping = new TradeMapping(trade.getTid(), trade.getId());
-			tradeDao.createTradeMapping(mapping);
-		}
+//		// 保存至系统订单
+//		Long tradeId =getRelatedTradeId(trade.getTid());
+//		if (tradeId == null) {
+//			// 状态等待物流通审核
+//			trade.setStatus(Trade.Status.TRADE_WAIT_CENTRO_AUDIT);
+//			tradeJpaDao.save(trade);
+//			List<TradeOrder> orders = trade.getOrders();
+//			if (CollectionUtils.isNotEmpty(orders)) {
+//				for (TradeOrder tradeOrder : orders) {
+//					tradeOrder.setTrade(trade);
+//					tradeOrderJpaDao.save(tradeOrder);
+//				}	
+//			}
+//			// 创建关联关系
+//			TradeMapping mapping = new TradeMapping(trade.getTid(), trade.getId());
+//			tradeDao.createTradeMapping(mapping);
+//		}
 		return trade;
 	}
 	
@@ -271,7 +271,7 @@ public class TradeService {
 		List<Trade> trades =  tradeDao.findUnfinishedTrades(start, offset);
 		long count = tradeDao.countUnfinishedTrades();
 		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
-		PageImpl<Trade> page = new PageImpl<Trade>(trades, pageable, count);
+		Page<Trade> page = new PageImpl<Trade>(trades, pageable, count);
 		return page;
 		
 	}
