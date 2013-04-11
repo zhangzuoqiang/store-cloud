@@ -34,8 +34,7 @@
         
 	<!-- 查询用户出货单 -->
     <select id="getShipOrder" parameterType="long" resultMap="ShipOrderEntity">
-		select	
-		  id,  centro_id,  create_date,
+		select	id, sku, centro_id,  create_date,
 		  express_company, express_orderno,
 		  fetch_date,last_update_date,  orderno,
 		  origin_persion, origin_phone,
