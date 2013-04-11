@@ -53,7 +53,6 @@ public class UserTradeController {
 	@Autowired
 	private TradeService tradeService;
 
-	
 	@Autowired
 	private ShipOrderService shipOrderService;
 

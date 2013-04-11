@@ -47,7 +47,7 @@ public class TradeAdapter {
 		trade.setCentro(centro);
 		
 		// 主订单适配
-		trade.setTradeFrom(tTrade.getTradeFrom());
+		trade.setTradeFrom("淘宝交易号:" + tTrade.getTid());
 		trade.setTid(tTrade.getTid());
 		trade.setBuyerNick(tTrade.getBuyerNick());
 		trade.setBuyerEmail(tTrade.getBuyerEmail());
@@ -55,7 +55,6 @@ public class TradeAdapter {
 		trade.setPayTime(tTrade.getPayTime());
 		trade.setBuyerArea(tTrade.getBuyerArea());
 		trade.setShippingType(tTrade.getShippingType());
-		trade.setBuyerMemo(tTrade.getBuyerMemo());
 		trade.setReceiverAddress(tTrade.getReceiverAddress());
 		trade.setReceiverCity(tTrade.getReceiverCity());
 		trade.setReceiverDistrict(tTrade.getReceiverDistrict());
@@ -66,7 +65,8 @@ public class TradeAdapter {
 		trade.setReceiverZip(tTrade.getReceiverZip());
 		trade.setLgAging(tTrade.getLgAging());
 		trade.setLgAgingType(tTrade.getLgAgingType());
-		trade.setBuyerMessage(tTrade.getBuyerMessage());
+		trade.setBuyerMemo(tTrade.getBuyerMemo());
+		trade.setBuyerMessage(tTrade.getBuyerMessage() == null ? "" : tTrade.getBuyerMessage());
 		trade.setHasBuyerMessage(tTrade.getHasBuyerMessage());
 		
 		// 子订单适配

@@ -28,7 +28,7 @@
 				<label for="item_title" class="control-label">商品名称:</label>
 				<div class="controls">
 					<input type="text" name="title"  value="${item.title}" class="input-large required" minlength="3"/>
-					<p class="help-block">商品标题必须精确到SKU(库存最小可以单位)， 如A3时尚春款修身打底衫T恤 女 长袖13180 尺寸:XL; 颜色:天蓝色</p>
+					<p class="help-block">商品标题 ， 如A3时尚春款修身打底衫T恤</p>
 				</div>
 			</div>	
 			<div class="control-group">
@@ -38,6 +38,13 @@
 					<p class="help-block">SKU对应的商品条形码</p>
 				</div>
 			</div>	
+			<div class="control-group">
+				<label class="control-label">sku(属性):</label>
+				<div class="controls">
+					<input type="text" name="sku"  value="${item.sku}" class="input-large"/>
+					<p class="help-block">商品sku， 如长袖13180 尺寸:XL; 颜色:天蓝色</p>
+				</div>
+			</div>				
 			<div class="control-group">
 				<label for="item_title" class="control-label">重量（单位：克）:</label>
 				<div class="controls">

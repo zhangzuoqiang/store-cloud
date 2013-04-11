@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -200,11 +201,16 @@ public class TradeService {
 				tidArray[0] = topTrades.get(0).getTid();
 				// 第一个订单
 				Trade trade = tradeAdapter.adapterFromTop(topTrades.get(0));
+				// 合并其他订单
 				for (int i = 1; i < topTrades.size(); i++) {
 					Trade others = tradeAdapter.adapterFromTop(topTrades.get(i));
 					trade.getOrders().addAll(others.getOrders());
+					if (StringUtils.isNotBlank(others.getBuyerMessage())) {
+						trade.setBuyerMessage(trade.getBuyerMessage() + "," + others.getBuyerMessage());
+					}
 					tidArray[i] = topTrades.get(i).getTid();
 				}
+				trade.setTradeFrom("淘宝交易号:：" + StringUtils.join(tidArray, ","));
 				createTrade(trade, null);
 				for (Long tid : tidArray) {
 					mappingTrade(tid, trade.getId());
@@ -219,11 +225,11 @@ public class TradeService {
 		
 	}
 	
-	// 根据收货人详细地址
+	// 根据收货人详细地址Hash
 	private String hash(com.taobao.api.domain.Trade trade) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(trade.getReceiverState()).append(trade.getReceiverCity()).append(trade.getReceiverDistrict());
-		buf.append(trade.getReceiverAddress()).append(trade.getReceiverName());
+		buf.append(trade.getReceiverAddress()).append(trade.getReceiverName()).append(trade.getReceiverMobile());
 		return EncryptUtil.md5(buf.toString());
 	}
 	

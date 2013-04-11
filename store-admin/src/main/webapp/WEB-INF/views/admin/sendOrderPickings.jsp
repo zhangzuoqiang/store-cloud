@@ -62,7 +62,7 @@
 	
 	<div class="row">
 	  	<div class="pull-right">
-	  		<a id="btn_express" href="#" class="btn btn-info">重新打印运单</a>
+	  		<a id="btn_express" href="#" class="btn btn-info">退回重打运单</a>
 	  		<a id="btn_print" href="#" class="btn btn-info">打印拣货单</a>
 	  		<a id="btn_submit" href="#" class="btn btn-success">确认已出库</a>
 	  	</div>

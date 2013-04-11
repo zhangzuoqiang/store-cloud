@@ -146,6 +146,8 @@
                 <c:if test="${trade.lgAgingType == null}">
                  无要求
                 </c:if>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                来自${trade.tradeFrom}
             </p>
  		</div>
 	</div>

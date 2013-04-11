@@ -58,8 +58,8 @@
 					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 					 	${trade.receiverAddress}
 					</td>
-					<td>
-						<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.id}">通知用户签收</a>
+					<td>物流通已发货 通知用户签收
+						<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.id}">通知</a>
 					</td>
 				</tr>
 			</c:forEach>
