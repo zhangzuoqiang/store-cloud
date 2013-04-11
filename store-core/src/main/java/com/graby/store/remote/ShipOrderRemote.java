@@ -115,11 +115,10 @@ public interface ShipOrderRemote {
 	public void setSendOrderExpress(List<Map<String,String>> orderMaps);
 
 	/**
-	 * 查询等待拣货出库单
-	 * @param centroId
+	 * 根据状态查询出库单
 	 * @return
 	 */
-	public List<ShipOrder> findSendOrderPickings(Long centroId);
+	public List<ShipOrder> findSendOrderByStatus(Long centroId, String status);
 	
 	/**
 	 * 重置货单为运单未打印状态。

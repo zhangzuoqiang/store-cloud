@@ -35,10 +35,7 @@
     <li class="progtrckr-todo">4.收货人验收确认</li>
     <li class="progtrckr-todo">5.完成订单交易</li>
 	</ol>
-	
 	<div class="page-header"></div>
-	<legend><small>第一步：仓库拣货</small></legend>
-	
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
 	     <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>拣货单</p>
@@ -69,21 +66,11 @@
 	</c:forEach>
 	<tr>
 		<td colspan="5"><strong>买家备注:</strong>${order.remark}</td>
-	</tr>	
-	<tr>
-		<!-- ${ctx}/trade/check/${order.id} -->
-		<td colspan="5">
-			<span class="label"> 1. 打印拣货单小票 <a href="#" class="btn btn-primary">1.打印拣货单</a></span>
-			<!-- 
-			<span class="label offset1"> 2. 检查拣货单与商品是否相符 <a href="#" class="btn btn-primary">拣货单审核通过</a></span>
-			 -->
-		</td>
 	</tr>
 	</tbody>
-	</table>	
+	</table>
 
 
-	<legend><small>第二步：选择运输公司并发货</small></legend>
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
 	     <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>快递运单</p>

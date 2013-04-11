@@ -6,35 +6,34 @@
 
 <html>
 <head>
-	<title>运单设置</title>
-	<script src="${ctx}/static/bootstrap-plugin-js/bootstrap-tooltip.js" type="text/javascript"></script>
-	<script>
-		$(function () {
-	       $("[rel='tooltip']").tooltip();
-	    });
-	</script>
+	<title>快递运单单</title>
 </head>
 
 <body>
 
-	<div class="alert alert-info span4">
-		待打印运单列表，请使用<strong>批量打单系统</strong>处理。
-	</div>
+	<legend><small>待打印运单列表，请使用打单系统操作。</small></legend>
 	
-	<table id="contentTable" class="table table-striped"  >
+	
+	<table id="contentTable" class="table table-striped table-condensed"  >
 		<thead><tr>
 		<th>创建日期</th>
 		<th>商铺名称</th>
-		<th>出库单号</th>
-		<th>处理</th>
+		<th>商品</th>
+		<th>目的地</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${orders}" var="order">
 			<tr>
 				<td><fmt:formatDate value="${order.createDate}" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
 				<td>${order.createUser.shopName}</td>
-				<td>${order.orderno}</td>
-				<td>手工<a href="${ctx}/trade/send/do/${order.id}" rel="tooltip" title="手工设置已发货运单号。（建议使用批量打单系统）">设置</a>运单号</td>
+				<td>
+					<c:forEach items="${order.details}" var="detail">
+						${detail.item.code} ${detail.item.title} ${detail.num} <BR>
+					</c:forEach>
+				</td>
+				<td>${order.receiverState} ${order.receiverCity} ${order.receiverDistrict} <br>
+				 	${order.receiverAddress}
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>

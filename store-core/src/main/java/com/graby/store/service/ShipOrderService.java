@@ -389,10 +389,11 @@ public class ShipOrderService {
 	/**
 	 * 查询所有未拣货出库单
 	 * @param centroId
+	 * @param status TODO
 	 * @return
 	 */
-	public List<ShipOrder> findSendOrderPickings(Long centroId) {
-		return shipOrderDao.findSendOrderPickings(centroId, DEFAULT_FETCH_ROWS);
+	public List<ShipOrder> findSendOrderByStatus(Long centroId, String status) {
+		return shipOrderDao.findSendOrderByStatus(centroId, status, DEFAULT_FETCH_ROWS);
 	}	
 	
 	/**

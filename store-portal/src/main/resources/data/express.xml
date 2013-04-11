@@ -2,11 +2,6 @@
 <logistics_companies_get_response>
 	<logistics_companies list="true">
 		<logistics_company>
-			<code>OTHER</code>
-			<id>-1</id>
-			<name>其他</name>
-		</logistics_company>
-		<logistics_company>
 			<code>SF</code>
 			<id>505</id>
 			<name>顺丰速运</name>

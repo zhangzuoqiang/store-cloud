@@ -34,14 +34,17 @@
         
 	<!-- 查询用户出货单 -->
     <select id="getShipOrder" parameterType="long" resultMap="ShipOrderEntity">
-		select	id, centro_id,  create_date,
-		  express_company, express_orderno,
-		  fetch_date,last_update_date,  orderno,
-		  origin_persion, origin_phone,
+		select
+		  b.shop_name as "createUser.shopName",
+		  a.id, a.centro_id,  a.create_date,
+		  a.express_company, a.express_orderno,
+		  a.fetch_date,a.last_update_date,  a.orderno,
+		  a.origin_persion, a.origin_phone,
 		  receiver_address,  receiver_city,  receiver_district,  receiver_mobile,  receiver_name,  receiver_phone,  receiver_state,  receiver_zip,
-		  remark, status, totalnum,  trade_id, type,
-		  create_userid,  last_update_userid		
-		from sc_ship_order a where id=#{0}
+		  a.remark, a.status, a.totalnum,  a.trade_id, a.type,
+		  a.create_userid,  a.last_update_userid		
+		from sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id 
+		where a.id=#{0}
 	</select>
 	
 	<resultMap id="ShipOrderEntity" type="ShipOrder">
@@ -143,7 +146,7 @@
 	</select>
 	
 	<!-- 查询待拣货出库单 -->
-  	<select id="findSendOrderPickings" resultMap="ShipOrderEntity">
+  	<select id="findSendOrderByStatus" resultMap="ShipOrderEntity">
 		SELECT 
 		b.shop_name as "createUser.shopName", 
 		create_date as "createDate",
@@ -163,7 +166,7 @@
 		a.express_company as "expressCompany",
 		a.express_orderno as "expressOrderno"
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
-		WHERE type='send' and a.status='WAIT_EXPRESS_PICKING' and a.centro_id=#{0} limit #{1}
+		WHERE type='send' and a.status=#{1} and a.centro_id=#{0} limit #{2}
 	</select>	
 	
 	<!-- 查询待用户签收出库单 -->

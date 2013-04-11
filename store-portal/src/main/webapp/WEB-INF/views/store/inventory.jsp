@@ -2,11 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
-<head></head>
+<head>
+	<script src="${ctx}/static/bootstrap-plugin-js/bootstrap-tooltip.js" type="text/javascript"></script>
+	<script>
+		$(function () {
+	       $("[rel='tooltip']").tooltip();
+	    });
+	</script>
+</head>
 <body>
 
 <legend><small></small></legend>
-<table id="contentTable" class="table table-striped table-condensed"  >
+<table id="contentTable" class="table table-striped"  >
 仓库：${centro}
 <thead><tr>
 	<th>商品编码</th>
@@ -22,7 +29,7 @@
 		<c:forEach items="${values}" var="info">
 		<tr>
 			<td>${info.itemCode}</td>
-			<td>${info.itemName}</td>
+			<td><a  rel="tooltip" title="${info.itemSku}">${info.itemName}</a></td>
 			<td>${-info.c1}</td>
 			<td>${info.c2}</td>
 			<td>${info.c3}</td>

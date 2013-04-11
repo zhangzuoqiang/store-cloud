@@ -100,8 +100,8 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	}
 
 	@Override
-	public List<ShipOrder> findSendOrderPickings(Long centroId) {
-		return shipOrderService.findSendOrderPickings(centroId);
+	public List<ShipOrder> findSendOrderByStatus(Long centroId, String status) {
+		return shipOrderService.findSendOrderByStatus(centroId, status);
 	}
 
 	@Override

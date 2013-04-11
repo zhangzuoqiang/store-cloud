@@ -56,38 +56,6 @@ public class AdminTradeController {
 	}
 	
 	/**
-	 * 查询所有未关闭订单
-	 * @return
-	 * @throws ApiException
-	 */
-	@RequestMapping(value = "unfinish", method=RequestMethod.GET)
-	public String unfinish(
-			@RequestParam(value = "page", defaultValue = "1") int page, 
-			Model model) throws ApiException {
-		Page<Trade> trades = tradeRemote.findUnfinishedTrades(page, 10);
-		model.addAttribute("trades", trades);
-		return "/admin/tradeUnfinishs";
-	}
-	
-	@RequestMapping(value = "delete/{id}", method=RequestMethod.GET)
-	public String deleteTrade(@PathVariable(value = "id")Long tradeId) {
-		tradeRemote.deleteTrade(tradeId);
-		return "redirect:/trade/unfinish";
-	}
-	
-	/**
-	 * 查询所有待处理出库单
-	 * @return
-	 * @throws ApiException
-	 */
-	@RequestMapping(value = "send/waits", method=RequestMethod.GET)
-	public String sendWaits(Model model) throws ApiException {
-		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderWaits();
-		model.addAttribute("orders", sendOrders);
-		return "/admin/sendOrderWaits";
-	}
-	
-	/**
 	 * 审核订单页面
 	 * @return
 	 * @throws ApiException
@@ -116,14 +84,50 @@ public class AdminTradeController {
 	 * 审核通过，创建出库单。
 	 */
 	@RequestMapping(value = "mkship/{id}")
-	public String ship(@PathVariable("id") Long id, Model model) {
+	public String mkship(@PathVariable("id") Long id, Model model) {
 		ShipOrder sendOrder = tradeRemote.createSendShipOrderByTradeId(id);
 		model.addAttribute("sendOrder", sendOrder);
 		// "redirect:/trade/send/do/" + sendOrder.getId();
 		return "redirect:/trade/waits";
 	}
 	
-
+//	/**
+//	 * 查询所有等待打印运单出货单
+//	 * @return
+//	 * @throws ApiException
+//	 */
+//	@RequestMapping(value = "send/ships", method=RequestMethod.GET)
+//	public String expressList(Model model) throws ApiException {
+//		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderByStatus(1L, ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
+//		model.addAttribute("orders", sendOrders);
+//		return "/admin/sendOrderShips";
+//	}	
+	
+	/**
+	 * 查询所有待处理出库单
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "send/waits", method=RequestMethod.GET)
+	public String sendWaits(Model model) throws ApiException {
+		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderWaits();
+		model.addAttribute("orders", sendOrders);
+		return "/admin/sendOrderWaits";
+	}	
+	
+	/**
+	 * 手工设置运单
+	 * @param orderId
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "send/do/{id}", method=RequestMethod.GET)
+	public String doSendOrderForm(@PathVariable("id") Long orderId, Model model) {
+		ShipOrder sendOrder = shipOrderRemote.getShipOrder(orderId);
+		model.addAttribute("order", sendOrder);
+		model.addAttribute("expressCompanys", expressRemote.getExpressMap());
+		return "/admin/sendOrderForm";
+	}	
 	
 	/**
 	 * 查询所有待拣货出库单
@@ -132,7 +136,7 @@ public class AdminTradeController {
 	 */
 	@RequestMapping(value = "send/pickings", method=RequestMethod.GET)
 	public String pickingList(Model model) throws ApiException {
-		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderPickings(1L);
+		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderByStatus(1L, ShipOrder.SendOrderStatus.WAIT_EXPRESS_PICKING);
 		model.addAttribute("orders", sendOrders);
 		return "/admin/sendOrderPickings";
 	}	
@@ -163,20 +167,6 @@ public class AdminTradeController {
 		return "redirect:/trade/send/pickings";
 	}	
 	
-	
-	/**
-	 * 出库单处理页面 (打印分拣单、审核分拣单、打印快递运单、出库确认)
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "send/do/{id}", method=RequestMethod.GET)
-	public String doSendOrderForm(@PathVariable("id") Long orderId, Model model) {
-		ShipOrder sendOrder = shipOrderRemote.getShipOrder(orderId);
-		model.addAttribute("order", sendOrder);
-		model.addAttribute("expressCompanys", expressRemote.getExpressMap());
-		return "/admin/sendOrderForm";
-	}
 	
 	/**
 	 * 出库单提交，等待用户签收。
@@ -231,5 +221,25 @@ public class AdminTradeController {
 		model.addAttribute("order", sendOrder);
 		return "admin/signSuccess";
 	}
+	
+	/**
+	 * 查询所有未关闭订单
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "unfinish", method=RequestMethod.GET)
+	public String unfinish(
+			@RequestParam(value = "page", defaultValue = "1") int page, 
+			Model model) throws ApiException {
+		Page<Trade> trades = tradeRemote.findUnfinishedTrades(page, 10);
+		model.addAttribute("trades", trades);
+		return "/admin/tradeUnfinishs";
+	}
+	
+	@RequestMapping(value = "delete/{id}", method=RequestMethod.GET)
+	public String deleteTrade(@PathVariable(value = "id")Long tradeId) {
+		tradeRemote.deleteTrade(tradeId);
+		return "redirect:/trade/unfinish";
+	}	
 	
 }
