@@ -301,7 +301,7 @@ public class TradeService {
 		shipOrder.setReceiverPhone(trade.getReceiverPhone());
 		shipOrder.setReceiverState(trade.getReceiverState());
 		shipOrder.setReceiverZip(trade.getReceiverZip());
-		shipOrder.setRemark(trade.getBuyerMemo());
+		shipOrder.setRemark(trade.getBuyerMessage());
 		shipOrder.setCreateDate(trade.getPayTime());
 		shipOrder.setCreateUser(trade.getUser());
 		for (TradeOrder tOrder : trade.getOrders()) {

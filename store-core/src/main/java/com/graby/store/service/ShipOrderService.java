@@ -294,10 +294,10 @@ public class ShipOrderService {
 	 */
 	public List<ShipOrder> findGroupSendOrderWaits(Long centroId) {
 		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId, DEFAULT_FETCH_ROWS);
-		for (ShipOrder shipOrder : orders) {
-			ksession.insert(shipOrder);
-		}
-		ksession.fireAllRules();
+//		for (ShipOrder shipOrder : orders) {
+//			ksession.insert(shipOrder);
+//		}
+//		ksession.fireAllRules();
 		String companyCode;
 		String companyName;
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
@@ -317,10 +317,9 @@ public class ShipOrderService {
 		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
 			ShipOrderDetail detail =  iterator.next();
 			content.append(detail.getItemTitle() + " ").append(detail.getNum() + "件");
-			if (iterator.hasNext()) {
-				content.append(", ");
-			}
+			content.append(", ");
 		}
+		content.append(order.getRemark());
 		return content.toString();
 	}
 	
