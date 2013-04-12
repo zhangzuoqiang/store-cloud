@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>5.0.4</version>
+			<version>4.6.0</version>
 		</dependency>
 	  	
 		<!-- Common -->
