@@ -31,7 +31,6 @@ public class TestRemote extends AbstractJUnit4SpringContextTests{
 	public void testFindOrder() {
 		List<ShipOrder> orderMap = shipOrderRemote.findGroupSendOrderWaits(1L);
 		for (ShipOrder shipOrder : orderMap) {
-			//System.out.println(shipOrder.getExpressCompany() + ":" + shipOrder.getExpressCompanyName() + "=" + shipOrder.getReceiverState());
 			System.out.println(shipOrder.getItems());
 		}
 	}

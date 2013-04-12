@@ -317,7 +317,7 @@ public class ShipOrderService {
 		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
 			ShipOrderDetail detail =  iterator.next();
 			String sku = detail.getItem().getSku() == null ? ""  : detail.getItem().getSku();
-			content.append(detail.getItemTitle() + ";" +  sku + " ").append(detail.getNum() + "件");
+			content.append(detail.getItemTitle() + ":" +  sku + " ").append(detail.getNum() + "件");
 			content.append(", ");
 		}
 		content.append(order.getRemark());
