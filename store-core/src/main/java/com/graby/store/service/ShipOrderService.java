@@ -311,12 +311,13 @@ public class ShipOrderService {
 		return results;
 	}
 	
-	// 商品列表
+	// 商品打印区域
 	private String itemTitles(ShipOrder order) {
 		StringBuffer content = new StringBuffer();
 		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
 			ShipOrderDetail detail =  iterator.next();
-			content.append(detail.getItemTitle() + " ").append(detail.getNum() + "件");
+			String sku = detail.getItem().getSku() == null ? ""  : detail.getItem().getSku();
+			content.append(detail.getItemTitle() + ";" +  sku + " ").append(detail.getNum() + "件");
 			content.append(", ");
 		}
 		content.append(order.getRemark());
