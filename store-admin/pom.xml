@@ -93,12 +93,11 @@
 		</dependency>
 		<!-- JSON end -->
 
-		<!-- Print -->
 		<dependency>
-			<groupId>jasperreports</groupId>
+			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>3.5.3</version>
-		</dependency>	
+			<version>5.0.4</version>
+		</dependency>
 	  	
 		<!-- Common -->
 		<dependency>
@@ -181,6 +180,8 @@
 		</dependencies>
 	</dependencyManagement>
 
+
+	
 	<build>
 		<plugins>
 			<plugin>
