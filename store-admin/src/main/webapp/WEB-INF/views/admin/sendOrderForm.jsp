@@ -73,9 +73,9 @@
 
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
-	     <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>快递运单</p>
-		    <p><strong>发货人：</strong>${order.createUser.shopName}&nbsp;&nbsp;&nbsp;&nbsp;
-		    <strong>发货时间：</strong><fmt:formatDate value="${order.createDate}" type="date" pattern="yyyy-MM-dd HH:mm"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	     <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>配送信息</p>
+		    <p><strong>来源商铺：</strong>${order.createUser.shopName}&nbsp;&nbsp;&nbsp;&nbsp;
+		    <strong>下单时间：</strong><fmt:formatDate value="${order.createDate}" type="date" pattern="yyyy-MM-dd HH:mm"/>&nbsp;&nbsp;&nbsp;&nbsp;
 		     <strong>出库仓库：</strong>仓储配送中心-湘潭高新仓</p>
 	    </div>
 	</div>
