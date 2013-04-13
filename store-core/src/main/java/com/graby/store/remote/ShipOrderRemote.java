@@ -124,13 +124,20 @@ public interface ShipOrderRemote {
 	 * 重置货单为运单未打印状态。
 	 * @param orderids
 	 */
-	public void reExpressShipOrder(Long[] orderids);
+	public void reExpressShipOrder(Long[] orderIds);
+	
+	/**
+	 * 查询出库单
+	 * @param orderIds
+	 * @return
+	 */
+	public List<ShipOrder> findSendOrders(Long[] orderIds);	
 	
 	/**
 	 * 批量提交出库单，等待用户签收.
 	 * @param orderids
 	 */
-	public void submits(Long[] orderids);
+	public void submits(Long[] orderIds);
 	
 	/**
 	 * 查询所有出库单(等待用户签收)
@@ -156,7 +163,7 @@ public interface ShipOrderRemote {
 	 * @throws ApiException
 	 */
 	public ShipOrder submitSendOrder(ShipOrder order) throws ApiException;
-
+	
 	/**
 	 * 出货单用户签收确认 库存记录商品冻结到已售出 更新订单状态
 	 * 

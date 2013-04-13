@@ -67,6 +67,7 @@
 		<result property="receiverState" column="receiver_state" />
 		<result property="receiverZip" column="receiver_zip" />
 		<result property="receiverPhone" column="receiver_phone" />
+		<result property="buyerNick" column="buyer_nick" />
 		<result property="remark" column="remark" />
 		<result property="status" column="status" />
 		<result property="totalnum" column="totalnum" />
@@ -139,6 +140,7 @@
 		a.receiver_phone as "receiverPhone", 
 		a.receiver_district as "receiverDistrict", 
 		a.receiver_zip as "receiverZip",
+		a.buyer_nick as "buyerNick",
 		a.remark,
 		a.orderno
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
@@ -161,6 +163,7 @@
 		a.receiver_phone as "receiverPhone", 
 		a.receiver_district as "receiverDistrict", 
 		a.receiver_zip as "receiverZip",
+		a.buyer_nick as "buyerNick",
 		a.remark,
 		a.orderno,
 		a.express_company as "expressCompany",
@@ -169,6 +172,35 @@
 		WHERE type='send' and a.status=#{1} and a.centro_id=#{0} limit #{2}
 	</select>	
 	
+	<!-- 根据多个ID查询 -->
+	<select id="findSendOrders" resultMap="ShipOrderEntity">
+	    SELECT 
+		b.shop_name as "createUser.shopName", 
+		create_date as "createDate",
+		a.id, a.centro_id as centroId,
+		a.origin_persion as "originPersion",
+		a.origin_phone as "originPhone",		
+		a.receiver_address as "receiverAddress", 
+		a.receiver_city as "receiverCity",
+		a.receiver_state as "receiverState", 
+		a.receiver_name as "receiverName", 
+		a.receiver_mobile as "receiverMobile",
+		a.receiver_phone as "receiverPhone", 
+		a.receiver_district as "receiverDistrict", 
+		a.receiver_zip as "receiverZip",
+		a.buyer_nick as "buyerNick",
+		a.remark,
+		a.orderno,
+		a.express_company as "expressCompany",
+		a.express_orderno as "expressOrderno"
+	    FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
+	    WHERE a.id in 
+      	<foreach collection="array" index="index" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+	</select>
+	
+
 	<!-- 查询待用户签收出库单 -->
   	<select id="findSendOrderSignWaits" resultMap="ShipOrderEntity">
 		SELECT b.shop_name as "createUser.shopName", create_date as "createDate",
@@ -185,5 +217,7 @@
         	status='WAIT_EXPRESS_PICKING'
         where id=#{id} and status='WAIT_EXPRESS_RECEIVED'
     </update>
+    
+    
     	
 </mapper> 

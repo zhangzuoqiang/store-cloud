@@ -96,7 +96,6 @@ public class ShipOrder implements Serializable{
 	// 预计到达时间
 	private Date fetchDate;
 	
-	
 	/* ------------ 发货方信息 ------------ */	
 	
 	// 发货方联系人
@@ -144,11 +143,18 @@ public class ShipOrder implements Serializable{
 	// 备注
 	private String remark;
 	
-	/* ------------  其他  ------------ */
+	/* ------------  出库单特定属性  ------------ */
 	
 	// 如果是出库单，此为来源交易订单ID.
 	private Long tradeId;
-
+	
+	/* ------------  淘宝发货单特定属性  ------------ */
+	
+	// 淘宝买家昵称
+	private String buyerNick;
+	
+	/* ------------  其他  ------------ */
+	
 	// 创建人
 	private User createUser;
 
@@ -214,6 +220,11 @@ public class ShipOrder implements Serializable{
 	public String getExpressOrderno() {
 		return expressOrderno;
 	}
+	
+	@Index(name="idx_buyer_nick")
+	public String getBuyerNick() {
+		return buyerNick;
+	}	
 
 	@Transient
 	public String getShopName() {
@@ -408,6 +419,10 @@ public class ShipOrder implements Serializable{
 
 	public void setItems(String items) {
 		this.items = items;
+	}
+
+	public void setBuyerNick(String buyerNick) {
+		this.buyerNick = buyerNick;
 	}
 
 }

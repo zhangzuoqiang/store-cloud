@@ -259,7 +259,6 @@ public class ShipOrderService {
 	 * 
 	 * @param id
 	 * @param entrys
-	 *            TODO
 	 */
 	public void recivedEntryOrder(Long id, List<InvAccountEntrys> entrys) {
 		// 库存记账
@@ -399,26 +398,38 @@ public class ShipOrderService {
 	
 	/**
 	 * 重置货单为运单未打印状态。
-	 * @param orderids
+	 * @param orderIds
 	 */
-	public void reExpressShipOrder(Long[] orderids) {
-		if (orderids == null || orderids.length == 0) {
+	public void reExpressShipOrder(Long[] orderIds) {
+		if (orderIds == null || orderIds.length == 0) {
 			return;
 		}
-		for (Long orderId : orderids) {
+		for (Long orderId : orderIds) {
 			shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
 		}
 	}
 	
+	public List<ShipOrder> findSendOrders(Long[] orderIds) {
+		if (orderIds == null || orderIds.length == 0) {
+			return null;
+		}
+		List<ShipOrder> orders = shipOrderDao.findSendOrders(orderIds);
+		for (ShipOrder shipOrder : orders) {
+			shipOrder.setExpressCompanyName(expressService.getExpressCompanyName(shipOrder.getExpressCompany()));
+		}
+		return orders;
+	}
+	
+	
 	/**
 	 * 批量提交出库单，等待用户签收.
-	 * @param orderids
+	 * @param orderIds
 	 */
-	public void submits(Long[] orderids) {
-		if (orderids == null || orderids.length == 0) {
+	public void submits(Long[] orderIds) {
+		if (orderIds == null || orderIds.length == 0) {
 			return;
 		}
-		for (Long orderId : orderids) {
+		for (Long orderId : orderIds) {
 			shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
 			shipOrderDao.setTradeStatus(orderId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
 		}

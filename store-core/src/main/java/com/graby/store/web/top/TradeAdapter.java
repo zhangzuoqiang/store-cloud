@@ -47,9 +47,10 @@ public class TradeAdapter {
 		trade.setCentro(centro);
 		
 		// 主订单适配
-		trade.setTradeFrom("淘宝交易号:" + tTrade.getTid());
+		trade.setTradeFrom(String.valueOf(tTrade.getTid()));
 		trade.setTid(tTrade.getTid());
 		trade.setBuyerNick(tTrade.getBuyerNick());
+		trade.setBuyerAlipayNo(tTrade.getAlipayNo());
 		trade.setBuyerEmail(tTrade.getBuyerEmail());
 		trade.setBuyerAlipayNo(tTrade.getBuyerAlipayNo());
 		trade.setPayTime(tTrade.getPayTime());
@@ -81,23 +82,25 @@ public class TradeAdapter {
 			order.setDiscountFee(tTrade.getDiscountFee());
 			order.setTotalFee(tTrade.getTotalFee());			
 			order.setNum(tTrade.getNum());
+			order.setBuyerNick(order.getBuyerNick());
 			trade.addOrder(order);
 		} else {
 			for (Order order : orders) {
 				Long skuId = StringUtils.isEmpty(order.getSkuId()) ? 0L : Long.valueOf(order.getSkuId());
-				TradeOrder localOrder = new TradeOrder();
-				localOrder.setBuyerNick(order.getBuyerNick());
-				localOrder.setOrderFrom(order.getOrderFrom());
-				localOrder.setNumIid(order.getNumIid());
-				localOrder.setTitle(order.getTitle());
-				localOrder.setAdjustFee(order.getAdjustFee());
-				localOrder.setDiscountFee(order.getDiscountFee());
-				localOrder.setTotalFee(order.getTotalFee());			
-				localOrder.setNum(order.getNum());
-				localOrder.setSkuId(skuId);
-				localOrder.setItem(relatedItem(order.getNumIid(), skuId));
-				localOrder.setSkuPropertiesName(order.getSkuPropertiesName());
-				trade.addOrder(localOrder);
+				TradeOrder tradeOrder = new TradeOrder();
+				tradeOrder.setBuyerNick(order.getBuyerNick());
+				tradeOrder.setOrderFrom(order.getOrderFrom());
+				tradeOrder.setNumIid(order.getNumIid());
+				tradeOrder.setTitle(order.getTitle());
+				tradeOrder.setAdjustFee(order.getAdjustFee());
+				tradeOrder.setDiscountFee(order.getDiscountFee());
+				tradeOrder.setTotalFee(order.getTotalFee());			
+				tradeOrder.setNum(order.getNum());
+				tradeOrder.setSkuId(skuId);
+				tradeOrder.setItem(relatedItem(order.getNumIid(), skuId));
+				tradeOrder.setSkuPropertiesName(order.getSkuPropertiesName());
+				tradeOrder.setBuyerNick(trade.getBuyerNick());
+				trade.addOrder(tradeOrder);
 			}
 		}
 		return trade;

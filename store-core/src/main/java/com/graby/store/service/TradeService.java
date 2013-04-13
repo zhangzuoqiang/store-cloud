@@ -240,6 +240,7 @@ public class TradeService {
 	 * @param trade
 	 * @param tid TODO
 	 */
+	@Transactional(readOnly = false)
 	public Trade createTrade(Trade trade, Long tid) {
 		// 保存至系统订单
 		Long tradeId =getRelatedTradeId(tid);
@@ -299,6 +300,10 @@ public class TradeService {
 		ShipOrder shipOrder = new ShipOrder();
 		shipOrder.setCentroId(trade.getCentro().getId());
 		shipOrder.setTradeId(trade.getId());
+		shipOrder.setBuyerNick(trade.getBuyerNick());
+		// 商铺用户名为发货人
+		shipOrder.setOriginPersion(trade.getUser().getUsername());
+		// 收货方信息
 		shipOrder.setReceiverAddress(trade.getReceiverAddress());
 		shipOrder.setReceiverCity(trade.getReceiverCity());
 		shipOrder.setReceiverDistrict(trade.getReceiverDistrict());
@@ -307,14 +312,16 @@ public class TradeService {
 		shipOrder.setReceiverPhone(trade.getReceiverPhone());
 		shipOrder.setReceiverState(trade.getReceiverState());
 		shipOrder.setReceiverZip(trade.getReceiverZip());
+		// 备注
 		shipOrder.setRemark(trade.getBuyerMessage());
+		// 商铺用户为创建人
 		shipOrder.setCreateDate(trade.getPayTime());
 		shipOrder.setCreateUser(trade.getUser());
+		// 发货明细
 		for (TradeOrder tOrder : trade.getOrders()) {
 			ShipOrderDetail detail = new ShipOrderDetail();
 			detail.setItem(tOrder.getItem());
 			detail.setNum(tOrder.getNum());
-			detail.setSkuPropertiesName(tOrder.getSkuPropertiesName());
 			shipOrder.getDetails().add(detail);
 		}
 		return shipOrder;

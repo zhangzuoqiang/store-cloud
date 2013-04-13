@@ -1,6 +1,10 @@
 package com.graby.store.admin.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.graby.store.admin.print.Pick;
+import com.graby.store.admin.print.PickTestData;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
@@ -49,7 +56,7 @@ public class AdminTradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "waits", method=RequestMethod.GET)
-	public String waits(Model model) throws ApiException {
+	public String waitAudits(Model model) throws ApiException {
 		List<Trade> trades = tradeRemote.findWaitAuditTrades();
 		model.addAttribute("trades", trades);
 		return "/admin/tradeWaits";
@@ -87,7 +94,6 @@ public class AdminTradeController {
 	public String mkship(@PathVariable("id") Long id, Model model) {
 		ShipOrder sendOrder = tradeRemote.createSendShipOrderByTradeId(id);
 		model.addAttribute("sendOrder", sendOrder);
-		// "redirect:/trade/send/do/" + sendOrder.getId();
 		return "redirect:/trade/waits";
 	}
 	
@@ -135,7 +141,7 @@ public class AdminTradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "send/pickings", method=RequestMethod.GET)
-	public String pickingList(Model model) throws ApiException {
+	public String pickingList(Model model) {
 		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderByStatus(1L, ShipOrder.SendOrderStatus.WAIT_EXPRESS_PICKING);
 		model.addAttribute("orders", sendOrders);
 		return "/admin/sendOrderPickings";
@@ -149,10 +155,28 @@ public class AdminTradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "send/express")
-	public String pickings(@RequestParam(value = "ids", defaultValue = "") Long[] ids) throws NumberFormatException, ApiException {
+	public String reExpress(@RequestParam(value = "ids", defaultValue = "") Long[] ids)  {
 		shipOrderRemote.reExpressShipOrder(ids);
 		return "redirect:/trade/send/pickings";
 	}
+	
+	/**
+	 * 输出拣货单(PDF)
+	 * @param ids
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "send/pick/report")
+	public ModelAndView picksPdf(
+			@RequestParam(value = "ids", defaultValue = "") Long[] ids,
+			@RequestParam(value = "format", defaultValue = "pdf") String format) {
+		Map<String, Object> model = new HashMap<String, Object>();
+		List<ShipOrder> orders = shipOrderRemote.findSendOrders(ids);
+		model.put("data", orders);
+		model.put("format", format);
+		return new ModelAndView("pickReport", model);
+	}	
 	
 	/**
 	 * 批量提交出库单

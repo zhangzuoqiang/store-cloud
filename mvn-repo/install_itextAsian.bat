@@ -1,0 +1,1 @@
+mvn install:install-file -DgroupId=com.lowagie -DartifactId=iTextAsian -Dversion=1.0 -Dpackaging=jar -Dfile=iTextAsian.jar

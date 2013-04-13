@@ -25,8 +25,6 @@ public class ShipOrderDetail implements Serializable{
 
 	private long num;
 	
-	private String skuPropertiesName;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
@@ -74,14 +72,5 @@ public class ShipOrderDetail implements Serializable{
 	public void setOrder(ShipOrder entryOrder) {
 		this.order = entryOrder;
 	}
-
-	public String getSkuPropertiesName() {
-		return skuPropertiesName;
-	}
-
-	public void setSkuPropertiesName(String skuPropertiesName) {
-		this.skuPropertiesName = skuPropertiesName;
-	}
-
 	
 }

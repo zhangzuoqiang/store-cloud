@@ -13,9 +13,9 @@ public class PickTestData {
 		pick.setReceivedAddress("湖南省 湘潭市 岳塘区 书院路 1023号");
 		pick.setReceivedName("李小姐");
 		pick.setRemark("红色小一码");
-		pick.addDetail(createDetail("100030100", "春季A牛仔裤", "颜色：紫色;适用身高:1.5", 2, ""));
-		pick.addDetail(createDetail("100030101", "春季B牛仔裤", "颜色：紫色;适用身高:1.5", 2, ""));
-		pick.addDetail(createDetail("100030102", "春季C牛仔裤", "颜色：紫色;适用身高:1.5", 2, ""));
+		pick.addDetail(createDetail("100030100", "春季A牛仔裤 特价 特卖 938仅此一天 先买先得", "颜色：紫色;适用身高:1.5;型号A0029331;定投桑斯", 2, ""));
+		pick.addDetail(createDetail("100030101", "春季B牛仔裤 特价 特卖 938仅此一天 先买先得", "颜色：紫色;适用身高:1.5", 9, ""));
+		pick.addDetail(createDetail("100030102", "春季C牛仔裤", "颜色：紫色;适用身高:1.5", 1, ""));
 		
 		Pick pick2 = new Pick();
 		pick2.setExpressCompany("2韵达");
@@ -24,11 +24,20 @@ public class PickTestData {
 		pick2.setReceivedName("测试 李小姐");
 		pick2.setRemark("测试 红色小一码");
 		pick2.addDetail(createDetail("200030100", "测试 春季A牛仔裤", "颜色：紫色;适用身高:1.5", 2, ""));
-		pick2.addDetail(createDetail("200030101", "测试 春季B牛仔裤", "颜色：紫色;适用身高:1.5", 2, ""));
-		pick2.addDetail(createDetail("200030102", "测试  春季C牛仔裤", "颜色：紫色;适用身高:1.5", 2, ""));
+		
+		Pick pick3 = new Pick();
+		pick3.setExpressCompany("1顺丰");
+		pick3.setExpressOrderno("100001200301");
+		pick3.setReceivedAddress("湖南省 湘潭市 岳塘区 书院路 1023号");
+		pick3.setReceivedName("李小姐");
+		pick3.setRemark("红色小一码");
+		pick3.addDetail(createDetail("100030100", "春季A牛仔裤 特价 特卖 938仅此一天 先买先得", "颜色：紫色;适用身高:1.5;型号A0029331;定投桑斯", 2, ""));
+		pick3.addDetail(createDetail("100030101", "春季B牛仔裤 特价 特卖 938仅此一天 先买先得", "颜色：紫色;适用身高:1.5", 9, ""));
+		pick3.addDetail(createDetail("100030102", "春季C牛仔裤", "颜色：紫色;适用身高:1.5", 1, ""));
 		
 		picks.add(pick);
 		picks.add(pick2);
+		picks.add(pick3);
 		return picks;
 	}
 	

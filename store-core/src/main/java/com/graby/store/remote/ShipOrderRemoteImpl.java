@@ -108,6 +108,12 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	public void reExpressShipOrder(Long[] orderids) {
 		shipOrderService.reExpressShipOrder(orderids);
 	}	
+
+	@Override
+	public List<ShipOrder> findSendOrders(Long[] orderIds) {
+		return shipOrderService.findSendOrders(orderIds);
+	}
+	
 	
 	@Override
 	public void submits(Long[] orderids) {

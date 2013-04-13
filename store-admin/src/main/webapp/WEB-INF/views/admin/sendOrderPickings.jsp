@@ -36,6 +36,20 @@
 	  			window.location.href=action;
 	  		}
 	   });
+	   
+	   // 输出拣货单
+	   $('#btn_pick').bind('click', function (e) {
+	   		var chk_value =[];  
+		  		$('input[name="order_select[]"]:checked').each(function(){  
+		   		chk_value.push($(this).val());  
+	  		});  
+	  		if (chk_value.length==0) {
+	  			alert('你还没有选择任何货单！');
+	  		} else {
+	  			var action = "${ctx}/trade/send/pick/report?ids=" + chk_value;
+	  			window.open(action);
+	  		}
+	   });
 	   		
 	   	// 确认出库
 	   $('#btn_submit').bind('click', function (e) {
@@ -53,6 +67,19 @@
 		
 	});
 	
+	function pickReport(type) {
+	   	var chk_value =[];  
+	  		$('input[name="order_select[]"]:checked').each(function(){  
+	   		chk_value.push($(this).val());  
+  		});  
+  		if (chk_value.length==0) {
+  			alert('你还没有选择任何货单！');
+  		} else {
+  			var action = "${ctx}/trade/send/pick/report?ids=" + chk_value + "&format=" + type;
+  			window.open(action);
+  		}
+	}
+	
 	</script>	
 </head>
 
@@ -62,13 +89,24 @@
 	
 	<div class="row">
 	  	<div class="pull-right">
-	  		<a id="btn_express" href="#" class="btn btn-info">退回重打运单</a>
-	  		<a id="btn_print" href="#" class="btn btn-info">打印拣货单</a>
-	  		<a id="btn_submit" href="#" class="btn btn-success">确认已出库</a>
+	  		<a id="btn_express" href="#" class="btn btn-info">退回重打运单</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	  		<a id="btn_pick_batch" href="#" class="btn btn-info">打印汇总拣货单</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	  		<a id="btn_pick" href="#" class="btn btn-info">打印合并拣货单</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	  		<!-- 
+	  	    <div class="btn-group">
+	          <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">打印汇总拣货单<span class="caret"></span></button>
+	          <ul class="dropdown-menu">
+	            <li><a href="javascript:pickReport('pdf')">PDF</a></li>
+	            <li><a href="javascript:pickReport('xls')">XLS</a></li>
+	            <li><a href="javascript:pickReport('html')">HTML</a></li>
+	          </ul>
+	        </div>
+	         -->
+	  		<a id="btn_submit" href="#" class="btn btn-success">确认已拣货</a>
 	  	</div>
 	</div>
 	
-	<table id="contentTable" class="table table-striped table-condensed"  >
+	<table id="contentTable" class="table table-striped"  >
 		<thead><tr>
 		<th>创建日期</th>
 		<th>商铺名称</th>

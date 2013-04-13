@@ -213,6 +213,7 @@ public class UserTradeController {
 	 */
 	@RequestMapping(value = "/notify/{tradeId}", method = RequestMethod.GET)
 	public String notifyUser(@PathVariable("tradeId") Long tradeId) throws ApiException {
+		// TODO 都交由shipOrderService处理，更新为已通知状态。
 		ShipOrder order = shipOrderService.getSendShipOrderByTradeId(tradeId);
 		Long tid = tradeService.getRelatedTid(tradeId);
 		topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
