@@ -3,12 +3,10 @@ package com.graby.store.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.drools.runtime.StatefulKnowledgeSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,8 +51,8 @@ public class ShipOrderService {
 	@Autowired
 	private TradeService tradeService;
 	
-	@Autowired
-	private StatefulKnowledgeSession ksession;	
+//	@Autowired
+//	private StatefulKnowledgeSession ksession;	
 	
 	@Autowired
 	private ExpressService expressService; 

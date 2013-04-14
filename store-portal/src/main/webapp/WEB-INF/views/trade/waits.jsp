@@ -58,7 +58,6 @@
 </head>
 <body>
 	
-	<legend></legend>
   	<div class="span4">
   		<a id="fetch" href="#" class="btn btn-primary"><i class="icon-inbox icon-white"></i> 一键抓取淘宝订单</a>
   	</div>

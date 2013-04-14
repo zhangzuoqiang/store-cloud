@@ -11,8 +11,6 @@
 
 <body>
 
-	<legend></legend>
-	
 	<div class="tab-content">  
 		<div class="tab-pane active" id="taobao">        
 		<table id="contentTable" class="table table-striped table-condensed"  >
