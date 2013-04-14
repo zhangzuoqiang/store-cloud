@@ -82,10 +82,6 @@ public class AdminTradeController {
 				order.setStockNum(stockNum);
 				Item item = itemRemote.getItem(itemId);
 				order.setItem(item);
-				// 如果sku有变化更新sku
-				if (!order.getSkuPropertiesName().equals(order.getItem().getSku())) {
-					System.out.println("xxx");
-				}
 			}
 		}
 		model.addAttribute("trade", trade);
