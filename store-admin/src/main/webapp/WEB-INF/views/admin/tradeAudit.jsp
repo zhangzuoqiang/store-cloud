@@ -147,7 +147,7 @@
                  无要求
                 </c:if>
                 &nbsp; &nbsp; &nbsp; &nbsp;
-                来自${trade.tradeFrom}
+                来自淘宝订单：${trade.tradeFrom}
             </p>
  		</div>
 	</div>

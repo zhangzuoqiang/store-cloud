@@ -285,8 +285,8 @@ public class TopApi {
 	public Page<Trade> getTrades(String status, long pageNo, long pageSize) throws ApiException {
 		TradesSoldGetRequest req = new TradesSoldGetRequest();
 		String props = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
-				+ "buyer_nick,seller_nick,buyer_area,shipping_type,receiver_name,receiver_state,receiver_city,receiver_district,buyer_memo,"
-				+ "receiver_address,receiver_zip,receiver_mobile,receiver_phone,has_buyer_message,buyer_message,orders";
+				+ "seller_nick,seller_mobile,seller_phone,seller_memo,buyer_nick,buyer_memo,has_buyer_message,buyer_message,buyer_area,shipping_type,"
+				+ "receiver_name,receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip,receiver_mobile,receiver_phone,orders";
 		req.setFields(props);
 		req.setStatus(status);
 		req.setPageNo(pageNo);

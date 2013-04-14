@@ -302,9 +302,10 @@ public class TradeService {
 		ShipOrder shipOrder = new ShipOrder();
 		shipOrder.setCentroId(trade.getCentro().getId());
 		shipOrder.setTradeId(trade.getId());
-		shipOrder.setBuyerNick(trade.getBuyerNick());
 		// 商铺用户名为发货人
 		shipOrder.setOriginPersion(trade.getUser().getUsername());
+		shipOrder.setOriginPhone(trade.getSellerPhone());
+		
 		// 收货方信息
 		shipOrder.setReceiverAddress(trade.getReceiverAddress());
 		shipOrder.setReceiverCity(trade.getReceiverCity());
@@ -314,8 +315,16 @@ public class TradeService {
 		shipOrder.setReceiverPhone(trade.getReceiverPhone());
 		shipOrder.setReceiverState(trade.getReceiverState());
 		shipOrder.setReceiverZip(trade.getReceiverZip());
-		// 备注
+		
+		// 淘宝卖家买家相关信息
+		shipOrder.setBuyerNick(trade.getBuyerNick());
+		shipOrder.setBuyerMemo(trade.getBuyerMemo());
+		shipOrder.setBuyerMessage(trade.getBuyerMessage());
+		shipOrder.setSellerMemo(trade.getSellerMemo());
+		shipOrder.setSellerMobile(trade.getSellerMobile());
+		shipOrder.setSellerPhone(trade.getSellerPhone());
 		shipOrder.setRemark(trade.getBuyerMessage());
+		
 		// 商铺用户为创建人
 		shipOrder.setCreateDate(trade.getPayTime());
 		shipOrder.setCreateUser(trade.getUser());

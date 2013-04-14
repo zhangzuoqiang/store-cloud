@@ -101,6 +101,20 @@ public class Trade implements Serializable{
 	 */
 	private Long tid;
 	
+	/* ------------ 卖家信息 ------------ */
+	
+	/**
+	 * 卖家电话
+	 */
+	private String sellerPhone;
+	
+	/**
+	 * 卖家手机
+	 */
+	private String sellerMobile;
+	
+	
+	
 	/* ------------ 买家信息 ------------ */
 	
 	/**
@@ -153,6 +167,10 @@ public class Trade implements Serializable{
 	 */
 	private String buyerMemo;
 	
+	/**
+	 * 卖家备注
+	 */
+	private String sellerMemo;	
 	
 	/**
 	 * 次日达订单送达时间
@@ -451,6 +469,30 @@ public class Trade implements Serializable{
 
 	public void setBuyerMessage(String buyerMessage) {
 		this.buyerMessage = buyerMessage;
+	}
+
+	public String getSellerMemo() {
+		return sellerMemo;
+	}
+
+	public void setSellerMemo(String sellerMemo) {
+		this.sellerMemo = sellerMemo;
+	}
+
+	public String getSellerPhone() {
+		return sellerPhone;
+	}
+
+	public void setSellerPhone(String sellerPhone) {
+		this.sellerPhone = sellerPhone;
+	}
+
+	public String getSellerMobile() {
+		return sellerMobile;
+	}
+
+	public void setSellerMobile(String sellerMobile) {
+		this.sellerMobile = sellerMobile;
 	}
 
 }

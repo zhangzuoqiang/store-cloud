@@ -153,6 +153,21 @@ public class ShipOrder implements Serializable{
 	// 淘宝买家昵称
 	private String buyerNick;
 	
+	// 买家留言
+	private String buyerMessage;
+	
+	// 买家备注
+	private String buyerMemo;
+	
+	// 卖家备注
+	private String sellerMemo;	
+	
+	// 卖家手机
+	private String sellerMobile;
+	
+	// 卖家电话
+	private String sellerPhone;
+	
 	/* ------------  其他  ------------ */
 	
 	// 创建人
@@ -235,6 +250,13 @@ public class ShipOrder implements Serializable{
 	public String getExpressCompanyName() {
 		return expressCompanyName;
 	}
+	
+	@Transient
+	public String getReceiverAddressDetail() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(receiverState).append(" ").append(receiverCity).append(" ").append(receiverDistrict).append(" ").append(receiverAddress);
+		return buf.toString();
+	}	
 	
 	@Transient
 	public String getItems() {
@@ -423,6 +445,46 @@ public class ShipOrder implements Serializable{
 
 	public void setBuyerNick(String buyerNick) {
 		this.buyerNick = buyerNick;
+	}
+
+	public String getBuyerMemo() {
+		return buyerMemo;
+	}
+
+	public void setBuyerMemo(String buyerMemo) {
+		this.buyerMemo = buyerMemo;
+	}
+
+	public String getSellerMemo() {
+		return sellerMemo;
+	}
+
+	public void setSellerMemo(String sellerMemo) {
+		this.sellerMemo = sellerMemo;
+	}
+
+	public String getBuyerMessage() {
+		return buyerMessage;
+	}
+
+	public void setBuyerMessage(String buyerMessage) {
+		this.buyerMessage = buyerMessage;
+	}
+
+	public String getSellerMobile() {
+		return sellerMobile;
+	}
+
+	public void setSellerMobile(String sellerMobile) {
+		this.sellerMobile = sellerMobile;
+	}
+
+	public String getSellerPhone() {
+		return sellerPhone;
+	}
+
+	public void setSellerPhone(String sellerPhone) {
+		this.sellerPhone = sellerPhone;
 	}
 
 }

@@ -15,29 +15,33 @@
 	
 	<resultMap id="TradeEntity" type="Trade">
 		<result property="id" column="id"/>
-		<result property="buyerArea" column="buyer_area"/>
-		<result property="buyerMemo" column="buyer_memo"/>
-		<result property="receiverAddress" column="receiver_address"/>
 		<result property="tradeFrom" column="trade_from"/>
-		<result property="payTime" column="pay_time"/>
-		<result property="buyerNick" column="buyer_nick"/>
-		<result property="receiverName" column="receiver_name"/>
-		<result property="receiverPhone" column="receiver_phone"/>
 		<result property="shippingType" column="shipping_type"/>
-		<result property="receiverDistrict" column="receiver_district"/>
+		<result property="payTime" column="pay_time"/>
 		<result property="status" column="status"/>
-		<result property="receiverMobile" column="receiver_mobile"/>
-		<result property="buyerMessage" column="buyer_message"/>
-		<result property="buyerEmail" column="buyer_email"/>
-		<result property="receiverCity" column="receiver_city"/>
-		<result property="hasBuyerMessage" column="has_buyer_message"/>
 		<result property="centro.id" column="centro_id"/>
 		<result property="lgAgingType" column="lg_aging_type"/>
-		<result property="receiverZip" column="receiver_zip"/>
 		<result property="lgAging" column="lg_aging"/>
 		<result property="user.id" column="user_id"/>
+		<result property="buyerArea" column="buyer_area"/>
+		<result property="buyerMemo" column="buyer_memo"/>
+		<result property="buyerNick" column="buyer_nick"/>
+		<result property="buyerMessage" column="buyer_message"/>
+		<result property="buyerEmail" column="buyer_email"/>
 		<result property="buyerAlipayNo" column="buyer_alipay_no"/>
+		<result property="hasBuyerMessage" column="has_buyer_message"/>
+		<result property="sellerPhone" column="seller_phone"/>
+		<result property="sellerMobile" column="seller_mobile"/>
+		<result property="sellerMemo" column="seller_memo"/>
+		<result property="receiverAddress" column="receiver_address"/>
+		<result property="receiverName" column="receiver_name"/>
+		<result property="receiverPhone" column="receiver_phone"/>		
+		<result property="receiverCity" column="receiver_city"/>
+		<result property="receiverDistrict" column="receiver_district"/>
+		<result property="receiverMobile" column="receiver_mobile"/>		
 		<result property="receiverState" column="receiver_state"/>
+		<result property="receiverZip" column="receiver_zip"/>
+		
 		<collection property="orders" column="id" javaType="ArrayList" ofType="TradeOrder" select="fetchTradeOrders"/>  
 	</resultMap>	
 	

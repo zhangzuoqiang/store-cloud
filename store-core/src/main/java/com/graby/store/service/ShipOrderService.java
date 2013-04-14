@@ -301,7 +301,7 @@ public class ShipOrderService {
 		String companyName;
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
-			shipOrder.setItems(itemTitles(shipOrder));
+			//shipOrder.setItems(itemTitles(shipOrder));
 			companyCode = shipOrder.getExpressCompany();
 			companyName = companyCode == null ? "未分类" : expressService.getExpressCompanyName(companyCode);
 			shipOrder.setExpressCompanyName(companyName);
@@ -311,17 +311,17 @@ public class ShipOrderService {
 	}
 	
 	// 商品打印区域
-	private String itemTitles(ShipOrder order) {
-		StringBuffer content = new StringBuffer();
-		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
-			ShipOrderDetail detail =  iterator.next();
-			String sku = detail.getItem().getSku() == null ? ""  : detail.getItem().getSku();
-			content.append(detail.getItemTitle() + ":" +  sku + " ").append(detail.getNum() + "件");
-			content.append(", ");
-		}
-		content.append(order.getRemark());
-		return content.toString();
-	}
+//	private String itemTitles(ShipOrder order) {
+//		StringBuffer content = new StringBuffer();
+//		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
+//			ShipOrderDetail detail =  iterator.next();
+//			String sku = detail.getItem().getSku() == null ? ""  : detail.getItem().getSku();
+//			content.append(detail.getItemTitle() + ":" +  sku + " ").append(detail.getNum() + "件");
+//			content.append(", ");
+//		}
+//		content.append(order.getRemark());
+//		return content.toString();
+//	}
 	
 	/**
 	 * 查询所有出库单(等待用户签收)

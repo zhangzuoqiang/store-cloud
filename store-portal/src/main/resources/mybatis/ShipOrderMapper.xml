@@ -68,6 +68,11 @@
 		<result property="receiverZip" column="receiver_zip" />
 		<result property="receiverPhone" column="receiver_phone" />
 		<result property="buyerNick" column="buyer_nick" />
+		<result property="buyerMessage" column="buyer_nick" />
+		<result property="buyerMemo" column="buyer_nick" />
+		<result property="sellerPhone" column="seller_phone"/>
+		<result property="sellerMobile" column="seller_mobile"/>
+		<result property="sellerMemo" column="seller_memo"/>
 		<result property="remark" column="remark" />
 		<result property="status" column="status" />
 		<result property="totalnum" column="totalnum" />

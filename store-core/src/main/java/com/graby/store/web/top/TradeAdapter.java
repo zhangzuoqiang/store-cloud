@@ -46,16 +46,15 @@ public class TradeAdapter {
 		centro.setId(1L);
 		trade.setCentro(centro);
 		
-		// 主订单适配
+		// -------- 主订单适配 -------- //
+		
+		// 订单基本信息
 		trade.setTradeFrom(String.valueOf(tTrade.getTid()));
 		trade.setTid(tTrade.getTid());
-		trade.setBuyerNick(tTrade.getBuyerNick());
-		trade.setBuyerAlipayNo(tTrade.getAlipayNo());
-		trade.setBuyerEmail(tTrade.getBuyerEmail());
-		trade.setBuyerAlipayNo(tTrade.getBuyerAlipayNo());
 		trade.setPayTime(tTrade.getPayTime());
-		trade.setBuyerArea(tTrade.getBuyerArea());
 		trade.setShippingType(tTrade.getShippingType());
+		
+		// 收货方信息
 		trade.setReceiverAddress(tTrade.getReceiverAddress());
 		trade.setReceiverCity(tTrade.getReceiverCity());
 		trade.setReceiverDistrict(tTrade.getReceiverDistrict());
@@ -66,9 +65,19 @@ public class TradeAdapter {
 		trade.setReceiverZip(tTrade.getReceiverZip());
 		trade.setLgAging(tTrade.getLgAging());
 		trade.setLgAgingType(tTrade.getLgAgingType());
+		
+		// 卖家和买家相关信息
+		trade.setBuyerArea(tTrade.getBuyerArea());
+		trade.setBuyerAlipayNo(tTrade.getAlipayNo());
+		trade.setBuyerEmail(tTrade.getBuyerEmail());
+		trade.setBuyerAlipayNo(tTrade.getBuyerAlipayNo());
+		trade.setBuyerNick(tTrade.getBuyerNick());
 		trade.setBuyerMemo(tTrade.getBuyerMemo());
 		trade.setBuyerMessage(tTrade.getBuyerMessage() == null ? "" : tTrade.getBuyerMessage());
 		trade.setHasBuyerMessage(tTrade.getHasBuyerMessage());
+		trade.setSellerMemo(tTrade.getSellerMemo());
+		trade.setSellerPhone(tTrade.getSellerPhone());
+		trade.setSellerMobile(tTrade.getSellerMobile());
 		
 		// 子订单适配
 		List<Order> orders = tTrade.getOrders();
