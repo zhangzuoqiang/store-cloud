@@ -431,7 +431,7 @@ public class ShipOrderService {
 		}
 		for (Long orderId : orderIds) {
 			shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
-			shipOrderDao.setTradeStatus(orderId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
+			shipOrderDao.setTradeStatus(orderId, Trade.Status.TRADE_WAIT_EXPRESS_NOFITY);
 		}
 	}
 	

@@ -210,7 +210,7 @@ public class TradeService {
 					}
 					tidArray[i] = topTrades.get(i).getTid();
 				}
-				trade.setTradeFrom("淘宝交易号:：" + StringUtils.join(tidArray, ","));
+				trade.setTradeFrom(StringUtils.join(tidArray, ","));
 				createTrade(trade, null);
 				for (Long tid : tidArray) {
 					mappingTrade(tid, trade.getId());
@@ -251,6 +251,8 @@ public class TradeService {
 			List<TradeOrder> orders = trade.getOrders();
 			if (CollectionUtils.isNotEmpty(orders)) {
 				for (TradeOrder tradeOrder : orders) {
+					// 更新商品SKU
+					itemServie.updateSku(tradeOrder.getItem().getId(), tradeOrder.getSkuPropertiesName());
 					tradeOrder.setTrade(trade);
 					tradeOrderJpaDao.save(tradeOrder);
 				}

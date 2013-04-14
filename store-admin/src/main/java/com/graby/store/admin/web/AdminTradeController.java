@@ -77,10 +77,15 @@ public class AdminTradeController {
 			if (itemId == null) {
 				order.setStockNum(-1);
 			} else {
+				// 已关联的设置库存
 				long stockNum = inventoryRemote.getValue(1L, itemId, InvAccounts.CODE_SALEABLE);
 				order.setStockNum(stockNum);
 				Item item = itemRemote.getItem(itemId);
 				order.setItem(item);
+				// 如果sku有变化更新sku
+				if (!order.getSkuPropertiesName().equals(order.getItem().getSku())) {
+					System.out.println("xxx");
+				}
 			}
 		}
 		model.addAttribute("trade", trade);
@@ -96,18 +101,6 @@ public class AdminTradeController {
 		model.addAttribute("sendOrder", sendOrder);
 		return "redirect:/trade/waits";
 	}
-	
-//	/**
-//	 * 查询所有等待打印运单出货单
-//	 * @return
-//	 * @throws ApiException
-//	 */
-//	@RequestMapping(value = "send/ships", method=RequestMethod.GET)
-//	public String expressList(Model model) throws ApiException {
-//		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderByStatus(1L, ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
-//		model.addAttribute("orders", sendOrders);
-//		return "/admin/sendOrderShips";
-//	}	
 	
 	/**
 	 * 查询所有待处理出库单

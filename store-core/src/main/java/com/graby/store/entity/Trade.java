@@ -44,7 +44,12 @@ public class Trade implements Serializable{
 	    String TRADE_WAIT_EXPRESS_SHIP = "TRADE_WAIT_EXPRESS_SHIP";
 	    
 	    /**
-	     * 等待买家签收（物流已发送）
+	     * 等待通知用户签收（物流已发货）
+	     */
+	    String TRADE_WAIT_EXPRESS_NOFITY = "TRADE_WAIT_EXPRESS_NOFITY";	  
+	    
+	    /**
+	     * 等待买家签收（已通知用户签收）
 	     */
 	    String TRADE_WAIT_BUYER_RECEIVED = "TRADE_WAIT_BUYER_RECEIVED";	    
 	    

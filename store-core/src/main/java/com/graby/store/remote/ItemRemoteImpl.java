@@ -27,7 +27,6 @@ public class ItemRemoteImpl implements ItemRemote {
 
 	@Override
 	public List<Item> findUserItems(Long userid) {
-	//	return itemService.findUserItems(userid);
 		return itemService.findPageUserItems(userid, "", 1, Integer.MAX_VALUE).getContent();
 	}
 
@@ -40,5 +39,5 @@ public class ItemRemoteImpl implements ItemRemote {
 	public void position(Long itemId, String position) {
 		itemService.position(itemId, position);
 	}
-	
+
 }

@@ -123,6 +123,16 @@ public class ItemService {
 	}
 	
 	/**
+	 * 更新商品sku
+	 * @param itemId
+	 * @param itemTitle
+	 * @param skuTitle
+	 */
+	public void updateSku(Long itemId, String sku) {
+		itemDao.updateSku(itemId, sku);
+	}	
+	
+	/**
 	 * 淘宝商品关联的商品ID
 	 * @param itemId
 	 * @param numIid

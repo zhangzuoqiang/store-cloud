@@ -58,7 +58,7 @@ public class UserTradeController {
 
 	/**
 	 * 查询所有等待买家发货交易订单
-	 * (单条老版)
+	 * (单条老版 即将废弃)
 	 * 
 	 * @return
 	 * @throws ApiException
@@ -80,7 +80,7 @@ public class UserTradeController {
 	}
 	
 	/**
-	 * 下单发货（单条接口）
+	 * 下单发货（单条老版 即将废弃）
 	 * 
 	 * @param trade
 	 * @param model

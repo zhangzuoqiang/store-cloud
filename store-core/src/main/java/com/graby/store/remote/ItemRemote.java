@@ -36,7 +36,7 @@ public interface ItemRemote {
 	 * @return
 	 */
 	public List<Item> findUserItems(Long userid);
-
+	
 	/**
 	 * 淘宝商品关联的商品ID
 	 * 
