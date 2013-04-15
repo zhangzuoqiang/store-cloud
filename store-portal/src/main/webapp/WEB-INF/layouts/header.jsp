@@ -8,8 +8,8 @@
     <div class="navbar-inner">
         <div class="nav-collapse">
           <ul class="nav">
-            <li class="active"><a href="#">物流通-电商仓储管理中心</a></li>
-            <li><a href="#"><shiro:principal property="shopname"/></a></li>
+            <li ><a href="#"><strong>物流通</strong> 电商仓储配送中心</a></li>
+            <li class="active"><a href="#"><shiro:principal property="shopname"/></a></li>
           </ul>
           <ul class="nav pull-right">
             <li class="dropdown">

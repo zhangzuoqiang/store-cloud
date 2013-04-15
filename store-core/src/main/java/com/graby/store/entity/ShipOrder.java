@@ -467,6 +467,7 @@ public class ShipOrder implements Serializable{
 	}
 
 	public String getBuyerMessage() {
+		if (buyerMessage == null) return "";
 		return buyerMessage;
 	}
 

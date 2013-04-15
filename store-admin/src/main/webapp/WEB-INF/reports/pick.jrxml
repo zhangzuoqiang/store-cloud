@@ -136,91 +136,70 @@
 				<text><![CDATA[拣货清单]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="0" y="90" width="58" height="21"/>
+				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="310" y="68" width="58" height="21"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[卖家备注：]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="280" y="51" width="55" height="20"/>
+				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="0" y="49" width="55" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[买家昵称:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="660c8fff-c5df-4a2b-bc20-401557bfc7cd" x="335" y="51" width="220" height="20"/>
+				<reportElement uuid="660c8fff-c5df-4a2b-bc20-401557bfc7cd" x="55" y="49" width="255" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{buyerNick}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="835f24c9-4bd2-4f3a-b01b-f11ce4639997" x="58" y="51" width="222" height="20"/>
+				<reportElement uuid="835f24c9-4bd2-4f3a-b01b-f11ce4639997" x="368" y="48" width="119" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{shopName}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="7363cfb6-864a-40c0-933d-b45e52cd5473" x="0" y="51" width="58" height="20"/>
+				<reportElement uuid="7363cfb6-864a-40c0-933d-b45e52cd5473" x="310" y="48" width="58" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[卖家商铺：]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="280" y="71" width="55" height="20"/>
+				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="0" y="69" width="55" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[买家备注:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="d44f9382-abcf-4428-a162-a20de0f7aeee" x="161" y="71" width="119" height="20"/>
-				<textElement>
-					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sellerPhone}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="0" y="71" width="58" height="20"/>
-				<textElement>
-					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[联系方式：]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="8dad2cb4-41c1-448d-96df-2d55368a0a4b" x="58" y="91" width="222" height="20"/>
+				<reportElement uuid="8dad2cb4-41c1-448d-96df-2d55368a0a4b" x="368" y="69" width="184" height="43"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sellerMemo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="280" y="91" width="55" height="20"/>
+				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="0" y="89" width="55" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[买家留言：]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="1c1d37c3-f76e-4e96-a954-4bfe93917540" x="58" y="71" width="103" height="20"/>
-				<textElement>
-					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sellerMobile}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="b3c8037f-fa81-413c-9409-2fc1feda0541" x="335" y="91" width="220" height="20"/>
+				<reportElement uuid="b3c8037f-fa81-413c-9409-2fc1feda0541" x="55" y="89" width="255" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{buyerMemo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="24b82261-a3fa-4120-b46a-aea9b7c46d60" x="335" y="71" width="220" height="20"/>
+				<reportElement uuid="24b82261-a3fa-4120-b46a-aea9b7c46d60" x="55" y="69" width="255" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
@@ -230,21 +209,21 @@
 				<reportElement uuid="6a30af3d-f523-4901-91fe-acbdbce288cf" x="0" y="46" width="555" height="1"/>
 			</line>
 			<staticText>
-				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="3" y="111" width="55" height="20" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="0" y="109" width="55" height="20" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[收货人：]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="d1ff69d4-3c54-4dc9-ac80-7d283e24e309" x="58" y="111" width="62" height="20" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="d1ff69d4-3c54-4dc9-ac80-7d283e24e309" x="55" y="109" width="62" height="20" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{receiverName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ee4a7e73-10bb-42a4-acc6-72f960297111" x="120" y="111" width="435" height="20" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="ee4a7e73-10bb-42a4-acc6-72f960297111" x="117" y="109" width="435" height="20" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>

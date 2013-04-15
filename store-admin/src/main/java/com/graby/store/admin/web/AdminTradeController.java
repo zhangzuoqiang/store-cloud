@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.graby.store.admin.print.Pick;
-import com.graby.store.admin.print.PickTestData;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
@@ -182,7 +178,7 @@ public class AdminTradeController {
 	
 	
 	/**
-	 * 出库单提交，等待用户签收。
+	 * (仓库方)提交出库单，等待用户签收。
 	 * @param orderId
 	 * @param model
 	 * @return

@@ -64,11 +64,10 @@
 						审核已通过,正在配送.
 					</c:if>
 					<c:if test="${trade.status == 'TRADE_WAIT_EXPRESS_NOFITY'}">
-						物流通已发货 通知用户签收
-						<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.id}">通知</a>
+						物流通已发货 通知用户签收.
 					</c:if>
 					<c:if test="${trade.status == 'TRADE_WAIT_BUYER_RECEIVED'}">
-						物流通已发货 等待买家签收
+						物流通已发货 等待买家签收.
 					</c:if>
 				</tr>
 			</c:forEach>

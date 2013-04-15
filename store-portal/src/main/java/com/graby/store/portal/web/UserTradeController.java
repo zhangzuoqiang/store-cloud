@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.graby.store.base.GroupMap;
 import com.graby.store.entity.Item;
-import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 import com.graby.store.entity.TradeOrder;
@@ -198,25 +197,25 @@ public class UserTradeController {
 			@RequestParam(value = "status", defaultValue = "") String status,
 			@RequestParam(value = "page", defaultValue = "1") int page,
 			Model model) throws ApiException {
-		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED, page, 15);
+		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), Trade.Status.TRADE_WAIT_EXPRESS_NOFITY, page, 15);
 		model.addAttribute("trades", trades);
 		return "trade/tradeNotifys";
 	}
 	
 	
 	/**
-	 * 通知用户签收
+	 * 商铺方通知用户签收
 	 * @param tid
 	 * @param redirectAttributes
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = "/notify/{tradeId}", method = RequestMethod.GET)
-	public String notifyUser(@PathVariable("tradeId") Long tradeId) throws ApiException {
-		// TODO 都交由shipOrderService处理，更新为已通知状态。
-		ShipOrder order = shipOrderService.getSendShipOrderByTradeId(tradeId);
-		Long tid = tradeService.getRelatedTid(tradeId);
-		topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
+	@RequestMapping(value = "/notify", method = RequestMethod.GET)
+	public String notifyUser(
+			@RequestParam(value = "ids", defaultValue = "") Long[] tradeIds,
+			Model model) {
+		List<String> errors = shipOrderService.batchNotifyUserSign(tradeIds);
+		model.addAttribute("errors", errors);
 		return "redirect:/trade/notifys";
 	}
 	

@@ -7,11 +7,50 @@
 <html>
 <head>
 	<title>通知用户签收</title>
+	<script  type="text/javascript">
+	$(function() {
+		
+		// 全选事件
+	   	$("#checkAll").click(function() {
+	   		if($(this).attr("checked") == "checked") {
+	   			$("input[name='trade_select[]']").each(function() {
+	            	$(this).attr("checked", true);
+	        	});
+	   		} else {
+	   			$("input[name='trade_select[]']").each(function() {
+	            	$(this).attr("checked", false);
+	        	});
+	   		}
+		});
+		
+	   	// 确认出库
+	   $('#btn_submit').bind('click', function (e) {
+	   		var chk_value =[];  
+		  		$('input[name="trade_select[]"]:checked').each(function(){  
+		   		chk_value.push($(this).val());  
+	  		});  
+	  		if (chk_value.length==0) {
+	  			alert('你还没有选择任何交易订单！');
+	  		} else {
+	  			var action = "${ctx}/trade/notify?ids=" + chk_value;
+	  			window.location.href=action;
+	  		}
+	   });
+		
+	});
+	
+	</script>		
 </head>
 
 <body>
 
 	<legend><small>物流通已发货，等待用户签收。</small></legend>
+	
+	<div class="row">
+	  	<div class="pull-right">
+	  		<a id="btn_submit" href="#" class="btn btn-success">通知用户签收</a>
+	  	</div>
+	</div>
 	
 	<div class="tab-content">  
 		<div class="tab-pane active" id="taobao">        
@@ -22,7 +61,7 @@
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
 			<th>收货地址</th>
-			<th>操作</th>
+			<th><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>
 			</tr></thead>
 			<tbody>
 			<c:forEach items="${trades.content}" var="trade">
@@ -51,16 +90,14 @@
 	                	</c:if>
 	                	<c:if test="${trade.lgAgingType == null}">
 	                	 无要求
-	                	</c:if>                	
+	                	</c:if>
 	                </td>
 	                
 					<td>${trade.receiverName}</td>
 					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 					 	${trade.receiverAddress}
 					</td>
-					<td>物流通已发货 通知用户签收
-						<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.id}">通知</a>
-					</td>
+					<td><input type='checkbox' id='trade_select' name='trade_select[]' value='${trade.id}' /></td>
 				</tr>
 			</c:forEach>
 			</tbody>

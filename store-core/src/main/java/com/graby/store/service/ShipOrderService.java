@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.graby.store.base.AppException;
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
 import com.graby.store.dao.jpa.ShipOrderJpaDao;
 import com.graby.store.dao.mybatis.ShipOrderDao;
@@ -24,7 +26,9 @@ import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.User;
 import com.graby.store.web.auth.ShiroContextUtils;
+import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
+import com.taobao.api.response.LogisticsOfflineSendResponse;
 
 @Component
 @Transactional(readOnly = true)
@@ -56,6 +60,9 @@ public class ShipOrderService {
 	
 	@Autowired
 	private ExpressService expressService; 
+	
+	@Autowired
+	private TopApi topApi;
 	
 	private String formateDate(Date date, String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
@@ -308,19 +315,6 @@ public class ShipOrderService {
 		return results;
 	}
 	
-	// 商品打印区域
-//	private String itemTitles(ShipOrder order) {
-//		StringBuffer content = new StringBuffer();
-//		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
-//			ShipOrderDetail detail =  iterator.next();
-//			String sku = detail.getItem().getSku() == null ? ""  : detail.getItem().getSku();
-//			content.append(detail.getItemTitle() + ":" +  sku + " ").append(detail.getNum() + "件");
-//			content.append(", ");
-//		}
-//		content.append(order.getRemark());
-//		return content.toString();
-//	}
-	
 	/**
 	 * 查询所有出库单(等待用户签收)
 	 * @return
@@ -420,7 +414,8 @@ public class ShipOrderService {
 	
 	
 	/**
-	 * 批量提交出库单，等待用户签收.
+	 * (仓库方)批量提交出库单，等待用户签收.
+	 * 此时订单已具有快递公司及运单号信息
 	 * @param orderIds
 	 */
 	public void submits(Long[] orderIds) {
@@ -434,7 +429,50 @@ public class ShipOrderService {
 	}
 	
 	/**
-	 * 提交出货单，仓库发货（单条）
+	 * (商铺方)通知用户签收[多条]
+	 * @param tradeIds
+	 * @return 错误的通知条数。
+	 */
+	public List<String> batchNotifyUserSign(Long[] tradeIds) {
+		if (tradeIds == null || tradeIds.length == 0) {
+			return null;
+		}
+		List<String> errorNofitys = new ArrayList<String>();
+		for (Long tradeId : tradeIds) {
+			String errorMessage = notifyUserSign(tradeId);
+			if (StringUtils.isNotBlank(errorMessage)) {
+				errorNofitys.add(errorMessage);
+			}
+		}
+		return errorNofitys;
+	}
+	
+	/**
+	 * (商铺方)通知用户签收[单条]
+	 * @param tradeId
+	 * @return
+	 */
+	@SuppressWarnings("null")
+	public String notifyUserSign(Long tradeId) {
+		ShipOrder order = getSendShipOrderByTradeId(tradeId);
+		Long tid = tradeService.getRelatedTid(tradeId);
+		LogisticsOfflineSendResponse resp = null;
+		try {
+			resp = topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
+			tradeService.updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
+		} catch (ApiException e) {
+			if (StringUtils.isNotEmpty(resp.getErrorCode())) {
+				StringBuffer error = new StringBuffer();
+				error.append(order.getBuyerNick()).append("订单通知失败,原因").append(resp.getMsg()).append(resp.getSubMsg());
+				return error.toString();
+			}
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * (仓库方)提交出货单 - 单条老版
 	 * @param order
 	 * @return
 	 * @throws ApiException 

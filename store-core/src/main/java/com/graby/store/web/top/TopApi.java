@@ -328,14 +328,13 @@ public class TopApi {
 	 * @param companyCode 物流公司编号 like YUNDA
 	 * @throws ApiException 
 	 */
-	public Shipping tradeOfflineShipping(Long tid, String outSid, String companyCode) throws ApiException {
+	public LogisticsOfflineSendResponse tradeOfflineShipping(Long tid, String outSid, String companyCode) throws ApiException {
 		LogisticsOfflineSendRequest req=new LogisticsOfflineSendRequest();
 		req.setTid(tid);
 		req.setOutSid(outSid);
 		req.setCompanyCode(companyCode);
 		LogisticsOfflineSendResponse resp = client.execute(req , session());
-		errorMsgConvert(resp);
-		return resp.getShipping();
+		return resp;
 	}
 	
 	/**
