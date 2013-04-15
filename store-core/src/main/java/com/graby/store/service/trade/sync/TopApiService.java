@@ -28,7 +28,6 @@ import com.taobao.api.response.TradesSoldIncrementGetResponse;
 
 public class TopApiService {
 
-	private static final Log log = LogFactory.getLog(TopApiService.class);
 	private static final long DEFAULT_PAGE_SIZE = 100L;
 
 	private TaobaoClient client;
@@ -52,7 +51,7 @@ public class TopApiService {
 			req.setPageNo(pageNo);
 			rsp = client.execute(req, sessionKey);
 			if (rsp.isSuccess()) {
-				log.info("同步中>>>第" + req.getPageNo() + "页");
+//				log.info("同步中>>>第" + req.getPageNo() + "页");
 				for (Trade t : rsp.getTrades()) {
 					getTradeFullInfo(t.getTid(), sessionKey); // FIXME 保存订单到数据库中
 				}
@@ -78,7 +77,7 @@ public class TopApiService {
 				req.setUseHasNext(true); // 终止统计
 				rsp = client.execute(req, sessionKey);
 				if (rsp.isSuccess()) {
-					log.info("同步中>>>第" + req.getPageNo() + "页");
+//					log.info("同步中>>>第" + req.getPageNo() + "页");
 					for (Trade t : rsp.getTrades()) {
 						getTradeFullInfo(t.getTid(), sessionKey); // FIXME 保存订单到数据库中
 					}
@@ -94,7 +93,7 @@ public class TopApiService {
 		req.setTid(tid);
 		TradeFullinfoGetResponse rsp = client.execute(req, sessionKey);
 		if (rsp.isSuccess()) {
-			log.info("查询订单详情成功：" + rsp.getBody());
+//			log.info("查询订单详情成功：" + rsp.getBody());
 			return rsp.getTrade();
 		}
 		return null;
