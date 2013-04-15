@@ -168,7 +168,12 @@
 		a.receiver_phone as "receiverPhone", 
 		a.receiver_district as "receiverDistrict", 
 		a.receiver_zip as "receiverZip",
+		a.seller_memo as "sellerMemo",
+		a.seller_mobile as "sellerMobile",
+		a.seller_phone as "sellerPhone",
 		a.buyer_nick as "buyerNick",
+		a.buyer_memo as "buyerMemo",
+		a.buyer_message as "buyerMessage" ,
 		a.remark,
 		a.orderno,
 		a.express_company as "expressCompany",
@@ -179,7 +184,7 @@
 	
 	<!-- 根据多个ID查询 -->
 	<select id="findSendOrders" resultMap="ShipOrderEntity">
-	    SELECT 
+		SELECT 
 		b.shop_name as "createUser.shopName", 
 		create_date as "createDate",
 		a.id, a.centro_id as centroId,
@@ -193,7 +198,12 @@
 		a.receiver_phone as "receiverPhone", 
 		a.receiver_district as "receiverDistrict", 
 		a.receiver_zip as "receiverZip",
+		a.seller_memo as "sellerMemo",
+		a.seller_mobile as "sellerMobile",
+		a.seller_phone as "sellerPhone",
 		a.buyer_nick as "buyerNick",
+		a.buyer_memo as "buyerMemo",
+		a.buyer_message as "buyerMessage" ,
 		a.remark,
 		a.orderno,
 		a.express_company as "expressCompany",

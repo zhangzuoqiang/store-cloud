@@ -73,7 +73,7 @@ public class TradeAdapter {
 		trade.setBuyerAlipayNo(tTrade.getBuyerAlipayNo());
 		trade.setBuyerNick(tTrade.getBuyerNick());
 		trade.setBuyerMemo(tTrade.getBuyerMemo());
-		trade.setBuyerMessage(tTrade.getBuyerMessage() == null ? "" : tTrade.getBuyerMessage());
+		trade.setBuyerMessage(tTrade.getBuyerMessage());
 		trade.setHasBuyerMessage(tTrade.getHasBuyerMessage());
 		trade.setSellerMemo(tTrade.getSellerMemo());
 		trade.setSellerPhone(tTrade.getSellerPhone());

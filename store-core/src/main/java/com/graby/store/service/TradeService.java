@@ -32,6 +32,8 @@ import com.taobao.api.ApiException;
 @Transactional(readOnly = true)
 public class TradeService {
 	
+	private static final int DEFAULT_TOP_TRADE_FETCH = 30000;
+
 	// 是否合并淘宝订单
 	@Value("${trade.combine}")
 	private  boolean combine;
@@ -73,7 +75,7 @@ public class TradeService {
 	 */
 	public GroupMap<String, Trade> groupFindTopTrades() throws ApiException {
 		GroupMap<String, Trade> groupResults = new GroupMap<String, Trade>(); 
-		Page<com.taobao.api.domain.Trade> tradePage = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 1, 500);
+		Page<com.taobao.api.domain.Trade> tradePage = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 1, DEFAULT_TOP_TRADE_FETCH);
 		List<com.taobao.api.domain.Trade> trades = tradePage.getContent();
 		if (CollectionUtils.isEmpty(trades)) {return groupResults;}
 		
@@ -189,7 +191,7 @@ public class TradeService {
 		GroupMap<String, com.taobao.api.domain.Trade> tradeGroup = new GroupMap<String, com.taobao.api.domain.Trade>();
 		for (String tid : tids) {
 			com.taobao.api.domain.Trade topTrade = topApi.getTrade(Long.valueOf(tid));
-			tradeGroup.put(hash(topTrade), topTrade);
+			tradeGroup.put(hashAdress(topTrade), topTrade);
 		}
 		
 		Set<String> keys = tradeGroup.getKeySet();
@@ -226,7 +228,7 @@ public class TradeService {
 	}
 	
 	// 根据收货人详细地址Hash
-	private String hash(com.taobao.api.domain.Trade trade) {
+	private String hashAdress(com.taobao.api.domain.Trade trade) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(trade.getReceiverState()).append(trade.getReceiverCity()).append(trade.getReceiverDistrict());
 		buf.append(trade.getReceiverAddress()).append(trade.getReceiverName()).append(trade.getReceiverMobile());

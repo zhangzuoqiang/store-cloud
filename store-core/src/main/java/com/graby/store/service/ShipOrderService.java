@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.graby.store.base.AppException;
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
 import com.graby.store.dao.jpa.ShipOrderJpaDao;
 import com.graby.store.dao.mybatis.ShipOrderDao;
@@ -386,7 +385,7 @@ public class ShipOrderService {
 	 */
 	public List<ShipOrder> findSendOrderByStatus(Long centroId, String status) {
 		return shipOrderDao.findSendOrderByStatus(centroId, status, DEFAULT_FETCH_ROWS);
-	}	
+	}
 	
 	/**
 	 * 重置货单为运单未打印状态。

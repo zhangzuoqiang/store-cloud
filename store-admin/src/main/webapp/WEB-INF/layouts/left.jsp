@@ -18,5 +18,4 @@
 		<a href="${ctx}/trade/sign/waits">用户签收处理</a>
 		<a href="${ctx}/trade/unfinish">未完成交易</a>
 	</div>
-	<!-- <a href="${ctx}/trade/send/ships">待打印运单</a>	 -->
 </div>
