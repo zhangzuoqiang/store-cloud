@@ -11,12 +11,16 @@ import com.graby.store.entity.Centro;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeOrder;
 import com.graby.store.entity.User;
-import com.graby.store.service.ItemService;
+import com.graby.store.service.item.ItemService;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.Order;
 
+/**
+ * 交易订单适配
+ * @author huabiao.mahb
+ */
 @Component
 public class TradeAdapter {
 	
@@ -33,7 +37,7 @@ public class TradeAdapter {
 	 * @return
 	 * @throws ApiException 
 	 */
-	public Trade adapterFromTop(com.taobao.api.domain.Trade tTrade) throws ApiException {
+	public Trade adapter(com.taobao.api.domain.Trade tTrade) throws ApiException {
 		Trade trade = new Trade();
 		Long userid = ShiroContextUtils.getUserid();
 		if (userid != null) {

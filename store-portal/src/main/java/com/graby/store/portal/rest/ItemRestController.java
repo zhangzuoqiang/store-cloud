@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.graby.store.service.ItemService;
+import com.graby.store.service.item.ItemService;
 import com.taobao.api.ApiException;
 
 

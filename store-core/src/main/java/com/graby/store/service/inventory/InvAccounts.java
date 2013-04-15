@@ -1,4 +1,4 @@
-package com.graby.store.service;
+package com.graby.store.service.inventory;
 
 import java.io.Serializable;
 

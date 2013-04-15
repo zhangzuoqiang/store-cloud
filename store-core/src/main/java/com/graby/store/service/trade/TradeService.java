@@ -1,4 +1,4 @@
-package com.graby.store.service;
+package com.graby.store.service.trade;
 
 import java.util.List;
 import java.util.Set;
@@ -23,6 +23,10 @@ import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 import com.graby.store.entity.TradeOrder;
+import com.graby.store.service.inventory.InvAccounts;
+import com.graby.store.service.inventory.InventoryService;
+import com.graby.store.service.item.ItemService;
+import com.graby.store.service.wms.ShipOrderService;
 import com.graby.store.util.EncryptUtil;
 import com.graby.store.web.top.TopApi;
 import com.graby.store.web.top.TradeAdapter;
@@ -80,7 +84,7 @@ public class TradeService {
 		if (CollectionUtils.isEmpty(trades)) {return groupResults;}
 		
 		for (com.taobao.api.domain.Trade topTrade : trades) {
-			Trade trade = tradeAdapter.adapterFromTop(topTrade);
+			Trade trade = tradeAdapter.adapter(topTrade);
 			// 是否已创建
 			TradeMapping mapping = getRelatedMapping(topTrade.getTid());
 			if (mapping != null) {
@@ -202,10 +206,10 @@ public class TradeService {
 				Long[] tidArray = new Long[topTrades.size()];
 				tidArray[0] = topTrades.get(0).getTid();
 				// 第一个订单
-				Trade trade = tradeAdapter.adapterFromTop(topTrades.get(0));
+				Trade trade = tradeAdapter.adapter(topTrades.get(0));
 				// 合并其他订单
 				for (int i = 1; i < topTrades.size(); i++) {
-					Trade others = tradeAdapter.adapterFromTop(topTrades.get(i));
+					Trade others = tradeAdapter.adapter(topTrades.get(i));
 					trade.getOrders().addAll(others.getOrders());
 					if (StringUtils.isNotBlank(others.getBuyerMessage())) {
 						trade.setBuyerMessage(trade.getBuyerMessage() + "," + others.getBuyerMessage());
@@ -219,7 +223,7 @@ public class TradeService {
 				}
 			} else {
 				for (com.taobao.api.domain.Trade topTrade : topTrades) {
-					Trade trade = tradeAdapter.adapterFromTop(topTrade);
+					Trade trade = tradeAdapter.adapter(topTrade);
 					createTrade(trade, topTrade.getTid());
 				}
 			}

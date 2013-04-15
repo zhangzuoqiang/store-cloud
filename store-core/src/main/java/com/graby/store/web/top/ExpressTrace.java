@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.taobao.api.domain.TransitStepInfo;
 
+/**
+ * 物流跟踪
+ * @author huabiao.mahb
+ *
+ */
 public class ExpressTrace implements Serializable {
 	
 	private static final long serialVersionUID = -7210812818068787657L;

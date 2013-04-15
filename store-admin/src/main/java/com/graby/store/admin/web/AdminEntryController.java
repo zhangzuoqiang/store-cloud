@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.remote.ShipOrderRemote;
-import com.graby.store.service.InvAccountEntry;
-import com.graby.store.service.InvAccountEntrys;
-import com.graby.store.service.InvAccountTemplate;
+import com.graby.store.service.inventory.InvAccountEntry;
+import com.graby.store.service.inventory.InvAccountEntrys;
+import com.graby.store.service.inventory.InvAccountTemplate;
 import com.taobao.api.ApiException;
 
 @Controller

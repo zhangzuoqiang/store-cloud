@@ -38,7 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Objects;
 import com.graby.store.entity.User;
 import com.graby.store.remote.AuthRemote;
-import com.graby.store.service.AuthService;
+import com.graby.store.service.base.AuthService;
 import com.graby.store.util.Encodes;
 
 public class ShiroDbRealm extends AuthorizingRealm {

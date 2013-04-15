@@ -22,8 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
-import com.graby.store.service.ItemService;
-import com.graby.store.service.ShipOrderService;
+import com.graby.store.service.item.ItemService;
+import com.graby.store.service.wms.ShipOrderService;
 import com.graby.store.web.auth.ShiroContextUtils;
 
 /**

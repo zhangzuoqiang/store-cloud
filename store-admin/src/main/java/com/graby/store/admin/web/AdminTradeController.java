@@ -23,7 +23,7 @@ import com.graby.store.remote.InventoryRemote;
 import com.graby.store.remote.ItemRemote;
 import com.graby.store.remote.ShipOrderRemote;
 import com.graby.store.remote.TradeRemote;
-import com.graby.store.service.InvAccounts;
+import com.graby.store.service.inventory.InvAccounts;
 import com.taobao.api.ApiException;
 
 

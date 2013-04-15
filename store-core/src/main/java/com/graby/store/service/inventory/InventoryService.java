@@ -1,4 +1,4 @@
-package com.graby.store.service;
+package com.graby.store.service.inventory;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.graby.store.dao.mybatis.InventoryDao;
-import com.graby.store.service.InvAccounts.Account;
+import com.graby.store.service.inventory.InvAccounts.Account;
 
 @Component
 @Transactional(readOnly = true)

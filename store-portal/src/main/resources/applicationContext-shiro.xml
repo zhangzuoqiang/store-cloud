@@ -20,7 +20,7 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" />
-		<property name="successUrl" value="/home/welcome" />
+		<property name="successUrl" value="/home" />
 		<property name="filterChainDefinitions">
 			<value>
 				/xtaoAuth.html = anon

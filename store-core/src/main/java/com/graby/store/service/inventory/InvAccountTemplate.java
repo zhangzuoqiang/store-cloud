@@ -1,8 +1,8 @@
-package com.graby.store.service;
+package com.graby.store.service.inventory;
 
 import java.io.Serializable;
 
-import com.graby.store.service.InvAccounts.Account;
+import com.graby.store.service.inventory.InvAccounts.Account;
 
 /**
  * 库存科目记账模板

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.graby.store.service.InventoryService;
+import com.graby.store.service.inventory.InventoryService;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 

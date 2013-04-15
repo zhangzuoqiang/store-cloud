@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.graby.store.base.remote.service.RemotingService;
 import com.graby.store.entity.User;
-import com.graby.store.service.UserService;
+import com.graby.store.service.base.UserService;
 
 @RemotingService(serviceInterface = UserRemote.class, serviceUrl = "/user.call")
 public class UserRemoteImpl implements UserRemote {

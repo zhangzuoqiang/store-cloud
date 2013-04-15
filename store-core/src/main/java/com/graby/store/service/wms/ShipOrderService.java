@@ -1,4 +1,4 @@
-package com.graby.store.service;
+package com.graby.store.service.wms;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +24,10 @@ import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.User;
+import com.graby.store.service.inventory.InvAccountEntrys;
+import com.graby.store.service.inventory.InvAccountTemplate;
+import com.graby.store.service.inventory.InventoryService;
+import com.graby.store.service.trade.TradeService;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;

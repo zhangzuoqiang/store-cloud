@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 
 import com.graby.store.base.remote.service.RemotingService;
 import com.graby.store.entity.Item;
-import com.graby.store.service.ItemService;
+import com.graby.store.service.item.ItemService;
 
 @RemotingService(serviceInterface = ItemRemote.class, serviceUrl = "/item.call")
 public class ItemRemoteImpl implements ItemRemote {

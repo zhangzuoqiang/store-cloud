@@ -1,4 +1,4 @@
-package com.graby.store.service;
+package com.graby.store.service.base;
 
 import java.util.List;
 

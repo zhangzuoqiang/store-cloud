@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.graby.store.base.remote.service.RemotingService;
 import com.graby.store.entity.Centro;
-import com.graby.store.service.CentroService;
+import com.graby.store.service.base.CentroService;
 
 @RemotingService(serviceInterface = CentroRemote.class, serviceUrl = "/centro.call")
 public class CentroRemoteImpl implements CentroRemote {

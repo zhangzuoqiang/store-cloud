@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.graby.store.base.remote.service.RemotingService;
-import com.graby.store.service.ExpressService;
+import com.graby.store.service.wms.ExpressService;
 
 
 @RemotingService(serviceInterface = ExpressRemote.class, serviceUrl = "/express.call")

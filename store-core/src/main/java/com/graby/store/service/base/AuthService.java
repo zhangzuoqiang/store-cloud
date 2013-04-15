@@ -1,4 +1,4 @@
-package com.graby.store.service;
+package com.graby.store.service.base;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;

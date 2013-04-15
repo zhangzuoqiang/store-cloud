@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 
 import com.graby.store.entity.ShipOrder;
-import com.graby.store.service.InvAccountEntrys;
+import com.graby.store.service.inventory.InvAccountEntrys;
 import com.taobao.api.ApiException;
 
 /**

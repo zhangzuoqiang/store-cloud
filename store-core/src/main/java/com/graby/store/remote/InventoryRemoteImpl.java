@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.graby.store.base.remote.service.RemotingService;
-import com.graby.store.service.InventoryService;
+import com.graby.store.service.inventory.InventoryService;
 
 
 @RemotingService(serviceInterface = InventoryRemote.class, serviceUrl = "/inventory.call")

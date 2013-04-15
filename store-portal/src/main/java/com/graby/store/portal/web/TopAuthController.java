@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.graby.store.cache.Cache;
-import com.graby.store.service.AuthService;
+import com.graby.store.service.base.AuthService;
 import com.graby.store.util.EncryptUtil;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;

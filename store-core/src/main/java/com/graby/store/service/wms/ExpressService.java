@@ -1,4 +1,4 @@
-package com.graby.store.service;
+package com.graby.store.service.wms;
 
 import java.io.IOException;
 import java.util.HashMap;

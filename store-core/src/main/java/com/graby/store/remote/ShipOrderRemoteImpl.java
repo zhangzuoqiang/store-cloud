@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
 
 import com.graby.store.base.remote.service.RemotingService;
 import com.graby.store.entity.ShipOrder;
-import com.graby.store.service.InvAccountEntrys;
-import com.graby.store.service.ShipOrderService;
+import com.graby.store.service.inventory.InvAccountEntrys;
+import com.graby.store.service.wms.ShipOrderService;
 import com.taobao.api.ApiException;
 
 @RemotingService(serviceInterface = ShipOrderRemote.class, serviceUrl = "/ship.call")

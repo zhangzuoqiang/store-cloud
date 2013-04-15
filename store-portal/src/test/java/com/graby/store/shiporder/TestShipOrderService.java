@@ -15,8 +15,8 @@ import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeOrder;
 import com.graby.store.entity.User;
-import com.graby.store.service.ShipOrderService;
-import com.graby.store.service.TradeService;
+import com.graby.store.service.trade.TradeService;
+import com.graby.store.service.wms.ShipOrderService;
 
 @ContextConfiguration(locations = { "/applicationContext.xml", "/applicationContext-rule.xml" })
 public class TestShipOrderService extends AbstractJUnit4SpringContextTests {

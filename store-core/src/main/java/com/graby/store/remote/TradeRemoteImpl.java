@@ -9,7 +9,7 @@ import com.graby.store.base.remote.service.RemotingService;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
-import com.graby.store.service.TradeService;
+import com.graby.store.service.trade.TradeService;
 
 @RemotingService(serviceInterface = TradeRemote.class, serviceUrl = "/trade.call")
 public class TradeRemoteImpl implements TradeRemote {

@@ -18,11 +18,11 @@ import com.graby.store.entity.Item;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 import com.graby.store.entity.TradeOrder;
-import com.graby.store.service.InvAccounts;
-import com.graby.store.service.InventoryService;
-import com.graby.store.service.ItemService;
-import com.graby.store.service.ShipOrderService;
-import com.graby.store.service.TradeService;
+import com.graby.store.service.inventory.InvAccounts;
+import com.graby.store.service.inventory.InventoryService;
+import com.graby.store.service.item.ItemService;
+import com.graby.store.service.trade.TradeService;
+import com.graby.store.service.wms.ShipOrderService;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
 import com.graby.store.web.top.TradeAdapter;
@@ -165,7 +165,7 @@ public class UserTradeController {
 		}
 
 		com.taobao.api.domain.Trade trade = topApi.getTrade(tid);
-		Trade sTrade = tradeAdapter.adapterFromTop(trade);
+		Trade sTrade = tradeAdapter.adapter(trade);
 		List<TradeOrder> orders = sTrade.getOrders();
 		for (TradeOrder order : orders) {
 			// 放置库存信息， 目前只支持单库存，如未来支持多库存这里要做改造
