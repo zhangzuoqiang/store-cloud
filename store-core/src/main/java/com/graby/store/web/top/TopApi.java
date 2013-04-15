@@ -1,6 +1,7 @@
 package com.graby.store.web.top;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,9 +9,6 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.graby.store.base.AppException;
@@ -32,7 +30,7 @@ import com.taobao.api.request.LogisticsOfflineSendRequest;
 import com.taobao.api.request.LogisticsTraceSearchRequest;
 import com.taobao.api.request.ShopGetRequest;
 import com.taobao.api.request.TradeFullinfoGetRequest;
-import com.taobao.api.request.TradesSoldGetRequest;
+import com.taobao.api.request.TradesSoldIncrementvGetRequest;
 import com.taobao.api.request.UserSellerGetRequest;
 import com.taobao.api.response.ItemGetResponse;
 import com.taobao.api.response.ItemSkuGetResponse;
@@ -43,7 +41,7 @@ import com.taobao.api.response.LogisticsOfflineSendResponse;
 import com.taobao.api.response.LogisticsTraceSearchResponse;
 import com.taobao.api.response.ShopGetResponse;
 import com.taobao.api.response.TradeFullinfoGetResponse;
-import com.taobao.api.response.TradesSoldGetResponse;
+import com.taobao.api.response.TradesSoldIncrementvGetResponse;
 import com.taobao.api.response.UserSellerGetResponse;
 
 @Component
@@ -103,6 +101,8 @@ public class TopApi {
 	public void init() {
 		client = new DefaultTaobaoClient(serverUrl, appKey, appSecret, "json");
 	}
+	
+	private static final long DEFAULT_PAGE_SIZE = 100L;
 
 	// 商品属性
 	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,props_name,valid_thru,sku";
@@ -269,37 +269,73 @@ public class TopApi {
 		return resp.getItems();
 	}
 
+//	/**
+//	 * 获取当前用户交易数据
+//	 * 
+//	 * @param status
+//	 *            交易状态
+//	 * @param pageNo
+//	 *            第几页
+//	 * @param pageSize
+//	 *            页面大小
+//	 * @return Page<Trade>
+//	 * @throws ApiException
+//	 */
+//	public Page<Trade> getTrades(String status, long pageNo, long pageSize) throws ApiException {
+//		TradesSoldGetRequest req = new TradesSoldGetRequest();
+//		String props = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
+//				+ "seller_nick,seller_mobile,seller_phone,seller_memo,buyer_nick,buyer_memo,has_buyer_message,buyer_message,buyer_area,shipping_type,"
+//				+ "receiver_name,receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip,receiver_mobile,receiver_phone,orders";
+//		req.setFields(props);
+//		req.setType("ec,fixed,auction,auto_delivery,cod,independent_shop_trade,independent_simple_trade,shopex_trade,netcn_trade,external_trade,hotel_trade,fenxiao,game_equipment,instant_trade,b2c_cod,super_market_trade,super_market_cod_trade,alipay_movie,taohua,waimai,nopaid");
+//		req.setStatus(status);
+//		req.setPageNo(pageNo);
+//		req.setPageSize(pageSize);
+//		TradesSoldGetResponse resp = client.execute(req, session());
+//		errorMsgConvert(resp);
+//		PageRequest pageable = new PageRequest((int) (pageNo - 1), (int) pageSize);
+//		List<Trade> trades = resp.getTrades();
+//		Long totalResults = resp.getTotalResults();
+//		trades = trades == null ? new ArrayList<Trade>() : trades;
+//		totalResults = totalResults == null ? 0L : totalResults;
+//		Page<Trade> page = new PageImpl<Trade>(trades, pageable, totalResults);
+//		return page;
+//	}
+	
 	/**
-	 * 获取当前用户交易数据
-	 * 
-	 * @param status
-	 *            交易状态
-	 * @param pageNo
-	 *            第几页
-	 * @param pageSize
-	 *            页面大小
-	 * @return Page<Trade>
-	 * @throws ApiException
+	 * 增量获取待发货交易数据
+	 * @param start
+	 * @param end
+	 * @param sessionKey
+	 * @throws Exception
 	 */
-	public Page<Trade> getTrades(String status, long pageNo, long pageSize) throws ApiException {
-		TradesSoldGetRequest req = new TradesSoldGetRequest();
-		String props = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
-				+ "seller_nick,seller_mobile,seller_phone,seller_memo,buyer_nick,buyer_memo,has_buyer_message,buyer_message,buyer_area,shipping_type,"
-				+ "receiver_name,receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip,receiver_mobile,receiver_phone,orders";
-		req.setFields(props);
+	public List<Trade> getTrades(Date start, Date end) throws Exception {
+		TradesSoldIncrementvGetRequest req = new TradesSoldIncrementvGetRequest();
+		req.setFields("tid");
+		req.setStatus("TRADE_WAIT_SELLER_SEND_GOODS");
 		req.setType("ec,fixed,auction,auto_delivery,cod,independent_shop_trade,independent_simple_trade,shopex_trade,netcn_trade,external_trade,hotel_trade,fenxiao,game_equipment,instant_trade,b2c_cod,super_market_trade,super_market_cod_trade,alipay_movie,taohua,waimai,nopaid");
-		req.setStatus(status);
-		req.setPageNo(pageNo);
-		req.setPageSize(pageSize);
-		TradesSoldGetResponse resp = client.execute(req, session());
-		errorMsgConvert(resp);
-		PageRequest pageable = new PageRequest((int) (pageNo - 1), (int) pageSize);
-		List<Trade> trades = resp.getTrades();
-		Long totalResults = resp.getTotalResults();
-		trades = trades == null ? new ArrayList<Trade>() : trades;
-		totalResults = totalResults == null ? 0L : totalResults;
-		Page<Trade> page = new PageImpl<Trade>(trades, pageable, totalResults);
-		return page;
+		req.setStartCreate(start);
+		req.setEndCreate(end);
+		req.setPageSize(50L);
+		req.setUseHasNext(false);
+		TradesSoldIncrementvGetResponse rsp = client.execute(req, session());
+		List<Trade> trades = new ArrayList<Trade>();
+		if (rsp.isSuccess()) {
+			long pageCount = (rsp.getTotalResults() + req.getPageSize() - 1) / req.getPageSize();
+			while (pageCount > 0) {
+				req.setPageNo(pageCount);
+				req.setUseHasNext(true); // 终止统计
+				rsp = client.execute(req, session());
+				if (rsp.isSuccess()) {
+					for (Trade t : rsp.getTrades()) {
+						Trade trade = getTrade(t.getTid());
+						trades.add(trade);
+					}
+					pageCount--;
+				}
+			}
+		}
+		return trades;
 	}
 
 	/**

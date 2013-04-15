@@ -1,8 +1,10 @@
 package com.graby.store.portal.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.graby.store.base.GroupMap;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.Trade;
-import com.graby.store.entity.TradeMapping;
 import com.graby.store.entity.TradeOrder;
 import com.graby.store.service.inventory.InvAccounts;
 import com.graby.store.service.inventory.InventoryService;
@@ -45,7 +46,7 @@ public class UserTradeController {
 
 	@Autowired
 	private ItemService itemServie;
-	
+
 	@Autowired
 	private InventoryService inventoryService;
 
@@ -55,29 +56,31 @@ public class UserTradeController {
 	@Autowired
 	private ShipOrderService shipOrderService;
 
-	/**
-	 * 查询所有等待买家发货交易订单
-	 * (单条老版 即将废弃)
-	 * 
-	 * @return
-	 * @throws ApiException
-	 */
-	@RequestMapping(value = "/wait")
-	public String wait(
-			@RequestParam(value = "page", defaultValue = "1") int page, 
-			Model model) throws ApiException {
-		Page<com.taobao.api.domain.Trade> trades = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, page, 10);
-		if (CollectionUtils.isNotEmpty(trades.getContent())) {
-			for (com.taobao.api.domain.Trade tbTrade : trades) {
-				TradeMapping mapping =tradeService.getRelatedMapping(tbTrade.getTid());
-				// 这里特殊用这个字段标注该订单状态
-				tbTrade.setStatus(mapping == null ? "unrelated" : mapping.getStatus());
-			}
-		}
-		model.addAttribute("trades", trades);
-		return "trade/wait";
-	}
-	
+	// /**
+	// * 查询所有等待买家发货交易订单
+	// * (单条老版 即将废弃)
+	// *
+	// * @return
+	// * @throws ApiException
+	// */
+	// @RequestMapping(value = "/wait")
+	// public String wait(
+	// @RequestParam(value = "page", defaultValue = "1") int page,
+	// Model model) throws ApiException {
+	// Page<com.taobao.api.domain.Trade> trades =
+	// topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, page,
+	// 10);
+	// if (CollectionUtils.isNotEmpty(trades.getContent())) {
+	// for (com.taobao.api.domain.Trade tbTrade : trades) {
+	// TradeMapping mapping =tradeService.getRelatedMapping(tbTrade.getTid());
+	// // 这里特殊用这个字段标注该订单状态
+	// tbTrade.setStatus(mapping == null ? "unrelated" : mapping.getStatus());
+	// }
+	// }
+	// model.addAttribute("trades", trades);
+	// return "trade/wait";
+	// }
+
 	/**
 	 * 下单发货（单条老版 即将废弃）
 	 * 
@@ -89,38 +92,47 @@ public class UserTradeController {
 	public String sendConfirm(Trade trade, RedirectAttributes redirectAttributes) {
 		tradeService.createTrade(trade, null);
 		return "redirect:/trade/wait";
-	}	
-	
+	}
+
 	/**
 	 * 批量查询淘宝交易订单（多条）
+	 * 
 	 * @return
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/waits")
 	public String waitsForward() throws ApiException {
 		return "trade/waits";
-	}	
-	
+	}
+
 	/**
 	 * 查询所有等待买家发货交易订单（新版）
 	 * 
- 	 * useable   : 可发送的
-	 * related   : 已由物流通处理的
-	 * failed 	 : 未关联或库存不足的
+	 * useable : 可发送的 related : 已由物流通处理的 failed : 未关联或库存不足的
+	 * 
 	 * @return
-	 * @throws ApiException
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/waits/fetch")
-	public String fetch(Model model) throws ApiException {
-		GroupMap<String,Trade> tradeMap = tradeService.groupFindTopTrades();
+	public String fetch(@RequestParam(value = "preday") int preday, Model model) throws Exception {
+
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -preday);
+		Date day = cal.getTime();
+		Date start = getMoning(day);
+		Date end = preday == 0 ? day : getEnd(day);
+
+		GroupMap<String, Trade> tradeMap = tradeService.fetchTopTrades(start, end);
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
 		model.addAttribute("failed", tradeMap.getList("failed"));
+		model.addAttribute("date", date(day));
 		return "trade/waitsFetch";
-	}	
-	
+	}
+
 	/**
 	 * 根据淘宝交易ID批量创建系统交易订单
+	 * 
 	 * @param tids
 	 * @return
 	 * @throws NumberFormatException
@@ -131,7 +143,7 @@ public class UserTradeController {
 		tradeService.createTradesFromTop(tids);
 		return "redirect:/trade/waits";
 	}
-	
+
 	/**
 	 * 当前用户仓库已接收订单
 	 * 
@@ -139,14 +151,12 @@ public class UserTradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/received")
-	public String received(
-			@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "status", defaultValue = "") String status,
-			Model model) throws ApiException {
+	public String received(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "status", defaultValue = "") String status, Model model) throws ApiException {
 		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), status, page, 10);
 		model.addAttribute("trades", trades);
 		return "trade/received";
-	}	
+	}
 
 	/**
 	 * 淘宝订单处理(单条)
@@ -157,7 +167,8 @@ public class UserTradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/deal/tb/{tid}", method = RequestMethod.GET)
-	public String deal(@PathVariable("tid") Long tid, Model model, RedirectAttributes redirectAttributes) throws ApiException {
+	public String deal(@PathVariable("tid") Long tid, Model model, RedirectAttributes redirectAttributes)
+			throws ApiException {
 		Long tradeId = tradeService.getRelatedTradeId(tid);
 		if (tradeId != null) {
 			redirectAttributes.addFlashAttribute("message", "该订单已被处理");
@@ -172,7 +183,7 @@ public class UserTradeController {
 			Long numIid = order.getNumIid();
 			Long skuId = order.getSkuId();
 			skuId = skuId == null ? 0L : skuId;
-			Long itemId = itemServie.getRelatedItemId(numIid ,skuId);
+			Long itemId = itemServie.getRelatedItemId(numIid, skuId);
 			if (itemId == null) {
 				order.setStockNum(-1);
 			} else {
@@ -188,34 +199,70 @@ public class UserTradeController {
 
 	/**
 	 * 等待用户签收列表
+	 * 
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = "/notifys", method=RequestMethod.GET)
-	public String notifyTrades(
-			@RequestParam(value = "status", defaultValue = "") String status,
-			@RequestParam(value = "page", defaultValue = "1") int page,
-			Model model) throws ApiException {
-		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), Trade.Status.TRADE_WAIT_EXPRESS_NOFITY, page, 15);
+	@RequestMapping(value = "/notifys", method = RequestMethod.GET)
+	public String notifyTrades(@RequestParam(value = "status", defaultValue = "") String status,
+			@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
+		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(),
+				Trade.Status.TRADE_WAIT_EXPRESS_NOFITY, page, 15);
 		model.addAttribute("trades", trades);
 		return "trade/tradeNotifys";
 	}
-	
+
 	/**
 	 * 商铺方通知用户签收
+	 * 
 	 * @param tid
 	 * @param redirectAttributes
 	 * @return
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/notify", method = RequestMethod.GET)
-	public String notifyUser(
-			@RequestParam(value = "ids", defaultValue = "") Long[] tradeIds,
-			 RedirectAttributes redirectAttributes) {
+	public String notifyUser(@RequestParam(value = "ids", defaultValue = "") Long[] tradeIds,
+			RedirectAttributes redirectAttributes) {
 		List<String> errors = shipOrderService.batchNotifyUserSign(tradeIds);
 		redirectAttributes.addFlashAttribute("errors", errors);
 		return "redirect:/trade/notifys";
 	}
-	
-	
+
+	private static Date getMoning(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		return c.getTime();
+	}
+
+	private static Date getEnd(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, 23);
+		c.set(Calendar.MINUTE, 59);
+		c.set(Calendar.SECOND, 59);
+		return c.getTime();
+	}
+
+	private static String date(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int wd = cal.get(Calendar.DAY_OF_WEEK);
+		String x = null;
+		switch (wd) {
+		case 1:x = "星期日";break;
+		case 2:x = "星期一";break;
+		case 3:x = "星期二";break;
+		case 4:x = "星期三";break;
+		case 5:x = "星期四";break;
+		case 6:x = "星期五";	break;
+		case 7:x = "星期六";break;
+		}
+		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy年MM月dd日 ");
+		String strDate = simpleFormat.format(date) + x;
+		return strDate;
+	}
+
 }

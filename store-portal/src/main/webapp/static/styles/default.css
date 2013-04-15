@@ -82,8 +82,9 @@ body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53}
 /* 提示 */
 .hint {
      width: 200px;
-     bottom:0;
+     /*bottom:0;*/
      padding: 10px;
-     left: 42%;
+     left: 40%;
+     top: 40%;
      position: fixed;
 }

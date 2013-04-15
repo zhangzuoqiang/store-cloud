@@ -9,40 +9,8 @@
 	<title>未处理订单</title>
 	<script  type="text/javascript">
 	
-	function delayEnable(time){
-	    var hander = setInterval(function () {
-	    	time--;
-	        if (time > 0) {
-	        	$('#fetch').text('重新抓单需等待(' +time+'秒)');
-	        } else {
-	        	clearInterval(hander);
-	        	$('#fetch').text('一键抓取淘宝订单');
-	        	$('#fetch').attr('disabled',false);
-	        }
-	    }, 1000);	
-	}
-			
 	$(function() {
-		// 发送事件
-		$('#fetch').bind('click', function (e) {
-			$('#fetch').attr('disabled',true);
-			delayEnable(180);
-			// ajax action
-			var action = "${ctx}/trade/waits/fetch";
-			htmlobj=$.ajax({
-				url:action,
-				async:true,
-				type:"post",
-				success: function(msg) {
-                   $("#fetchBody").html(htmlobj.responseText);
-                },
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-                }
-			});
-			
-	    });
-	   
-	   	// Loading 按钮
+   		// Loading 按钮
 		$('#loadingDiv')
 		.hide()
 		.ajaxStart(function() {
@@ -53,20 +21,40 @@
 		});
 	});
 	
+	function fetchTrade(day) {
+		var action = "${ctx}/trade/waits/fetch?preday=" + day;
+		htmlobj=$.ajax({
+			url:action,
+			async:true,
+			type:"post",
+			success: function(msg) {
+               $("#fetchBody").html(htmlobj.responseText);
+            },
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+            }
+		});
+	}
+	
 	
 	</script>
 </head>
 <body>
 	
-  	<div class="span4">
-  		<a id="fetch" href="#" class="btn btn-primary"><i class="icon-inbox icon-white"></i> 一键抓取淘宝订单</a>
-  	</div>
-  	
+    <div class="btn-group">
+      <button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">淘宝订单抓取<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a href="javascript:fetchTrade(0)">今天</a></li>
+        <li><a href="javascript:fetchTrade(1)">昨天</a></li>
+        <li><a href="javascript:fetchTrade(2)">前天</a></li>
+      </ul>
+    </div><!-- /btn-group --> 
+     
 	<div id="fetchBody">
-		<div id="loadingDiv">
-			<img src = "${ctx}/static/images/fetch.gif">
-		</div>
 	</div>
+	
+	<div id="loadingDiv" class="hint">
+		<img src = "${ctx}/static/images/fetch.gif">
+	</div>	
    
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.graby.store.service.trade;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -70,17 +72,16 @@ public class TradeService {
 	/* ====================== 交易相关查询 ======================= */
 	
 	/**
-	 * 查询500个等待发货的淘宝订单， 分组归类。
+	 * 查询今天凌晨到现在的所有订单
 	 * useable   : 可发送的
 	 * related   : 已由物流通处理的
 	 * failed   : 订购商品 未关联的 无库存
 	 * @return
-	 * @throws ApiException 
+	 * @throws Exception 
 	 */
-	public GroupMap<String, Trade> groupFindTopTrades() throws ApiException {
+	public GroupMap<String, Trade> fetchTopTrades(Date start,Date end) throws Exception {
 		GroupMap<String, Trade> groupResults = new GroupMap<String, Trade>(); 
-		Page<com.taobao.api.domain.Trade> tradePage = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 1, DEFAULT_TOP_TRADE_FETCH);
-		List<com.taobao.api.domain.Trade> trades = tradePage.getContent();
+		List<com.taobao.api.domain.Trade> trades = topApi.getTrades(start, end);
 		if (CollectionUtils.isEmpty(trades)) {return groupResults;}
 		
 		for (com.taobao.api.domain.Trade topTrade : trades) {

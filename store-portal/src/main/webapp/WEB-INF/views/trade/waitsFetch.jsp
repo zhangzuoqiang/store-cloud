@@ -26,7 +26,7 @@
 		
 		// 发送物流通按钮
 		$('#tab').bind('click', function (e) {
-	    	if(e.target.text=='可发送') {
+	    	if(e.target.text.substring(0,3)=='可发送') {
 	       		$("#submit").css("visibility", "visible");
 	       	} else {
 	       		$("#submit").css("visibility", "hidden");
@@ -52,19 +52,23 @@
 	</script>
 </head>
 <body>
-
-	<div class="row">
-		<div class="span4">
+	<br>
+	<div class="navbar">
+	  <div class="navbar-inner">
+	    <div class="container">
 			<ul id="tab" class="nav nav-pills">
+			  <li><a>${date}</a></li>
 		      <li class="active"><a href="#useable" data-toggle="tab">可发送(${fn:length(useable)})</a></li>
 		      <li><a href="#failed" data-toggle="tab">库存不足(${fn:length(failed)})</a></li>
 		      <li><a href="#related" data-toggle="tab">已提交(${fn:length(related)})</a></li>
 		  	</ul>
-	  	</div>
-	  	<div class="span4 pull-right">
-	  		<a id="submit" href="#" class="btn btn-success pull-right">物流通发货</a>
-	  	</div>
+		  	<div class="span4 pull-right">
+	  			<a id="submit" href="#" class="btn btn-success pull-right">物流通发货</a>
+	  		</div>
+	    </div>
+	  </div>
 	</div>
+	
    
     <div class="tab-content">
     	<div id="useable" class="tab-pane active" >
@@ -244,8 +248,7 @@
 							物流通审核通过，快递配送中...
 						</c:if>
 						<c:if test="${trade.status == 'TRADE_WAIT_BUYER_RECEIVED'}">
-							物流通已发货 请通知买家等待签收<br>
-							<a class="btn btn-primary" href="${ctx}/trade/notify/${trade.tid}">通知</a>
+							物流通已发货 请通知买家等待签收
 						</c:if>					
 					</td>		
 				</tr>
