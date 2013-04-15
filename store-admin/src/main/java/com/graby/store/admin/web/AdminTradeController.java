@@ -157,7 +157,7 @@ public class AdminTradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "send/pick/report")
-	public ModelAndView picksPdf(
+	public ModelAndView pickReport(
 			@RequestParam(value = "ids", defaultValue = "") Long[] ids,
 			@RequestParam(value = "format", defaultValue = "pdf") String format) {
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -168,7 +168,7 @@ public class AdminTradeController {
 	}	
 	
 	/**
-	 * 批量提交出库单
+	 * 订单已拣货，提交到系统。
 	 * @param ids
 	 * @return
 	 * @throws NumberFormatException

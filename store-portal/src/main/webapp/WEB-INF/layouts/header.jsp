@@ -4,13 +4,12 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <div id="header">
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar  navbar-fixed-top">
     <div class="navbar-inner">
         <div class="nav-collapse">
           <ul class="nav">
-            <li> <img src="${ctx}/static/images/envato.png"></li>
-            <li><a href="#">物流通</a></li>
-            <li class="active"><a href="#"><shiro:principal property="shopname"/></a></li>
+            <li class="active"><a href="#">物流通-电商仓储管理中心</a></li>
+            <li><a href="#"><shiro:principal property="shopname"/></a></li>
           </ul>
           <ul class="nav pull-right">
             <li class="dropdown">

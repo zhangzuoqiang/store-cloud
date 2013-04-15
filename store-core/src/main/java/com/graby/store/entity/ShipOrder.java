@@ -288,6 +288,7 @@ public class ShipOrder implements Serializable{
 	}
 
 	public String getRemark() {
+		
 		return remark;
 	}
 
@@ -448,6 +449,7 @@ public class ShipOrder implements Serializable{
 	}
 
 	public String getBuyerMemo() {
+		if (buyerMemo == null) return "";
 		return buyerMemo;
 	}
 
@@ -456,6 +458,7 @@ public class ShipOrder implements Serializable{
 	}
 
 	public String getSellerMemo() {
+		if (sellerMemo == null) return "";
 		return sellerMemo;
 	}
 
@@ -472,6 +475,7 @@ public class ShipOrder implements Serializable{
 	}
 
 	public String getSellerMobile() {
+		if (sellerMobile == null) return "";
 		return sellerMobile;
 	}
 
@@ -480,11 +484,14 @@ public class ShipOrder implements Serializable{
 	}
 
 	public String getSellerPhone() {
+		if (sellerPhone == null) return "";
 		return sellerPhone;
 	}
 
 	public void setSellerPhone(String sellerPhone) {
 		this.sellerPhone = sellerPhone;
 	}
+	
+	
 
 }

@@ -475,7 +475,6 @@ public class ShipOrderService {
 		ShipOrder order = getShipOrder(orderId);
 		order.setStatus(ShipOrder.SendOrderStatus.SEND_FINISH);
 		updateShipOrder(order);
-		// TODO
 		tradeService.updateTradeStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
 		List<ShipOrderDetail> details = order.getDetails();
 		// 库存记账-买家签收
@@ -495,5 +494,5 @@ public class ShipOrderService {
 	public void updateShipOrder(ShipOrder order) {
 		orderJpaDao.save(order);
 	}
-
+	
 }
