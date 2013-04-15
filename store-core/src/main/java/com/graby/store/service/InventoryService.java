@@ -53,7 +53,7 @@ public class InventoryService {
 	}
 
 	/**
-	 * 增加库存记录
+	 * 记账
 	 * 
 	 * @param itemId
 	 *            商品ID

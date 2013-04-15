@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -55,9 +56,9 @@
 	<div class="row">
 		<div class="span4">
 			<ul id="tab" class="nav nav-pills">
-		      <li class="active"><a href="#useable" data-toggle="tab">可发送</a></li>
-		      <li><a href="#failed" data-toggle="tab">库存不足</a></li>
-		      <li><a href="#related" data-toggle="tab">已提交</a></li>
+		      <li class="active"><a href="#useable" data-toggle="tab">可发送(${fn:length(useable)})</a></li>
+		      <li><a href="#failed" data-toggle="tab">库存不足(${fn:length(failed)})</a></li>
+		      <li><a href="#related" data-toggle="tab">已提交(${fn:length(related)})</a></li>
 		  	</ul>
 	  	</div>
 	  	<div class="span4 pull-right">

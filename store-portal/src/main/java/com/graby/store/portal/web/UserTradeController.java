@@ -186,7 +186,6 @@ public class UserTradeController {
 		return "trade/deal";
 	}
 
-	
 	/**
 	 * 等待用户签收列表
 	 * @return
@@ -202,7 +201,6 @@ public class UserTradeController {
 		return "trade/tradeNotifys";
 	}
 	
-	
 	/**
 	 * 商铺方通知用户签收
 	 * @param tid
@@ -213,9 +211,9 @@ public class UserTradeController {
 	@RequestMapping(value = "/notify", method = RequestMethod.GET)
 	public String notifyUser(
 			@RequestParam(value = "ids", defaultValue = "") Long[] tradeIds,
-			Model model) {
+			 RedirectAttributes redirectAttributes) {
 		List<String> errors = shipOrderService.batchNotifyUserSign(tradeIds);
-		model.addAttribute("errors", errors);
+		redirectAttributes.addFlashAttribute("errors", errors);
 		return "redirect:/trade/notifys";
 	}
 	
