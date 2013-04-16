@@ -31,7 +31,6 @@ import com.taobao.api.request.LogisticsTraceSearchRequest;
 import com.taobao.api.request.ShopGetRequest;
 import com.taobao.api.request.TradeFullinfoGetRequest;
 import com.taobao.api.request.TradesSoldIncrementGetRequest;
-import com.taobao.api.request.TradesSoldIncrementvGetRequest;
 import com.taobao.api.request.UserSellerGetRequest;
 import com.taobao.api.response.ItemGetResponse;
 import com.taobao.api.response.ItemSkuGetResponse;
@@ -43,7 +42,6 @@ import com.taobao.api.response.LogisticsTraceSearchResponse;
 import com.taobao.api.response.ShopGetResponse;
 import com.taobao.api.response.TradeFullinfoGetResponse;
 import com.taobao.api.response.TradesSoldIncrementGetResponse;
-import com.taobao.api.response.TradesSoldIncrementvGetResponse;
 import com.taobao.api.response.UserSellerGetResponse;
 
 @Component
@@ -314,8 +312,8 @@ public class TopApi {
 	public List<Trade> getTrades(Date start, Date end) throws Exception {
 		TradesSoldIncrementGetRequest req = new TradesSoldIncrementGetRequest();
 		req.setFields("tid");
-		req.setStatus("WAIT_SELLER_SEND_GOODS");
-		req.setType("fixed,auction,guarantee_trade,auto_delivery,independent_simple_trade,independent_shop_trade,ec,netcn_trade,external_trade,step");
+		req.setStatus(TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS);
+		req.setType("ec,fixed,auction,auto_delivery,cod,independent_shop_trade,independent_simple_trade,shopex_trade,netcn_trade,external_trade,hotel_trade,fenxiao,game_equipment,instant_trade,b2c_cod,super_market_trade,super_market_cod_trade,alipay_movie,taohua,waimai,nopaid");
 		req.setStartModified(start);
 		req.setEndModified(end);
 		req.setPageSize(50L);

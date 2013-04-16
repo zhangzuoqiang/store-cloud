@@ -88,7 +88,7 @@
 			<c:forEach items="${useable}" var="trade">
 				<tr>
 					<td>${e:tradeType(trade.type)}</td>
-					<td>${trade.status}</td>
+					<td>${e:tradeStatus(trade.status)}</td>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
