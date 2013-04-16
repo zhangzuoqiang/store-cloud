@@ -38,7 +38,7 @@
 			<div class="control-group">
 				<label for="origin_persion" class="control-label">商家联系人</label>
 				<div class="controls">
-					<input id="origin_persion" name="originPersion" type="text" class="input-large required" minlength="3" value="${order.originPersion}"/>
+					<input id="origin_persion" name="originPersion" type="text" class="input-large required" minlength="2" value="${order.originPersion}"/>
 					<span class="help-inline">请输入商家联系人</span>
 				</div>
 			</div>

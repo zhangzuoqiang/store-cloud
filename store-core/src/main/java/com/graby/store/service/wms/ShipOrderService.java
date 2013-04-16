@@ -291,6 +291,14 @@ public class ShipOrderService {
 		return shipOrderDao.findSendOrderWaits(1L, DEFAULT_FETCH_ROWS);
 	}
 	
+	/**
+	 * 根据交易订单ID查询发货单
+	 * @param tradeId
+	 * @return
+	 */
+	public Long getSendOrderIdByTradeId(Long tradeId) {
+		return shipOrderDao.getSendOrderIdByTradeId(tradeId);
+	}
 
 	/**
 	 * 按规则分类所有未处理出库单

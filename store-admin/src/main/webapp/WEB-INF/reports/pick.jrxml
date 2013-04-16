@@ -178,7 +178,7 @@
 				<text><![CDATA[买家备注:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="8dad2cb4-41c1-448d-96df-2d55368a0a4b" x="368" y="69" width="184" height="43"/>
+				<reportElement uuid="8dad2cb4-41c1-448d-96df-2d55368a0a4b" x="368" y="69" width="184" height="40"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
@@ -192,14 +192,14 @@
 				<text><![CDATA[买家留言：]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="b3c8037f-fa81-413c-9409-2fc1feda0541" x="55" y="89" width="255" height="20"/>
+				<reportElement uuid="b3c8037f-fa81-413c-9409-2fc1feda0541" x="55" y="68" width="255" height="20"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{buyerMemo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="24b82261-a3fa-4120-b46a-aea9b7c46d60" x="55" y="69" width="255" height="20"/>
+				<reportElement uuid="24b82261-a3fa-4120-b46a-aea9b7c46d60" x="55" y="88" width="255" height="21"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>

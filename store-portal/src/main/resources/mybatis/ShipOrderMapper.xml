@@ -122,6 +122,13 @@
 		SELECT id
 		FROM sc_ship_order_detail WHERE order_id=#{0} and item_id=#{1}
 	</select>
+
+	<select id="getSendOrderIdByTradeId" resultType="long">
+		SELECT id
+		FROM sc_ship_order WHERE trade_id=#{0}
+	</select>	
+	
+	
 	
 	<update id="increaseEntryOrderDetail"> 
         update sc_ship_order_detail set num = num + #{1}

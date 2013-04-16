@@ -10,12 +10,7 @@
 	<link href="${ctx}/static/styles/step.min.css" type="text/css" rel="stylesheet" />
 	<link href="${ctx}/static/styles/prod.css" rel="stylesheet" media="all" />
 	<script type="text/javascript">
-		$(document).ready(function() {
-			if ($("#err").length > 0){
-				$("#submit_btn").attr("disabled",true);
-			}
-		});
-	</script>
+	
 	</script>	
 </head>
 
@@ -161,7 +156,7 @@
 	</div>
 
 	<div class="form-actions">
-		<a href="${ctx}/trade/mkship/${trade.id}" class="btn btn-primary">审核通过， 创建出库单。</a>
+		<a href="${ctx}/trade/mkship/${trade.id}" class="btn btn-primary disabled">审核通过， 创建出库单。</a>
 		<input id="cancel_btn" class="btn" type="button" value="暂不处理" onclick="history.back()"/>
 	</div>
 </body>

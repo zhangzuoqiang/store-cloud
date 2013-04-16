@@ -40,21 +40,22 @@
 </head>
 <body>
 	
-    <div class="btn-group">
-      <button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">淘宝订单抓取<span class="caret"></span></button>
-      <ul class="dropdown-menu">
-        <li><a href="javascript:fetchTrade(0)">今天</a></li>
-        <li><a href="javascript:fetchTrade(1)">昨天</a></li>
-        <li><a href="javascript:fetchTrade(2)">前天</a></li>
-      </ul>
-    </div><!-- /btn-group --> 
-     
+	<div class="row">
+	  <div class="span4">
+	      <div class="btn-group" data-toggle="buttons-radio">
+		  <button onclick="javascript:fetchTrade(0)" class="btn btn-info">今天</button>
+		  <button onclick="javascript:fetchTrade(1)" class="btn btn-info">昨天</button>
+		  <button onclick="javascript:fetchTrade(2)" class="btn btn-info">前天</button>
+		  </div>	  
+	  </div>
+	</div>
+
 	<div id="fetchBody">
 	</div>
 	
 	<div id="loadingDiv" class="hint">
 		<img src = "${ctx}/static/images/fetch.gif">
-	</div>	
-   
+	</div>
+
 </body>
 </html>

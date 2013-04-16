@@ -9,8 +9,9 @@ import com.graby.store.entity.ShipOrder;
 @MyBatisRepository
 public interface ShipOrderDao {
 
-	public ShipOrder getSendShipOrderByTradeId(Long tid);
-	public ShipOrder getShipOrder(Long id);
+	ShipOrder getSendShipOrderByTradeId(Long tid);
+	ShipOrder getShipOrder(Long id);
+	Long getSendOrderIdByTradeId(Long tradeId);
 	
 	void deleteOrder(Long orderId);
 	void deleteDetailByOrderId(Long orderId);
@@ -22,6 +23,7 @@ public interface ShipOrderDao {
 	void increaseEntryOrderDetail(Long detailId, long num);
 	
 	Long getEntryOrderDetail(Long orderId, Long itemId);
+	
 	
 	List<ShipOrder> findEntryOrderOnWay();
 	List<ShipOrder> findSendOrderWaits(Long centroId, int rownum);

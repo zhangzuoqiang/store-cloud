@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.graby.store.base.AppException;
 import com.graby.store.base.GroupMap;
 import com.graby.store.dao.jpa.TradeJpaDao;
 import com.graby.store.dao.jpa.TradeOrderJpaDao;
@@ -283,6 +284,10 @@ public class TradeService {
 	 * @return
 	 */
 	public ShipOrder createSendShipOrderByTradeId(Long tradeId) {
+		Long orderId = shipOrderService.getSendOrderIdByTradeId(tradeId);
+		if (orderId != null) {
+			throw new AppException("出货单订单已创建，不能重复提交。交易ID=" + tradeId);
+		}
 		Trade trade = getTrade(tradeId);
 		ShipOrder shipOrder = geneShipOrderFrom(trade);
 		shipOrderService.createSendShipOrder(shipOrder);
