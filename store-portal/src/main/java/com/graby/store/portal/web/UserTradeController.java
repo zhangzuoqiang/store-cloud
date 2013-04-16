@@ -115,13 +115,11 @@ public class UserTradeController {
 	 */
 	@RequestMapping(value = "/waits/fetch")
 	public String fetch(@RequestParam(value = "preday") int preday, Model model) throws Exception {
-
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -preday);
 		Date day = cal.getTime();
 		Date start = getMoning(day);
 		Date end = preday == 0 ? day : getEnd(day);
-
 		GroupMap<String, Trade> tradeMap = tradeService.fetchTopTrades(start, end);
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
@@ -206,7 +204,8 @@ public class UserTradeController {
 	@RequestMapping(value = "/notifys", method = RequestMethod.GET)
 	public String notifyTrades(@RequestParam(value = "status", defaultValue = "") String status,
 			@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
-		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(),
+		Page<Trade> trades = tradeService.findUserTrades(
+				ShiroContextUtils.getUserid(),
 				Trade.Status.TRADE_WAIT_EXPRESS_NOFITY, page, 15);
 		model.addAttribute("trades", trades);
 		return "trade/tradeNotifys";

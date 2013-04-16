@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.drools.core.util.StringUtils;
 import org.hibernate.annotations.Index;
 
 
@@ -273,6 +274,11 @@ public class Trade implements Serializable{
 		return status;
 	}
 	
+	@Index(name="idx_pay_time")
+	public Date getPayTime() {
+		return payTime;
+	}
+	
 	@Transient
 	public Long getTid() {
 		return tid;
@@ -288,6 +294,18 @@ public class Trade implements Serializable{
 		return itemTitles;
 	}
 	
+	/**
+	 * 是否是多个淘宝订单合并而来
+	 * @return
+	 */
+	@Transient
+	public boolean isCombine() {
+		if (StringUtils.isEmpty(tradeFrom)) {
+			return false;
+		}
+		return tradeFrom.indexOf(",")>0;
+	}
+	
 	public String getBuyerNick() {
 		return buyerNick;
 	}
@@ -298,10 +316,6 @@ public class Trade implements Serializable{
 
 	public String getBuyerAlipayNo() {
 		return buyerAlipayNo;
-	}
-
-	public Date getPayTime() {
-		return payTime;
 	}
 
 	public String getBuyerArea() {
@@ -411,7 +425,7 @@ public class Trade implements Serializable{
 	public String getTradeFrom() {
 		return tradeFrom;
 	}
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

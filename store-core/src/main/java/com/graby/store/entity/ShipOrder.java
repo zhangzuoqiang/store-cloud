@@ -240,6 +240,11 @@ public class ShipOrder implements Serializable{
 	public String getBuyerNick() {
 		return buyerNick;
 	}	
+	
+	@Index(name="idx_create_date")
+	public Date getCreateDate() {
+		return createDate;
+	}	
 
 	@Transient
 	public String getShopName() {
@@ -293,9 +298,7 @@ public class ShipOrder implements Serializable{
 		return remark;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+
 
 	public Date getLastUpdateDate() {
 		return lastUpdateDate;

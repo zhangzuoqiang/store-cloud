@@ -59,9 +59,6 @@ public interface TradeDao {
 	
 	/**
 	 * 查询未完成交易订单
-	 * @param page TODO
-	 * @param offset TODO
-	 * @return
 	 */
 	public List<Trade> findUnfinishedTrades(int pageNo, int pageSize);
 	public long countUnfinishedTrades();
@@ -91,7 +88,6 @@ public interface TradeDao {
 	 * @return
 	 */
 	public List<Trade> getTrades(Long userId, String status, long start, long offset);
-	
 	
 	// ** 删除交易信息：出货单明细、出货单、交易关联、交易订单 */
 	public void deleteShipOrderDetail(Long tradeId);

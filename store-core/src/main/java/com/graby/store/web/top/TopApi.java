@@ -102,8 +102,6 @@ public class TopApi {
 		client = new DefaultTaobaoClient(serverUrl, appKey, appSecret, "json");
 	}
 	
-	private static final long DEFAULT_PAGE_SIZE = 100L;
-
 	// 商品属性
 	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,props_name,valid_thru,sku";
 
@@ -269,51 +267,21 @@ public class TopApi {
 		return resp.getItems();
 	}
 
-//	/**
-//	 * 获取当前用户交易数据
-//	 * 
-//	 * @param status
-//	 *            交易状态
-//	 * @param pageNo
-//	 *            第几页
-//	 * @param pageSize
-//	 *            页面大小
-//	 * @return Page<Trade>
-//	 * @throws ApiException
-//	 */
-//	public Page<Trade> getTrades(String status, long pageNo, long pageSize) throws ApiException {
-//		TradesSoldGetRequest req = new TradesSoldGetRequest();
-//		String props = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
-//				+ "seller_nick,seller_mobile,seller_phone,seller_memo,buyer_nick,buyer_memo,has_buyer_message,buyer_message,buyer_area,shipping_type,"
-//				+ "receiver_name,receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip,receiver_mobile,receiver_phone,orders";
-//		req.setFields(props);
-//		req.setType("ec,fixed,auction,auto_delivery,cod,independent_shop_trade,independent_simple_trade,shopex_trade,netcn_trade,external_trade,hotel_trade,fenxiao,game_equipment,instant_trade,b2c_cod,super_market_trade,super_market_cod_trade,alipay_movie,taohua,waimai,nopaid");
-//		req.setStatus(status);
-//		req.setPageNo(pageNo);
-//		req.setPageSize(pageSize);
-//		TradesSoldGetResponse resp = client.execute(req, session());
-//		errorMsgConvert(resp);
-//		PageRequest pageable = new PageRequest((int) (pageNo - 1), (int) pageSize);
-//		List<Trade> trades = resp.getTrades();
-//		Long totalResults = resp.getTotalResults();
-//		trades = trades == null ? new ArrayList<Trade>() : trades;
-//		totalResults = totalResults == null ? 0L : totalResults;
-//		Page<Trade> page = new PageImpl<Trade>(trades, pageable, totalResults);
-//		return page;
-//	}
-	
 	/**
 	 * 增量获取待发货交易数据
+	 * @param status TODO
 	 * @param start
 	 * @param end
 	 * @param sessionKey
 	 * @throws Exception
 	 */
-	public List<Trade> getTrades(Date start, Date end) throws Exception {
+	public List<Trade> getTrades(String status, Date start, Date end) throws Exception {
 		TradesSoldIncrementGetRequest req = new TradesSoldIncrementGetRequest();
 		req.setFields("tid");
-		req.setStatus(TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS);
 		req.setType("ec,fixed,auction,auto_delivery,cod,independent_shop_trade,independent_simple_trade,shopex_trade,netcn_trade,external_trade,hotel_trade,fenxiao,game_equipment,instant_trade,b2c_cod,super_market_trade,super_market_cod_trade,alipay_movie,taohua,waimai,nopaid");
+		if (StringUtils.isNotBlank(status)) {
+			req.setStatus(status);
+		}
 		req.setStartModified(start);
 		req.setEndModified(end);
 		req.setPageSize(50L);

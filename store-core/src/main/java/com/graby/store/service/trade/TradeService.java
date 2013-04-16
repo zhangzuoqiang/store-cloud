@@ -70,16 +70,16 @@ public class TradeService {
 	/* ====================== 交易相关查询 ======================= */
 	
 	/**
-	 * 查询今天凌晨到现在的所有订单
+	 * 查询淘宝等待发货交易订单
 	 * useable   : 可发送的
 	 * related   : 已由物流通处理的
 	 * failed   : 订购商品 未关联的 无库存
 	 * @return
 	 * @throws Exception 
 	 */
-	public GroupMap<String, Trade> fetchTopTrades(Date start,Date end) throws Exception {
+	public GroupMap<String, Trade> fetchTopTrades(Date start, Date end) throws Exception {
 		GroupMap<String, Trade> groupResults = new GroupMap<String, Trade>(); 
-		List<com.taobao.api.domain.Trade> trades = topApi.getTrades(start, end);
+		List<com.taobao.api.domain.Trade> trades = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, start, end);
 		if (CollectionUtils.isEmpty(trades)) {return groupResults;}
 		
 		for (com.taobao.api.domain.Trade topTrade : trades) {
@@ -356,7 +356,6 @@ public class TradeService {
 		PageRequest pageable = new PageRequest(start, pageSize);
 		Page<Trade> page = new PageImpl<Trade>(trades, pageable, count);
 		return page;
-		
 	}
 	
 	/**

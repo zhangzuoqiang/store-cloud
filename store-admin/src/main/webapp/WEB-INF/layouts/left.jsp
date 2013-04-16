@@ -16,6 +16,8 @@
 		<a href="${ctx}/trade/send/waits">设置运单号</a>
 		<a href="${ctx}/trade/send/pickings">拣货单处理</a>
 		<a href="${ctx}/trade/sign/waits">用户签收处理</a>
+		<!-- 
 		<a href="${ctx}/trade/unfinish">未完成交易</a>
+		 -->
 	</div>
 </div>

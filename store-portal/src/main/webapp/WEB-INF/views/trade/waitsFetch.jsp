@@ -61,7 +61,7 @@
 			  <li><a>${date}</a></li>
 		      <li class="active"><a href="#useable" data-toggle="tab">可发送(${fn:length(useable)})</a></li>
 		      <li><a href="#failed" data-toggle="tab">库存不足(${fn:length(failed)})</a></li>
-		      <li><a href="#related" data-toggle="tab">已提交(${fn:length(related)})</a></li>
+		      <li><a href="#related" data-toggle="tab">物流通已接收(${fn:length(related)})</a></li>
 		  	</ul>
 		  	<div class="span4 pull-right">
 	  			<a id="submit" href="#" class="btn btn-success pull-right">物流通发货</a>
@@ -209,19 +209,17 @@
    		<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
 			<th>交易类型</th>
-			<th>交易状态</th>
 			<th>付款时间</th>
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
 			<th>收货地址</th>
-			<th>订单状态</th>
+			<th>处理状态</th>
 			</tr></thead>
 			<tbody>
 			<c:forEach items="${related}" var="trade">
 				<tr>
 					<td>${e:tradeType(trade.type)}</td>
-					<td>${e:tradeStatus(trade.status)}</td>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
@@ -261,13 +259,13 @@
 							物流通审核通过，快递配送中...
 						</c:if>
 						<c:if test="${trade.status == 'TRADE_WAIT_BUYER_RECEIVED'}">
-							物流通已发货 请通知买家等待签收
+							仓库已发货
 						</c:if>					
 					</td>		
 				</tr>
 			</c:forEach>
 			</tbody>
-		</table>    	    	
+		</table>
     	</div>    	    	    	
     </div>
 

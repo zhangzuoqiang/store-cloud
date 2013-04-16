@@ -42,14 +42,14 @@
 	
 	<div class="row">
 	  <div class="span2">
-	  	<label>抓取淘宝未处理订单</lable>
-	  </div>
-	  <div class="span4">
 	      <div class="btn-group" data-toggle="buttons-radio">
-			  <button onclick="javascript:fetchTrade(0)" class="btn btn-info">今天</button>
-			  <button onclick="javascript:fetchTrade(1)" class="btn btn-info">昨天</button>
-			  <button onclick="javascript:fetchTrade(2)" class="btn btn-info">前天</button>
+			  <button onclick="javascript:fetchTrade(0)" class="btn btn-info"> 今 天 </button>
+			  <button onclick="javascript:fetchTrade(1)" class="btn btn-info"> 昨 天 </button>
+			  <button onclick="javascript:fetchTrade(2)" class="btn btn-info"> 前 天 </button>
 		  </div>	  
+	  </div>
+	  <div class="span4 alert alert-info">
+		  抓取未处理交易订单（买家已付款等待商家发货）
 	  </div>
 	</div>
 

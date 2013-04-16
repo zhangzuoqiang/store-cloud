@@ -4,7 +4,6 @@
 <div id="leftbar">
 	<h1>商品管理</h1>
 	<div class="submenu">
-		<!--<a href="${ctx}/item/create">添加商品</a>-->
 		<a href="${ctx}/item/add">添加商品</a>
 		<a href="${ctx}/item/list">我的商品</a>
 	</div>
@@ -12,13 +11,10 @@
 	<div class="submenu">
 		<a href="${ctx}/store/info">库存状态</a>
 		<a href="${ctx}/store/entry/list">入库单</a>
-		<!-- 
-		<a href="#">出库单</a>
-		 -->
 	</div>
 	<h1>订单管理</h1>
 	<div class="submenu">
-		<a href="${ctx}/trade/waits">未处理订单</a>
+		<a href="${ctx}/trade/waits">淘宝未处理订单</a>
 		<a href="${ctx}/trade/received">仓库已接收</a>
 		<a href="${ctx}/trade/notifys">通知用户签收</a>
 		<a href="${ctx}/trade/notifys">物流信息追踪</a>
