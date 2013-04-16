@@ -7,7 +7,6 @@ import org.drools.core.util.StringUtils;
 
 public class TradeDesc {
 	
-	
 	private static Map<String,String> typeMap = new HashMap<String,String>();
 	private static Map<String,String> statusMap = new HashMap<String,String>();
 	
@@ -48,14 +47,12 @@ public class TradeDesc {
 		statusMap.put("TRADE_CLOSED_BY_TAOBAO", "付款以前，卖家或买家主动关闭交易");
 	}
 	
-	
 	public static String getType(String type) {
 		if (StringUtils.isEmpty(type)) {
 			return "";
 		}
 		return typeMap.get(type);
 	}
-
 
 	public static String getStatus(String status) {
 		if (StringUtils.isEmpty(status)) {
