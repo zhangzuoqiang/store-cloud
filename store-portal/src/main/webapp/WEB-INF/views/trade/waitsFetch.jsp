@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="e" uri="http://www.wlpost.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <html>
 <head>
@@ -74,7 +75,9 @@
     	<div id="useable" class="tab-pane active" >
     	<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
-			<th>建单时间</th>
+			<th>交易类型</th>
+			<th>交易状态</th>
+			<th>付款时间</th>
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
 			<th>收货地址</th>
@@ -84,6 +87,8 @@
 			<tbody>
 			<c:forEach items="${useable}" var="trade">
 				<tr>
+					<td>${e:tradeType(trade.type)}</td>
+					<td>${trade.status}</td>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
@@ -136,7 +141,9 @@
     	<div id="failed" class="tab-pane" >
    		<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
-			<th>建单时间</th>
+			<th>交易类型</th>
+			<th>交易状态</th>
+			<th>付款时间</th>
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
@@ -146,6 +153,8 @@
 			<tbody>
 			<c:forEach items="${failed}" var="trade">
 				<tr>
+					<td>${e:tradeType(trade.type)}</td>
+					<td>${e:tradeStatus(trade.status)}</td>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
@@ -199,7 +208,9 @@
     	<div id="related" class="tab-pane" >
    		<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
-			<th>建单时间</th>
+			<th>交易类型</th>
+			<th>交易状态</th>
+			<th>付款时间</th>
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
@@ -209,6 +220,8 @@
 			<tbody>
 			<c:forEach items="${related}" var="trade">
 				<tr>
+					<td>${e:tradeType(trade.type)}</td>
+					<td>${e:tradeStatus(trade.status)}</td>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">

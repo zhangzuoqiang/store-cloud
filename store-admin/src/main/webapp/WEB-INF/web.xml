@@ -4,7 +4,15 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<display-name>store</display-name>
-
+	
+  	<!-- 注册JSTL函数 -->  
+	<jsp-config>  
+	  <taglib>  
+	      <taglib-uri>http://www.wlpost.com/jsp/jstl/core</taglib-uri>  
+	      <taglib-location>/WEB-INF/tld/functions.tld</taglib-location>  
+	  </taglib>  
+	</jsp-config> 
+  
 	<!-- classpath*:/applicationContext-shiro.xml -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

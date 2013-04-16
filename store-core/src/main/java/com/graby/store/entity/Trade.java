@@ -92,6 +92,11 @@ public class Trade implements Serializable{
 	private String status;
 	
 	/**
+	 * 类型
+	 */
+	private String type;
+	
+	/**
 	 * 交易订单来源
 	 */	
 	private String tradeFrom;
@@ -493,6 +498,14 @@ public class Trade implements Serializable{
 
 	public void setSellerMobile(String sellerMobile) {
 		this.sellerMobile = sellerMobile;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

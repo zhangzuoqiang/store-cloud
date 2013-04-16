@@ -10,7 +10,9 @@
 	<link href="${ctx}/static/styles/step.min.css" type="text/css" rel="stylesheet" />
 	<link href="${ctx}/static/styles/prod.css" rel="stylesheet" media="all" />
 	<script type="text/javascript">
-	
+		$("form").submit(function(){  
+			$(":submit",this).attr("disabled","disabled");  
+		}); 
 	</script>	
 </head>
 
@@ -132,7 +134,7 @@
                 </c:if>  
                 <c:if test="${trade.shippingType == 'virtual'}">
                 虚拟发货
-                </c:if>;                                
+                </c:if>
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 送达类型(次日达/三日达)：
                 <c:if test="${trade.lgAgingType != null}">
@@ -154,10 +156,13 @@
                 ${trade.buyerMessage}
  		</div>
 	</div>
-
+	
+	<form id="mkform" action="${ctx}/trade/mkship" method="post">
+	<input type="hidden" name="tradeId" value="${trade.id}"/>
 	<div class="form-actions">
-		<a href="${ctx}/trade/mkship/${trade.id}" class="btn btn-primary disabled">审核通过， 创建出库单。</a>
+		<input id="submit_btn" class="btn btn-primary" type="submit"  value="审核通过， 创建出库单。"/>
 		<input id="cancel_btn" class="btn" type="button" value="暂不处理" onclick="history.back()"/>
 	</div>
+	</form>
 </body>
 </html>

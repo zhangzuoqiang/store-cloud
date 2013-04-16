@@ -87,9 +87,9 @@ public class AdminTradeController {
 	/**
 	 * 审核通过，创建出库单。
 	 */
-	@RequestMapping(value = "mkship/{id}")
-	public String mkship(@PathVariable("id") Long id, Model model) {
-		ShipOrder sendOrder = tradeRemote.createSendShipOrderByTradeId(id);
+	@RequestMapping(value = "mkship", method=RequestMethod.POST)
+	public String mkship(@RequestParam("tradeId") Long tradeId, Model model) {
+		ShipOrder sendOrder = tradeRemote.createSendShipOrderByTradeId(tradeId);
 		model.addAttribute("sendOrder", sendOrder);
 		return "redirect:/trade/waits";
 	}

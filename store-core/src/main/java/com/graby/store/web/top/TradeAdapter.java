@@ -57,6 +57,8 @@ public class TradeAdapter {
 		trade.setTid(tTrade.getTid());
 		trade.setPayTime(tTrade.getPayTime());
 		trade.setShippingType(tTrade.getShippingType());
+		trade.setType(tTrade.getType());
+		trade.setStatus(tTrade.getStatus());
 		
 		// 收货方信息
 		trade.setReceiverAddress(tTrade.getReceiverAddress());

@@ -1,6 +1,5 @@
 package com.graby.store.service.trade;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -39,8 +38,6 @@ import com.taobao.api.ApiException;
 @Transactional(readOnly = true)
 public class TradeService {
 	
-	private static final int DEFAULT_TOP_TRADE_FETCH = 30000;
-
 	// 是否合并淘宝订单
 	@Value("${trade.combine}")
 	private  boolean combine;
@@ -250,7 +247,7 @@ public class TradeService {
 	 */
 	@Transactional(readOnly = false)
 	public Trade createTrade(Trade trade, Long tid) {
-		// 保存至系统订单
+		// 检查是否已关联
 		Long tradeId =getRelatedTradeId(tid);
 		if (tradeId == null) {
 			// 状态等待物流通审核
