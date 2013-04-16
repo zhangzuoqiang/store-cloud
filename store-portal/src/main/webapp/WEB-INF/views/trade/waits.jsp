@@ -21,7 +21,22 @@
 		});
 	});
 	
+	function delayEnable(time){
+	    var hander = setInterval(function () {
+	    	time--;
+        if (time > 0) {
+        	$('#info').text('重新抓单需等待' +time+'秒');
+        } else {
+        	clearInterval(hander);
+        	$('#info').text(' 抓取未处理交易订单（买家已付款等待商家发货）');
+	        $('.btn').attr('disabled',false);
+        }
+	    }, 1000);	
+	}
+	
 	function fetchTrade(day) {
+		$('.btn').attr('disabled',true);
+		delayEnable(60);
 		var action = "${ctx}/trade/waits/fetch?preday=" + day;
 		htmlobj=$.ajax({
 			url:action,
@@ -48,7 +63,7 @@
 			  <button onclick="javascript:fetchTrade(2)" class="btn btn-info"> 前 天 </button>
 		  </div>	  
 	  </div>
-	  <div class="span4 alert alert-info">
+	  <div id="info" class="span4 alert alert-info">
 		  抓取未处理交易订单（买家已付款等待商家发货）
 	  </div>
 	</div>
