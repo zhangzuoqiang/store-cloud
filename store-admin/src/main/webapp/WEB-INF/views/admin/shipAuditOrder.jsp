@@ -11,7 +11,7 @@
 	<link href="${ctx}/static/styles/pure.css" rel="stylesheet" media="all" />
 	<script type="text/javascript">
 		function submits(id) {
-			var action = "${ctx}/trade/send/submits?action=ship/audit/done&ids=" + id;
+			var action = "${ctx}/trade/send/submits?action=ship/ajax/done&ids=" + id;
 			htmlobj=$.ajax({
 				url:action,
 				async:true,

@@ -8,15 +8,19 @@
     <div class="navbar-inner">
         <div class="nav-collapse">
           <ul class="nav">
-            <li ><a href="#"><strong>物流通</strong> 电商仓储配送中心</a></li>
-            <li class="active"><a href="#"><shiro:principal property="shopname"/></a></li>
+            <li><a  href="#"> &nbsp;&nbsp;<strong>物流通</strong>&nbsp;电商仓储配送中心</a></li>
+            <li></li>
+            <li class="active"><a href="#"><i class="icon-user"></i>&nbsp;<shiro:principal property="shopname"/></a></li>
           </ul>
+          <ul class="nav">
+            
+          </ul>          
           <ul class="nav pull-right">
+          	<li><a href="#"><i class="icon-comment"></i>消息</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">功能 <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>功能 <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">消息</a></li>
-                <li><a href="#">待办事项</a></li>
+                <li><a href="#">设置</a></li>
                 <li class="divider"></li>
                 <li><a href="#">退出</a></li>
               </ul>

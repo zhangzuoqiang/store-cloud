@@ -38,7 +38,7 @@ public class Desc {
 		tradeStatusMap.put("TRADE_NO_CREATE_PAY", "没有创建支付宝交易");
 		tradeStatusMap.put("WAIT_BUYER_PAY", "等待买家付款");
 		tradeStatusMap.put("SELLER_CONSIGNED_PART", "卖家部分发货");
-		tradeStatusMap.put("WAIT_SELLER_SEND_GOODS", "买家已付款，等待卖家发货");
+		tradeStatusMap.put("WAIT_SELLER_SEND_GOODS", "等待卖家发货");
 		tradeStatusMap.put("WAIT_BUYER_CONFIRM_GOODS", "等待买家确认收货");
 		tradeStatusMap.put("TRADE_BUYER_SIGNED", "买家已签收");
 		tradeStatusMap.put("TRADE_FINISHED", "交易成功");

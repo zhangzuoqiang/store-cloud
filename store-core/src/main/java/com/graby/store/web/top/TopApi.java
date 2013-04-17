@@ -329,39 +329,7 @@ public class TopApi {
 		throwIfError(resp);
 		return resp.getTrade();
 	}
-	
-//	/**
-//	 * 批量获取交易详细信息
-//	 * @param tids
-//	 * @return
-//	 * @throws ApiException 
-//	 */
-//	public List<Trade> getFullinfoTrades(String tids) throws ApiException {
-//		TopatsTradesFullinfoGetRequest req=new TopatsTradesFullinfoGetRequest();
-//		req.setFields(TRADE_FULLINFO_FIELDS);
-//		req.setTids(tids);
-//		TopatsTradesFullinfoGetResponse resp = client.execute(req , sessionKey());
-//		//Long taskId = resp.getTask().getTaskId();
-//		return ayncGetTrades(null);
-//	}
-//	private List<Trade> ayncGetTrades(Long taskId) throws ApiException {
-//		List<Trade> result = new ArrayList<Trade>();
-//		TopatsResultGetRequest req = new TopatsResultGetRequest(); 
-//		req.setTaskId(3588369L); 
-//		TopatsResultGetResponse rsp = client.execute(req); 
-//		for (Subtask subtask : rsp.getTask().getSubtasks()) { 
-//			ObjectJsonParser<TradeFullinfoGetResponse> parser = new ObjectJsonParser<TradeFullinfoGetResponse>(TradeFullinfoGetResponse.class);
-//			TradeFullinfoGetResponse tradeRsp = parser.parse(subtask.getSubTaskResult()); 
-//			if (tradeRsp.isSuccess()) { 
-//				Trade trade = tradeRsp.getTrade();
-//				result.add(trade);
-//			} else { 
-//				throwIfError(tradeRsp);
-//			} 
-//		}
-//		return result;
-//	}
-	
+
 	/**
 	 * 用户调用该接口可实现自己联系发货（线下物流），使用该接口发货，交易订单状态会直接变成卖家已发货。不支持货到付款、在线下单类型的订单。
 	 * @param tid 交易号

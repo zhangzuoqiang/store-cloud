@@ -53,7 +53,6 @@
 	</script>
 </head>
 <body>
-	<br>
 	<div class="navbar">
 	  <div class="navbar-inner">
 	    <div class="container">
