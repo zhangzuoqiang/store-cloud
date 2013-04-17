@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 
 import com.graby.store.base.remote.service.RemotingService;
 import com.graby.store.entity.ShipOrder;
-import com.graby.store.service.inventory.InvAccountEntrys;
+import com.graby.store.service.inventory.AccountEntryArray;
 import com.graby.store.service.wms.ShipOrderService;
 import com.taobao.api.ApiException;
 
@@ -59,7 +59,7 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	}
 
 	@Override
-	public void recivedEntryOrder(Long id, List<InvAccountEntrys> entrys) {
+	public void recivedEntryOrder(Long id, List<AccountEntryArray> entrys) {
 		shipOrderService.recivedEntryOrder(id, entrys);
 	}
 

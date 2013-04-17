@@ -24,8 +24,8 @@ import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.User;
-import com.graby.store.service.inventory.InvAccountEntrys;
-import com.graby.store.service.inventory.InvAccountTemplate;
+import com.graby.store.service.inventory.AccountEntryArray;
+import com.graby.store.service.inventory.AccountTemplate;
 import com.graby.store.service.inventory.InventoryService;
 import com.graby.store.service.trade.TradeService;
 import com.graby.store.web.auth.ShiroContextUtils;
@@ -229,7 +229,7 @@ public class ShipOrderService {
 						order.getCreateUser().getId(), 
 						detail.getItem().getId(),
 						detail.getNum(), 
-						InvAccountTemplate.SHIP_ENTRY_SEND);
+						AccountTemplate.SHIP_ENTRY_SEND);
 			}
 			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_STORAGE_RECEIVED);
 			return true;
@@ -253,7 +253,7 @@ public class ShipOrderService {
 						order.getCreateUser().getId(), 
 						detail.getItem().getId(),
 						detail.getNum(), 
-						InvAccountTemplate.SHIP_ENTRY_CANCEL);
+						AccountTemplate.SHIP_ENTRY_CANCEL);
 			}
 			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_SELLER_SEND);
 			return true;
@@ -268,10 +268,10 @@ public class ShipOrderService {
 	 * @param id
 	 * @param entrys
 	 */
-	public void recivedEntryOrder(Long id, List<InvAccountEntrys> entrys) {
+	public void recivedEntryOrder(Long id, List<AccountEntryArray> entrys) {
 		// 库存记账
 		if (CollectionUtils.isNotEmpty(entrys)) {
-			for (InvAccountEntrys accountEntrys : entrys) {
+			for (AccountEntryArray accountEntrys : entrys) {
 				inventoryService.inputs(accountEntrys.getCentroId(), 
 						accountEntrys.getUserId(), 
 						accountEntrys.getItemId(),
@@ -518,7 +518,7 @@ public class ShipOrderService {
 						sendOrderEntity.getCreateUser().getId(),
 						detail.getItem().getId(),
 						detail.getNum(), 
-						InvAccountTemplate.STORAGE_SEND);
+						AccountTemplate.STORAGE_SEND);
 			}
 		}
 		// 更新出货单状态-等待用户签收
@@ -546,7 +546,7 @@ public class ShipOrderService {
 						order.getCreateUser().getId(),
 						detail.getItem().getId(),
 						detail.getNum(), 
-						InvAccountTemplate.BUYER_RECEIVED);
+						AccountTemplate.BUYER_RECEIVED);
 			}
 		}
 		return order;

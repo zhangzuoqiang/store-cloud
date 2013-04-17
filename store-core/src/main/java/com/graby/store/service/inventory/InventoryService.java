@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.graby.store.dao.mybatis.InventoryDao;
-import com.graby.store.service.inventory.InvAccounts.Account;
+import com.graby.store.service.inventory.Accounts.Account;
 
 @Component
 @Transactional(readOnly = true)
@@ -29,7 +29,7 @@ public class InventoryService {
 	 * @param template
 	 *            记账模板
 	 */
-	public void input(Long centroId, Long userId, Long itemId, long num, InvAccountTemplate template) {
+	public void input(Long centroId, Long userId, Long itemId, long num, AccountTemplate template) {
 		// 借方
 		Account credit = template.getCredit();
 		increase(centroId, userId, itemId, credit.getCode(), credit.getDirection().isCredit() ? num : -num);
@@ -46,8 +46,8 @@ public class InventoryService {
 	 * @param itemId
 	 * @param entrys
 	 */
-	public void inputs(Long centroId, Long userId, Long itemId, InvAccountEntry[] entrys) {
-		for (InvAccountEntry e : entrys) {
+	public void inputs(Long centroId, Long userId, Long itemId, AccountEntry[] entrys) {
+		for (AccountEntry e : entrys) {
 			input(centroId, userId, itemId, e.getNum(), e.getAccountTemplate());
 		}
 	}

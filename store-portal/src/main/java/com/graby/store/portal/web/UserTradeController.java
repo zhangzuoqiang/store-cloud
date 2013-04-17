@@ -19,7 +19,7 @@ import com.graby.store.base.GroupMap;
 import com.graby.store.entity.Item;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeOrder;
-import com.graby.store.service.inventory.InvAccounts;
+import com.graby.store.service.inventory.Accounts;
 import com.graby.store.service.inventory.InventoryService;
 import com.graby.store.service.item.ItemService;
 import com.graby.store.service.trade.TradeService;
@@ -185,7 +185,7 @@ public class UserTradeController {
 			if (itemId == null) {
 				order.setStockNum(-1);
 			} else {
-				long stockNum = inventoryService.getValue(1L, itemId, InvAccounts.CODE_SALEABLE);
+				long stockNum = inventoryService.getValue(1L, itemId, Accounts.CODE_SALEABLE);
 				order.setStockNum(stockNum);
 				Item item = itemServie.getItem(itemId);
 				order.setItem(item);

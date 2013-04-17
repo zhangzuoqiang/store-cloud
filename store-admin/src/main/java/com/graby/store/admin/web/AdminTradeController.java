@@ -24,7 +24,7 @@ import com.graby.store.remote.InventoryRemote;
 import com.graby.store.remote.ItemRemote;
 import com.graby.store.remote.ShipOrderRemote;
 import com.graby.store.remote.TradeRemote;
-import com.graby.store.service.inventory.InvAccounts;
+import com.graby.store.service.inventory.Accounts;
 import com.taobao.api.ApiException;
 
 
@@ -75,7 +75,7 @@ public class AdminTradeController {
 				order.setStockNum(-1);
 			} else {
 				// 已关联的设置库存
-				long stockNum = inventoryRemote.getValue(1L, itemId, InvAccounts.CODE_SALEABLE);
+				long stockNum = inventoryRemote.getValue(1L, itemId, Accounts.CODE_SALEABLE);
 				order.setStockNum(stockNum);
 				Item item = itemRemote.getItem(itemId);
 				order.setItem(item);

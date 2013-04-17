@@ -2,13 +2,13 @@ package com.graby.store.service.inventory;
 
 import java.io.Serializable;
 
-public class InvAccountEntry implements Serializable  {
+public class AccountEntry implements Serializable  {
 	
 	private static final long serialVersionUID = -5972335242487621493L;
-	private InvAccountTemplate accountTemplate;
+	private AccountTemplate accountTemplate;
 	private long num;
 
-	public InvAccountEntry(InvAccountTemplate template, long num) {
+	public AccountEntry(AccountTemplate template, long num) {
 		this.accountTemplate = template;
 		this.num = num;
 	}
@@ -17,7 +17,7 @@ public class InvAccountEntry implements Serializable  {
 		return num;
 	}
 
-	public InvAccountTemplate getAccountTemplate() {
+	public AccountTemplate getAccountTemplate() {
 		return accountTemplate;
 	}
 }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 科目 
  */
-public class InvAccounts {
+public class Accounts {
 
 
 	public static final String CODE_SHOP_INVENTORY = "201";

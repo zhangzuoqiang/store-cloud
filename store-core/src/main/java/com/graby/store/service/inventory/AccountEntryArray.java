@@ -2,19 +2,19 @@ package com.graby.store.service.inventory;
 
 import java.io.Serializable;
 
-public class InvAccountEntrys implements Serializable {
+public class AccountEntryArray implements Serializable {
 
 	private static final long serialVersionUID = -5991439870190044027L;
 	private Long centroId;
 	private Long userId;
 	private Long itemId;
-	private InvAccountEntry[] entrys;
+	private AccountEntry[] entrys;
 
 	public Long getItemId() {
 		return itemId;
 	}
 
-	public InvAccountEntry[] getEntrys() {
+	public AccountEntry[] getEntrys() {
 		return entrys;
 	}
 
@@ -22,7 +22,7 @@ public class InvAccountEntrys implements Serializable {
 		this.itemId = itemId;
 	}
 
-	public void setEntrys(InvAccountEntry[] entrys) {
+	public void setEntrys(AccountEntry[] entrys) {
 		this.entrys = entrys;
 	}
 

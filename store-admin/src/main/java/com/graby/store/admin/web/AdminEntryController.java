@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.remote.ShipOrderRemote;
-import com.graby.store.service.inventory.InvAccountEntry;
-import com.graby.store.service.inventory.InvAccountEntrys;
-import com.graby.store.service.inventory.InvAccountTemplate;
+import com.graby.store.service.inventory.AccountEntry;
+import com.graby.store.service.inventory.AccountEntryArray;
+import com.graby.store.service.inventory.AccountTemplate;
 import com.taobao.api.ApiException;
 
 @Controller
@@ -75,15 +75,15 @@ public class AdminEntryController {
 		Long orderId = Long.parseLong(map.get("order_id"));
 		Set<Long> itemKeys = itemKeys(map, "item_");
 		
-		List<InvAccountEntrys> accountItems = new ArrayList<InvAccountEntrys>();
+		List<AccountEntryArray> accountItems = new ArrayList<AccountEntryArray>();
 		// 库存记录
 		for (Long itemId : itemKeys) {
-			InvAccountEntrys entrys = new  InvAccountEntrys();
-			InvAccountEntry[] entryArray = new InvAccountEntry[4];
-			entryArray[0] = new InvAccountEntry(InvAccountTemplate.STORAGE_RECEIVED_SALEABLE, Long.parseLong(map.get("ok_" + itemId)));
-			entryArray[1] = new InvAccountEntry(InvAccountTemplate.STORAGE_RECEIVED_BADNESS_DEFECT, Long.parseLong(map.get("err1_" + itemId)));
-			entryArray[2] = new InvAccountEntry(InvAccountTemplate.STORAGE_RECEIVED_BADNESS_DEMAGE_MACHINE, Long.parseLong(map.get("err2_" + itemId)));
-			entryArray[3] = new InvAccountEntry(InvAccountTemplate.STORAGE_RECEIVED_BADNESS_DEMAGE_BOX, Long.parseLong(map.get("err3_" + itemId)));
+			AccountEntryArray entrys = new  AccountEntryArray();
+			AccountEntry[] entryArray = new AccountEntry[4];
+			entryArray[0] = new AccountEntry(AccountTemplate.STORAGE_RECEIVED_SALEABLE, Long.parseLong(map.get("ok_" + itemId)));
+			entryArray[1] = new AccountEntry(AccountTemplate.STORAGE_RECEIVED_BADNESS_DEFECT, Long.parseLong(map.get("err1_" + itemId)));
+			entryArray[2] = new AccountEntry(AccountTemplate.STORAGE_RECEIVED_BADNESS_DEMAGE_MACHINE, Long.parseLong(map.get("err2_" + itemId)));
+			entryArray[3] = new AccountEntry(AccountTemplate.STORAGE_RECEIVED_BADNESS_DEMAGE_BOX, Long.parseLong(map.get("err3_" + itemId)));
 			entrys.setItemId(itemId);
 			entrys.setEntrys(entryArray);
 			entrys.setCentroId(centroId);

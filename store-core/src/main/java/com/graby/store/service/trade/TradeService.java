@@ -25,7 +25,7 @@ import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 import com.graby.store.entity.TradeOrder;
-import com.graby.store.service.inventory.InvAccounts;
+import com.graby.store.service.inventory.Accounts;
 import com.graby.store.service.inventory.InventoryService;
 import com.graby.store.service.item.ItemService;
 import com.graby.store.service.wms.ShipOrderService;
@@ -102,7 +102,7 @@ public class TradeService {
 						order.setStockNum(-1);
 						useable = false;
 					} else {
-						long stockNum = inventoryService.getValue(1L, itemId, InvAccounts.CODE_SALEABLE);
+						long stockNum = inventoryService.getValue(1L, itemId, Accounts.CODE_SALEABLE);
 						order.setStockNum(stockNum);
 						Item item = itemServie.getItem(itemId);
 						order.setItem(item);

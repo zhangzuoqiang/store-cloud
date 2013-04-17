@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 
 import com.graby.store.entity.ShipOrder;
-import com.graby.store.service.inventory.InvAccountEntrys;
+import com.graby.store.service.inventory.AccountEntryArray;
 import com.taobao.api.ApiException;
 
 /**
@@ -85,7 +85,7 @@ public interface ShipOrderRemote {
 	 * @param id
 	 * @param entrys
 	 */
-	public void recivedEntryOrder(Long id, List<InvAccountEntrys> entrys);
+	public void recivedEntryOrder(Long id, List<AccountEntryArray> entrys);
 
 	/**
 	 * 查询所有出库单(未处理)
