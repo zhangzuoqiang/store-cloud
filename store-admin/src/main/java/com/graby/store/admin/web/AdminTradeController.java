@@ -1,5 +1,6 @@
 package com.graby.store.admin.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,16 +165,43 @@ public class AdminTradeController {
 	}	
 	
 	/**
-	 * 订单已拣货，提交到系统。
+	 * 订单已拣货，审核通过提交到系统。（批量 不建议）
 	 * @param ids
 	 * @return
 	 * @throws NumberFormatException
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "send/submits")
-	public String submits(@RequestParam(value = "ids", defaultValue = "") Long[] ids) throws NumberFormatException, ApiException {
+	public String submits(
+			@RequestParam(value = "ids", defaultValue = "") Long[] ids,
+			@RequestParam(value = "action", defaultValue = "send/pickings") String action) throws NumberFormatException, ApiException {
 		shipOrderRemote.submits(ids);
-		return "redirect:/trade/send/pickings";
+		return "redirect:/trade/" + action;
+	}	
+	
+	@RequestMapping(value = "ship/audit")
+	public String auditForm() {
+		return "admin/shipAuditForm";
+	}
+	
+	@RequestMapping(value = "ship/audit/ajax")
+	public String auditOrder(@RequestParam(value = "q", defaultValue = "")String q,	Model model) {
+		List<ShipOrder> orders = shipOrderRemote.findSendOrderByQ(q);
+		List<Entry> entrys = new ArrayList<Entry>();
+		for (ShipOrder shipOrder : orders) {
+			Entry entry = new Entry();
+			Trade tarde = tradeRemote.getTrade(shipOrder.getTradeId());
+			entry.setOrder(shipOrder);
+			entry.setTrade(tarde);
+			entrys.add(entry);
+		}
+		model.addAttribute("entrys", entrys);
+		return "admin/shipAuditOrder";
+	}
+	
+	@RequestMapping(value = "ship/audit/done")
+	public String auditdone() {
+		return "admin/shipAuditDone";
 	}	
 	
 	
@@ -251,4 +279,20 @@ public class AdminTradeController {
 		return "redirect:/trade/unfinish";
 	}	
 	
+	public class Entry {
+		private Trade trade;
+		private ShipOrder order;
+		public Trade getTrade() {
+			return trade;
+		}
+		public ShipOrder getOrder() {
+			return order;
+		}
+		public void setTrade(Trade trade) {
+			this.trade = trade;
+		}
+		public void setOrder(ShipOrder order) {
+			this.order = order;
+		}
+	}	
 }

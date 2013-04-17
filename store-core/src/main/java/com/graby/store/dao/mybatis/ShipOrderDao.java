@@ -30,5 +30,6 @@ public interface ShipOrderDao {
 	List<ShipOrder> findSendOrderByStatus(Long centroId, String status, int rownum);
 	List<ShipOrder> findSendOrderSignWaits();
 	List<ShipOrder> findSendOrders(Long[] orderIds);
+	List<ShipOrder> findSendOrderByQ(String q);
 	
 }

@@ -412,6 +412,11 @@ public class ShipOrderService {
 		}
 	}
 	
+	/**
+	 * 根据出库单ID查询
+	 * @param orderIds
+	 * @return
+	 */
 	public List<ShipOrder> findSendOrders(Long[] orderIds) {
 		if (orderIds == null || orderIds.length == 0) {
 			return null;
@@ -422,7 +427,15 @@ public class ShipOrderService {
 		}
 		return orders;
 	}
-	
+
+	/**
+	 * 根据运单号或昵称查询出库单
+	 * @param q
+	 * @return
+	 */
+	public List<ShipOrder> findSendOrderByQ(String q) {
+		return shipOrderDao.findSendOrderByQ(q);
+	}
 	
 	/**
 	 * (仓库方)批量提交出库单，等待用户签收.

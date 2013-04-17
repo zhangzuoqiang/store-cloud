@@ -1,0 +1,96 @@
+/*
+ * 根据省份选择快递公司
+ */
+
+package com.graby.store.rule
+ 
+import com.graby.store.entity.ShipOrder;
+
+#顺丰速运
+rule "SF"
+    when
+        $order : ShipOrder(receiverState == "湖南省")
+    then
+        $order.setExpressCompany("SF");
+end
+
+#圆通速递
+rule "YTO"
+    when
+        $order : ShipOrder(receiverState == "广东省")
+    then
+    	$order.setExpressCompany("YTO");
+end
+
+#邮政EMS
+rule "POST"
+    when
+        $order : ShipOrder(receiverState == "浙江省")
+    then
+   		$order.setExpressCompany("POST");
+end
+
+#申通速递
+rule "STO"
+    when
+        $order : ShipOrder(receiverState == "江苏省")
+    then
+      	$order.setExpressCompany("STO");
+end
+
+#韵达速递
+rule "YUNDA"
+    when
+        $order : ShipOrder(receiverState == "北京")
+    then
+        $order.setExpressCompany("YUNDA");
+end
+
+#中通速递
+rule "ZTO"
+    when
+        $order : ShipOrder(receiverState == "深圳")
+    then
+        $order.setExpressCompany("ZTO");
+end
+
+#汇通速递
+rule "HTKY"
+    when
+        $order : ShipOrder(receiverState == "上海")
+    then
+        $order.setExpressCompany("HTKY");
+end
+
+#天天速递
+rule "TTKDEX"
+    when
+        $order : ShipOrder(receiverState == "广西省")
+    then
+        $order.setExpressCompany("TTKDEX");
+end
+
+#德邦物流
+rule "DBL"
+    when
+        $order : ShipOrder(receiverState == "台湾")
+    then
+        $order.setExpressCompany("DBL");
+end
+
+#龙邦速递
+rule "LB"
+    when
+        $order : ShipOrder(receiverState == "江西省")
+    then
+        $order.setExpressCompany("LB");
+end
+
+
+#全峰快递
+rule "QFKD"
+    when
+        $order : ShipOrder(receiverState == "陕西省")
+    then
+        $order.setExpressCompany("QFKD");
+end

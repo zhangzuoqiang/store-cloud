@@ -108,6 +108,11 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	public void reExpressShipOrder(Long[] orderids) {
 		shipOrderService.reExpressShipOrder(orderids);
 	}	
+	
+	@Override
+	public List<ShipOrder> findSendOrderByQ(String q) {
+		return shipOrderService.findSendOrderByQ(q);
+	}	
 
 	@Override
 	public List<ShipOrder> findSendOrders(Long[] orderIds) {
@@ -119,5 +124,7 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 	public void submits(Long[] orderids) {
 		shipOrderService.submits(orderids);
 	}
+
+
 
 }

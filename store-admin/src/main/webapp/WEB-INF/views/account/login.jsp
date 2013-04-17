@@ -9,17 +9,19 @@
 <head>
 	<title>登录页</title>
 	<script src="${ctx}/static/jquery-validation/1.10.0/jquery.validate.ext.js" type="text/javascript"></script>
-	<link href="${ctx}/static/bootstrap/2.2.2/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-	<link href="${ctx}/static/jquery-validation/1.10.0/validate.css" type="text/css" rel="stylesheet" />	
+	<link href="${ctx}/static/bootstrap/2.2.2/css/bootstrap.css" type="text/css" rel="stylesheet" />
+	<link href="${ctx}/static/jquery-validation/1.10.0/validate.css" type="text/css" rel="stylesheet" />
+	<link href="${ctx}/static/styles/flat-ui.css" type="text/css" rel="stylesheet" />	
 	<script>
 		$(document).ready(function() {
+			$("#username").focus();
 			$("#loginForm").validate();
 		});
 	</script>
 </head>
 
 <body>
-	<form id="loginForm" action="${ctx}/login" method="post" class="form-horizontal">
+	<form id="loginForm" action="${ctx}/login" method="post" class="form-horizontal login-form">
 	<%
 	String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 	if(error != null){
@@ -35,24 +37,27 @@
 		<div class="control-group">
 			<label for="username" class="control-label">名称:</label>
 			<div class="controls">
-				<input type="text" id="username" name="username"  value="${username}" class="input-large required"/>
+				<input type="text" id="username" name="username"  value="${username}" class="login-field required" value="" placeholder="Enter your name" />
+				<label class="login-field-icon fui-man-16" for="login-name"></label>
 			</div>
 		</div>
 		<div class="control-group">
 			<label for="password" class="control-label">密码:</label>
 			<div class="controls">
-				<input type="password" id="password" name="password" class="input-large required"/>
+				<input type="password" id="password" name="password" class="input-large login-field required"/>
+				 <label class="login-field-icon fui-lock-16" for="login-pass"></label>
 			</div>
 		</div>
 				
 		<div class="control-group">
 			<div class="controls">
 				<label class="checkbox" for="rememberMe"><input type="checkbox" id="rememberMe" name="rememberMe"/> 记住我</label>
-				<input id="submit_btn" class="btn btn-primary" type="submit" value="登录"/>
+				<input id="submit_btn" class="btn btn-primary " type="submit" value="登录"/>
 			 	<span class="help-block">(管理员: <b>admin/admin</b>)</span>
 			</div>
 		</div>
 	</fieldset>
 	</form>
+	
 </body>
 </html>

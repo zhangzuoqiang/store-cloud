@@ -231,6 +231,39 @@
 		WHERE type='send' and a.status='WAIT_BUYER_RECEIVED'
 	</select>	
 	
+	<!-- 根据昵称或运单号查询出库单 -->
+	<select id="findSendOrderByQ" resultMap="ShipOrderEntity">
+	SELECT
+		b.shop_name as "createUser.shopName", 
+		create_date as "createDate",
+		a.id, a.centro_id as centroId,
+		a.origin_persion as "originPersion",
+		a.origin_phone as "originPhone",		
+		a.receiver_address as "receiverAddress", 
+		a.receiver_city as "receiverCity",
+		a.receiver_state as "receiverState", 
+		a.receiver_name as "receiverName", 
+		a.receiver_mobile as "receiverMobile",
+		a.receiver_phone as "receiverPhone", 
+		a.receiver_district as "receiverDistrict", 
+		a.receiver_zip as "receiverZip",
+		a.seller_memo as "sellerMemo",
+		a.seller_mobile as "sellerMobile",
+		a.seller_phone as "sellerPhone",
+		a.buyer_nick as "buyerNick",
+		a.buyer_memo as "buyerMemo",
+		a.buyer_message as "buyerMessage" ,
+		a.remark,
+		a.orderno,a.status,
+		a.express_company as "expressCompany",
+		a.express_orderno as "expressOrderno",
+		a.trade_id as "tradeId"
+	FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
+	WHERE a.type='send' AND (a.express_orderno=#{0} OR a.buyer_nick=#{0} )
+	LIMIT 0, 5;
+	</select>
+
+	
 	<!-- 运单打印成功，更新出货单物流信息。 -->
 	<update id="setSendOrderExpress" parameterType="map">
         update sc_ship_order set 

@@ -134,6 +134,13 @@ public interface ShipOrderRemote {
 	public List<ShipOrder> findSendOrders(Long[] orderIds);	
 	
 	/**
+	 * 根据运单号或昵称查询出库单
+	 * @param q
+	 * @return
+	 */
+	public List<ShipOrder> findSendOrderByQ(String q);
+	
+	/**
 	 * 批量提交出库单，等待用户签收.
 	 * @param orderids
 	 */

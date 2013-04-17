@@ -173,7 +173,7 @@ public class UserTradeController {
 			return "redirect:/trade/wait";
 		}
 
-		com.taobao.api.domain.Trade trade = topApi.getTrade(tid);
+		com.taobao.api.domain.Trade trade = topApi.getFullinfoTrade(tid);
 		Trade sTrade = tradeAdapter.adapter(trade);
 		List<TradeOrder> orders = sTrade.getOrders();
 		for (TradeOrder order : orders) {

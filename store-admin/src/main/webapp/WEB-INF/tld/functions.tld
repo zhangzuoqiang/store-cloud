@@ -10,13 +10,20 @@
     
   <function>
     <name>tradeType</name>  
-    <function-class>com.graby.store.web.jstl.TradeDesc</function-class>  
-    <function-signature>java.lang.String getType(java.lang.String)</function-signature>  
+    <function-class>com.graby.store.web.jstl.Desc</function-class>  
+    <function-signature>java.lang.String getTradeType(java.lang.String)</function-signature>  
   </function>
   
   <function>
     <name>tradeStatus</name>  
-    <function-class>com.graby.store.web.jstl.TradeDesc</function-class>  
-    <function-signature>java.lang.String getStatus(java.lang.String)</function-signature>  
-  </function>     
+    <function-class>com.graby.store.web.jstl.Desc</function-class>  
+    <function-signature>java.lang.String getTradeStatus(java.lang.String)</function-signature>  
+  </function>
+  
+  <function>
+    <name>shipStatus</name>  
+    <function-class>com.graby.store.web.jstl.Desc</function-class>  
+    <function-signature>java.lang.String getShipStatus(java.lang.String)</function-signature>  
+  </function>
+    
 </taglib>

@@ -102,9 +102,18 @@ public class TopApi {
 		client = new DefaultTaobaoClient(serverUrl, appKey, appSecret, "json");
 	}
 	
-	// 商品属性
-	private static final String ITEM_PROPS = "num_iid,title,detail_url,props,props_name,valid_thru,sku";
+	/**
+	 * 商品字段
+	 */
+	private static final String ITEM_FIELDS = "num_iid,title,detail_url,props,props_name,valid_thru,sku";
 
+	/**
+	 * 交易详细字段
+	 */
+	private static final String TRADE_FULLINFO_FIELDS = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
+			+ "seller_nick,seller_mobile,seller_phone,seller_memo,buyer_nick,buyer_memo,has_buyer_message,buyer_message,buyer_area,shipping_type,"
+			+ "receiver_name,receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip,receiver_mobile,receiver_phone,orders";
+	
 	/**
 	 * 获取当前卖家nick
 	 * 
@@ -115,7 +124,7 @@ public class TopApi {
 		UserSellerGetRequest req=new UserSellerGetRequest();
 		req.setFields("nick");
 		UserSellerGetResponse resp = client.execute(req, sessionKey);
-		errorMsgConvert(resp);
+		throwIfError(resp);
 		return resp.getUser().getNick();
 	}
 
@@ -130,7 +139,7 @@ public class TopApi {
 		req.setFields("sid,cid,title,nick,desc,bulletin,pic_path,created,modified");
 		req.setNick(nick);
 		ShopGetResponse resp = client.execute(req);
-		errorMsgConvert(resp);
+		throwIfError(resp);
 		return resp.getShop();
 	}
 
@@ -198,8 +207,8 @@ public class TopApi {
 		req.setQ(q);
 		req.setPageNo(pageNo);
 		req.setPageSize(pageSize);
-		ItemsOnsaleGetResponse resp = client.execute(req, session());
-		errorMsgConvert(resp);
+		ItemsOnsaleGetResponse resp = client.execute(req, sessionKey());
+		throwIfError(resp);
 		return resp.getItems();
 	}
 	
@@ -212,14 +221,14 @@ public class TopApi {
 		req.setQ(q);
 		req.setPageNo(pageNo);
 		req.setPageSize(pageSize);
-		ItemsInventoryGetResponse resp = client.execute(req, session());
-		errorMsgConvert(resp);
+		ItemsInventoryGetResponse resp = client.execute(req, sessionKey());
+		throwIfError(resp);
 		return resp.getItems();
 	}
 
 
 	/**
-	 * 获取单个商品
+	 * 获取单个商品详细信息
 	 * 
 	 * @param numId
 	 * @return
@@ -227,11 +236,28 @@ public class TopApi {
 	 */
 	public Item getItem(Long numId) throws ApiException {
 		ItemGetRequest req = new ItemGetRequest();
-		req.setFields(ITEM_PROPS);
+		req.setFields(ITEM_FIELDS);
 		req.setNumIid(numId);
-		ItemGetResponse resp = client.execute(req, session());
-		errorMsgConvert(resp);
+		ItemGetResponse resp = client.execute(req, sessionKey());
+		throwIfError(resp);
 		return resp.getItem();
+	}
+	
+	/**
+	 * 批量获取商品详细信息
+	 * @param numIids
+	 * @return
+	 * @throws ApiException
+	 */
+	public List<Item> getItems(String numIids) throws ApiException {
+		if (numIids == null || numIids.trim().length() == 0) {
+			return null;
+		}
+		ItemsListGetRequest req=new ItemsListGetRequest();
+		req.setFields(ITEM_FIELDS);
+		req.setNumIids(numIids);
+		ItemsListGetResponse resp = client.execute(req , sessionKey());
+		return resp.getItems();
 	}
 	
 	/**
@@ -248,31 +274,13 @@ public class TopApi {
 		req.setNumIid(numIid);
 		ItemSkuGetResponse resp = client.execute(req);
 		return resp.getSku();
-	}
-	
-	/**
-	 * 批量获取商品
-	 * @param numIids
-	 * @return
-	 * @throws ApiException
-	 */
-	public List<Item> getItems(String numIids) throws ApiException {
-		if (numIids == null || numIids.trim().length() == 0) {
-			return null;
-		}
-		ItemsListGetRequest req=new ItemsListGetRequest();
-		req.setFields(ITEM_PROPS);
-		req.setNumIids(numIids);
-		ItemsListGetResponse resp = client.execute(req , session());
-		return resp.getItems();
-	}
+	}	
 
 	/**
 	 * 增量获取待发货交易数据
-	 * @param status TODO
+	 * @param status 
 	 * @param start
 	 * @param end
-	 * @param sessionKey
 	 * @throws Exception
 	 */
 	public List<Trade> getTrades(String status, Date start, Date end) throws Exception {
@@ -286,17 +294,17 @@ public class TopApi {
 		req.setEndModified(end);
 		req.setPageSize(50L);
 		req.setUseHasNext(false);
-		TradesSoldIncrementGetResponse rsp = client.execute(req, session());
+		TradesSoldIncrementGetResponse rsp = client.execute(req, sessionKey());
 		List<Trade> trades = new ArrayList<Trade>();
 		if (rsp.isSuccess()) {
 			long pageCount = (rsp.getTotalResults() + req.getPageSize() - 1) / req.getPageSize();
 			while (pageCount > 0) {
 				req.setPageNo(pageCount);
 				req.setUseHasNext(true); // 终止统计
-				rsp = client.execute(req, session());
+				rsp = client.execute(req, sessionKey());
 				if (rsp.isSuccess()) {
 					for (Trade t : rsp.getTrades()) {
-						Trade trade = getTrade(t.getTid());
+						Trade trade = getFullinfoTrade(t.getTid());
 						trades.add(trade);
 					}
 					pageCount--;
@@ -313,17 +321,46 @@ public class TopApi {
 	 * @return
 	 * @throws ApiException
 	 */
-	public Trade getTrade(Long tid) throws ApiException {
+	public Trade getFullinfoTrade(Long tid) throws ApiException {
 		TradeFullinfoGetRequest req = new TradeFullinfoGetRequest();
-		String props = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
-				+ "seller_nick,seller_mobile,seller_phone,seller_memo,buyer_nick,buyer_memo,has_buyer_message,buyer_message,buyer_area,shipping_type,"
-				+ "receiver_name,receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip,receiver_mobile,receiver_phone,orders";
-		req.setFields(props);
+		req.setFields(TRADE_FULLINFO_FIELDS);
 		req.setTid(tid);
-		TradeFullinfoGetResponse resp = client.execute(req, session());
-		errorMsgConvert(resp);
+		TradeFullinfoGetResponse resp = client.execute(req, sessionKey());
+		throwIfError(resp);
 		return resp.getTrade();
 	}
+	
+//	/**
+//	 * 批量获取交易详细信息
+//	 * @param tids
+//	 * @return
+//	 * @throws ApiException 
+//	 */
+//	public List<Trade> getFullinfoTrades(String tids) throws ApiException {
+//		TopatsTradesFullinfoGetRequest req=new TopatsTradesFullinfoGetRequest();
+//		req.setFields(TRADE_FULLINFO_FIELDS);
+//		req.setTids(tids);
+//		TopatsTradesFullinfoGetResponse resp = client.execute(req , sessionKey());
+//		//Long taskId = resp.getTask().getTaskId();
+//		return ayncGetTrades(null);
+//	}
+//	private List<Trade> ayncGetTrades(Long taskId) throws ApiException {
+//		List<Trade> result = new ArrayList<Trade>();
+//		TopatsResultGetRequest req = new TopatsResultGetRequest(); 
+//		req.setTaskId(3588369L); 
+//		TopatsResultGetResponse rsp = client.execute(req); 
+//		for (Subtask subtask : rsp.getTask().getSubtasks()) { 
+//			ObjectJsonParser<TradeFullinfoGetResponse> parser = new ObjectJsonParser<TradeFullinfoGetResponse>(TradeFullinfoGetResponse.class);
+//			TradeFullinfoGetResponse tradeRsp = parser.parse(subtask.getSubTaskResult()); 
+//			if (tradeRsp.isSuccess()) { 
+//				Trade trade = tradeRsp.getTrade();
+//				result.add(trade);
+//			} else { 
+//				throwIfError(tradeRsp);
+//			} 
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * 用户调用该接口可实现自己联系发货（线下物流），使用该接口发货，交易订单状态会直接变成卖家已发货。不支持货到付款、在线下单类型的订单。
@@ -337,7 +374,7 @@ public class TopApi {
 		req.setTid(tid);
 		req.setOutSid(outSid);
 		req.setCompanyCode(companyCode);
-		LogisticsOfflineSendResponse resp = client.execute(req , session());
+		LogisticsOfflineSendResponse resp = client.execute(req , sessionKey());
 		return resp;
 	}
 	
@@ -352,7 +389,7 @@ public class TopApi {
 		req.setTid(tid);
 		req.setSellerNick(ShiroContextUtils.getNickname());
 		LogisticsTraceSearchResponse resp = client.execute(req);
-		errorMsgConvert(resp);
+		throwIfError(resp);
 		trace.setStatus(resp.getStatus());
 		trace.setCompanyName(resp.getCompanyName());
 		trace.setExpressOrderno(resp.getOutSid());
@@ -360,7 +397,7 @@ public class TopApi {
 		return trace;
 	}
 
-	private String session() {
+	private String sessionKey() {
 		return ShiroContextUtils.getSessionKey();
 	}
 
@@ -376,13 +413,13 @@ public class TopApi {
 		this.serverUrl = serverUrl;
 	}
 
-	private void errorMsgConvert(TaobaoResponse resp) {
+	private void throwIfError(TaobaoResponse resp) {
 		if (StringUtils.isNotEmpty(resp.getErrorCode())) {
 			throw new AppException(resp.getMsg() + resp.getSubMsg());
 		}
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(19%19);
-	}
+//	public static void main(String[] args) {
+//	
+//	}
 }

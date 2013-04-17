@@ -193,7 +193,7 @@ public class TradeService {
 		}
 		GroupMap<String, com.taobao.api.domain.Trade> tradeGroup = new GroupMap<String, com.taobao.api.domain.Trade>();
 		for (String tid : tids) {
-			com.taobao.api.domain.Trade topTrade = topApi.getTrade(Long.valueOf(tid));
+			com.taobao.api.domain.Trade topTrade = topApi.getFullinfoTrade(Long.valueOf(tid));
 			tradeGroup.put(hashAdress(topTrade), topTrade);
 		}
 		

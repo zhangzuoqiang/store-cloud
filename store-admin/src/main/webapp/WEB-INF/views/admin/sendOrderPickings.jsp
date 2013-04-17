@@ -84,8 +84,8 @@
 </head>
 
 <body>
-
-	<legend><small>待拣货订单列表</small></legend>
+	
+	<br>
 	
 	<div class="row">
 	  	<div class="pull-right">
