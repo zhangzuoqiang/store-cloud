@@ -294,7 +294,6 @@ public class ShipOrder implements Serializable{
 	}
 
 	public String getRemark() {
-		
 		return remark;
 	}
 

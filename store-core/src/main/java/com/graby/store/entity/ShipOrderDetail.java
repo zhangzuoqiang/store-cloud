@@ -76,6 +76,7 @@ public class ShipOrderDetail implements Serializable{
 	}
 
 	public String getSkuPropertiesName() {
+		if (skuPropertiesName == null) return "";
 		return skuPropertiesName;
 	}
 

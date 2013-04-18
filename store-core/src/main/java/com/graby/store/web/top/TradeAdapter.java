@@ -54,7 +54,6 @@ public class TradeAdapter {
 		
 		// 订单基本信息
 		trade.setTradeFrom(String.valueOf(tTrade.getTid()));
-		trade.setTid(tTrade.getTid());
 		trade.setPayTime(tTrade.getPayTime());
 		trade.setShippingType(tTrade.getShippingType());
 		trade.setType(tTrade.getType());
@@ -84,6 +83,7 @@ public class TradeAdapter {
 		trade.setSellerMemo(tTrade.getSellerMemo());
 		trade.setSellerPhone(tTrade.getSellerPhone());
 		trade.setSellerMobile(tTrade.getSellerMobile());
+		trade.setTid(tTrade.getTid());
 		
 		// 子订单适配
 		List<Order> orders = tTrade.getOrders();

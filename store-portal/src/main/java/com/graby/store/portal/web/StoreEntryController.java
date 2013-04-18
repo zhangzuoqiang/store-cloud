@@ -158,7 +158,7 @@ public class StoreEntryController {
 			@PathVariable("itemid") Long itemId,
 			@PathVariable("num") long num
 			) {
-		shipOrderService.saveShipOrderDetail(orderId, itemId, num);
+		shipOrderService.saveShipOrderDetail(orderId, itemId, num, null);
 		return "redirect:/store/entry/ajax/detail/" + orderId;
 	}
 	

@@ -349,7 +349,7 @@ public class TradeService {
 		shipOrder.setSellerMemo(trade.getSellerMemo());
 		shipOrder.setSellerMobile(trade.getSellerMobile());
 		shipOrder.setSellerPhone(trade.getSellerPhone());
-		shipOrder.setRemark(trade.getBuyerMessage());
+		shipOrder.setRemark(trade.getTradeFrom());
 		
 		// 商铺用户为创建人
 		shipOrder.setCreateDate(trade.getPayTime());
@@ -359,6 +359,7 @@ public class TradeService {
 			ShipOrderDetail detail = new ShipOrderDetail();
 			detail.setItem(tOrder.getItem());
 			detail.setNum(tOrder.getNum());
+			detail.setSkuPropertiesName(tOrder.getSkuPropertiesName());
 			shipOrder.getDetails().add(detail);
 		}
 		return shipOrder;

@@ -30,7 +30,7 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 
 	@Override
 	public void saveShipOrderDetail(Long orderId, Long itemId, long num) {
-		shipOrderService.saveShipOrderDetail(orderId, itemId, num);
+		shipOrderService.saveShipOrderDetail(orderId, itemId, num, null);
 	}
 
 	@Override

@@ -151,9 +151,10 @@ public class ShipOrderService {
 	 *            商品ID
 	 * @param num
 	 *            商品数量
+	 * @param sku TODO
 	 */
 	@Transactional(readOnly = false)
-	public void saveShipOrderDetail(Long orderId, Long itemId, long num) {
+	public void saveShipOrderDetail(Long orderId, Long itemId, long num, String sku) {
 		Long detailId = shipOrderDao.getEntryOrderDetail(orderId, itemId);
 		if (detailId == null) {
 			ShipOrderDetail detail = new ShipOrderDetail();
@@ -164,6 +165,9 @@ public class ShipOrderService {
 			detail.setOrder(order);
 			detail.setItem(item);
 			detail.setNum(num);
+			if (StringUtils.isNotBlank(sku)) {
+				detail.setSkuPropertiesName(sku);
+			}
 			entryOrderDetailJpaDao.save(detail);
 		} else {
 			shipOrderDao.increaseEntryOrderDetail(detailId, num);
@@ -318,7 +322,9 @@ public class ShipOrderService {
 		String companyName;
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
-			shipOrder.setItems(buildPrintItems(shipOrder));
+			shipOrder.setItems(fillDetails(shipOrder));
+			shipOrder.setOriginPhone("400-188-810220");
+			// 收件人电话后面加上昵称
 			shipOrder.setReceiverPhone(shipOrder.getReceiverPhone() + " " + shipOrder.getBuyerNick());
 			companyCode = shipOrder.getExpressCompany();
 			companyName = companyCode == null ? "未分类" : expressService.getExpressCompanyName(companyCode);
@@ -333,15 +339,31 @@ public class ShipOrderService {
 	 * @param order
 	 * @return
 	 */
-	private String buildPrintItems(ShipOrder order) {
+	private String fillDetails(ShipOrder order) {
 		StringBuffer buf = new StringBuffer();
+		// 放商品明细
 		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
 			ShipOrderDetail detail = iterator.next();
-			buf.append(detail.getItemTitle() + detail.getNum() + "件");
+			buf.append(detail.getItemTitle() + detail.getSkuPropertiesName()).append("(" + detail.getNum() + ")件");
 			if (iterator.hasNext()) {
 				buf.append(",");
 			}
 		}
+		if (buf.length() > 120) {
+			buf = new StringBuffer("商品过多 请根据拣货单拣货,");
+		}
+		// 卖家买家留言备注
+		if (StringUtils.isNotBlank(order.getSellerMemo())) {
+			buf.append("卖家备注:").append(order.getSellerMemo()).append(",");	
+		}
+		if (StringUtils.isNotBlank(order.getBuyerMemo())) {
+			buf.append("买家备注:").append(order.getBuyerMemo()).append(",");	
+		}
+		if (StringUtils.isNotBlank(order.getBuyerMessage())) {
+			buf.append("买家留言" + order.getBuyerMessage()).append(",");	
+		}
+		// 淘宝交易ID
+		buf.append("tid:" +order.getRemark()).append(",");
 		return buf.toString();
 	}
 	
@@ -383,7 +405,7 @@ public class ShipOrderService {
 		List<ShipOrderDetail> items = shipOrder.getDetails();
 		if (CollectionUtils.isNotEmpty(items)) {
 			for (ShipOrderDetail detail : items) {
-				saveShipOrderDetail(shipOrder.getId(), detail.getItem().getId(), detail.getNum());
+				saveShipOrderDetail(shipOrder.getId(), detail.getItem().getId(), detail.getNum(), detail.getSkuPropertiesName());
 			}
 		}
 	}
@@ -576,4 +598,11 @@ public class ShipOrderService {
 		orderJpaDao.save(order);
 	}
 	
+	public static void main(String[] args) {
+		String s = "席伊吖 特价双面贵妃席 竹席 竹子凉席1.5 1.8米包邮折叠可定制" + "颜色分类:浅灰色; 适用床尺寸:0.9m床;";
+		StringBuffer b = new StringBuffer();
+		b.append(s);
+		System.out.println(s.length());
+		System.out.println(b.length());
+	}
 }

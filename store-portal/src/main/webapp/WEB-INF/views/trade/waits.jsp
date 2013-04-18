@@ -56,7 +56,7 @@
 <body>
 	
 	<div class="row">
-	  <div class="span2">
+	  <div class="span3">
 	      <div class="btn-group" data-toggle="buttons-radio">
 	      	  <button onclick="javascript:fetchTrade(-1)" class="btn btn-info">最近一周</button>
 			  <button onclick="javascript:fetchTrade(0)" class="btn btn-info"> 今 天 </button>

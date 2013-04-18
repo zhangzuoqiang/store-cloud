@@ -102,11 +102,6 @@ public class Trade implements Serializable{
 	 */	
 	private String tradeFrom;
 	
-	/**
-	 * 如果为淘宝交易，则保存淘宝交易订单ID
-	 */
-	private Long tid;
-	
 	/* ------------ 卖家信息 ------------ */
 	
 	/**
@@ -244,6 +239,11 @@ public class Trade implements Serializable{
 	 */
 	private String itemTitles;
 	
+	/**
+	 * 淘宝交易ID 不持久化，用于适配传值。
+	 */
+	private Long tid;
+	
 	/* ------------ 其他------------ */
 	
 	@Id
@@ -278,11 +278,6 @@ public class Trade implements Serializable{
 	public Date getPayTime() {
 		return payTime;
 	}
-	
-	@Transient
-	public Long getTid() {
-		return tid;
-	}
 
 	@Index(name="idx_shipping_type")
 	public String getShippingType() {
@@ -292,6 +287,11 @@ public class Trade implements Serializable{
 	@Transient
 	public String getItemTitles() {
 		return itemTitles;
+	}
+	
+	@Transient
+	public Long getTid() {
+		return tid;
 	}
 	
 	/**
@@ -446,10 +446,6 @@ public class Trade implements Serializable{
 		this.centro = centro;
 	}
 
-	public void setTid(Long tid) {
-		this.tid = tid;
-	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -520,6 +516,10 @@ public class Trade implements Serializable{
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public void setTid(Long tid) {
+		this.tid = tid;
 	}
 
 }
