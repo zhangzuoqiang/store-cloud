@@ -3,6 +3,7 @@ package com.graby.store.service.wms;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -317,13 +318,25 @@ public class ShipOrderService {
 		String companyName;
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
-			//shipOrder.setItems(itemTitles(shipOrder));
+			shipOrder.setItems(printItemTitles(shipOrder));
 			companyCode = shipOrder.getExpressCompany();
 			companyName = companyCode == null ? "未分类" : expressService.getExpressCompanyName(companyCode);
 			shipOrder.setExpressCompanyName(companyName);
 			results.add(shipOrder);
 		}
 		return results;
+	}
+	
+	private String printItemTitles(ShipOrder order) {
+		StringBuffer buf = new StringBuffer();
+		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
+			ShipOrderDetail detail = iterator.next();
+			buf.append(detail.getItemTitle() + detail.getNum() + "件");
+			if (iterator.hasNext()) {
+				buf.append(",");
+			}
+		}
+		return buf.toString();
 	}
 	
 	/**

@@ -16,9 +16,8 @@
             
           </ul>          
           <ul class="nav pull-right">
-          	<li><a href="#"><i class="icon-comment"></i>消息</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>功能 <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">功能 <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#">设置</a></li>
                 <li class="divider"></li>
@@ -32,10 +31,5 @@
  	
   <legend></legend> 
   <br><br>
-  	<!-- <img src = "${ctx}/static/images/envato.png"> 
-	<h1 class="small">
-	&nbsp;&nbsp;
-    &nbsp;&nbsp;物流通&nbsp; <shiro:principal property="shopname"/>
-    </h1>
-    -->
+
 </div>
