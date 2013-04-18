@@ -302,7 +302,7 @@ public class ShipOrderService {
 	}
 
 	/**
-	 * 按规则分类所有未处理出库单
+	 * 运单打印调用接口， 按规则分类所有未处理出库单。
 	 * 
 	 * 先查询仓库的所有待处理出库单，按规则将运输公司和运输公司编码填充到出库单。
 	 * @param centroId 仓库ID
@@ -319,6 +319,7 @@ public class ShipOrderService {
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
 			shipOrder.setItems(buildPrintItems(shipOrder));
+			shipOrder.setReceiverPhone(shipOrder.getReceiverPhone() + " " + shipOrder.getBuyerNick());
 			companyCode = shipOrder.getExpressCompany();
 			companyName = companyCode == null ? "未分类" : expressService.getExpressCompanyName(companyCode);
 			shipOrder.setExpressCompanyName(companyName);
