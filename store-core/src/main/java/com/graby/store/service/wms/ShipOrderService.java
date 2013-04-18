@@ -318,7 +318,7 @@ public class ShipOrderService {
 		String companyName;
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
-			shipOrder.setItems(printItemTitles(shipOrder));
+			shipOrder.setItems(buildPrintItems(shipOrder));
 			companyCode = shipOrder.getExpressCompany();
 			companyName = companyCode == null ? "未分类" : expressService.getExpressCompanyName(companyCode);
 			shipOrder.setExpressCompanyName(companyName);
@@ -327,7 +327,12 @@ public class ShipOrderService {
 		return results;
 	}
 	
-	private String printItemTitles(ShipOrder order) {
+	/**
+	 * 提交给运单打印的商品明细字段
+	 * @param order
+	 * @return
+	 */
+	private String buildPrintItems(ShipOrder order) {
 		StringBuffer buf = new StringBuffer();
 		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
 			ShipOrderDetail detail = iterator.next();
