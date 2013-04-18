@@ -1,5 +1,7 @@
 package com.graby.store.service.trade;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +31,7 @@ import com.graby.store.service.inventory.Accounts;
 import com.graby.store.service.inventory.InventoryService;
 import com.graby.store.service.item.ItemService;
 import com.graby.store.service.wms.ShipOrderService;
+import com.graby.store.util.DateUtils;
 import com.graby.store.util.EncryptUtil;
 import com.graby.store.web.top.TopApi;
 import com.graby.store.web.top.TradeAdapter;
@@ -70,18 +73,33 @@ public class TradeService {
 	/* ====================== 交易相关查询 ======================= */
 	
 	/**
-	 * 查询淘宝等待发货交易订单
-	 * useable   : 可发送的
-	 * related   : 已由物流通处理的
-	 * failed   : 订购商品 未关联的 无库存
+	 * 查询最近几天的交易待发货订单
+	 * @param preDays
 	 * @return
 	 * @throws Exception 
 	 */
-	public GroupMap<String, Trade> fetchTopTrades(Date start, Date end) throws Exception {
+	public GroupMap<String, Trade> fetchTopTrades(String status, int... preDays) throws Exception {
+		List<com.taobao.api.domain.Trade> trades = new ArrayList<com.taobao.api.domain.Trade>();
+		for (int preday : preDays) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -preday);	
+			Date day = cal.getTime();
+			Date start =  DateUtils.getMoning(day);
+			Date end = preday == 0 ? day : DateUtils.getEnd(day);
+			List<com.taobao.api.domain.Trade> result = topApi.getTrades(status, start, end);
+			trades.addAll(result);
+		}
+		return group(trades);
+	}	
+
+	/**
+	 * 分组交易
+	 * @param trades
+	 * @return
+	 * @throws ApiException
+	 */
+	private GroupMap<String, Trade> group(List<com.taobao.api.domain.Trade> trades) throws ApiException {
 		GroupMap<String, Trade> groupResults = new GroupMap<String, Trade>(); 
-		List<com.taobao.api.domain.Trade> trades = topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, start, end);
-		if (CollectionUtils.isEmpty(trades)) {return groupResults;}
-		
 		for (com.taobao.api.domain.Trade topTrade : trades) {
 			Trade trade = tradeAdapter.adapter(topTrade);
 			// 是否已创建
@@ -227,7 +245,6 @@ public class TradeService {
 				}
 			}
 		}
-		
 	}
 	
 	// 根据收货人详细地址Hash

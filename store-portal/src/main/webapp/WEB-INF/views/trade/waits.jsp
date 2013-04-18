@@ -36,7 +36,7 @@
 	
 	function fetchTrade(day) {
 		$('.btn').attr('disabled',true);
-		delayEnable(60);
+		delayEnable(10);
 		var action = "${ctx}/trade/waits/fetch?preday=" + day;
 		htmlobj=$.ajax({
 			url:action,
@@ -58,9 +58,9 @@
 	<div class="row">
 	  <div class="span2">
 	      <div class="btn-group" data-toggle="buttons-radio">
+	      	  <button onclick="javascript:fetchTrade(-1)" class="btn btn-info">最近一周</button>
 			  <button onclick="javascript:fetchTrade(0)" class="btn btn-info"> 今 天 </button>
 			  <button onclick="javascript:fetchTrade(1)" class="btn btn-info"> 昨 天 </button>
-			  <button onclick="javascript:fetchTrade(2)" class="btn btn-info"> 前 天 </button>
 		  </div>	  
 	  </div>
 	  <div id="info" class="span4 alert alert-info">

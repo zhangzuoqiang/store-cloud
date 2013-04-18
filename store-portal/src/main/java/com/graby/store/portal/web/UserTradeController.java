@@ -1,8 +1,5 @@
 package com.graby.store.portal.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,31 +53,6 @@ public class UserTradeController {
 	@Autowired
 	private ShipOrderService shipOrderService;
 
-	// /**
-	// * 查询所有等待买家发货交易订单
-	// * (单条老版 即将废弃)
-	// *
-	// * @return
-	// * @throws ApiException
-	// */
-	// @RequestMapping(value = "/wait")
-	// public String wait(
-	// @RequestParam(value = "page", defaultValue = "1") int page,
-	// Model model) throws ApiException {
-	// Page<com.taobao.api.domain.Trade> trades =
-	// topApi.getTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, page,
-	// 10);
-	// if (CollectionUtils.isNotEmpty(trades.getContent())) {
-	// for (com.taobao.api.domain.Trade tbTrade : trades) {
-	// TradeMapping mapping =tradeService.getRelatedMapping(tbTrade.getTid());
-	// // 这里特殊用这个字段标注该订单状态
-	// tbTrade.setStatus(mapping == null ? "unrelated" : mapping.getStatus());
-	// }
-	// }
-	// model.addAttribute("trades", trades);
-	// return "trade/wait";
-	// }
-
 	/**
 	 * 下单发货（单条老版 即将废弃）
 	 * 
@@ -108,23 +80,25 @@ public class UserTradeController {
 	/**
 	 * 查询所有等待买家发货交易订单（新版）
 	 * 
-	 * useable : 可发送的 related : 已由物流通处理的 failed : 未关联或库存不足的
+	 * useable : 可发送的<br> 
+	 * related : 已由物流通处理的<br> 
+	 * failed : 未关联或库存不足的<br>
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/waits/fetch")
 	public String fetch(@RequestParam(value = "preday") int preday, Model model) throws Exception {
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, -preday);
-		Date day = cal.getTime();
-		Date start = getMoning(day);
-		Date end = preday == 0 ? day : getEnd(day);
-		GroupMap<String, Trade> tradeMap = tradeService.fetchTopTrades(start, end);
+		
+		/* -1 查询最近一周， 其他指定天数*/
+		GroupMap<String, Trade> tradeMap = preday == -1 ? 
+				tradeService.fetchTopTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 0,1,2,3,4,5,6) :
+				tradeService.fetchTopTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, preday);
+
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
 		model.addAttribute("failed", tradeMap.getList("failed"));
-		model.addAttribute("date", date(day));
+		//model.addAttribute("date", DateUtils.format(day));
 		return "trade/waitsFetch";
 	}
 
@@ -225,43 +199,6 @@ public class UserTradeController {
 		List<String> errors = shipOrderService.batchNotifyUserSign(tradeIds);
 		redirectAttributes.addFlashAttribute("errors", errors);
 		return "redirect:/trade/notifys";
-	}
-
-	private static Date getMoning(Date date) {
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		c.set(Calendar.HOUR_OF_DAY, 0);
-		c.set(Calendar.MINUTE, 0);
-		c.set(Calendar.SECOND, 0);
-		return c.getTime();
-	}
-
-	private static Date getEnd(Date date) {
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		c.set(Calendar.HOUR_OF_DAY, 23);
-		c.set(Calendar.MINUTE, 59);
-		c.set(Calendar.SECOND, 59);
-		return c.getTime();
-	}
-
-	private static String date(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		int wd = cal.get(Calendar.DAY_OF_WEEK);
-		String x = null;
-		switch (wd) {
-		case 1:x = "星期日";break;
-		case 2:x = "星期一";break;
-		case 3:x = "星期二";break;
-		case 4:x = "星期三";break;
-		case 5:x = "星期四";break;
-		case 6:x = "星期五";	break;
-		case 7:x = "星期六";break;
-		}
-		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy年MM月dd日 ");
-		String strDate = simpleFormat.format(date) + x;
-		return strDate;
 	}
 
 }
