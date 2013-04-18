@@ -94,7 +94,6 @@ public class UserTradeController {
 		GroupMap<String, Trade> tradeMap = preday == -1 ? 
 				tradeService.fetchTopTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 0,1,2,3,4,5,6) :
 				tradeService.fetchTopTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, preday);
-
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
 		model.addAttribute("failed", tradeMap.getList("failed"));
