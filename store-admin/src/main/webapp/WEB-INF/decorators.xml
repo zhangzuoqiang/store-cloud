@@ -4,6 +4,7 @@
 		<pattern>/static/*</pattern>
 		<pattern>/rest/*</pattern>
 		<pattern>/login*</pattern>
+		<pattern>/applets*</pattern>
 		<pattern>**/ajax*</pattern>
 	</excludes>
 	

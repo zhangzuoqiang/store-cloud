@@ -16,18 +16,15 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.6</jdk.version>
-		<jdbc.driver.groupId>mysql</jdbc.driver.groupId>
-		<jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId>
-		<jdbc.driver.version>5.1.21</jdbc.driver.version>
 	</properties>
 
 	<dependencies>
-	   <dependency>  
-            <groupId>com.graby</groupId>  
-            <artifactId>store-core</artifactId>  
-            <version>${project.version}</version>  
-        </dependency>  
 
+		<dependency>
+			<groupId>com.graby</groupId>
+			<artifactId>store-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- SECURITY begin -->
 		<dependency>
@@ -48,7 +45,7 @@
 			<groupId>com.caucho</groupId>
 			<artifactId>hessian</artifactId>
 		</dependency>
-		
+
 		<!-- WEB begin -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -92,8 +89,8 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 		</dependency>
 		<!-- JSON end -->
-	
-	
+
+
 		<!-- Report -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
@@ -105,23 +102,23 @@
 			<artifactId>iTextAsian</artifactId>
 			<version>1.0</version>
 		</dependency>
-            				
+
 		<!-- Common -->
 		<dependency>
-		   <groupId>commons-collections</groupId>
-		   <artifactId>commons-collections</artifactId>
-		   <version>3.2.1</version>
-		</dependency>		
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>r05</version>
-		</dependency>		
+		</dependency>
 
 		<!-- TEST begin -->
 
@@ -134,7 +131,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
 
 		<!-- jetty -->
 		<dependency>
@@ -149,7 +146,7 @@
 		</dependency>
 		<!-- TEST end -->
 	</dependencies>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -187,8 +184,6 @@
 		</dependencies>
 	</dependencyManagement>
 
-
-	
 	<build>
 		<plugins>
 			<plugin>
@@ -208,6 +203,17 @@
 				<version>2.3</version>
 				<configuration>
 					<warName>${project.artifactId}</warName>
+					<archiveClasses>true</archiveClasses>
+					<webResources>
+						<!-- 拷贝applet文件到applets目录 -->
+						<resource>
+							<directory>${project.build.directory}/classes</directory>
+							<targetPath>/applets</targetPath>
+							<includes>
+								<include>**/*Applet.class</include>
+							</includes>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 
@@ -300,7 +306,7 @@
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.version}</version>
-				<configuration>				
+				<configuration>
 					<systemProperties>
 						<systemProperty>
 							<name>spring.profiles.active</name>

@@ -363,7 +363,7 @@ public class ShipOrderService {
 			buf.append("买家留言" + order.getBuyerMessage()).append(",");	
 		}
 		// 淘宝交易ID
-		buf.append("tid:" +order.getRemark()).append(",");
+		buf.append("tid:" +order.getRemark());
 		return buf.toString();
 	}
 	
