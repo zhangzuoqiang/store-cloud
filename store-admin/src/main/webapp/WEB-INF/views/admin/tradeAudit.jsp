@@ -106,8 +106,9 @@
 				${order.item.title} <br>
 				<i class="icon-arrow-right"></i>${order.item.sku}
 				<span class="label label-success">
-				${order.stockNum}件 <i class="icon-ok"/>
+				${order.stockNum}件 
 				</span>  
+				<i class="icon-ok"/>
 			</c:if>				
 		</td>
 		</tr>
@@ -148,12 +149,14 @@
             </p>
  		</div>
 	</div>
-	
+	`
 	<label></label>
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
-                <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>买家留言</p>
-                ${trade.buyerMessage}
+                <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>留言及备注</p>
+                <p>卖家:${trade.sellerMemo}</p>
+                <p>买家:${trade.buyerMemo}</p>
+                <p>买家留言:${trade.buyerMessage}</p>
  		</div>
 	</div>
 	

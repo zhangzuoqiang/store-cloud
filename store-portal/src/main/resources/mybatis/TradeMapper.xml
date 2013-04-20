@@ -42,7 +42,6 @@
 		<result property="receiverMobile" column="receiver_mobile"/>		
 		<result property="receiverState" column="receiver_state"/>
 		<result property="receiverZip" column="receiver_zip"/>
-		
 		<collection property="orders" column="id" javaType="ArrayList" ofType="TradeOrder" select="fetchTradeOrders"/>  
 	</resultMap>	
 	
