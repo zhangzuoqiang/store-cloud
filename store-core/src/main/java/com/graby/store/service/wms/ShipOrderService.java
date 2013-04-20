@@ -322,10 +322,9 @@ public class ShipOrderService {
 		String companyName;
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
 		for (ShipOrder shipOrder : orders) {
-			shipOrder.setItems(fillDetails(shipOrder));
-			shipOrder.setOriginPhone("400-188-810220");
-			// 收件人电话后面加上昵称
-			shipOrder.setReceiverPhone(shipOrder.getReceiverPhone() + " " + shipOrder.getBuyerNick());
+			shipOrder.setItems(buildItems(shipOrder));
+			shipOrder.setRemark(buildRemark(shipOrder));
+			shipOrder.setOriginPhone("0731-52777568");
 			companyCode = shipOrder.getExpressCompany();
 			companyName = companyCode == null ? "未分类" : expressService.getExpressCompanyName(companyCode);
 			shipOrder.setExpressCompanyName(companyName);
@@ -339,7 +338,7 @@ public class ShipOrderService {
 	 * @param order
 	 * @return
 	 */
-	private String fillDetails(ShipOrder order) {
+	private String buildItems(ShipOrder order) {
 		StringBuffer buf = new StringBuffer();
 		// 放商品明细
 		for (Iterator<ShipOrderDetail> iterator = order.getDetails().iterator(); iterator.hasNext();) {
@@ -349,21 +348,25 @@ public class ShipOrderService {
 				buf.append(",");
 			}
 		}
-		if (buf.length() > 120) {
+		if (buf.length() > 80) {
 			buf = new StringBuffer("商品过多 请根据拣货单拣货,");
 		}
+		return buf.toString();
+	}
+	
+	// 备注
+	private String buildRemark(ShipOrder order) {
+		StringBuffer buf = new StringBuffer();
 		// 卖家买家留言备注
 		if (StringUtils.isNotBlank(order.getSellerMemo())) {
-			buf.append("卖家备注:").append(order.getSellerMemo()).append(",");	
+			buf.append("卖家:").append(order.getSellerMemo()).append(",");	
 		}
 		if (StringUtils.isNotBlank(order.getBuyerMemo())) {
-			buf.append("买家备注:").append(order.getBuyerMemo()).append(",");	
+			buf.append("买家:").append(order.getBuyerMemo()).append(",");	
 		}
 		if (StringUtils.isNotBlank(order.getBuyerMessage())) {
-			buf.append("买家留言" + order.getBuyerMessage()).append(",");	
+			buf.append("买家留言:" + order.getBuyerMessage());
 		}
-		// 淘宝交易ID
-		buf.append("tid:" +order.getRemark());
 		return buf.toString();
 	}
 	

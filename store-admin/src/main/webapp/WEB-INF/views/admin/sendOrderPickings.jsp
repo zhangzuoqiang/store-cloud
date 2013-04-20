@@ -88,9 +88,11 @@
 	<br>
 	
 	<div class="row">
+		<!-- 
 		<div> 
 			<applet width=200 height=30 CODEBASE="${ctx}/applets" CODE="SayHelloApplet.class"></applet>
 		</div>
+		 -->
 	  	<div class="pull-right">
 	  		<a id="btn_express" href="#" class="btn btn-info">退回重打运单</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	  		<a id="btn_pick_batch" href="#" class="btn btn-info">打印汇总拣货单</a>&nbsp;&nbsp;&nbsp;&nbsp;

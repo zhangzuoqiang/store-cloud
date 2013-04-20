@@ -106,8 +106,8 @@
 				${order.item.title} <br>
 				<i class="icon-arrow-right"></i>${order.item.sku}
 				<span class="label label-success">
-				${order.stockNum}件
-				</span>  <i class="icon-ok"/>
+				${order.stockNum}件 <i class="icon-ok"/>
+				</span>  
 			</c:if>				
 		</td>
 		</tr>
