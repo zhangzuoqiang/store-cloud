@@ -36,13 +36,7 @@
     <select id="getShipOrder" parameterType="long" resultMap="ShipOrderEntity">
 		select
 		  b.shop_name as "createUser.shopName",
-		  a.id, a.centro_id,  a.create_date,
-		  a.express_company, a.express_orderno,
-		  a.fetch_date,a.last_update_date,  a.orderno,
-		  a.origin_persion, a.origin_phone,
-		  receiver_address,  receiver_city,  receiver_district,  receiver_mobile,  receiver_name,  receiver_phone,  receiver_state,  receiver_zip,
-		  a.remark, a.status, a.totalnum,  a.trade_id, a.type,
-		  a.create_userid,  a.last_update_userid		
+		  a.*
 		from sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id 
 		where a.id=#{0}
 	</select>
@@ -68,8 +62,8 @@
 		<result property="receiverZip" column="receiver_zip" />
 		<result property="receiverPhone" column="receiver_phone" />
 		<result property="buyerNick" column="buyer_nick" />
-		<result property="buyerMessage" column="buyer_nick" />
-		<result property="buyerMemo" column="buyer_nick" />
+		<result property="buyerMessage" column="buyer_message" />
+		<result property="buyerMemo" column="buyer_memo" />
 		<result property="sellerPhone" column="seller_phone"/>
 		<result property="sellerMobile" column="seller_mobile"/>
 		<result property="sellerMemo" column="seller_memo"/>
@@ -153,6 +147,11 @@
 		a.receiver_district as "receiverDistrict", 
 		a.receiver_zip as "receiverZip",
 		a.buyer_nick as "buyerNick",
+		a.buyer_memo as "buyerMemo",
+		a.buyer_message as "buyerMessage",
+		a.seller_phone as "sellerPhone", 
+		a.seller_mobile as "sellerMobile", 
+		a.seller_memo as "sellerMemo",
 		a.remark,
 		a.orderno
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id

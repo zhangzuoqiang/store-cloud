@@ -226,10 +226,18 @@ public class TradeService {
 				Trade trade = tradeAdapter.adapter(topTrades.get(0));
 				// 合并其他订单
 				for (int i = 1; i < topTrades.size(); i++) {
-					Trade others = tradeAdapter.adapter(topTrades.get(i));
-					trade.getOrders().addAll(others.getOrders());
-					if (StringUtils.isNotBlank(others.getBuyerMessage())) {
-						trade.setBuyerMessage(trade.getBuyerMessage() + "," + others.getBuyerMessage());
+					Trade otherTrade = tradeAdapter.adapter(topTrades.get(i));
+					// 合并订单明细
+					trade.getOrders().addAll(otherTrade.getOrders());
+					// 合并备注及留言
+					if (StringUtils.isNotBlank(otherTrade.getSellerMemo())) {
+						trade.setSellerMemo(trade.getSellerMemo() + "," + otherTrade.getSellerMemo());
+					}
+					if (StringUtils.isNotBlank(otherTrade.getBuyerMessage())) {
+						trade.setBuyerMessage(trade.getBuyerMessage() + "," + otherTrade.getBuyerMessage());
+					}
+					if (StringUtils.isNotBlank(otherTrade.getBuyerMemo())) {
+						trade.setBuyerMemo(trade.getBuyerMemo() + "," + otherTrade.getBuyerMemo());
 					}
 					tidArray[i] = topTrades.get(i).getTid();
 				}

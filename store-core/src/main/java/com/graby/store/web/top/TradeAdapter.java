@@ -58,6 +58,8 @@ public class TradeAdapter {
 		trade.setShippingType(tTrade.getShippingType());
 		trade.setType(tTrade.getType());
 		trade.setStatus(tTrade.getStatus());
+		trade.setLgAging(tTrade.getLgAging());
+		trade.setLgAgingType(tTrade.getLgAgingType());
 		
 		// 收货方信息
 		trade.setReceiverAddress(tTrade.getReceiverAddress());
@@ -68,8 +70,6 @@ public class TradeAdapter {
 		trade.setReceiverPhone(tTrade.getReceiverPhone());
 		trade.setReceiverState(tTrade.getReceiverState());
 		trade.setReceiverZip(tTrade.getReceiverZip());
-		trade.setLgAging(tTrade.getLgAging());
-		trade.setLgAgingType(tTrade.getLgAgingType());
 		
 		// 卖家和买家相关信息
 		trade.setBuyerArea(tTrade.getBuyerArea());
