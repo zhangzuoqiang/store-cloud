@@ -8,6 +8,7 @@
 		SELECT id,
 		  buyer_alipay_no, buyer_area, buyer_email, buyer_memo, buyer_message, buyer_nick,
 		  has_buyer_message,  lg_aging,  lg_aging_type,  pay_time,
+		  seller_phone, seller_mobile, seller_memo,
 		  receiver_address,  receiver_city,  receiver_district,  receiver_mobile, receiver_name, receiver_phone, receiver_state,  receiver_zip,
 		  shipping_type,  status,  trade_from,  centro_id,  user_id
 		FROM sc_trade	where id=#{0}
