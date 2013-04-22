@@ -82,7 +82,7 @@ public class TradeService {
 		List<com.taobao.api.domain.Trade> trades = new ArrayList<com.taobao.api.domain.Trade>();
 		for (int preday : preDays) {
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.DATE, -preday);	
+			cal.add(Calendar.DATE, -preday);
 			Date day = cal.getTime();
 			Date start =  DateUtils.getMoning(day);
 			Date end = preday == 0 ? day : DateUtils.getEnd(day);
@@ -211,8 +211,12 @@ public class TradeService {
 		}
 		GroupMap<String, com.taobao.api.domain.Trade> tradeGroup = new GroupMap<String, com.taobao.api.domain.Trade>();
 		for (String tid : tids) {
-			com.taobao.api.domain.Trade topTrade = topApi.getFullinfoTrade(Long.valueOf(tid));
-			tradeGroup.put(hashAdress(topTrade), topTrade);
+			try {
+				com.taobao.api.domain.Trade topTrade = topApi.getFullinfoTrade(Long.valueOf(tid));
+				tradeGroup.put(hashAdress(topTrade), topTrade);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		Set<String> keys = tradeGroup.getKeySet();
