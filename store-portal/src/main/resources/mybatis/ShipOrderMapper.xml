@@ -272,6 +272,5 @@
         where id=#{id} and status='WAIT_EXPRESS_RECEIVED'
     </update>
     
-    
     	
 </mapper> 

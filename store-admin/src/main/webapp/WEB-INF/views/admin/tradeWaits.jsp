@@ -12,7 +12,7 @@
 
 <body>
 
-	<legend><small>商铺申请处理的交易订单，等待仓库审核(${fn:length(trades)}).</small></legend>
+	<legend><small>商铺申请处理的交易订单，${fn:length(trades)}条等待仓库审核订单.</small></legend>
 	
 	<table id="contentTable" class="table table-striped table-condensed"  >
 		<thead><tr>
