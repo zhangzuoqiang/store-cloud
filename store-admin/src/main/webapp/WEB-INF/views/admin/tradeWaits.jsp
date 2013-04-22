@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="e" uri="http://www.wlpost.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <html>
@@ -11,7 +12,7 @@
 
 <body>
 
-	<legend><small>商铺申请处理的交易订单，等待仓库审核.</small></legend>
+	<legend><small>商铺申请处理的交易订单，等待仓库审核(${fn:length(trades)}).</small></legend>
 	
 	<table id="contentTable" class="table table-striped table-condensed"  >
 		<thead><tr>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+\<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graby.store.dao.mybatis.TradeDao">
@@ -88,7 +88,7 @@
 	<!-- 取第一个tid -->
 	<select id="getRelatedTid" resultType="long">
 		select tid  from sc_trade_mapping
-		 where trade_id=#{0} limit 1;
+		 where trade_id=#{0} limit 1
 	</select>
 		
 	<!-- BUG TODO : GROUP_CONCAT(c.title ,'')  AS itemTitles  		
@@ -106,7 +106,7 @@
 			receiver_state AS "receiverState"
 		FROM sc_trade a  
 			LEFT JOIN sc_user b ON b.id = a.user_id 
-		WHERE a.status='TRADE_WAIT_CENTRO_AUDIT' LIMIT 50
+		WHERE a.status='TRADE_WAIT_CENTRO_AUDIT' LIMIT 1000
 	</select>
 	
 	<update id="updateTradeStatus"> 
