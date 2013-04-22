@@ -5,7 +5,7 @@
 
 	
 	<select id="getTrade" parameterType="long"  resultMap="TradeEntity">
-		SELECT shipping_type
+		SELECT *
 		FROM sc_trade	where id=#{0}
 	</select>
 	
