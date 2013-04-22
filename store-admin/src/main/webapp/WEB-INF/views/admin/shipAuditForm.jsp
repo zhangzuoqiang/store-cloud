@@ -27,8 +27,8 @@
 <body>
 	<br>
 	<div class="row">
-		<div class="span3">
-			<input id="q" type="text" name="orderno"  placeholder="请输入快递运单号或卖家昵称 ..." />
+		<div class="span4">
+			<input id="q" class="span13" type="text" name="orderno"  placeholder="淘宝交易号\快递运单号\卖家昵称 查询交易订单" />
 		</div>
 		<div>
 			<a href="#" class="btn btn-primary" onclick="query();">查询交易订单</a>
