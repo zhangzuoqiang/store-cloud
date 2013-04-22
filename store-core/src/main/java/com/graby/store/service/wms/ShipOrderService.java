@@ -481,7 +481,7 @@ public class ShipOrderService {
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderByQ(String q) {
-		return shipOrderDao.findSendOrderByQ(q);
+		return shipOrderDao.findSendOrderByQ("%" + q + "%");
 	}
 
 	/**

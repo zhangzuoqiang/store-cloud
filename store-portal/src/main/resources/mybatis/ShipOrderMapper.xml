@@ -258,7 +258,7 @@
 		a.express_orderno as "expressOrderno",
 		a.trade_id as "tradeId"
 	FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
-	WHERE a.type='send' AND (a.express_orderno=#{0} OR a.buyer_nick=#{0} )
+	WHERE a.type='send' AND (a.express_orderno like #{0} OR a.buyer_nick like #{0} or a.remark like #{0}  )
 	LIMIT 0, 5;
 	</select>
 
