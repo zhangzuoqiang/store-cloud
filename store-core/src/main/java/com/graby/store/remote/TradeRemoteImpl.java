@@ -28,11 +28,6 @@ public class TradeRemoteImpl implements TradeRemote {
 	}
 
 	@Override
-	public Long getRelatedTid(Long tradeId) {
-		return tradeService.getRelatedTid(tradeId);
-	}
-
-	@Override
 	public void createTrade(Trade trade) {
 		tradeService.createTrade(trade, null);
 	}

@@ -55,19 +55,19 @@ public class ShipOrderService {
 
 	@Autowired
 	private InventoryService inventoryService;
-	
+
 	@Autowired
 	private TradeService tradeService;
-	
-//	@Autowired
-//	private StatefulKnowledgeSession ksession;	
-	
+
+	// @Autowired
+	// private StatefulKnowledgeSession ksession;
+
 	@Autowired
-	private ExpressService expressService; 
-	
+	private ExpressService expressService;
+
 	@Autowired
 	private TopApi topApi;
-	
+
 	private String formateDate(Date date, String pattern) {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		return format.format(date);
@@ -110,7 +110,7 @@ public class ShipOrderService {
 	public List<ShipOrder> findEntryOrderOnWay() {
 		return shipOrderDao.findEntryOrderOnWay();
 	}
-	
+
 	/**
 	 * 保存入库单
 	 * 
@@ -151,7 +151,8 @@ public class ShipOrderService {
 	 *            商品ID
 	 * @param num
 	 *            商品数量
-	 * @param sku TODO
+	 * @param sku
+	 *            TODO
 	 */
 	@Transactional(readOnly = false)
 	public void saveShipOrderDetail(Long orderId, Long itemId, long num, String sku) {
@@ -230,11 +231,8 @@ public class ShipOrderService {
 		// 库存记账-商铺发送入库单
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
-				inventoryService.input(order.getCentroId(), 
-						order.getCreateUser().getId(), 
-						detail.getItem().getId(),
-						detail.getNum(), 
-						AccountTemplate.SHIP_ENTRY_SEND);
+				inventoryService.input(order.getCentroId(), order.getCreateUser().getId(), detail.getItem().getId(),
+						detail.getNum(), AccountTemplate.SHIP_ENTRY_SEND);
 			}
 			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_STORAGE_RECEIVED);
 			return true;
@@ -254,11 +252,8 @@ public class ShipOrderService {
 		// 库存记账-商铺发送入库单
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
-				inventoryService.input(order.getCentroId(), 
-						order.getCreateUser().getId(), 
-						detail.getItem().getId(),
-						detail.getNum(), 
-						AccountTemplate.SHIP_ENTRY_CANCEL);
+				inventoryService.input(order.getCentroId(), order.getCreateUser().getId(), detail.getItem().getId(),
+						detail.getNum(), AccountTemplate.SHIP_ENTRY_CANCEL);
 			}
 			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_SELLER_SEND);
 			return true;
@@ -266,7 +261,7 @@ public class ShipOrderService {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 接收发送入库单
 	 * 
@@ -277,9 +272,7 @@ public class ShipOrderService {
 		// 库存记账
 		if (CollectionUtils.isNotEmpty(entrys)) {
 			for (AccountEntryArray accountEntrys : entrys) {
-				inventoryService.inputs(accountEntrys.getCentroId(), 
-						accountEntrys.getUserId(), 
-						accountEntrys.getItemId(),
+				inventoryService.inputs(accountEntrys.getCentroId(), accountEntrys.getUserId(), accountEntrys.getItemId(),
 						accountEntrys.getEntrys());
 			}
 		}
@@ -290,14 +283,16 @@ public class ShipOrderService {
 
 	/**
 	 * 查询所有出库单(待处理)
+	 * 
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderWaits() {
 		return shipOrderDao.findSendOrderWaits(1L, DEFAULT_FETCH_ROWS);
 	}
-	
+
 	/**
 	 * 根据交易订单ID查询发货单
+	 * 
 	 * @param tradeId
 	 * @return
 	 */
@@ -309,15 +304,17 @@ public class ShipOrderService {
 	 * 运单打印调用接口， 按规则分类所有未处理出库单。
 	 * 
 	 * 先查询仓库的所有待处理出库单，按规则将运输公司和运输公司编码填充到出库单。
-	 * @param centroId 仓库ID
+	 * 
+	 * @param centroId
+	 *            仓库ID
 	 * @return 出库单列表
 	 */
 	public List<ShipOrder> findGroupSendOrderWaits(Long centroId) {
 		List<ShipOrder> orders = shipOrderDao.findSendOrderWaits(centroId, DEFAULT_FETCH_ROWS);
-//		for (ShipOrder shipOrder : orders) {
-//			ksession.insert(shipOrder);
-//		}
-//		ksession.fireAllRules();
+		// for (ShipOrder shipOrder : orders) {
+		// ksession.insert(shipOrder);
+		// }
+		// ksession.fireAllRules();
 		String companyCode;
 		String companyName;
 		List<ShipOrder> results = new ArrayList<ShipOrder>();
@@ -332,9 +329,10 @@ public class ShipOrderService {
 		}
 		return results;
 	}
-	
+
 	/**
 	 * 提交给运单打印的商品明细字段
+	 * 
 	 * @param order
 	 * @return
 	 */
@@ -353,40 +351,42 @@ public class ShipOrderService {
 		}
 		return buf.toString();
 	}
-	
+
 	// 备注
 	private String buildRemark(ShipOrder order) {
 		StringBuffer buf = new StringBuffer();
 		// 卖家买家留言备注
 		if (StringUtils.isNotBlank(order.getSellerMemo())) {
-			buf.append("卖家:").append(order.getSellerMemo()).append(",");	
+			buf.append("卖家:").append(order.getSellerMemo()).append(",");
 		}
 		if (StringUtils.isNotBlank(order.getBuyerMemo())) {
-			buf.append("买家:").append(order.getBuyerMemo()).append(",");	
+			buf.append("买家:").append(order.getBuyerMemo()).append(",");
 		}
 		if (StringUtils.isNotBlank(order.getBuyerMessage())) {
 			buf.append("买家留言:" + order.getBuyerMessage());
 		}
 		return buf.toString();
 	}
-	
+
 	/**
 	 * 查询所有出库单(等待用户签收)
+	 * 
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderSignWaits() {
 		return shipOrderDao.findSendOrderSignWaits();
 	}
-	
+
 	/**
 	 * 根据淘宝交易号查询出货单
+	 * 
 	 * @param tradeId
 	 * @return
 	 */
 	public ShipOrder getSendShipOrderByTradeId(Long tradeId) {
 		return shipOrderDao.getSendShipOrderByTradeId(tradeId);
 	}
-	 
+
 	/**
 	 * 创建出库单
 	 * 
@@ -412,18 +412,16 @@ public class ShipOrderService {
 			}
 		}
 	}
-	
+
 	/**
 	 * 运单打印成功，注册运单信息。
 	 * 
-	 * @param Map printedOrders 已完成打印的出货单
-	 * Map结构:
-	 * id=出货单ID
-	 * expressCompany=运输公司CODE
-	 * expressOrderno=运单号
+	 * @param Map
+	 *            printedOrders 已完成打印的出货单 Map结构: id=出货单ID
+	 *            expressCompany=运输公司CODE expressOrderno=运单号
 	 * 
 	 */
-	public void setSendOrderExpress(List<Map<String,String>> orderMaps) {
+	public void setSendOrderExpress(List<Map<String, String>> orderMaps) {
 		if (CollectionUtils.isNotEmpty(orderMaps)) {
 			for (Map<String, String> map : orderMaps) {
 				Assert.notNull(map.get("expressCompany"), "物流公司不能为空");
@@ -432,19 +430,22 @@ public class ShipOrderService {
 			}
 		}
 	}
-	
+
 	/**
 	 * 查询所有未拣货出库单
+	 * 
 	 * @param centroId
-	 * @param status TODO
+	 * @param status
+	 *            TODO
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderByStatus(Long centroId, String status) {
 		return shipOrderDao.findSendOrderByStatus(centroId, status, DEFAULT_FETCH_ROWS);
 	}
-	
+
 	/**
 	 * 重置货单为运单未打印状态。
+	 * 
 	 * @param orderIds
 	 */
 	public void reExpressShipOrder(Long[] orderIds) {
@@ -455,9 +456,10 @@ public class ShipOrderService {
 			shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.WAIT_EXPRESS_RECEIVED);
 		}
 	}
-	
+
 	/**
 	 * 根据出库单ID查询
+	 * 
 	 * @param orderIds
 	 * @return
 	 */
@@ -474,16 +476,17 @@ public class ShipOrderService {
 
 	/**
 	 * 根据运单号或昵称查询出库单
+	 * 
 	 * @param q
 	 * @return
 	 */
 	public List<ShipOrder> findSendOrderByQ(String q) {
 		return shipOrderDao.findSendOrderByQ(q);
 	}
-	
+
 	/**
-	 * (仓库方)批量提交出库单，等待用户签收.
-	 * 此时订单已具有快递公司及运单号信息
+	 * (仓库方)批量提交出库单，等待用户签收. 此时订单已具有快递公司及运单号信息
+	 * 
 	 * @param orderIds
 	 */
 	public void submits(Long[] orderIds) {
@@ -495,74 +498,61 @@ public class ShipOrderService {
 			shipOrderDao.setTradeStatus(orderId, Trade.Status.TRADE_WAIT_EXPRESS_NOFITY);
 		}
 	}
-	
+
 	/**
 	 * (商铺方)通知用户签收[多条]
+	 * 
 	 * @param tradeIds
 	 * @return 错误的通知条数。
+	 * @throws ApiException 
 	 */
-	public List<String> batchNotifyUserSign(Long[] tradeIds) {
+	public void batchNotifyUserSign(Long[] tradeIds) throws ApiException {
 		if (tradeIds == null || tradeIds.length == 0) {
-			return null;
+			return;
 		}
-		List<String> errorNofitys = new ArrayList<String>();
 		for (Long tradeId : tradeIds) {
-			String errorMessage = notifyUserSign(tradeId);
-			if (StringUtils.isNotBlank(errorMessage)) {
-				errorNofitys.add(errorMessage);
-			}
+			notifyUserSign(tradeId);
 		}
-		return errorNofitys;
 	}
-	
+
 	/**
 	 * (商铺方)通知用户签收[单条]
+	 * 
 	 * @param tradeId
-	 * @return
-	 */
-	@SuppressWarnings("null")
-	public String notifyUserSign(Long tradeId) {
-		ShipOrder order = getSendShipOrderByTradeId(tradeId);
-		Long tid = tradeService.getRelatedTid(tradeId);
-		LogisticsOfflineSendResponse resp = null;
-		try {
-			resp = topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
-			tradeService.updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
-		} catch (ApiException e) {
-			if (StringUtils.isNotEmpty(resp.getErrorCode())) {
-				StringBuffer error = new StringBuffer();
-				error.append(order.getBuyerNick()).append("订单通知失败,原因").append(resp.getMsg()).append(resp.getSubMsg());
-				return error.toString();
-			}
-		}
-		return null;
-	}
-	
-	
-	/**
-	 * (仓库方)提交出货单 - 单条老版
-	 * @param order
 	 * @return
 	 * @throws ApiException 
 	 */
+	public void notifyUserSign(Long tradeId) throws ApiException {
+		ShipOrder order = getSendShipOrderByTradeId(tradeId);
+		List<Long> tids = tradeService.getRelatedTid(tradeId);
+		for (Long tid : tids) {
+			topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
+		}
+		tradeService.updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
+	}
+
+	/**
+	 * (仓库方)提交出货单 - 单条老版
+	 * 
+	 * @param order
+	 * @return
+	 * @throws ApiException
+	 */
 	public ShipOrder submitSendOrder(ShipOrder order) throws ApiException {
-		
+
 		// 更新基本信息（运单号、运输公司）
 		ShipOrder sendOrderEntity = getShipOrder(order.getId());
 		sendOrderEntity.setExpressCompany(order.getExpressCompany());
 		sendOrderEntity.setExpressOrderno(order.getExpressOrderno());
 		sendOrderEntity.setLastUpdateDate(new Date());
 		sendOrderEntity.setLastUpdateUser(order.getLastUpdateUser());
-		
+
 		// 库存记账-仓库发货
 		List<ShipOrderDetail> details = sendOrderEntity.getDetails();
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
-				inventoryService.input(sendOrderEntity.getCentroId(), 
-						sendOrderEntity.getCreateUser().getId(),
-						detail.getItem().getId(),
-						detail.getNum(), 
-						AccountTemplate.STORAGE_SEND);
+				inventoryService.input(sendOrderEntity.getCentroId(), sendOrderEntity.getCreateUser().getId(), detail.getItem()
+						.getId(), detail.getNum(), AccountTemplate.STORAGE_SEND);
 			}
 		}
 		// 更新出货单状态-等待用户签收
@@ -572,9 +562,10 @@ public class ShipOrderService {
 		tradeService.updateTradeStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
 		return sendOrderEntity;
 	}
-	
+
 	/**
 	 * 出货单用户签收确认
+	 * 
 	 * @param orderId
 	 */
 	public ShipOrder signSendOrder(Long orderId) {
@@ -586,21 +577,18 @@ public class ShipOrderService {
 		// 库存记账-买家签收
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
-				inventoryService.input(order.getCentroId(), 
-						order.getCreateUser().getId(),
-						detail.getItem().getId(),
-						detail.getNum(), 
-						AccountTemplate.BUYER_RECEIVED);
+				inventoryService.input(order.getCentroId(), order.getCreateUser().getId(), detail.getItem().getId(),
+						detail.getNum(), AccountTemplate.BUYER_RECEIVED);
 			}
 		}
 		return order;
 	}
-	
+
 	@Transactional(readOnly = false)
 	public void updateShipOrder(ShipOrder order) {
 		orderJpaDao.save(order);
 	}
-	
+
 	public static void main(String[] args) {
 		String s = "席伊吖 特价双面贵妃席 竹席 竹子凉席1.5 1.8米包邮折叠可定制" + "颜色分类:浅灰色; 适用床尺寸:0.9m床;";
 		StringBuffer b = new StringBuffer();

@@ -194,9 +194,8 @@ public class UserTradeController {
 	 */
 	@RequestMapping(value = "/notify", method = RequestMethod.GET)
 	public String notifyUser(@RequestParam(value = "ids", defaultValue = "") Long[] tradeIds,
-			RedirectAttributes redirectAttributes) {
-		List<String> errors = shipOrderService.batchNotifyUserSign(tradeIds);
-		redirectAttributes.addFlashAttribute("errors", errors);
+			RedirectAttributes redirectAttributes) throws ApiException {
+		shipOrderService.batchNotifyUserSign(tradeIds);
 		return "redirect:/trade/notifys";
 	}
 

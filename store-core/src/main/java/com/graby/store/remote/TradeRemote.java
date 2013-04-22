@@ -28,12 +28,6 @@ public interface TradeRemote {
 	 */
 	TradeMapping getRelatedMapping(Long tid);
 
-	/**
-	 * 根据系统交易ID查询淘宝交易ID
-	 * @param tid 系统交易ID
-	 * @return
-	 */
-	Long getRelatedTid(Long tradeId);
 
 	/**
 	 * 订单点发货时, 创建系统交易.

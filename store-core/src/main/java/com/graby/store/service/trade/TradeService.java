@@ -159,7 +159,7 @@ public class TradeService {
 	 * @param tid
 	 * @return
 	 */
-	public Long getRelatedTid(Long tradeId) {
+	public List<Long> getRelatedTid(Long tradeId) {
 		return tradeDao.getRelatedTid(tradeId);
 	}	
 

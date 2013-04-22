@@ -49,7 +49,7 @@ public interface TradeDao {
 	 * @param tradeId
 	 * @return
 	 */
-	public Long getRelatedTid(Long tradeId);
+	public List<Long> getRelatedTid(Long tradeId);
 	
 	/**
 	 * 查询最近50条待处理订单(等待物流通审核)
