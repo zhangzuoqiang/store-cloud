@@ -46,52 +46,52 @@ import com.taobao.api.response.UserSellerGetResponse;
 
 @Component
 public class TopApi {
-	
+
 	/**
 	 * 交易状态
 	 */
 	public interface TradeStatus {
-		
-		/** 没有创建支付宝交易  */
+
+		/** 没有创建支付宝交易 */
 		String TRADE_NO_CREATE_PAY = "TRADE_NO_CREATE_PAY";
-		
-		/** 等待买家付款  */
+
+		/** 等待买家付款 */
 		String TRADE_WAIT_BUYER_PAY = "WAIT_BUYER_PAY";
-		
+
 		/** 等待卖家发货,即:买家已付款 */
-		String TRADE_WAIT_SELLER_SEND_GOODS = "WAIT_SELLER_SEND_GOODS"; 
-		
-		/** 等待买家确认收货,即:卖家已发货  */
+		String TRADE_WAIT_SELLER_SEND_GOODS = "WAIT_SELLER_SEND_GOODS";
+
+		/** 等待买家确认收货,即:卖家已发货 */
 		String TRADE_WAIT_BUYER_CONFIRM_GOODS = "WAIT_BUYER_CONFIRM_GOODS";
-		
+
 		/** 买家已签收,货到付款专用 */
 		String TRADE_BUYER_SIGNED = "TRADE_BUYER_SIGNED";
-		
-		/** 交易成功  */
+
+		/** 交易成功 */
 		String TRADE_FINISHED = "TRADE_FINISHED";
-		
+
 		/** 交易关闭 */
 		String TRADE_CLOSED = "TRADE_CLOSED";
-		
+
 		/** 交易被淘宝关闭 */
 		String TRADE_CLOSED_BY_TAOBAO = "TRADE_CLOSED_BY_TAOBAO";
-		
+
 		/** 包含：WAIT_BUYER_PAY、TRADE_NO_CREATE_PAY */
 		String TRADE_ALL_WAIT_PAY = "ALL_WAIT_PAY";
-		
+
 		/** 包含：TRADE_CLOSED、TRADE_CLOSED_BY_TAOBAO */
 		String TRADE_ALL_CLOSED = "ALL_CLOSED";
-		
+
 	}
-	
+
 	// ----------------- 默认开发环境 ----------------- //
-	
+
 	@Value("${top.appkey}")
 	private String appKey = "1021395257";
-	
+
 	@Value("${top.appSecret}")
 	private String appSecret = "sandbox0475ca7f0a4a47a3d5303014e";
-	
+
 	@Value("${top.serverUrl}")
 	private String serverUrl = "http://gw.api.tbsandbox.com/router/rest";
 
@@ -101,19 +101,29 @@ public class TopApi {
 	public void init() {
 		client = new DefaultTaobaoClient(serverUrl, appKey, appSecret, "json");
 	}
-	
+
 	/**
 	 * 商品字段
 	 */
 	private static final String ITEM_FIELDS = "num_iid,title,detail_url,props,props_name,valid_thru,sku";
 
 	/**
-	 * 交易详细字段
+	 * 交易类型
+	 */
+	private static final String TRADE_TYPE = "ec,fixed,auction,auto_delivery,cod,independent_shop_trade,independent_simple_trade,shopex_trade,netcn_trade,external_trade,hotel_trade,fenxiao,game_equipment,instant_trade,b2c_cod,super_market_trade,super_market_cod_trade,alipay_movie,taohua,waimai,nopaid";
+	
+	/**
+	 * 交易字段（普通）
+	 */
+	private static final String TRADE_FIELDS = "seller_nick, buyer_nick, title, type, created, tid, status, pay_time, end_time, modified, received_payment, pic_path, num_iid, num, shipping_type, receiver_name, receiver_state, receiver_city, receiver_district, receiver_address, receiver_zip, receiver_mobile, receiver_phone,alipay_id,alipay_no,is_lgtype,has_buyer_message,send_time,orders";
+
+	/**
+	 * 交易字段（详细）
 	 */
 	private static final String TRADE_FULLINFO_FIELDS = "tid,num_iid,type,status,num,total_fee,cod_status,shipping_type,is_lgtype,is_force_wlb,is_force_wlb,lg_aging,lg_aging_type,created,pay_time,alipay_no,"
 			+ "seller_nick,seller_mobile,seller_phone,seller_memo,buyer_nick,buyer_memo,has_buyer_message,buyer_message,buyer_area,shipping_type,"
 			+ "receiver_name,receiver_state,receiver_city,receiver_district,receiver_address,receiver_zip,receiver_mobile,receiver_phone,orders";
-	
+
 	/**
 	 * 获取当前卖家nick
 	 * 
@@ -121,7 +131,7 @@ public class TopApi {
 	 * @throws ApiException
 	 */
 	public String getNick(String sessionKey) throws ApiException {
-		UserSellerGetRequest req=new UserSellerGetRequest();
+		UserSellerGetRequest req = new UserSellerGetRequest();
 		req.setFields("nick");
 		UserSellerGetResponse resp = client.execute(req, sessionKey);
 		throwIfError(resp);
@@ -145,7 +155,9 @@ public class TopApi {
 
 	/**
 	 * 获取当前用户商品(库存+出售)
-	 * @param size 抓取数量
+	 * 
+	 * @param size
+	 *            抓取数量
 	 * 
 	 * @return
 	 * @throws ApiException
@@ -164,37 +176,36 @@ public class TopApi {
 		if (items.size() < 20) {
 			for (int i = 0; i < items.size(); i++) {
 				line.append(items.get(i).getNumIid());
-				line.append(i < (items.size()-1) ? "," : "");
+				line.append(i < (items.size() - 1) ? "," : "");
 			}
 			return getItems(line.toString());
 		}
-		
+
 		// 需要分页
 		List<Item> results = new ArrayList<Item>(items.size());
 		Pagination<Item> page = new Pagination<Item>(20);
 		page.setTotalCount(items.size());
 		String numIids;
-		int cur  = page.getFirst();
+		int cur = page.getFirst();
 		do {
 			page.setPageNo(cur);
-			int start = page.getPageSize()* (page.getPageNo()-1);
-			long end = page.isHasNext()? page.getPageSize()*page.getPageNo() : page.getTotalCount();
+			int start = page.getPageSize() * (page.getPageNo() - 1);
+			long end = page.isHasNext() ? page.getPageSize() * page.getPageNo() : page.getTotalCount();
 			for (int i = start; i < end; i++) {
 				line.append(items.get(i).getNumIid());
-				line.append(i < (end-1) ? "," : "");
+				line.append(i < (end - 1) ? "," : "");
 			}
 			numIids = line.toString();
 			results.addAll(getItems(numIids));
 			line = new StringBuffer();
-			cur++;	
+			cur++;
 		} while (page.isHasNext());
 		return results;
 	}
-	
-	
-	
+
 	/**
 	 * 获取出售中的商品列表
+	 * 
 	 * @param q
 	 * @param pageNo
 	 * @param pageSize
@@ -211,9 +222,9 @@ public class TopApi {
 		throwIfError(resp);
 		return resp.getItems();
 	}
-	
+
 	/**
-	 * 获取库存中的商品列表 
+	 * 获取库存中的商品列表
 	 */
 	private List<Item> getInventoryItems(String q, long pageNo, long pageSize) throws ApiException {
 		ItemsInventoryGetRequest req = new ItemsInventoryGetRequest();
@@ -225,7 +236,6 @@ public class TopApi {
 		throwIfError(resp);
 		return resp.getItems();
 	}
-
 
 	/**
 	 * 获取单个商品详细信息
@@ -242,9 +252,10 @@ public class TopApi {
 		throwIfError(resp);
 		return resp.getItem();
 	}
-	
+
 	/**
 	 * 批量获取商品详细信息
+	 * 
 	 * @param numIids
 	 * @return
 	 * @throws ApiException
@@ -253,47 +264,90 @@ public class TopApi {
 		if (numIids == null || numIids.trim().length() == 0) {
 			return null;
 		}
-		ItemsListGetRequest req=new ItemsListGetRequest();
+		ItemsListGetRequest req = new ItemsListGetRequest();
 		req.setFields(ITEM_FIELDS);
 		req.setNumIids(numIids);
-		ItemsListGetResponse resp = client.execute(req , sessionKey());
+		ItemsListGetResponse resp = client.execute(req, sessionKey());
 		throwIfError(resp);
 		return resp.getItems();
 	}
-	
+
 	/**
 	 * 获取SKU
+	 * 
 	 * @param numIid
 	 * @param skuId
 	 * @return
 	 * @throws ApiException
 	 */
 	public Sku getSku(Long numIid, Long skuId) throws ApiException {
-		ItemSkuGetRequest req=new ItemSkuGetRequest();
+		ItemSkuGetRequest req = new ItemSkuGetRequest();
 		req.setFields("sku_id,iid,properties,properties_name,quantity,price,outer_id,created,modified,status");
 		req.setSkuId(skuId);
 		req.setNumIid(numIid);
 		ItemSkuGetResponse resp = client.execute(req);
 		return resp.getSku();
-	}	
-
+	}
+	
 	/**
-	 * 增量获取待发货交易数据
-	 * @param status 
+	 * 获取交易订单(普通数据，用于大批量活动导入)
+	 * 
+	 * @param status
 	 * @param start
 	 * @param end
-	 * @throws Exception
+	 * @return
+	 * @throws ApiException
 	 */
-	public List<Trade> getTrades(String status, Date start, Date end) throws Exception {
+	public List<Long> getTids(String status, Date start, Date end) throws ApiException {
 		TradesSoldIncrementGetRequest req = new TradesSoldIncrementGetRequest();
 		req.setFields("tid");
-		req.setType("ec,fixed,auction,auto_delivery,cod,independent_shop_trade,independent_simple_trade,shopex_trade,netcn_trade,external_trade,hotel_trade,fenxiao,game_equipment,instant_trade,b2c_cod,super_market_trade,super_market_cod_trade,alipay_movie,taohua,waimai,nopaid");
+		req.setType(TRADE_TYPE);
 		if (StringUtils.isNotBlank(status)) {
 			req.setStatus(status);
 		}
 		req.setStartModified(start);
 		req.setEndModified(end);
-		req.setPageSize(50L);
+		req.setPageSize(100L);
+		req.setUseHasNext(false);
+		TradesSoldIncrementGetResponse rsp = client.execute(req, sessionKey());
+		List<Long> tids = new ArrayList<Long>();
+		if (rsp.isSuccess()) {
+			long pageCount = (rsp.getTotalResults() + req.getPageSize() - 1) / req.getPageSize();
+			while (pageCount > 0) {
+				req.setPageNo(pageCount);
+				req.setUseHasNext(true); // 终止统计
+				rsp = client.execute(req, sessionKey());
+				if (rsp.isSuccess()) {
+					for (Trade trade : rsp.getTrades()) {
+						tids.add(trade.getTid());
+					}
+					pageCount--;
+				}
+			}
+		}
+		return tids;
+	}
+	
+
+	/**
+	 * 获取交易订单(普通数据，用于大批量活动导入)
+	 * 
+	 * @param status
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws ApiException
+	 */
+	public List<Trade> getTrades(String status, Date start, Date end) throws ApiException {
+		TradesSoldIncrementGetRequest req = new TradesSoldIncrementGetRequest();
+		req.setFields(TRADE_FIELDS);
+		req.setType(TRADE_TYPE);
+		if (StringUtils.isNotBlank(status)) {
+			req.setStatus(status);
+		}
+		req.setStartModified(start);
+		req.setEndModified(end);
+		req.setPageSize(100L);
 		req.setUseHasNext(false);
 		TradesSoldIncrementGetResponse rsp = client.execute(req, sessionKey());
 		List<Trade> trades = new ArrayList<Trade>();
@@ -304,10 +358,7 @@ public class TopApi {
 				req.setUseHasNext(true); // 终止统计
 				rsp = client.execute(req, sessionKey());
 				if (rsp.isSuccess()) {
-					for (Trade t : rsp.getTrades()) {
-						Trade trade = getFullinfoTrade(t.getTid());
-						trades.add(trade);
-					}
+					trades.addAll(rsp.getTrades());
 					pageCount--;
 				}
 			}
@@ -333,27 +384,33 @@ public class TopApi {
 
 	/**
 	 * 用户调用该接口可实现自己联系发货（线下物流），使用该接口发货，交易订单状态会直接变成卖家已发货。不支持货到付款、在线下单类型的订单。
-	 * @param tid 交易号
-	 * @param outSid 运单号 like 1200722815552 
-	 * @param companyCode 物流公司编号 like YUNDA
-	 * @throws ApiException 
+	 * 
+	 * @param tid
+	 *            交易号
+	 * @param outSid
+	 *            运单号 like 1200722815552
+	 * @param companyCode
+	 *            物流公司编号 like YUNDA
+	 * @throws ApiException
 	 */
-	public LogisticsOfflineSendResponse tradeOfflineShipping(Long tid, String outSid, String companyCode) throws ApiException {
-		LogisticsOfflineSendRequest req=new LogisticsOfflineSendRequest();
+	public LogisticsOfflineSendResponse tradeOfflineShipping(Long tid, String outSid, String companyCode)
+			throws ApiException {
+		LogisticsOfflineSendRequest req = new LogisticsOfflineSendRequest();
 		req.setTid(tid);
 		req.setOutSid(outSid);
 		req.setCompanyCode(companyCode);
-		LogisticsOfflineSendResponse resp = client.execute(req , sessionKey());
+		LogisticsOfflineSendResponse resp = client.execute(req, sessionKey());
 		return resp;
 	}
-	
+
 	/**
 	 * 用户根据淘宝交易号查询物流流转信息
+	 * 
 	 * @return
 	 * @throws ApiException
 	 */
 	public ExpressTrace getExpressTrace(Long tid) throws ApiException {
-		LogisticsTraceSearchRequest req=new LogisticsTraceSearchRequest();
+		LogisticsTraceSearchRequest req = new LogisticsTraceSearchRequest();
 		ExpressTrace trace = new ExpressTrace();
 		req.setTid(tid);
 		req.setSellerNick(ShiroContextUtils.getNickname());
@@ -387,5 +444,43 @@ public class TopApi {
 			throw new ServiceException(resp.getMsg() + resp.getSubMsg());
 		}
 	}
-	
+//	/**
+//	 * 增量获取交易数据(详细数据)
+//	 * 
+//	 * @param status
+//	 * @param start
+//	 * @param end
+//	 * @throws Exception
+//	 */
+//	public List<Trade> getFullTrades(String status, Date start, Date end) throws Exception {
+//		TradesSoldIncrementGetRequest req = new TradesSoldIncrementGetRequest();
+//		req.setFields("tid");
+//		req.setType(TRADE_TYPE);
+//		if (StringUtils.isNotBlank(status)) {
+//			req.setStatus(status);
+//		}
+//		req.setStartModified(start);
+//		req.setEndModified(end);
+//		req.setPageSize(50L);
+//		req.setUseHasNext(false);
+//		TradesSoldIncrementGetResponse rsp = client.execute(req, sessionKey());
+//		List<Trade> trades = new ArrayList<Trade>();
+//		if (rsp.isSuccess()) {
+//			long pageCount = (rsp.getTotalResults() + req.getPageSize() - 1) / req.getPageSize();
+//			while (pageCount > 0) {
+//				req.setPageNo(pageCount);
+//				req.setUseHasNext(true); // 终止统计
+//				rsp = client.execute(req, sessionKey());
+//				if (rsp.isSuccess()) {
+//					for (Trade t : rsp.getTrades()) {
+//						Trade trade = getFullinfoTrade(t.getTid());
+//						trades.add(trade);
+//					}
+//					pageCount--;
+//				}
+//			}
+//		}
+//		return trades;
+//	}
+
 }

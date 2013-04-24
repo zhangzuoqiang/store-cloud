@@ -128,7 +128,8 @@
 					<td>
 						<div>
 							<c:forEach items="${trade.orders}" var="order">
-								${order.title}
+								${order.title} <br>
+								规格：${order.skuPropertiesName}
 								<span class="label label-success">
 								${order.stockNum}
 								</span> <br/>
@@ -195,7 +196,8 @@
 					</td>
 					<td>
 						<c:forEach items="${trade.orders}" var="order">
-							${order.title}
+							${order.title}<br>
+							规格：${order.skuPropertiesName}
 							<span id="err" class="label label-important"> 
 							<c:if test="${order.stockNum == -1}">
 								未关联 
@@ -224,6 +226,7 @@
 			<th>卖家昵称</th>
 			<th>收货人</th>
 			<th>收货地址</th>
+			<th>商品</th>
 			<th>仓库处理状态</th>
 			</tr></thead>
 			<tbody>
@@ -261,6 +264,17 @@
 					<td>${trade.receiverName}</td>
 					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 					 	${trade.receiverAddress}
+					</td>
+					<td>
+						<div>
+							<c:forEach items="${trade.orders}" var="order">
+								${order.title} <br>
+								规格：${order.skuPropertiesName}
+								<span class="label label-success">
+								${order.stockNum}
+								</span> <br/>
+							</c:forEach>
+						</div>
 					</td>
 					<td>
 						${e:tradeStatus(trade.tag)}

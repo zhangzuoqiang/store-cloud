@@ -37,7 +37,11 @@ public class TradeRemoteImpl implements TradeRemote {
 		return tradeService.createSendShipOrderByTradeId(tradeId);
 	}
 
-
+	@Override
+	public void createAllSendShipOrder(Long centroId) {
+		tradeService.createAllSendShipOrder(centroId);
+	}
+	
 	@Override
 	public List<Trade> findWaitAuditTrades() {
 		return tradeService.findWaitAuditTrades();

@@ -106,7 +106,13 @@
 			receiver_state AS "receiverState"
 		FROM sc_trade a  
 			LEFT JOIN sc_user b ON b.id = a.user_id 
-		WHERE a.status='TRADE_WAIT_CENTRO_AUDIT'
+		WHERE a.status='TRADE_WAIT_CENTRO_AUDIT' limit 200
+	</select>
+	
+	<select id="findWaitAuditTradeIds" resultType="long">
+		SELECT id
+		FROM sc_trade a  
+		WHERE a.status='TRADE_WAIT_CENTRO_AUDIT' and a.centro_id=#{0}
 	</select>
 	
 	<update id="updateTradeStatus"> 

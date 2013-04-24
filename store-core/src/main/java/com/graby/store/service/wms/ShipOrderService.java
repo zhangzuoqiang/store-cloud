@@ -39,7 +39,7 @@ import com.taobao.api.ApiException;
 public class ShipOrderService {
 
 	// 默认查询条数
-	private static final int DEFAULT_FETCH_ROWS = 200;
+	private static final int DEFAULT_FETCH_ROWS = 1000;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

@@ -16,9 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.graby.store.base.GroupMap;
 import com.graby.store.base.MessageContextHelper;
 import com.graby.store.base.ServiceException;
-import com.graby.store.base.GroupMap;
 import com.graby.store.dao.jpa.TradeJpaDao;
 import com.graby.store.dao.jpa.TradeOrderJpaDao;
 import com.graby.store.dao.mybatis.TradeDao;
@@ -73,6 +73,29 @@ public class TradeService {
 	
 	/* ====================== 交易相关查询 ======================= */
 	
+	private List<Long> fetchTopTradeIds(String status, int ...preDays) throws ApiException {
+		List<Long> total = new ArrayList<Long>();
+		for (int preday : preDays) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -preday);
+			Date day = cal.getTime();
+			Date start =  DateUtils.getMoning(day);
+			Date end = preday == 0 ? day : DateUtils.getEnd(day);
+			total.addAll(topApi.getTids(status, start, end));
+		}
+		return total;
+	}
+	
+	public GroupMap<String, Long> fetchWaitSendTopTradeTotalResults(int ...preDays) throws ApiException {
+		GroupMap<String, Long> results = new GroupMap<String, Long>();
+		List<Long> tids = fetchTopTradeIds(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, preDays);
+		for (Long tid : tids) {
+			Long tradeId = tradeDao.getRelatedTradeId(tid);
+			results.put(tradeId == null ? "unrelated" : "related", tid);
+		}
+		return results;
+	}
+	
 	/**
 	 * 查询淘宝交易
 	 * @param status 状态
@@ -80,7 +103,7 @@ public class TradeService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<com.taobao.api.domain.Trade> fetchTopTrades(String status, int... preDays) throws Exception {
+	private List<com.taobao.api.domain.Trade> fetchTopTrades(String status, int... preDays) throws Exception {
 		List<com.taobao.api.domain.Trade> trades = new ArrayList<com.taobao.api.domain.Trade>();
 		for (int preday : preDays) {
 			Calendar cal = Calendar.getInstance();
@@ -92,7 +115,7 @@ public class TradeService {
 			trades.addAll(result);
 		}
 		return trades;
-	}	
+	}
 	
 	/**
 	 * 查询最近几天的交易待发货订单
@@ -102,15 +125,16 @@ public class TradeService {
 	 */
 	public GroupMap<String, Trade> fetchWaitSendTopTrades(int... preDays) throws Exception {
 		List<com.taobao.api.domain.Trade> trades = fetchTopTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, preDays);
-		return group(trades);
+		return groupAdapter(trades);
 	}
 	
 	/**
-	 * 查询最近5天退款单
+	 * 查询最近5天退款单 
 	 * @return
 	 * @throws Exception 
 	 */
 	public List<Trade> fetchRefundTrades() throws Exception {
+		// TODO
 		List<com.taobao.api.domain.Trade> topTrades = fetchTopTrades("", 0, 1, 2, 3);
 		List<Trade> trades = new ArrayList<Trade>();
 		for (com.taobao.api.domain.Trade topTrade : topTrades) {
@@ -130,7 +154,7 @@ public class TradeService {
 	 * @return
 	 * @throws ApiException
 	 */
-	private GroupMap<String, Trade> group(List<com.taobao.api.domain.Trade> trades) throws ApiException {
+	private GroupMap<String, Trade> groupAdapter(List<com.taobao.api.domain.Trade> trades) throws ApiException {
 		GroupMap<String, Trade> groupResults = new GroupMap<String, Trade>(); 
 		for (com.taobao.api.domain.Trade topTrade : trades) {
 			Trade trade = tradeAdapter.adapter(topTrade);
@@ -196,7 +220,7 @@ public class TradeService {
 	}	
 
 	/**
-	 * 查询最近50条待处理系统订单(等待物流通审核)
+	 * 查询最近200条待处理系统订单(等待物流通审核)
 	 * @return
 	 */
 	public List<Trade> findWaitAuditTrades() {
@@ -233,6 +257,7 @@ public class TradeService {
 	/**
 	 * 根据淘宝交易ID批量创建系统交易
 	 * 合并收货方相同的订单。
+	 * 1000条限制，后续待接口无限制放开。
 	 * @param tids
 	 * @throws NumberFormatException
 	 * @throws ApiException
@@ -241,17 +266,22 @@ public class TradeService {
 		if (tids == null || tids.length == 0) {
 			return ;
 		}
-		int success = 0;
+		
 		// 根据详细地址分组，重复的可合并
 		GroupMap<String, com.taobao.api.domain.Trade> tradeGroup = new GroupMap<String, com.taobao.api.domain.Trade>();
+		int count = 1;
 		for (String tid : tids) {
 			try {
 				com.taobao.api.domain.Trade topTrade = topApi.getFullinfoTrade(Long.valueOf(tid));
 				tradeGroup.put(hashAdress(topTrade), topTrade);
+				if (count++ >= 1000) {
+					break;
+				}
 			} catch (Exception e) {
 				MessageContextHelper.append("创建系统交易失败：" + e.getMessage());
 			}
 		}
+		int success = 0;
 		Set<String> keys = tradeGroup.getKeySet();
 		for (String key : keys) {
 			List<com.taobao.api.domain.Trade> topTrades = tradeGroup.getList(key);
@@ -355,6 +385,18 @@ public class TradeService {
 		shipOrderService.createSendShipOrder(shipOrder);
 		updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
 		return shipOrderService.getShipOrder(shipOrder.getId());
+	}
+	
+	/**
+	 * 根据交易订单创建所有出库单
+	 */
+	public void createAllSendShipOrder(Long centroId) {
+		List<Long> tradeIds = tradeDao.findWaitAuditTradeIds(centroId);
+		if (CollectionUtils.isNotEmpty(tradeIds)) {
+			for (Long tradeId : tradeIds) {
+				createSendShipOrderByTradeId(tradeId);
+			}
+		}
 	}
 	
 	/**

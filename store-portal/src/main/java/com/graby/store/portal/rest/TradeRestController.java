@@ -23,8 +23,23 @@ public class TradeRestController {
 
 	@Autowired
 	private ShipOrderService shipOrderService;
+	
 	/**
-	 * 根据淘宝交易ID批量创建系统交易订单 
+	 * 获取今日未发货交易总数
+	 * @return
+	 * @throws Exception
+	 */
+//	@RequestMapping(value = "/special/fetch", method = RequestMethod.POST)
+//	public ResponseEntity<Long> specialResult(@RequestParam(value = "preday") int preday) throws Exception {
+////		long total = preday == -1 ?
+////				tradeService.fetchTopTradeIds(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 0,1,2,3,4,5,6) :
+////				tradeService.fetchTopTradeIds(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 0);
+//		
+//		return new ResponseEntity<Long>(0L, HttpStatus.OK);
+//	}
+	
+	/**
+	 * 根据淘宝交易ID批量创建系统交易订单 （1000条）
 	 * 库存记账: 可销售->冻结
 	 * 
 	 * @param tids

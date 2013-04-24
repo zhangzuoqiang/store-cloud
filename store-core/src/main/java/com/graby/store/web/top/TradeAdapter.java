@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import com.graby.store.entity.Centro;
 import com.graby.store.entity.Trade;
@@ -124,6 +125,7 @@ public class TradeAdapter {
 	private com.graby.store.entity.Item relatedItem(Long numIid, Long skuId) {
 		com.graby.store.entity.Item e = new com.graby.store.entity.Item();
 		Long itemId = itemService.getRelatedItemId(numIid, skuId);
+		Assert.notNull(itemId, "未找到关联的商品:numIid=" + numIid + ",sku="+skuId);
 		e.setId(itemId);
 		return e;
 	}

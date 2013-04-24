@@ -42,9 +42,15 @@ public interface TradeRemote {
 	 * @return
 	 */
 	ShipOrder createSendShipOrderByTradeId(Long tradeId);
+	
+	/**
+	 * 根据交易订单创建所有出库单
+	 * @param centroId 仓库ID
+	 */
+	void createAllSendShipOrder(Long centroId);
 
 	/**
-	 * 查询最近50条待处理交易(等待物流通审核)
+	 * 查询最近200条待处理交易(等待物流通审核)
 	 * @return
 	 */
 	List<Trade> findWaitAuditTrades();

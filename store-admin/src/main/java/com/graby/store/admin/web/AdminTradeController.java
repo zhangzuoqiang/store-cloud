@@ -96,6 +96,26 @@ public class AdminTradeController {
 	}
 	
 	/**
+	 * 活动专场 用于大批量团购
+	 * @return
+	 */
+	@RequestMapping(value = "special/waits")
+	public String special() {
+		return "/admin/tradeSpecialAudit";
+	}
+	
+	/**
+	 * 活动专场 审核所有待处理交易订单
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "mkship/all", method=RequestMethod.GET)
+	public String auditAll() throws ApiException {
+		tradeRemote.createAllSendShipOrder(1L);
+		return "redirect:/trade/waits";
+	}
+	
+	/**
 	 * 查询所有待处理出库单
 	 * @return
 	 * @throws ApiException

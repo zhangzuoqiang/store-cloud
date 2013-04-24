@@ -1,5 +1,6 @@
 package com.graby.store.portal.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.graby.store.base.GroupMap;
 import com.graby.store.entity.Trade;
 import com.graby.store.service.trade.TradeService;
-import com.graby.store.service.wms.ShipOrderService;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 
@@ -29,10 +28,25 @@ public class TradeController {
 
 	@Autowired
 	private TradeService tradeService;
-
-	@Autowired
-	private ShipOrderService shipOrderService;
-
+	
+	/**
+	 * 活动专场 用于大批量团购
+	 * @return
+	 */
+	@RequestMapping(value = "/special")
+	public String special() {
+		return "trade/special";
+	}
+	
+	@RequestMapping(value = "/special/fetch/ajax")
+	public String specialResult(@RequestParam(value = "preday") int preday, Model model) throws Exception {
+		GroupMap<String,Long> results = tradeService.fetchWaitSendTopTradeTotalResults(preday);
+		model.addAttribute("related", results.getList("related"));
+		List<Long> unRelated = results.getList("unrelated");
+		model.addAttribute("unrelated", unRelated == null ? new ArrayList<Long>() : unRelated);
+		return "trade/specialFetch";
+	}
+	
 	/**
 	 * 批量查询淘宝交易订单（多条）
 	 * 
@@ -40,7 +54,7 @@ public class TradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/waits")
-	public String waitsForward() throws ApiException {
+	public String waitsForward() {
 		return "trade/waits";
 	}
 

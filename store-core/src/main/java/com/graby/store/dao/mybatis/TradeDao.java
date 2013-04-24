@@ -52,10 +52,18 @@ public interface TradeDao {
 	public List<Long> getRelatedTid(Long tradeId);
 	
 	/**
-	 * 查询最近50条待处理订单(等待物流通审核)
+	 * 查询最近200条待处理订单(等待物流通审核)
+	 * TODO 多仓库
 	 * @return
 	 */
 	public List<Trade> findWaitAuditTrades();
+	
+	/**
+	 * 查询所有待审核交易订单
+	 * @param centroId
+	 * @return
+	 */
+	public List<Long> findWaitAuditTradeIds(Long centroId);
 	
 	/**
 	 * 查询未完成交易订单
