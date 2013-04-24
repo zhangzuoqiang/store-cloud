@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.graby.store.base.MessageContextHelper;
 import com.graby.store.dao.jpa.EntryOrderDetailJpaDao;
 import com.graby.store.dao.jpa.ShipOrderJpaDao;
 import com.graby.store.dao.mybatis.ShipOrderDao;
@@ -526,6 +527,7 @@ public class ShipOrderService {
 		List<Long> tids = tradeService.getRelatedTid(tradeId);
 		for (Long tid : tids) {
 			topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
+			MessageContextHelper.append("通知成功(订单号" + tid + ", 运单号" + order.getExpressOrderno() + ")");
 		}
 		tradeService.updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
 	}

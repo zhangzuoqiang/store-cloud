@@ -31,7 +31,7 @@ import com.graby.store.web.auth.ShiroContextUtils;
  */
 @Controller
 @RequestMapping(value = "/store/entry")
-public class StoreEntryController {
+public class EntryShipController {
 	
 	private static final int PAGE_SIZE = 15;
 	

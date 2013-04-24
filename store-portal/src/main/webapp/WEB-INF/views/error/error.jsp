@@ -19,13 +19,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>500 - 系统错误</title>
+	<title>系统繁忙</title>
 	<link href="${ctx}/static/bootstrap/2.2.2/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 	<link href="${ctx}/static/styles/default.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body>
-	<legend>系统错误</legend>
+	<legend><small>系统繁忙</small></legend>
 	
 	<div class="alert">
 	  <a class="close" data-dismiss="alert">×</a>

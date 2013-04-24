@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import com.graby.store.base.AppException;
+import com.graby.store.base.ServiceException;
 import com.graby.store.entity.Express;
 
 @Component
@@ -83,10 +83,10 @@ public class ExpressService {
 		}
 		Express e = expressEntityMap.get(code);
 		if (e == null) {
-			throw new AppException("未找到快递公司,CODE=" + code);
+			throw new ServiceException("未找到快递公司,CODE=" + code);
 		}
 		if (StringUtils.isEmpty(orderno)) {
-			throw new AppException("运单规则校验未运行，运单号为空");
+			throw new ServiceException("运单规则校验未运行，运单号为空");
 		}
 		String reg = e.getRegMailNo();
 		if (StringUtils.isEmpty(reg)) {

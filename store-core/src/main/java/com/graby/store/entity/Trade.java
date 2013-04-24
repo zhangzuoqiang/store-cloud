@@ -238,13 +238,19 @@ public class Trade implements Serializable{
 	 * 子订单名称集合，不持久化.
 	 */
 	private String itemTitles;
+
+	/* ------------ 不持久化 ------------ */
 	
 	/**
 	 * 淘宝交易ID 不持久化，用于适配传值。
 	 */
 	private Long tid;
 	
-	/* ------------ 其他------------ */
+	/**
+	 * 标签 任意传值 不持久化
+	 */
+	private String tag;
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -294,6 +300,11 @@ public class Trade implements Serializable{
 		return tid;
 	}
 	
+	@Transient
+	public String getTag() {
+		return tag;
+	}
+	
 	/**
 	 * 是否是多个淘宝订单合并而来
 	 * @return
@@ -305,6 +316,7 @@ public class Trade implements Serializable{
 		}
 		return tradeFrom.indexOf(",")>0;
 	}
+	
 	
 	public String getBuyerNick() {
 		return buyerNick;
@@ -520,6 +532,10 @@ public class Trade implements Serializable{
 
 	public void setTid(Long tid) {
 		this.tid = tid;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 
 }

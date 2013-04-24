@@ -14,7 +14,8 @@
 	</div>
 	<h1>订单管理</h1>
 	<div class="submenu">
-		<a href="${ctx}/trade/waits">淘宝未处理订单</a>
+		<a href="${ctx}/trade/waits">代发货订单</a>
+		<a href="${ctx}/trade/refunds">退款处理</a>
 		<a href="${ctx}/trade/received">仓库已接收</a>
 		<a href="${ctx}/trade/notifys">通知用户签收</a>
 		<a href="${ctx}/trade/notifys">物流信息追踪</a>

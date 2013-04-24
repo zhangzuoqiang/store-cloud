@@ -17,7 +17,7 @@ import com.taobao.api.ApiException;
  */
 @Controller
 @RequestMapping(value = "/store/info")
-public class UserInventoryController {
+public class InventoryController {
 	
 	@Autowired
 	private InventoryService inventoryService;

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="e" uri="http://www.wlpost.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <html>
@@ -66,6 +67,7 @@
 		<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
 			<th>建单时间</th>
+			<th>状态</th>
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
 			<th>收货人</th>
@@ -73,9 +75,10 @@
 			<th><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>
 			</tr></thead>
 			<tbody>
-			<c:forEach items="${trades.content}" var="trade">
+			<c:forEach items="${trades}" var="trade">
 				<tr>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
+					<td>${e:tradeStatus(trade.status)}</td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
 	                卖家包邮
@@ -111,7 +114,6 @@
 			</c:forEach>
 			</tbody>
 		</table>
-		<tags:pagination page="${trades}" paginationSize="15"/>
 		</div>
 	
 	</div>

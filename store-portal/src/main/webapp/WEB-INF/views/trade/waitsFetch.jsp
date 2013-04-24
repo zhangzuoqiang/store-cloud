@@ -46,8 +46,8 @@
 	  		if (chk_value.length==0) {
 	  			alert('你还没有选择任何订单！');
 	  		} else {
-	  			var action = "${ctx}/rest/trade/send?tids=" + chk_value;
-	  			$.post(action, {tids:chk_value}, function(data){
+	  			var action = "${ctx}/rest/trade/send?tids="+chk_value;
+	  			$.post(action, function(data){
 	  				$.globalMessenger().post({message:data,  showCloseButton: true});
 	  				$("#body").html(data);
 	  			});
@@ -152,6 +152,7 @@
 			<th>付款时间</th>
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
+			<th>卖家昵称</th>
 			<th>收货人</th>
 			<th>收货地址</th>
 			<th>商品</th>
@@ -187,6 +188,7 @@
 	                	 无要求
 	                	</c:if>                	
 	                </td>
+	                <td>${trade.buyerNick}</td>
 					<td>${trade.receiverName}</td>
 					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 					 	${trade.receiverAddress}
@@ -215,17 +217,20 @@
    		<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
 			<th>交易类型</th>
+			<th>交易状态</th>
 			<th>付款时间</th>
 			<th>物流方式</th>
 			<th>是否次日达\三日达</th>
+			<th>卖家昵称</th>
 			<th>收货人</th>
 			<th>收货地址</th>
-			<th>处理状态</th>
+			<th>仓库处理状态</th>
 			</tr></thead>
 			<tbody>
 			<c:forEach items="${related}" var="trade">
 				<tr>
 					<td>${e:tradeType(trade.type)}</td>
+					<td>${e:tradeStatus(trade.status)}</td>
 					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
@@ -252,21 +257,13 @@
 	                	 无要求
 	                	</c:if>                	
 	                </td>
-	                
+	                <td>${trade.buyerNick}</td>
 					<td>${trade.receiverName}</td>
 					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 					 	${trade.receiverAddress}
 					</td>
 					<td>
-						<c:if test="${trade.status == 'TRADE_WAIT_CENTRO_AUDIT'}">
-							等待物流通审核			
-						</c:if>
-						<c:if test="${trade.status == 'TRADE_WAIT_EXPRESS_SHIP'}">
-							物流通审核通过，快递配送中...
-						</c:if>
-						<c:if test="${trade.status == 'TRADE_WAIT_BUYER_RECEIVED'}">
-							仓库已发货
-						</c:if>					
+						${e:tradeStatus(trade.tag)}
 					</td>		
 				</tr>
 			</c:forEach>

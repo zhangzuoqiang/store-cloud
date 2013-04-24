@@ -1,5 +1,7 @@
 package com.graby.store.portal.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,6 @@ import com.graby.store.entity.Trade;
 import com.graby.store.service.trade.TradeService;
 import com.graby.store.service.wms.ShipOrderService;
 import com.graby.store.web.auth.ShiroContextUtils;
-import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
 
 /**
@@ -24,7 +25,7 @@ import com.taobao.api.ApiException;
  */
 @Controller
 @RequestMapping(value = "/trade")
-public class UserTradeController {
+public class TradeController {
 
 	@Autowired
 	private TradeService tradeService;
@@ -57,27 +58,25 @@ public class UserTradeController {
 	public String fetch(@RequestParam(value = "preday") int preday, Model model) throws Exception {
 
 		/* -1 查询最近一周， 其他指定天数 */
-		GroupMap<String, Trade> tradeMap = preday == -1 ? tradeService.fetchTopTrades(
-				TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, 0, 1, 2, 3, 4) : tradeService.fetchTopTrades(
-				TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, preday);
+		GroupMap<String, Trade> tradeMap = preday == -1 ? 
+			tradeService.fetchWaitSendTopTrades( 0, 1, 2, 3, 4) : 
+			tradeService.fetchWaitSendTopTrades(preday);
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
 		model.addAttribute("failed", tradeMap.getList("failed"));
 		return "trade/waitsFetch";
 	}
-
+	
 	/**
-	 * 根据淘宝交易ID批量创建系统交易订单
-	 * 库存记账: 可销售->冻结
-	 * @param tids
+	 * 退款列表
 	 * @return
-	 * @throws NumberFormatException
-	 * @throws ApiException
+	 * @throws Exception 
 	 */
-	@RequestMapping(value = "/send",  method = RequestMethod.POST)
-	public String send(@RequestParam(value = "tids") String[] tids) throws NumberFormatException, ApiException {
-		tradeService.createTradesFromTop(tids);
-		return "redirect:/trade/waits";
+	@RequestMapping(value = "/refunds")
+	public String refunds(Model model) throws Exception {
+		List<Trade> trades = tradeService.fetchRefundTrades();
+		model.addAttribute("trades", trades);
+		return "trade/refunds";
 	}
 
 	/**
@@ -109,19 +108,32 @@ public class UserTradeController {
 		return "trade/tradeNotifys";
 	}
 
-	/**
-	 * 商铺方通知用户签收
-	 * 库存记账: 冻结->已销售
-	 * @param tid
-	 * @param redirectAttributes
-	 * @return
-	 * @throws ApiException
-	 */
-	@RequestMapping(value = "/notify", method = RequestMethod.GET)
-	public String notifyUser(@RequestParam(value = "ids", defaultValue = "") Long[] tradeIds,
-			RedirectAttributes redirectAttributes) throws ApiException {
-		shipOrderService.batchNotifyUserSign(tradeIds);
-		return "redirect:/trade/notifys";
-	}
+//	/**
+//	 * 根据淘宝交易ID批量创建系统交易订单
+//	 * 库存记账: 可销售->冻结
+//	 * @param tids
+//	 * @return
+//	 * @throws NumberFormatException
+//	 * @throws ApiException
+//	 */
+//	@RequestMapping(value = "/send",  method = RequestMethod.POST)
+//	public String send(@RequestParam(value = "tids") String[] tids) throws NumberFormatException, ApiException {
+//		tradeService.createTradesFromTop(tids);
+//		return "redirect:/trade/waits";
+//	}
+//	/**
+//	 * 商铺方通知用户签收
+//	 * 库存记账: 冻结->已销售
+//	 * @param tid
+//	 * @param redirectAttributes
+//	 * @return
+//	 * @throws ApiException
+//	 */
+//	@RequestMapping(value = "/notify", method = RequestMethod.POST)
+//	public String notifyUser(@RequestParam(value = "ids", defaultValue = "") Long[] tradeIds,
+//			RedirectAttributes redirectAttributes) throws ApiException {
+//		shipOrderService.batchNotifyUserSign(tradeIds);
+//		return "redirect:/trade/notifys";
+//	}
 
 }

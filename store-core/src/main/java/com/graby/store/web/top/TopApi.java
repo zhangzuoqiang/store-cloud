@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.graby.store.base.AppException;
 import com.graby.store.base.Pagination;
+import com.graby.store.base.ServiceException;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
@@ -384,11 +384,8 @@ public class TopApi {
 
 	private void throwIfError(TaobaoResponse resp) {
 		if (StringUtils.isNotEmpty(resp.getErrorCode())) {
-			throw new AppException(resp.getMsg() + resp.getSubMsg());
+			throw new ServiceException(resp.getMsg() + resp.getSubMsg());
 		}
 	}
 	
-//	public static void main(String[] args) {
-//	
-//	}
 }

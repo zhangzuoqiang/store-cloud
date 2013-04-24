@@ -16,7 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.graby.store.base.AppException;
+import com.graby.store.base.MessageContextHelper;
+import com.graby.store.base.ServiceException;
 import com.graby.store.base.GroupMap;
 import com.graby.store.dao.jpa.TradeJpaDao;
 import com.graby.store.dao.jpa.TradeOrderJpaDao;
@@ -73,12 +74,13 @@ public class TradeService {
 	/* ====================== 交易相关查询 ======================= */
 	
 	/**
-	 * 查询最近几天的交易待发货订单
-	 * @param preDays
+	 * 查询淘宝交易
+	 * @param status 状态
+	 * @param preDays 前几天
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	public GroupMap<String, Trade> fetchTopTrades(String status, int... preDays) throws Exception {
+	public List<com.taobao.api.domain.Trade> fetchTopTrades(String status, int... preDays) throws Exception {
 		List<com.taobao.api.domain.Trade> trades = new ArrayList<com.taobao.api.domain.Trade>();
 		for (int preday : preDays) {
 			Calendar cal = Calendar.getInstance();
@@ -89,8 +91,38 @@ public class TradeService {
 			List<com.taobao.api.domain.Trade> result = topApi.getTrades(status, start, end);
 			trades.addAll(result);
 		}
-		return group(trades);
+		return trades;
 	}	
+	
+	/**
+	 * 查询最近几天的交易待发货订单
+	 * @param preDays
+	 * @return
+	 * @throws Exception 
+	 */
+	public GroupMap<String, Trade> fetchWaitSendTopTrades(int... preDays) throws Exception {
+		List<com.taobao.api.domain.Trade> trades = fetchTopTrades(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS, preDays);
+		return group(trades);
+	}
+	
+	/**
+	 * 查询最近5天退款单
+	 * @return
+	 * @throws Exception 
+	 */
+	public List<Trade> fetchRefundTrades() throws Exception {
+		List<com.taobao.api.domain.Trade> topTrades = fetchTopTrades("", 0, 1, 2, 3);
+		List<Trade> trades = new ArrayList<Trade>();
+		for (com.taobao.api.domain.Trade topTrade : topTrades) {
+			TradeMapping mapping = getRelatedMapping(topTrade.getTid());
+			if (mapping != null) {
+				Trade trade = tradeAdapter.adapter(topTrade);
+				trade.setTag(mapping.getStatus());
+				trades.add(trade);
+			}
+		}
+		return trades;
+	}
 
 	/**
 	 * 分组交易
@@ -105,7 +137,7 @@ public class TradeService {
 			// 是否已关联
 			TradeMapping mapping = getRelatedMapping(topTrade.getTid());
 			if (mapping != null) {
-				trade.setStatus(mapping.getStatus());
+				trade.setTag(mapping.getStatus());
 				groupResults.put("related", trade);
 			} else {
 				// 未创建的订单
@@ -207,18 +239,19 @@ public class TradeService {
 	 */
 	public void createTradesFromTop(String[] tids) throws NumberFormatException, ApiException {
 		if (tids == null || tids.length == 0) {
-			return;
+			return ;
 		}
+		int success = 0;
+		// 根据详细地址分组，重复的可合并
 		GroupMap<String, com.taobao.api.domain.Trade> tradeGroup = new GroupMap<String, com.taobao.api.domain.Trade>();
 		for (String tid : tids) {
 			try {
 				com.taobao.api.domain.Trade topTrade = topApi.getFullinfoTrade(Long.valueOf(tid));
 				tradeGroup.put(hashAdress(topTrade), topTrade);
 			} catch (Exception e) {
-				e.printStackTrace();
+				MessageContextHelper.append("创建系统交易失败：" + e.getMessage());
 			}
 		}
-		
 		Set<String> keys = tradeGroup.getKeySet();
 		for (String key : keys) {
 			List<com.taobao.api.domain.Trade> topTrades = tradeGroup.getList(key);
@@ -230,18 +263,18 @@ public class TradeService {
 				Trade trade = tradeAdapter.adapter(topTrades.get(0));
 				// 合并其他订单
 				for (int i = 1; i < topTrades.size(); i++) {
-					Trade otherTrade = tradeAdapter.adapter(topTrades.get(i));
+					Trade anotherTrade = tradeAdapter.adapter(topTrades.get(i));
 					// 合并订单明细
-					trade.getOrders().addAll(otherTrade.getOrders());
+					trade.getOrders().addAll(anotherTrade.getOrders());
 					// 合并备注及留言
-					if (StringUtils.isNotBlank(otherTrade.getSellerMemo())) {
-						trade.setSellerMemo(trade.getSellerMemo() + "," + otherTrade.getSellerMemo());
+					if (StringUtils.isNotBlank(anotherTrade.getSellerMemo())) {
+						trade.setSellerMemo(trade.getSellerMemo() + "," + anotherTrade.getSellerMemo());
 					}
-					if (StringUtils.isNotBlank(otherTrade.getBuyerMessage())) {
-						trade.setBuyerMessage(trade.getBuyerMessage() + "," + otherTrade.getBuyerMessage());
+					if (StringUtils.isNotBlank(anotherTrade.getBuyerMessage())) {
+						trade.setBuyerMessage(trade.getBuyerMessage() + "," + anotherTrade.getBuyerMessage());
 					}
-					if (StringUtils.isNotBlank(otherTrade.getBuyerMemo())) {
-						trade.setBuyerMemo(trade.getBuyerMemo() + "," + otherTrade.getBuyerMemo());
+					if (StringUtils.isNotBlank(anotherTrade.getBuyerMemo())) {
+						trade.setBuyerMemo(trade.getBuyerMemo() + "," + anotherTrade.getBuyerMemo());
 					}
 					tidArray[i] = topTrades.get(i).getTid();
 				}
@@ -249,14 +282,17 @@ public class TradeService {
 				createTrade(trade, null);
 				for (Long tid : tidArray) {
 					mappingTrade(tid, trade.getId());
+					success++;
 				}
 			} else {
 				for (com.taobao.api.domain.Trade topTrade : topTrades) {
 					Trade trade = tradeAdapter.adapter(topTrade);
 					createTrade(trade, topTrade.getTid());
+					success++;
 				}
 			}
 		}
+		MessageContextHelper.append("成功创建系统交易:" + success + "条");
 	}
 	
 	// 根据收货人详细地址Hash
@@ -312,7 +348,7 @@ public class TradeService {
 	public ShipOrder createSendShipOrderByTradeId(Long tradeId) {
 		Long orderId = shipOrderService.getSendOrderIdByTradeId(tradeId);
 		if (orderId != null) {
-			throw new AppException("出货单订单已创建，不能重复提交。交易ID=" + tradeId);
+			throw new ServiceException("出货单订单已创建，不能重复提交。交易ID=" + tradeId);
 		}
 		Trade trade = getTrade(tradeId);
 		ShipOrder shipOrder = geneShipOrderFrom(trade);
@@ -390,6 +426,7 @@ public class TradeService {
 	
 	/**
 	 * 删除交易订单
+	 * TODO 不允许删除
 	 * @param tradeId
 	 */
 	public void deleteTrade(Long tradeId) {
