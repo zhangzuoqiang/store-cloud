@@ -32,7 +32,6 @@ import com.graby.store.service.trade.TradeService;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
-import com.taobao.api.response.LogisticsOfflineSendResponse;
 
 @Component
 @Transactional(readOnly = true)

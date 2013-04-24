@@ -79,3 +79,5 @@ body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53}
 }
 
 #footer a {color: #999;}
+
+#always_top { width:792px; display:block;height:72px; background-color:#FFFFFF}

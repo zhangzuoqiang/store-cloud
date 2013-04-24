@@ -9,6 +9,9 @@
 <html>
 <head>
 	<title>未处理订单</title>
+	<link href="${ctx}/static/messenger/messenger.css" type="text/css" rel="stylesheet" />
+	<link href="${ctx}/static/messenger/messenger-theme-future.css" type="text/css" rel="stylesheet" />
+	<script src="${ctx}/static/messenger/messenger.min.js" type="text/javascript"></script>
 	<script  type="text/javascript">
 	$(function() {
 		
@@ -43,16 +46,20 @@
 	  		if (chk_value.length==0) {
 	  			alert('你还没有选择任何订单！');
 	  		} else {
-	  			var action = "${ctx}/trade/send?tids=" + chk_value;
-	  			window.location.href=action;
+	  			var action = "${ctx}/rest/trade/send?tids=" + chk_value;
+	  			$.post(action, {tids:chk_value}, function(data){
+	  				$.globalMessenger().post({message:data,  showCloseButton: true});
+	  				$("#body").html(data);
+	  			});
 	  		}
 	   });
-		
+	   
 	});
 	
 	</script>
 </head>
 <body>
+<div id="body">
 	<div class="navbar">
 	  <div class="navbar-inner">
 	    <div class="container">
@@ -267,6 +274,6 @@
 		</table>
     	</div>    	    	    	
     </div>
-
+</div>
 </body>
 </html>

@@ -257,6 +257,7 @@ public class TopApi {
 		req.setFields(ITEM_FIELDS);
 		req.setNumIids(numIids);
 		ItemsListGetResponse resp = client.execute(req , sessionKey());
+		throwIfError(resp);
 		return resp.getItems();
 	}
 	

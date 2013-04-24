@@ -102,7 +102,7 @@ public class TradeService {
 		GroupMap<String, Trade> groupResults = new GroupMap<String, Trade>(); 
 		for (com.taobao.api.domain.Trade topTrade : trades) {
 			Trade trade = tradeAdapter.adapter(topTrade);
-			// 是否已创建
+			// 是否已关联
 			TradeMapping mapping = getRelatedMapping(topTrade.getTid());
 			if (mapping != null) {
 				trade.setStatus(mapping.getStatus());

@@ -12,7 +12,7 @@
 
 <c:if test="${not empty stat}">
 <table id="contentTable" class="table table-striped table-condensed"  >
-<thead><tr>
+<thead><tr class="always_top">
 	<th>商品编码</th>
 	<th>商品名称</th>
 	<th>厂家出库</th>
