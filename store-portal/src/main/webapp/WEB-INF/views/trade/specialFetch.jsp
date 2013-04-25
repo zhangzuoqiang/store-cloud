@@ -33,7 +33,7 @@
 <body>
 	<div id="body">
 	<ul>
-		<li>可发送(${fn:length(unrelated)}) <a id="batchSend" class="btn btn-primary" href="#"> 批量发送1000条 </a></li>
+		<li>可发送(${fn:length(unrelated)}) <a id="batchSend" class="btn btn-primary" href="#"> 批量发送 </a></li>
 		<li>已接受(${fn:length(related)})</li>
 	</ul>
 	</div>

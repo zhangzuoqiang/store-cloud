@@ -39,7 +39,7 @@ import com.taobao.api.ApiException;
 public class ShipOrderService {
 
 	// 默认查询条数
-	private static final int DEFAULT_FETCH_ROWS = 1000;
+	private static final int DEFAULT_FETCH_ROWS = 200;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -73,6 +73,7 @@ public class ShipOrderService {
 		return format.format(date);
 	}
 
+	// TODO 不读数据库
 	private String getLastOrderno(Date date) {
 		String dateQur = formateDate(date, "yyyyMMdd");
 		String sql = "select  ifnull(max(substr(orderno,10,5)) , '00000') as no from sc_ship_order t where t.orderno like ?";

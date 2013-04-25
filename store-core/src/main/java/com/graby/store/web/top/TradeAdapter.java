@@ -125,7 +125,6 @@ public class TradeAdapter {
 	private com.graby.store.entity.Item relatedItem(Long numIid, Long skuId) {
 		com.graby.store.entity.Item e = new com.graby.store.entity.Item();
 		Long itemId = itemService.getRelatedItemId(numIid, skuId);
-		Assert.notNull(itemId, "未找到关联的商品:numIid=" + numIid + ",sku="+skuId);
 		e.setId(itemId);
 		return e;
 	}

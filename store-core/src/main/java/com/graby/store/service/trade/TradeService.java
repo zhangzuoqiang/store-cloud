@@ -278,7 +278,7 @@ public class TradeService {
 					break;
 				}
 			} catch (Exception e) {
-				MessageContextHelper.append("创建系统交易失败：" + e.getMessage());
+				MessageContextHelper.append("创建失败：" + e.getMessage());
 			}
 		}
 		int success = 0;
