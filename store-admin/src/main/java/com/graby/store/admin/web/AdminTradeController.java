@@ -151,7 +151,7 @@ public class AdminTradeController {
 		List<ShipOrder> sendOrders  = shipOrderRemote.findSendOrderByStatus(1L, ShipOrder.SendOrderStatus.WAIT_EXPRESS_PICKING);
 		model.addAttribute("orders", sendOrders);
 		return "/admin/sendOrderPickings";
-	}	
+	}
 	
 	/**
 	 * 重置拣货单为运单打印状态
@@ -183,6 +183,10 @@ public class AdminTradeController {
 		model.put("format", format);
 		return new ModelAndView("pickReport", model);
 	}	
+	
+	public String pickAll() {
+		return null;
+	}
 	
 	/**
 	 * 订单已拣货，审核通过提交到系统。（批量 不建议）

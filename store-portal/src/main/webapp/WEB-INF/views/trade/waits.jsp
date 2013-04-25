@@ -50,18 +50,15 @@
 		});
 	}
 	
-	
 	</script>
 </head>
 <body>
 	
 	<div class="row">
 	  <div class="span3">
-	      <div class="btn-group" data-toggle="buttons-radio">
-	      	  <button onclick="javascript:fetchTrade(-1)" class="btn btn-info">最近5天</button>
-			  <button onclick="javascript:fetchTrade(0)" class="btn btn-info"> 今 天 </button>
-			  <button onclick="javascript:fetchTrade(1)" class="btn btn-info"> 昨 天 </button>
-		  </div>	  
+		  <a href="javascript:fetchTrade(0)" class="btn btn-primary"> 今 天 </a>	
+		  <a href="javascript:fetchTrade(1)" class="btn btn-primary"> 昨 天 </a>	
+		  <a href="javascript:fetchTrade(-1)" class="btn btn-primary">最近1周</a>	  
 	  </div>
 	  <div id="info" class="span4 alert alert-info">
 		  抓取未处理交易订单（买家已付款等待商家发货）

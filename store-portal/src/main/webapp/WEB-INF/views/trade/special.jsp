@@ -56,11 +56,11 @@
 <body>
 	
 	<legend><small>活动特卖专场 用于大批量交易订单处理</small></legend>
-	<div class="container">
+	<div>
 		<div class="row">
 		  <div class="span2">
 		      <div class="btn-group" data-toggle="buttons-radio">
-		      	  <button onclick="javascript:fetchTrade(0)" class="btn btn-info">淘宝交易抓单</button>
+		      	  <button onclick="javascript:fetchTrade(0)" class="btn btn-primary">淘宝交易抓单</button>
 			  </div>	  
 		  </div>
 		  <div id="info" class="span4 alert alert-info">
