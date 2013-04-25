@@ -67,7 +67,8 @@
 			<thead><tr>
 			<th>建单时间</th>
 			<th>物流方式</th>
-			<th>是否次日达\三日达</th>
+			<th>淘宝交易号</th>
+			<th>买家昵称</th>
 			<th>收货人</th>
 			<th>收货地址</th>
 			<th><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>
@@ -93,15 +94,8 @@
 	                虚拟发货
 	                </c:if> 
 	                </td>
-	                <td>
-	                	<c:if test="${trade.lgAgingType != null}">
-	                	${trade.lgAgingType} ${trade.lgAging}
-	                	</c:if>
-	                	<c:if test="${trade.lgAgingType == null}">
-	                	 无要求
-	                	</c:if>
-	                </td>
-	                
+	                <td>${trade.tradeFrom}</td>
+	                 <td>${trade.buyerNick}</td>
 					<td>${trade.receiverName}</td>
 					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 					 	${trade.receiverAddress}

@@ -493,7 +493,7 @@ public class ShipOrderService {
 
 	/**
 	 * (商铺方)通知用户签收[单条]
-	 * 
+	 * 库存记账: 冻结->可销售
 	 * @param tradeId
 	 * @return
 	 * @throws ApiException 
@@ -506,6 +506,7 @@ public class ShipOrderService {
 			MessageContextHelper.append("通知成功(订单号" + tid + ", 运单号" + order.getExpressOrderno() + ")");
 		}
 		tradeService.updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
+		inventoryService.input(order, AccountTemplate.STORAGE_SHIPPING_CONFIRM);
 	}
 
 	/**
@@ -523,20 +524,10 @@ public class ShipOrderService {
 		sendOrderEntity.setExpressOrderno(order.getExpressOrderno());
 		sendOrderEntity.setLastUpdateDate(new Date());
 		sendOrderEntity.setLastUpdateUser(order.getLastUpdateUser());
-
-		// 库存记账-仓库发货
-		List<ShipOrderDetail> details = sendOrderEntity.getDetails();
-		if (CollectionUtils.isNotEmpty(details)) {
-			for (ShipOrderDetail detail : details) {
-				inventoryService.input(sendOrderEntity.getCentroId(), sendOrderEntity.getCreateUser().getId(), detail.getItem()
-						.getId(), detail.getNum(), AccountTemplate.STORAGE_SEND);
-			}
-		}
 		// 更新出货单状态-等待用户签收
 		sendOrderEntity.setStatus(ShipOrder.SendOrderStatus.WAIT_BUYER_RECEIVED);
 		updateShipOrder(sendOrderEntity);
-		// 更新交易订单状态-等待用户签收 TODO
-		tradeService.updateTradeStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
+		tradeService.updateTradeStatus(sendOrderEntity.getTradeId(), Trade.Status.TRADE_WAIT_EXPRESS_NOFITY);
 		return sendOrderEntity;
 	}
 
@@ -555,7 +546,7 @@ public class ShipOrderService {
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
 				inventoryService.input(order.getCentroId(), order.getCreateUser().getId(), detail.getItem().getId(),
-						detail.getNum(), AccountTemplate.BUYER_RECEIVED);
+						detail.getNum(), AccountTemplate.STORAGE_SHIPPING_CONFIRM);
 			}
 		}
 		return order;

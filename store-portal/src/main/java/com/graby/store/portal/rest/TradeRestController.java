@@ -54,20 +54,4 @@ public class TradeRestController {
 		return new ResponseEntity<String>(MessageContextHelper.getMessage(), HttpStatus.OK);
 	}
 
-	// /**
-	// * 获取今日未发货交易总数
-	// * @return
-	// * @throws Exception
-	// */
-	// @RequestMapping(value = "/special/fetch", method = RequestMethod.POST)
-	// public ResponseEntity<Long> specialResult(@RequestParam(value = "preday")
-	// int preday) throws Exception {
-	// // long total = preday == -1 ?
-	// //
-	// tradeService.fetchTopTradeIds(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS,
-	// 0,1,2,3,4,5,6) :
-	// tradeService.fetchTopTradeIds(TopApi.TradeStatus.TRADE_WAIT_SELLER_SEND_GOODS,
-	// 0);
-	// return new ResponseEntity<Long>(0L, HttpStatus.OK);
-	// }
 }

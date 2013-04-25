@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.graby.store.dao.mybatis.InventoryDao;
+import com.graby.store.entity.ShipOrder;
+import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.service.inventory.Accounts.Account;
 
 @Component
@@ -50,6 +52,17 @@ public class InventoryService {
 		for (AccountEntry e : entrys) {
 			input(centroId, userId, itemId, e.getNum(), e.getAccountTemplate());
 		}
+	}
+	
+	/**
+	 * 根据发货单记账
+	 * @param order
+	 * @param template
+	 */
+	public void input(ShipOrder order, AccountTemplate template) {
+		for (ShipOrderDetail detail : order.getDetails()) {
+			input(order.getCentroId(), order.getCreateUser().getId(), detail.getNum(), detail.getItem().getId(),template);
+		};
 	}
 
 	/**

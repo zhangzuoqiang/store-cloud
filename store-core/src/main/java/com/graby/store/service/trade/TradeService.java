@@ -28,6 +28,7 @@ import com.graby.store.entity.ShipOrderDetail;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 import com.graby.store.entity.TradeOrder;
+import com.graby.store.service.inventory.AccountTemplate;
 import com.graby.store.service.inventory.Accounts;
 import com.graby.store.service.inventory.InventoryService;
 import com.graby.store.service.item.ItemService;
@@ -372,6 +373,7 @@ public class TradeService {
 	
 	/**
 	 * 根据交易订单创建出库单
+	 * 商品库存记账： 可销售->冻结
 	 * @param tradeId
 	 * @return
 	 */
@@ -384,6 +386,7 @@ public class TradeService {
 		ShipOrder shipOrder = geneShipOrderFrom(trade);
 		shipOrderService.createSendShipOrder(shipOrder);
 		updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_EXPRESS_SHIP);
+		inventoryService.input(shipOrder, AccountTemplate.STORAGE_SHIPPING);
 		return shipOrderService.getShipOrder(shipOrder.getId());
 	}
 	

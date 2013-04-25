@@ -91,10 +91,12 @@
 	</select>		
 	
     <!-- 根据交易查询出货单 -->
-    <select id="getSendShipOrderByTradeId" resultType="ShipOrder">
-		select express_company as "expressCompany", express_orderno as "expressOrderno"  
-		from sc_ship_order 
-		where trade_id=#{0}
+    <select id="getSendShipOrderByTradeId" resultMap="ShipOrderEntity">
+		select
+		  b.shop_name as "createUser.shopName",
+		  a.*
+		from sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
+		where a.trade_id=#{0}
 	</select>
 	
 	

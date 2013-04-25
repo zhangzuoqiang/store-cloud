@@ -2,6 +2,10 @@ package com.graby.store.service.inventory;
 
 import java.io.Serializable;
 
+/**
+ * 多商铺分类记账
+ * @author huabiao.mahb
+ */
 public class AccountEntryArray implements Serializable {
 
 	private static final long serialVersionUID = -5991439870190044027L;

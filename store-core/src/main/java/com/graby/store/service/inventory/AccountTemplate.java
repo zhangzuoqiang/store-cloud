@@ -108,7 +108,7 @@ public class AccountTemplate implements Serializable {
 	 * 借:可销售 
 	 * 贷:冻结
 	 */
-	public static AccountTemplate STORAGE_SEND =  new AccountTemplate(Accounts.SALEABLE, Accounts.FROZEN);
+	public static AccountTemplate STORAGE_SHIPPING =  new AccountTemplate(Accounts.SALEABLE, Accounts.FROZEN);
 	
 	/**
 	 * 用户成功接收 (交易成功)
@@ -116,7 +116,7 @@ public class AccountTemplate implements Serializable {
 	 * 借:冻结
 	 * 贷:已销售
 	 */
-	public static AccountTemplate BUYER_RECEIVED =  new AccountTemplate(Accounts.FROZEN, Accounts.SALED);
+	public static AccountTemplate STORAGE_SHIPPING_CONFIRM =  new AccountTemplate(Accounts.FROZEN, Accounts.SALED);
 	
 	
 	/**
