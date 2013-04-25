@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -30,6 +29,7 @@ import com.graby.store.service.inventory.AccountEntryArray;
 import com.graby.store.service.inventory.AccountTemplate;
 import com.graby.store.service.inventory.InventoryService;
 import com.graby.store.service.trade.TradeService;
+import com.graby.store.util.Seqence;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.graby.store.web.top.TopApi;
 import com.taobao.api.ApiException;
@@ -40,9 +40,6 @@ public class ShipOrderService {
 
 	// 默认查询条数
 	private static final int DEFAULT_FETCH_ROWS = 200;
-
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
 	private ShipOrderJpaDao orderJpaDao;
@@ -73,36 +70,14 @@ public class ShipOrderService {
 		return format.format(date);
 	}
 
-	// TODO 不读数据库
-	private String getLastOrderno(Date date) {
-		String dateQur = formateDate(date, "yyyyMMdd");
-		String sql = "select  ifnull(max(substr(orderno,10,5)) , '00000') as no from sc_ship_order t where t.orderno like ?";
-		List<Map<String, Object>> results = jdbcTemplate.queryForList(sql, "%" + dateQur + "%");
-		Map<String, Object> result = results.iterator().next();
-		return (String) result.get("no");
-	}
-
 	private String geneOrderno(String type) {
 		StringBuffer number = new StringBuffer();
 		number.append(type.equals(ShipOrder.TYPE_ENTRY) ? "E" : "S");
 		Date today = new Date();
 		number.append(formateDate(today, "yyyyMMdd"));
-		String max = getLastOrderno(today);
-		String no = intToString(Integer.parseInt(max) + 1);
-		number.append(no);
+		String max = Seqence.getInstance().next();
+		number.append(max);
 		return number.toString();
-	}
-
-	private static String intToString(int val) {
-		int len = String.valueOf(val).length();
-		StringBuffer buf = new StringBuffer();
-		if (len < 5) {
-			for (int i = 0; i < 5 - len; i++) {
-				buf.append("0");
-			}
-		}
-		buf.append(val);
-		return buf.toString();
 	}
 
 	/**
