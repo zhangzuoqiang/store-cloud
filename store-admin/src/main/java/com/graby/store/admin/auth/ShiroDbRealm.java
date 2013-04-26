@@ -56,7 +56,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		if (user != null) {
 			byte[] salt = Encodes.decodeHex(user.getSalt());
 			return new SimpleAuthenticationInfo(
-					new ShiroUser(user.getId(), user.getUsername(), "snull", user.getShopName()), 
+					new ShiroUser(user.getId(), user.getUsername()), 
 					user.getPassword(),	ByteSource.Util.bytes(salt), getName());
 		} else {
 			return null;
@@ -100,14 +100,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
 
 		private Long userid;
 		private String username;
-		private String session;
-		private String shopname;
 		
-		public ShiroUser(Long userid, String username, String session, String shopname) {
+		public ShiroUser(Long userid, String username) {
 			this.userid = userid;
 			this.username = username;
-			this.session = session;
-			this.shopname = shopname;
 		}
 
 		public String getUsername() {
@@ -118,10 +114,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			return userid;
 		}
 
-		public String getSession() {
-			return session;
-		}
-
+		
 		public void setUsername(String username) {
 			this.username = username;
 		}
@@ -159,8 +152,5 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			return true;
 		}
 
-		public String getShopname() {
-			return shopname;
-		}
 	}
 }

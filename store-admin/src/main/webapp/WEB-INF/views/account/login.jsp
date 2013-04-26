@@ -8,12 +8,9 @@
 <html>
 <head>
 	<title>登录页</title>
-	<script src="${ctx}/static/jquery-validation/1.10.0/jquery.validate.ext.js" type="text/javascript"></script>
 	<link href="${ctx}/static/bootstrap/2.2.2/css/bootstrap.css" type="text/css" rel="stylesheet" />
-	<!-- 
-	<link href="${ctx}/static/jquery-validation/1.10.0/validate.css" type="text/css" rel="stylesheet" />
-	<link href="${ctx}/static/styles/flat-ui.css" type="text/css" rel="stylesheet" />
-	 -->	
+	<link href="${ctx}/static/flat-ui/css/flat-ui.css" type="text/css" rel="stylesheet" />
+	 
 	<script>
 		$(document).ready(function() {
 			$("#username").focus();
@@ -22,7 +19,6 @@
 	</script>
 </head>
 
-<body>
 	<form id="loginForm" action="${ctx}/login" method="post" class="form-horizontal login-form">
 	<%
 	String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
@@ -71,6 +67,7 @@
 		</div>
 	</fieldset>
 	</form>
-	
-</body>
+
+  <body>
+  
 </html>

@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<legend><small></small></legend>
+
 <table id="contentTable" class="table table-striped"  >
 仓库：${centro}
 <thead><tr>
