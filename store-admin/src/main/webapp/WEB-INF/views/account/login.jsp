@@ -10,8 +10,10 @@
 	<title>登录页</title>
 	<script src="${ctx}/static/jquery-validation/1.10.0/jquery.validate.ext.js" type="text/javascript"></script>
 	<link href="${ctx}/static/bootstrap/2.2.2/css/bootstrap.css" type="text/css" rel="stylesheet" />
+	<!-- 
 	<link href="${ctx}/static/jquery-validation/1.10.0/validate.css" type="text/css" rel="stylesheet" />
-	<link href="${ctx}/static/styles/flat-ui.css" type="text/css" rel="stylesheet" />	
+	<link href="${ctx}/static/styles/flat-ui.css" type="text/css" rel="stylesheet" />
+	 -->	
 	<script>
 		$(document).ready(function() {
 			$("#username").focus();
@@ -34,6 +36,17 @@
 	%>
 	<fieldset>
 		<legend><small>物流通后台登陆页面</small></legend>
+		
+		<div class="control-group">
+			<label for="centro" class="control-label">仓库选择</label>
+			<div class="controls">
+				<select name="centro">
+				<c:forEach items="${centros}" var="centro">
+					<option value="${centro.id}">${centro.name}</option>
+				</c:forEach>
+				</select>
+			</div>
+		</div>
 		<div class="control-group">
 			<label for="username" class="control-label">名称:</label>
 			<div class="controls">

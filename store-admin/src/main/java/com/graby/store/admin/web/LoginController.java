@@ -1,17 +1,18 @@
 package com.graby.store.admin.web;
 
 import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.graby.store.entity.Centro;
+import com.graby.store.remote.CentroRemote;
 import com.taobao.api.ApiException;
 
 /**
@@ -23,14 +24,21 @@ import com.taobao.api.ApiException;
 @Controller
 @RequestMapping(value = "/login")
 public class LoginController {
-
+	
+	@Autowired
+	private CentroRemote centroRemote;
+	
 	@RequestMapping(method = RequestMethod.GET)
-	public String login(HttpServletRequest request, HttpServletResponse response) throws ApiException, IOException {
+	public String login(Model model) throws ApiException, IOException {
+		List<Centro> centros = centroRemote.findCentros();
+		model.addAttribute("centros", centros);
 		return "/account/login";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String fail(@RequestParam(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM) String userName, Model model) {
+		List<Centro> centros = centroRemote.findCentros();
+		model.addAttribute("centros", centros);
 		model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, userName);
 		return "account/login";
 	}

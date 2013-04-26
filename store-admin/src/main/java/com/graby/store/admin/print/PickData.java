@@ -1,3 +1,4 @@
+package com.graby.store.admin.print;
 import java.util.List;
 
 import com.graby.store.base.remote.client.ClientFactoryBean;

@@ -61,7 +61,7 @@ public class InventoryService {
 	 */
 	public void input(ShipOrder order, AccountTemplate template) {
 		for (ShipOrderDetail detail : order.getDetails()) {
-			input(order.getCentroId(), order.getCreateUser().getId(), detail.getNum(), detail.getItem().getId(),template);
+			input(order.getCentroId(), order.getCreateUser().getId(),  detail.getItem().getId(), detail.getNum(),template);
 		};
 	}
 

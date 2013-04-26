@@ -57,6 +57,11 @@
 		<property name="serviceInterface" value="com.graby.store.remote.ExpressRemote" />
 	</bean>	
 	
+	<bean id="centroRemote" parent="remoteClient">
+		<property name="serviceUrl" value="centro.call" />
+		<property name="serviceInterface" value="com.graby.store.remote.CentroRemote" />
+	</bean>		
+	
 	<bean id="userRemote" parent="remoteClient">
 		<property name="serviceUrl" value="user.call" />
 		<property name="serviceInterface" value="com.graby.store.remote.UserRemote" />
