@@ -54,7 +54,7 @@
         	</p>
         	买家备注：${entry.trade.sellerMemo} &nbsp;&nbsp;
 			卖家备注：${entry.trade.buyerMemo}<br>
-			买家留言：${entry.trade.buyerMessage} 
+			买家留言：${entry.trade.buyerMessage}
  		</div>
 	</div>
 	<br>

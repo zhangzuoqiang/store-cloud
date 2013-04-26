@@ -10,7 +10,7 @@
 	<h1>库存管理</h1>
 	<div class="submenu">
 		<a href="${ctx}/store/info">库存状态</a>
-		<a href="${ctx}/store/entry/list">入库单</a>
+		<a href="${ctx}/store/entry/list">我要发货</a>
 	</div>
 	<h1>订单管理</h1>
 	<div class="submenu">

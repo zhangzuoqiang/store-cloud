@@ -503,7 +503,7 @@ public class ShipOrderService {
 		List<Long> tids = tradeService.getRelatedTid(tradeId);
 		for (Long tid : tids) {
 			topApi.tradeOfflineShipping(tid, order.getExpressOrderno(), order.getExpressCompany());
-			MessageContextHelper.append("通知成功(订单号" + tid + ", 运单号" + order.getExpressOrderno() + ")");
+			MessageContextHelper.append("已通知" + order.getBuyerNick() + "签收, 运单号:"+ order.getExpressOrderno());
 		}
 		tradeService.updateTradeStatus(tradeId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
 		inventoryService.input(order, AccountTemplate.STORAGE_SHIPPING_CONFIRM);

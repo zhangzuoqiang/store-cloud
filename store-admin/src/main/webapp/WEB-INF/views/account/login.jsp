@@ -2,25 +2,26 @@
 <%@ page import="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"%>
 <%@ page import="org.apache.shiro.authc.ExcessiveAttemptsException"%>
 <%@ page import="org.apache.shiro.authc.IncorrectCredentialsException"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
-
+<!DOCTYPE html>
 <html>
-<head>
-	<title>登录页</title>
-	<link href="${ctx}/static/bootstrap/2.2.2/css/bootstrap.css" type="text/css" rel="stylesheet" />
-	<link href="${ctx}/static/flat-ui/css/flat-ui.css" type="text/css" rel="stylesheet" />
-	 
-	<script>
-		$(document).ready(function() {
-			$("#username").focus();
-			$("#loginForm").validate();
-		});
-	</script>
-</head>
-
-	<form id="loginForm" action="${ctx}/login" method="post" class="form-horizontal login-form">
-	<%
+  <head>
+    <meta charset="utf-8">
+    <title>Flat UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Loading Bootstrap -->
+    <link href="${ctx}/static/flat-ui/css/bootstrap.css" rel="stylesheet">
+    <!-- Loading Flat UI -->
+    <link href="${ctx}/static/flat-ui/css/flat-ui.css" rel="stylesheet">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="${ctx}/static/flat-ui/js/html5shiv.js"></script>
+    <![endif]-->
+	
+  </head>
+  <body>
+ 	<form id="loginForm" action="${ctx}/login" method="post" class="form-horizontal login-form">
+    <div class="container">
+    <%
 	String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 	if(error != null){
 	%>
@@ -30,44 +31,44 @@
 	<%
 	}
 	%>
-	<fieldset>
-		<legend><small>物流通后台登陆页面</small></legend>
-		
-		<div class="control-group">
-			<label for="centro" class="control-label">仓库选择</label>
-			<div class="controls">
-				<select name="centro">
-				<c:forEach items="${centros}" var="centro">
-					<option value="${centro.id}">${centro.name}</option>
-				</c:forEach>
-				</select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label for="username" class="control-label">名称:</label>
-			<div class="controls">
-				<input type="text" id="username" name="username"  value="${username}" class="login-field required" value="" placeholder="Enter your name" />
-				<label class="login-field-icon fui-man-16" for="login-name"></label>
-			</div>
-		</div>
-		<div class="control-group">
-			<label for="password" class="control-label">密码:</label>
-			<div class="controls">
-				<input type="password" id="password" name="password" class="input-large login-field required"/>
-				 <label class="login-field-icon fui-lock-16" for="login-pass"></label>
-			</div>
-		</div>
-				
-		<div class="control-group">
-			<div class="controls">
-				<label class="checkbox" for="rememberMe"><input type="checkbox" id="rememberMe" name="rememberMe"/> 记住我</label>
-				<input id="submit_btn" class="btn btn-primary " type="submit" value="登录"/>
-			 	<span class="help-block">(管理员: <b>admin/admin</b>)</span>
-			</div>
-		</div>
-	</fieldset>
-	</form>
+	
+    	<div class="login">
+        <div class="login-screen">
+          <div class="login-icon">
+           <img src="http://www.logomaker.com/logo-images/a266e8750c4c922a.gif"/>
+            <h4>欢迎访问 <small>仓储云后台</small></h4>
+          </div>
 
-  <body>
-  
+          <div class="login-form">
+            <div class="control-group">
+              <select id="centro_select" class="span3">
+              		<option value="1">湘潭高新仓</optin>
+              		<option value="2">郴州2号仓</optin>
+              </select>
+            </div>
+            
+            <div class="control-group">
+              <input type="text" class="login-field" placeholder="输入账号" id="login-name" name="username"/>
+              <label class="login-field-icon fui-man-16" for="login-name"></label>
+            </div>
+
+            <div class="control-group">
+              <input type="password" class="login-field" value="" placeholder="输入密码" id="login-pass" name="password"/>
+              <label class="login-field-icon fui-lock-16" for="login-pass"></label>
+            </div>
+            <input type="submit" class="btn btn-primary btn-large btn-block" value=" 登 录 ">
+          </div>
+        </div>
+      </div>
+ 	</div>
+	</form>
+    <!-- Load JS here for greater good =============================-->
+    <script src="${ctx}/static/flat-ui/js/jquery-1.8.2.min.js"></script>
+    <script src="${ctx}/static/flat-ui/js/jquery.dropkick-1.0.0.js"></script>
+    <script src="${ctx}/static/flat-ui/js/application.js"></script>
+    <!--[if lt IE 8]>
+      <script src="${ctx}/static/flat-ui/js/icon-font-ie7.js"></script>
+      <script src="${ctx}/static/flat-ui/js/icon-font-ie7-24.js"></script>
+    <![endif]-->
+  </body>
 </html>

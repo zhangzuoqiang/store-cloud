@@ -128,8 +128,10 @@
 					<td>
 						<div>
 							<c:forEach items="${trade.orders}" var="order">
-								${order.title} <br>
-								规格：${order.skuPropertiesName}
+								${order.title} 
+								<c:if test="${not empty order.skuPropertiesName}">
+								<br>规格：${order.skuPropertiesName}
+								</c:if>
 								<span class="label label-success">
 								${order.stockNum}
 								</span> <br/>
@@ -196,8 +198,10 @@
 					</td>
 					<td>
 						<c:forEach items="${trade.orders}" var="order">
-							${order.title}<br>
-							规格：${order.skuPropertiesName}
+							${order.title}
+							<c:if test="${not empty order.skuPropertiesName}">
+							<br>规格：${order.skuPropertiesName}
+							</c:if>
 							<span id="err" class="label label-important"> 
 							<c:if test="${order.stockNum == -1}">
 								未关联 
@@ -269,10 +273,9 @@
 						<div>
 							<c:forEach items="${trade.orders}" var="order">
 								${order.title} <br>
-								规格：${order.skuPropertiesName}
-								<span class="label label-success">
-								${order.stockNum}
-								</span> <br/>
+								<c:if test="${not empty order.skuPropertiesName}">
+								<br>规格：${order.skuPropertiesName}
+								</c:if>
 							</c:forEach>
 						</div>
 					</td>
