@@ -27,7 +27,7 @@ import com.graby.store.service.wms.ShipOrderService;
 import com.graby.store.web.auth.ShiroContextUtils;
 
 /**
- * 入库相关
+ * 入库
  */
 @Controller
 @RequestMapping(value = "/store/entry")

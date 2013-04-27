@@ -16,6 +16,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.graby.store.entity.Item;
 
+/**
+ * 批量导入商品
+ * @author huabiao.mahb
+ */
 public class ItemExcelReader {
 	
 	private Sheet sheet;

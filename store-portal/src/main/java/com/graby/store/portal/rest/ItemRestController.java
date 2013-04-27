@@ -20,6 +20,11 @@ public class ItemRestController {
 	@Autowired
 	private ItemService itemService;
 	
+	/**
+	 * 同步所有淘宝商品
+	 * @return
+	 * @throws ApiException
+	 */
 	@RequestMapping(value = "/sync", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> syncTop() throws ApiException {
@@ -27,6 +32,13 @@ public class ItemRestController {
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 	 
+	/**
+	 * 同步淘宝商品
+	 * @param numIid 商品ID
+	 * @param skuId skuID
+	 * @return
+	 * @throws ApiException
+	 */
 	@RequestMapping(value = "/relate/{numIid}/{skuId}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> relateItem(
