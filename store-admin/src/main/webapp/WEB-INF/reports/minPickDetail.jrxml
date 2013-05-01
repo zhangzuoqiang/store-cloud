@@ -18,7 +18,7 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<detail>
-		<band height="100" splitType="Stretch">
+		<band height="150" splitType="Stretch">
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="c5d8c833-64a7-4930-a075-c426ed1e86d9" x="0" y="0" width="135" height="25"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -55,11 +55,17 @@
 				<textFieldExpression><![CDATA[$F{item.position}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement uuid="21f1d71c-6258-4d19-83e4-3b8eeee3e784" x="0" y="96" width="200" height="1"/>
+				<reportElement uuid="21f1d71c-6258-4d19-83e4-3b8eeee3e784" x="0" y="142" width="200" height="1"/>
 				<graphicElement>
 					<pen lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
+			<componentElement>
+				<reportElement uuid="a0d30489-0e23-4f86-9438-a761a3c3763f" x="0" y="92" width="200" height="50"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$F{item.code}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
 		</band>
 	</detail>
 </jasperReport>
