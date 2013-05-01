@@ -159,7 +159,7 @@
 				<textFieldExpression><![CDATA[$F{receiverName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ee4a7e73-10bb-42a4-acc6-72f960297111" x="58" y="82" width="144" height="20" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="ee4a7e73-10bb-42a4-acc6-72f960297111" x="58" y="82" width="144" height="21" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
