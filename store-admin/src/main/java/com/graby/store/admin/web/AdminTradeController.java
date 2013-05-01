@@ -181,7 +181,7 @@ public class AdminTradeController {
 		List<ShipOrder> orders = shipOrderRemote.findSendOrders(ids);
 		model.put("data", orders);
 		model.put("format", format);
-		return new ModelAndView("pickReport", model);
+		return new ModelAndView("minPickReport", model);
 	}	
 	
 	public String pickAll() {

@@ -20,4 +20,13 @@
 		</property>
 	</bean>
 	
+	<bean id="minPickReport" class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView">
+		<property name="url" value="WEB-INF/reports/minPick.jrxml"/>
+		<property name="subReportUrls">
+		    <map>
+		        <entry key="detailsSubReport" value="/WEB-INF/reports/minPickDetail.jrxml"/>
+		    </map>
+		</property>
+	</bean>
+	
 </beans>
