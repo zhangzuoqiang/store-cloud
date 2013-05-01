@@ -30,35 +30,21 @@
 				<subreportExpression><![CDATA[$P{detailsSubReport}]]></subreportExpression>
 			</subreport>
 			<textField>
-				<reportElement uuid="b9b70f71-97a1-48d2-849a-f6b97588d5e6" x="0" y="34" width="49" height="30"/>
+				<reportElement uuid="b9b70f71-97a1-48d2-849a-f6b97588d5e6" x="0" y="34" width="74" height="30"/>
 				<textElement verticalAlignment="Middle">
 					<font size="13" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{expressCompanyName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ee6c485b-2259-4342-9528-7e7d27b32b8b" x="49" y="34" width="108" height="30"/>
+				<reportElement uuid="ee6c485b-2259-4342-9528-7e7d27b32b8b" x="74" y="34" width="126" height="30"/>
 				<textElement verticalAlignment="Middle">
 					<font size="13" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{expressOrderno}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="a6b77974-9b42-4282-be79-06cd83372dbe" x="0" y="165" width="30" height="21"/>
-				<box leftPadding="4">
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[序号]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="6d700bc5-4f2c-46ea-83a7-9bec4531f825" x="30" y="165" width="105" height="21"/>
+				<reportElement uuid="6d700bc5-4f2c-46ea-83a7-9bec4531f825" x="0" y="165" width="135" height="21"/>
 				<box leftPadding="4">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -166,14 +152,14 @@
 				<text><![CDATA[收货人]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="d1ff69d4-3c54-4dc9-ac80-7d283e24e309" x="30" y="83" width="44" height="20" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="d1ff69d4-3c54-4dc9-ac80-7d283e24e309" x="30" y="83" width="28" height="20" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{receiverName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ee4a7e73-10bb-42a4-acc6-72f960297111" x="74" y="82" width="128" height="20" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="ee4a7e73-10bb-42a4-acc6-72f960297111" x="58" y="82" width="144" height="20" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font size="8" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>

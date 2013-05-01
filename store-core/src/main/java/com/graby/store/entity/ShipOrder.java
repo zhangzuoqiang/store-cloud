@@ -249,7 +249,7 @@ public class ShipOrder implements Serializable{
 	@Transient
 	public String getShopName() {
 		if (createUser == null) return null;
-		return createUser.getShopName() + "  " +  getBuyerNick();
+		return createUser.getShopName();
 	}
 	
 	@Transient
