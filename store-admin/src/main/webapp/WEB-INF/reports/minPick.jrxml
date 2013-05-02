@@ -39,7 +39,7 @@
 			<textField>
 				<reportElement uuid="ee6c485b-2259-4342-9528-7e7d27b32b8b" x="74" y="34" width="126" height="30"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial Unicode MS" size="13" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font size="13" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{expressOrderno}]]></textFieldExpression>
 			</textField>
