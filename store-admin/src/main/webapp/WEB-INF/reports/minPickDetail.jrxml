@@ -18,7 +18,7 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<detail>
-		<band height="99" splitType="Stretch">
+		<band height="89" splitType="Stretch">
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="c5d8c833-64a7-4930-a075-c426ed1e86d9" x="0" y="0" width="105" height="25"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -36,7 +36,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="acaaaf21-f0f3-47ca-abcb-2fd955694194" x="0" y="54" width="200" height="30" isRemoveLineWhenBlank="true"/>
 				<box>
-					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted"/>
 				</box>
 				<textElement verticalAlignment="Top">
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
@@ -57,6 +57,12 @@
 				</textElement>
 				<text><![CDATA[数量]]></text>
 			</staticText>
+			<line>
+				<reportElement uuid="1b603f7b-5639-41cc-b5f0-184cc9c4b83e" x="5" y="87" width="182" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
 		</band>
 	</detail>
 </jasperReport>
