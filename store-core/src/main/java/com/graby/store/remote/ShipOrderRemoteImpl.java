@@ -125,6 +125,9 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 		shipOrderService.submits(orderids);
 	}
 
-
+	@Override
+	public void chooseExpress(Long orderId, String expressCompany) {
+		shipOrderService.chooseExpress(orderId, expressCompany);
+	}
 
 }

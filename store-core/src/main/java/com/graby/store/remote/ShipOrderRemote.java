@@ -88,6 +88,13 @@ public interface ShipOrderRemote {
 	public void recivedEntryOrder(Long id, List<AccountEntryArray> entrys);
 
 	/**
+	 * 设置快递公司
+	 * @param orderId
+	 * @param expressCompany
+	 */
+	public void chooseExpress(Long orderId, String expressCompany);
+	
+	/**
 	 * 查询所有出库单(未处理)
 	 * 
 	 * @return
@@ -102,6 +109,8 @@ public interface ShipOrderRemote {
 	 *   value=归类的出库单列表
 	 */
 	public List<ShipOrder> findGroupSendOrderWaits(Long centroId);
+	
+
 	
 	/**
 	 * 运单打印成功，更新出库单物流信息。

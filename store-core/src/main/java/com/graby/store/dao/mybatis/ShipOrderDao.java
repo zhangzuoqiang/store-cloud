@@ -20,6 +20,7 @@ public interface ShipOrderDao {
 	void setOrderStatus(Long orderId, String status);
 	void setTradeStatus(Long orderId, String status);
 	void setSendOrderExpress(Map<String,String> orders);
+	void chooseExpress(Long orderId, String expressCompany);
 	void increaseEntryOrderDetail(Long detailId, long num);
 	
 	Long getEntryOrderDetail(Long orderId, Long itemId);

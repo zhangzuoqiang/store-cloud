@@ -82,6 +82,8 @@ public class AdminTradeController {
 			}
 		}
 		model.addAttribute("trade", trade);
+		Map<String, String> expressMap = expressRemote.getExpressMap();
+		model.addAttribute("expressCompanys", expressMap);
 		return "/admin/tradeAudit";
 	}
 	
@@ -89,8 +91,13 @@ public class AdminTradeController {
 	 * 审核通过，创建出库单。
 	 */
 	@RequestMapping(value = "mkship", method=RequestMethod.POST)
-	public String mkship(@RequestParam("tradeId") Long tradeId, Model model) {
+	public String mkship(
+			@RequestParam(value="expressCompany", defaultValue="-1") String expressCompany,
+			@RequestParam("tradeId") Long tradeId, Model model) {
 		ShipOrder sendOrder = tradeRemote.createSendShipOrderByTradeId(tradeId);
+		if (!expressCompany.equals("-1")) {
+			shipOrderRemote.chooseExpress(sendOrder.getId(), expressCompany);
+		}
 		model.addAttribute("sendOrder", sendOrder);
 		return "redirect:/trade/waits";
 	}

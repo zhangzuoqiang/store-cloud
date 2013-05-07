@@ -155,7 +155,8 @@
 		a.seller_mobile as "sellerMobile", 
 		a.seller_memo as "sellerMemo",
 		a.remark,
-		a.orderno
+		a.orderno,
+		a.express_company as "expressCompany"
 		FROM sc_ship_order a LEFT JOIN sc_user b ON a.create_userid = b.id
 		WHERE type='send' and a.status='WAIT_EXPRESS_RECEIVED' and a.centro_id=#{0} limit #{1}
 	</select>
@@ -272,6 +273,13 @@
           	express_orderno=#{expressOrderno},
         	status='WAIT_EXPRESS_PICKING'
         where id=#{id} and status='WAIT_EXPRESS_RECEIVED'
+    </update>
+    
+    <!-- 选择快递公司 -->
+    <update id="chooseExpress">
+        update sc_ship_order set 
+          	express_company=#{1}
+        where id=#{0} and status='WAIT_EXPRESS_RECEIVED'
     </update>
     
     	

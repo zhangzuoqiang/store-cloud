@@ -2,6 +2,18 @@
 <logistics_companies_get_response>
 	<logistics_companies list="true">
 		<logistics_company>
+			<code>YUNDA</code>
+			<id>102</id>
+			<name>韵达快运</name>
+			<reg_mail_no>^[\s]*[1-9][0-9]{12}[\s]*$</reg_mail_no>
+		</logistics_company>
+		<logistics_company>
+			<code>QFKD</code>
+			<id>1216</id>
+			<name>全峰快递</name>
+			<reg_mail_no>^[0-9]{12}$|^[0-9]{15}$</reg_mail_no>
+		</logistics_company>		
+		<logistics_company>
 			<code>SF</code>
 			<id>505</id>
 			<name>顺丰速运</name>
@@ -32,12 +44,6 @@
 			<reg_mail_no>^(268|888|588|688|368|468|568|668|768|868|968)[0-9]{9}$|^(268|888|588|688|368|468|568|668|768|868|968)[0-9]{10}$|^(STO)[0-9]{10}$</reg_mail_no>
 		</logistics_company>		
 		<logistics_company>
-			<code>QFKD</code>
-			<id>1216</id>
-			<name>全峰快递</name>
-			<reg_mail_no>^[0-9]{12}$|^[0-9]{15}$</reg_mail_no>
-		</logistics_company>
-		<logistics_company>
 			<code>GTO</code>
 			<id>200143</id>
 			<name>国通快递</name>
@@ -54,12 +60,6 @@
 			<id>500</id>
 			<name>中通速递</name>
 			<reg_mail_no>^((618|680|778|768|688|618|828|988|118|888|571|518|010|628|205|880|717|718|728|738|761|762|763|701|757)[0-9]{9})$|^((2008|2010|8050|7518)[0-9]{8})$</reg_mail_no>
-		</logistics_company>
-		<logistics_company>
-			<code>YUNDA</code>
-			<id>102</id>
-			<name>韵达快运</name>
-			<reg_mail_no>^[\s]*[1-9][0-9]{12}[\s]*$</reg_mail_no>
 		</logistics_company>
 		<logistics_company>
 			<code>TTKDEX</code>

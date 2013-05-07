@@ -115,7 +115,7 @@
 	</c:forEach>
 	</tbody>
 	</table>
-	
+	<form id="mkform" action="${ctx}/trade/mkship" method="post">
 	<label></label>
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
@@ -137,13 +137,13 @@
                 虚拟发货
                 </c:if>
                 &nbsp; &nbsp; &nbsp; &nbsp;
-                送达类型(次日达/三日达)：
-                <c:if test="${trade.lgAgingType != null}">
-                ${trade.lgAgingType} ${trade.lgAging}
-                </c:if>
-                <c:if test="${trade.lgAgingType == null}">
-                 无要求
-                </c:if>
+                运输公司：
+                <select name="expressCompany">
+			    	<option value="-1">未选择</option>
+			    	<c:forEach items="${expressCompanys}" var="e">
+			    		<option value="${e.key}">${e.value}</option>
+			    	</c:forEach>
+			    </select>
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 来自淘宝订单：${trade.tradeFrom}
             </p>
@@ -153,14 +153,13 @@
 	<label></label>
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
-                <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>留言及备注</p>
+                <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>信息</p>
                 <p>卖家:${trade.sellerMemo}</p>
                 <p>买家:${trade.buyerMemo}</p>
                 <p>买家留言:${trade.buyerMessage}</p>
  		</div>
 	</div>
 	
-	<form id="mkform" action="${ctx}/trade/mkship" method="post">
 	<input type="hidden" name="tradeId" value="${trade.id}"/>
 	<div class="form-actions">
 		<input id="submit_btn" class="btn btn-primary" type="submit"  value="审核通过， 创建出库单。"/>

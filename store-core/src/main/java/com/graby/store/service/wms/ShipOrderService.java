@@ -207,7 +207,8 @@ public class ShipOrderService {
 		// 库存记账-商铺发送入库单
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
-				inventoryService.input(order.getCentroId(), order.getCreateUser().getId(), detail.getItem().getId(),
+				inventoryService.input(
+						order.getCentroId(), order.getCreateUser().getId(), detail.getItem().getId(),
 						detail.getNum(), AccountTemplate.SHIP_ENTRY_SEND);
 			}
 			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_STORAGE_RECEIVED);
@@ -228,8 +229,12 @@ public class ShipOrderService {
 		// 库存记账-商铺发送入库单
 		if (CollectionUtils.isNotEmpty(details)) {
 			for (ShipOrderDetail detail : details) {
-				inventoryService.input(order.getCentroId(), order.getCreateUser().getId(), detail.getItem().getId(),
-						detail.getNum(), AccountTemplate.SHIP_ENTRY_CANCEL);
+				inventoryService.input(
+						order.getCentroId(), 
+						order.getCreateUser().getId(), 
+						detail.getItem().getId(),
+						detail.getNum(), 
+						AccountTemplate.SHIP_ENTRY_CANCEL);
 			}
 			shipOrderDao.setOrderStatus(id, ShipOrder.EntryOrderStatus.ENTRY_WAIT_SELLER_SEND);
 			return true;
@@ -248,7 +253,10 @@ public class ShipOrderService {
 		// 库存记账
 		if (CollectionUtils.isNotEmpty(entrys)) {
 			for (AccountEntryArray accountEntrys : entrys) {
-				inventoryService.inputs(accountEntrys.getCentroId(), accountEntrys.getUserId(), accountEntrys.getItemId(),
+				inventoryService.inputs(
+						accountEntrys.getCentroId(), 
+						accountEntrys.getUserId(), 
+						accountEntrys.getItemId(),
 						accountEntrys.getEntrys());
 			}
 		}
@@ -389,6 +397,16 @@ public class ShipOrderService {
 		}
 	}
 
+	/**
+	 * 选择快递公司
+	 * @param orderId
+	 * @param expressCompany
+	 */
+	public void chooseExpress(Long orderId, String expressCompany) {
+		shipOrderDao.chooseExpress(orderId, expressCompany);
+	}
+	
+	
 	/**
 	 * 运单打印成功，注册运单信息。
 	 * 

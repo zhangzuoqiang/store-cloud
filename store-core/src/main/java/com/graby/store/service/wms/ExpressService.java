@@ -2,6 +2,7 @@ package com.graby.store.service.wms;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class ExpressService {
 	 * 快递公司Map
 	 * key=编码， value=快递公司名称
 	 */
-	private Map<String, String> expressNameMap = new HashMap<String,String>();
+	private Map<String, String> expressNameMap = new LinkedHashMap<String,String>();
 	
 	@SuppressWarnings("unchecked")
 	@PostConstruct
