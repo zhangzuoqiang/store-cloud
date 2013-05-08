@@ -274,7 +274,7 @@ public class TradeService {
 		for (String tid : tids) {
 			try {
 				com.taobao.api.domain.Trade topTrade = topApi.getFullinfoTrade(Long.valueOf(tid));
-				tradeGroup.put(hashAdress(topTrade), topTrade);
+				tradeGroup.put(hashSameTrade(topTrade), topTrade);
 				if (count++ >= 1000) {
 					break;
 				}
@@ -326,9 +326,10 @@ public class TradeService {
 		MessageContextHelper.append("成功创建系统交易:" + success + "条");
 	}
 	
-	// 根据收货人详细地址Hash
-	private String hashAdress(com.taobao.api.domain.Trade trade) {
+	// 合并规则:详细地址+买家昵称
+	private String hashSameTrade(com.taobao.api.domain.Trade trade) {
 		StringBuffer buf = new StringBuffer();
+		buf.append(trade.getBuyerNick());
 		buf.append(trade.getReceiverState()).append(trade.getReceiverCity()).append(trade.getReceiverDistrict());
 		buf.append(trade.getReceiverAddress()).append(trade.getReceiverName()).append(trade.getReceiverMobile());
 		return EncryptUtil.md5(buf.toString());
