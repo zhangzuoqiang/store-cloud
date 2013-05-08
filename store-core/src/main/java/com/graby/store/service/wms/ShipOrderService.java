@@ -573,14 +573,6 @@ public class ShipOrderService {
 		order.setStatus(ShipOrder.SendOrderStatus.SEND_FINISH);
 		updateShipOrder(order);
 		tradeService.updateTradeStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
-		List<ShipOrderDetail> details = order.getDetails();
-		// 库存记账-买家签收
-		if (CollectionUtils.isNotEmpty(details)) {
-			for (ShipOrderDetail detail : details) {
-				inventoryService.input(order.getCentroId(), order.getCreateUser().getId(), detail.getItem().getId(),
-						detail.getNum(), AccountTemplate.STORAGE_SHIPPING_CONFIRM);
-			}
-		}
 		return order;
 	}
 
