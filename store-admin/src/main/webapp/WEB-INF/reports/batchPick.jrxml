@@ -41,8 +41,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="c795ebfa-173e-40cf-9a44-0bddce6fde74" x="0" y="64" width="200" height="30"/>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c795ebfa-173e-40cf-9a44-0bddce6fde74" x="0" y="64" width="200" height="30" isRemoveLineWhenBlank="true"/>
 				<textElement>
 					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
