@@ -20,6 +20,7 @@
 		</property>
 	</bean>
 	
+	<!-- 分拣单 -->
 	<bean id="minPickReport" class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView">
 		<property name="url" value="WEB-INF/reports/minPick.jrxml"/>
 		<property name="subReportUrls">
@@ -28,5 +29,10 @@
 		    </map>
 		</property>
 	</bean>
+	
+	<!-- 批量拣货 -->
+	<bean id="batchPickReport" class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView">
+		<property name="url" value="WEB-INF/reports/batchPick.jrxml"/>
+	</bean>	
 	
 </beans>

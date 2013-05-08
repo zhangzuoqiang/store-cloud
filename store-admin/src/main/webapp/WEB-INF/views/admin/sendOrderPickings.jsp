@@ -37,7 +37,21 @@
 	  		}
 	   });
 	   
-	   // 输出拣货单
+	   // 拣货单打印（批量）
+	   $('#btn_pick_batch').bind('click', function (e) {
+	   		var chk_value =[];  
+		  		$('input[name="order_select[]"]:checked').each(function(){  
+		   		chk_value.push($(this).val());  
+	  		});  
+	  		if (chk_value.length==0) {
+	  			alert('你还没有选择任何货单！');
+	  		} else {
+	  			var action = "${ctx}/trade/send/pick/report?type=batchPickReport&ids=" + chk_value;
+	  			window.open(action);
+	  		}
+	   });
+	   
+	   // 拣货单打印（分拣）
 	   $('#btn_pick').bind('click', function (e) {
 	   		var chk_value =[];  
 		  		$('input[name="order_select[]"]:checked').each(function(){  
@@ -46,11 +60,11 @@
 	  		if (chk_value.length==0) {
 	  			alert('你还没有选择任何货单！');
 	  		} else {
-	  			var action = "${ctx}/trade/send/pick/report?ids=" + chk_value;
+	  			var action = "${ctx}/trade/send/pick/report?type=minPickReport&ids=" + chk_value;
 	  			window.open(action);
 	  		}
 	   });
-	   		
+	   
 	   	// 确认出库
 	   $('#btn_submit').bind('click', function (e) {
 	   		var chk_value =[];  

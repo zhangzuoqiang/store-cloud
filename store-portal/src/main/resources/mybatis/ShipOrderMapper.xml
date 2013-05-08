@@ -124,8 +124,6 @@
 		FROM sc_ship_order WHERE trade_id=#{0}
 	</select>	
 	
-	
-	
 	<update id="increaseEntryOrderDetail"> 
         update sc_ship_order_detail set num = num + #{1}
         where id=#{0}
@@ -191,7 +189,7 @@
 		WHERE type='send' and a.status=#{1} and a.centro_id=#{0} limit #{2}
 	</select>	
 	
-	<!-- 根据多个ID查询 -->
+	<!-- 根据多个ID查询发货单 -->
 	<select id="findSendOrders" resultMap="ShipOrderEntity">
 		SELECT 
 		b.shop_name as "createUser.shopName", 
@@ -222,6 +220,24 @@
       	<foreach collection="array" index="index" item="ids" open="(" separator="," close=")">
             #{ids}
         </foreach>
+        order by a.create_userid
+	</select>
+	
+	<!-- 根据ID查询发货单并分组 -->	
+	<select id="findSendOrdersGroup" resultType="map">
+		select 
+			d.shop_name as "shopName", 
+			c.code, 
+			c.title,
+			c.sku, 
+			sum(b.num) as "num"
+		from sc_ship_order a , sc_ship_order_detail b, sc_item c, sc_user d
+		where a.id=b.order_id and b.item_id = c.id and a.create_userid = d.id
+	    and a.id in 
+     	<foreach collection="array" index="index" item="ids" open="(" separator="," close=")">
+           #{ids}
+       </foreach>
+        group by a.create_userid, c.title, c.sku
 	</select>
 	
 

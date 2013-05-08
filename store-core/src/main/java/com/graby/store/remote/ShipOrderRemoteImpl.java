@@ -130,4 +130,9 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 		shipOrderService.chooseExpress(orderId, expressCompany);
 	}
 
+	@Override
+	public List<Map<String, Object>> findSendOrdersGroup(Long[] orderIds) {
+		return shipOrderService.findSendOrdersGroup(orderIds);
+	}
+
 }

@@ -9,15 +9,28 @@
 	<title>交易订单审核</title>
 	<link href="${ctx}/static/styles/step.min.css" type="text/css" rel="stylesheet" />
 	<link href="${ctx}/static/styles/prod.css" rel="stylesheet" media="all" />
+	<script src="${ctx}/static/bootstrap-plugin-js/bootstrap-confirm.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		$("form").submit(function(){  
-			$(":submit",this).attr("disabled","disabled");  
-		}); 
-	</script>	
+		$(document).ready(function() {
+		
+			$('.confirm').confirm({
+				'title' : '删除订单',
+				'message' : '确认删除该订单 ？',
+			});
+			
+			$("form").submit(function(){  
+				$(":submit",this).attr("disabled","disabled");  
+			});
+		});
+	
+		function doDelete(id) {
+			var action="${ctx}/trade/delete/"+id;
+			window.location.href=action;
+		}
+	</script>
 </head>
 
 <body>
-
 	<ol class="progtrckr" data-progtrckr-steps="5">
     <li class="progtrckr-done">1.商家确认物流通配送</li>
     <li class="progtrckr-done">2.物流通审核</li>
@@ -26,25 +39,7 @@
     <li class="progtrckr-todo">5.完成订单交易</li>
 	</ol>
 	
-	<div class="page-header"></div>
-	
-	<!-- 订单 -->
-	<input type="hidden" name="tid" value="${trade.tid}">
-	<input type="hidden" name="receiverName" value="${trade.receiverName}">
-	<input type="hidden" name="receiverMobile" value="${trade.receiverMobile}">
-	<input type="hidden" name="receiverPhone" value="${trade.receiverPhone}">
-	<input type="hidden" name="receiverZip" value="${trade.receiverZip}">
-	<input type="hidden" name="receiverState" value="${trade.receiverState}">
-	<input type="hidden" name="receiverCity" value="${trade.receiverCity}">
-	<input type="hidden" name="receiverDistrict" value="${trade.receiverDistrict}">
-	<input type="hidden" name="receiverAddress" value="${trade.receiverAddress}">
-	<input type="hidden" name="shippingType" value="${trade.shippingType}">
-	<input type="hidden" name="buyerMemo" value="${trade.buyerMemo}">
-	<input type="hidden" name="payTime" value="${trade.payTime}">
-	<!-- 目前只支持湘潭仓 -->
-	<input type="hidden" name="centro.id" value="1">
-	<!-- 当前用户 -->
-	<input type="hidden" name="user.id" value="<shiro:principal property="userid"/>">
+	<div class="page-header"> 来自淘宝订单：${trade.tradeFrom}</div>
 	
 	<table class="table optEmail-notice ui-tiptext-container ui-tiptext-container-message">
 	<thead><tr>
@@ -115,11 +110,12 @@
 	</c:forEach>
 	</tbody>
 	</table>
+	
 	<form id="mkform" action="${ctx}/trade/mkship" method="post">
 	<label></label>
 	<div class="optEmail-notice ui-tiptext-container ui-tiptext-container-message" >
 	    <div class="ui-tiptext-content">
-            <p class="ui-tiptext ui-tiptext-message"><span class="ui-tiptext-icon"></span>
+            <p class="ui-tiptext ui-tiptext-message">
                 物流方式：
                 <c:if test="${trade.shippingType == 'free'}">
                 卖家包邮
@@ -144,8 +140,6 @@
 			    		<option value="${e.key}">${e.value}</option>
 			    	</c:forEach>
 			    </select>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                来自淘宝订单：${trade.tradeFrom}
             </p>
  		</div>
 	</div>
@@ -162,7 +156,8 @@
 	
 	<input type="hidden" name="tradeId" value="${trade.id}"/>
 	<div class="form-actions">
-		<input id="submit_btn" class="btn btn-primary" type="submit"  value="审核通过， 创建出库单。"/>
+		<input id="submit_btn" class="btn btn-success" type="submit"  value="审核通过"/>
+		<a href="javascript:doDelete(${trade.id});" class="btn btn-warning confirm">取消订单</a>
 		<input id="cancel_btn" class="btn" type="button" value="暂不处理" onclick="history.back()"/>
 	</div>
 	</form>

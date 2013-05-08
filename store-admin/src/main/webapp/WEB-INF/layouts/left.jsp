@@ -16,12 +16,13 @@
 		<a href="${ctx}/trade/special/waits">活动专场</a>
 		 -->
 		<a href="${ctx}/trade/waits">交易订单审核</a>
-		<a href="${ctx}/trade/send/waits">运单号打印</a>
+		<a href="${ctx}/trade/send/waits">快递运单设置</a>
 		<a href="${ctx}/trade/send/pickings">批量拣货处理</a>
 		<a href="${ctx}/trade/ship/audit">运单出库审核</a>
 		<a href="${ctx}/trade/sign/waits">用户签收处理</a>
-		<!--  -->
+		<!--  
 		<a href="${ctx}/trade/unfinish">未完成交易</a>
+		-->
 		
 	</div>
 </div>

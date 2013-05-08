@@ -61,11 +61,11 @@
 				<text><![CDATA[产品代码、产品描述]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="91bd2e85-91a7-4183-887d-0e5e17a6f772" x="55" y="5" width="80" height="29"/>
+				<reportElement uuid="91bd2e85-91a7-4183-887d-0e5e17a6f772" x="55" y="5" width="89" height="29"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[拣货清单]]></text>
+				<text><![CDATA[合并拣货单]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="63b761d2-0ae6-42ad-8dd9-d4b75b061dee" x="0" y="83" width="55" height="20"/>

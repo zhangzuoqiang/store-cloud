@@ -467,6 +467,20 @@ public class ShipOrderService {
 		}
 		return orders;
 	}
+	
+	/**
+	 * 根据ID查询出库单（按产品分组）。
+	 * @param orderIds
+	 * @return
+	 */
+	public List<Map<String,Object>> findSendOrdersGroup(Long[] orderIds) {
+		if (orderIds == null || orderIds.length == 0) {
+			return null;
+		}
+		List<Map<String,Object>> orders = shipOrderDao.findSendOrdersGroup(orderIds);
+		return orders;
+	}
+	
 
 	/**
 	 * 根据运单号或昵称查询出库单

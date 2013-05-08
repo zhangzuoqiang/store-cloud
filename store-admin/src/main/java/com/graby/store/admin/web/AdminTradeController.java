@@ -88,6 +88,17 @@ public class AdminTradeController {
 	}
 	
 	/**
+	 * 删除订单
+	 * @param tradeId
+	 * @return
+	 */
+	@RequestMapping(value = "delete/{id}", method=RequestMethod.GET)
+	public String deleteTrade(@PathVariable(value = "id")Long tradeId) {
+		tradeRemote.deleteTrade(tradeId);
+		return "redirect:/trade/waits";
+	}	
+	
+	/**
 	 * 审核通过，创建出库单。
 	 */
 	@RequestMapping(value = "mkship", method=RequestMethod.POST)
@@ -174,7 +185,7 @@ public class AdminTradeController {
 	}
 	
 	/**
-	 * 输出拣货单(PDF)
+	 * 拣货单打印(PDF)
 	 * @param ids
 	 * @return
 	 * @throws NumberFormatException
@@ -183,16 +194,19 @@ public class AdminTradeController {
 	@RequestMapping(value = "send/pick/report")
 	public ModelAndView pickReport(
 			@RequestParam(value = "ids", defaultValue = "") Long[] ids,
-			@RequestParam(value = "format", defaultValue = "pdf") String format) {
+			@RequestParam(value = "format", defaultValue = "pdf") String format,
+			@RequestParam(value = "type", defaultValue = "minPickReport") String type) {
 		Map<String, Object> model = new HashMap<String, Object>();
-		List<ShipOrder> orders = shipOrderRemote.findSendOrders(ids);
-		model.put("data", orders);
-		model.put("format", format);
-		return new ModelAndView("minPickReport", model);
-	}	
-	
-	public String pickAll() {
-		return null;
+		if (type.equals("minPickReport")) {
+			List<ShipOrder> orders = shipOrderRemote.findSendOrders(ids);
+			model.put("data", orders);
+			model.put("format", format);
+		} else {
+			List<Map<String,Object>> orders = shipOrderRemote.findSendOrdersGroup(ids);
+			model.put("data", orders);
+			model.put("format", format);
+		}
+		return new ModelAndView(type, model);
 	}
 	
 	/**
@@ -303,12 +317,6 @@ public class AdminTradeController {
 		model.addAttribute("trades", trades);
 		return "/admin/tradeUnfinishs";
 	}
-	
-	@RequestMapping(value = "delete/{id}", method=RequestMethod.GET)
-	public String deleteTrade(@PathVariable(value = "id")Long tradeId) {
-		tradeRemote.deleteTrade(tradeId);
-		return "redirect:/trade/unfinish";
-	}	
 	
 	public class Entry {
 		private Trade trade;

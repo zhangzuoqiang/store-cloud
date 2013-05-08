@@ -143,6 +143,13 @@ public interface ShipOrderRemote {
 	public List<ShipOrder> findSendOrders(Long[] orderIds);	
 	
 	/**
+	 * 分组查询出库单
+	 * @param orderIds
+	 * @return
+	 */
+	public List<Map<String,Object>> findSendOrdersGroup(Long[] orderIds);
+	
+	/**
 	 * 根据运单号或昵称查询出库单
 	 * @param q
 	 * @return

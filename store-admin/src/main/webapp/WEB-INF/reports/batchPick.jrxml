@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="minPickMain" pageWidth="230" pageHeight="1200" whenNoDataType="BlankPage" columnWidth="200" leftMargin="15" rightMargin="15" topMargin="15" bottomMargin="15" uuid="2158f612-b9a6-453c-87c4-530566009c94">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="shopName" class="java.lang.String"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="title" class="java.lang.String"/>
+	<field name="sku" class="java.lang.String"/>
+	<field name="num" class="java.math.BigDecimal"/>
+	<group name="shop">
+		<groupExpression><![CDATA[$F{shopName}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<textField>
+					<reportElement uuid="5dff843e-ec06-461e-b2be-2dfb73128b08" x="0" y="17" width="150" height="28" isRemoveLineWhenBlank="true"/>
+					<textElement>
+						<font size="12" isItalic="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{shopName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="98" splitType="Stretch">
+			<textField>
+				<reportElement uuid="20975581-65e6-44f3-bfda-416084e4923d" x="0" y="12" width="111" height="25"/>
+				<textElement>
+					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5a86f1db-46c7-44d3-9b13-a373c74e4c10" x="0" y="36" width="200" height="30"/>
+				<textElement>
+					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c795ebfa-173e-40cf-9a44-0bddce6fde74" x="0" y="64" width="200" height="30"/>
+				<textElement>
+					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sku}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7c977cd2-b9ec-4bbe-8c37-6e26a7b30cb5" x="150" y="12" width="50" height="25"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{num}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="4a2d586f-9425-45df-bfab-f9fd6e5fb2d4" x="111" y="12" width="39" height="24"/>
+				<textElement>
+					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[数量：]]></text>
+			</staticText>
+			<elementGroup/>
+			<line>
+				<reportElement uuid="b003b013-9bc2-4b8b-b30f-591399d61272" x="0" y="2" width="200" height="1"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>
