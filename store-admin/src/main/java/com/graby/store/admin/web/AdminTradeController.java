@@ -301,7 +301,7 @@ public class AdminTradeController {
 	public String submitSign(@PathVariable(value = "id")Long orderId, Model model) {
 		ShipOrder sendOrder = shipOrderRemote.signSendOrder(orderId);
 		model.addAttribute("order", sendOrder);
-		return "redirect:sign/waits";
+		return "redirect:/trade/sign/waits";
 	}
 	
 	/**
