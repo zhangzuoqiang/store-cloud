@@ -18,9 +18,12 @@
 	<div class="container">
 	  <div class="inner">
 	    <p>欢迎访问云端仓储物流配送中心, 正在进行安全检查 ...</p>
-	    <form name="loginform" action="/login" method="post">
-			<input type="hidden" id="username" name="username" value="${username}">
-			<input type="hidden" id="password" name="password" value="${password}">
+	    <form name="loginform" action="https://oauth.tbsandbox.com/token" method="post">
+			<input type="hidden" name="code" value="${code}">
+			<input type="hidden" name="client_id" value="1021474419">
+			<input type="hidden" name="client_secret" value="sandboxc6fda58609e29306a947fefc4">
+			<input type="hidden" name="grant_type" value="authorization_code">
+			<input type="hidden" name="redirect_uri" value="http://www.wlpost.com/top_oauth_get">
 		</form>
 	  </div>
 	</div>

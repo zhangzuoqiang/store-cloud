@@ -14,8 +14,13 @@ import com.taobao.api.ApiException;
 public class HtmlController {
 	
 	@RequestMapping(value = "/xtaoAuth.html", method = RequestMethod.GET)
-	public String index(HttpServletRequest request, HttpServletResponse response) throws ApiException {
+	public String xtaoAuth(HttpServletRequest request, HttpServletResponse response) throws ApiException {
 		return "redirect:/html/xtaoAuth.html";
+	}
+	
+	@RequestMapping(value = "/index.html", method = RequestMethod.GET)
+	public String index(HttpServletRequest request, HttpServletResponse response) throws ApiException {
+		return "redirect:/html/index.html";
 	}
 	
 }

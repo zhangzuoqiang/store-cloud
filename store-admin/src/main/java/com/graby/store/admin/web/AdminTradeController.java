@@ -197,15 +197,10 @@ public class AdminTradeController {
 			@RequestParam(value = "format", defaultValue = "pdf") String format,
 			@RequestParam(value = "type", defaultValue = "minPickReport") String type) {
 		Map<String, Object> model = new HashMap<String, Object>();
-		if (type.equals("minPickReport")) {
-			List<ShipOrder> orders = shipOrderRemote.findSendOrders(ids);
-			model.put("data", orders);
-			model.put("format", format);
-		} else {
-			List<Map<String,Object>> orders = shipOrderRemote.findSendOrdersGroup(ids);
-			model.put("data", orders);
-			model.put("format", format);
-		}
+		model.put("data", type.equals("minPickReport")?
+					shipOrderRemote.findSendOrders(ids) : 
+					shipOrderRemote.findSendOrdersGroup(ids));
+		model.put("format", format);
 		return new ModelAndView(type, model);
 	}
 	

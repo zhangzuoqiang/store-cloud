@@ -5,6 +5,7 @@
 		<pattern>/static/*</pattern>
 		<pattern>/rest/*</pattern>
 		<pattern>/top_auth*</pattern>
+		<pattern>/top_oauth*</pattern>
 		<pattern>/item/mapping*</pattern>
 		<pattern>/login*</pattern>
 		<pattern>/trade/waits/fetch*</pattern>

@@ -70,7 +70,7 @@
 		</init-param>
 		<init-param>
 			<param-name>excludePatterns</param-name>
-			<param-value>**/*.call,**/xtaoAuth.html</param-value>
+			<param-value>**/*.call,**/*.html</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

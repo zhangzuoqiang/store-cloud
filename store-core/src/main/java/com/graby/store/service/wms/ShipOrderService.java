@@ -354,6 +354,7 @@ public class ShipOrderService {
 
 	/**
 	 * 查询所有出库单(等待用户签收)
+	 * TODO 多仓库
 	 * 
 	 * @return
 	 */

@@ -16,6 +16,7 @@
 		<thead><tr>
 		<th>创建日期</th>
 		<th>商铺名称</th>
+		<th>淘宝交易号</th>
 		<th>出库单号</th>
 		<th>签收处理</th>
 		</tr></thead>
@@ -24,6 +25,7 @@
 			<tr>
 				<td><fmt:formatDate value="${order.createDate}" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
 				<td>${order.createUser.shopName}</td>
+				<td>${order.remark}</td>
 				<td>${order.orderno}</td>
 				<td><a href="${ctx}/trade/send/sign/${order.id}" class="btn btn-primary">签收处理</a></td>
 			</tr>

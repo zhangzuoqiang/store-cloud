@@ -35,7 +35,6 @@
     	<div class="login">
         <div class="login-screen">
           <div class="login-icon">
-           <img src="http://www.logomaker.com/logo-images/a266e8750c4c922a.gif"/>
             <h4>欢迎访问 <small>仓储云后台</small></h4>
           </div>
 

@@ -66,7 +66,7 @@
 		</tr>
 	</c:forEach>
 	<tr>
-		<td colspan="5"><strong>买家备注:</strong>${order.remark}</td>
+		<td colspan="5"><strong>淘宝交易号:</strong>${order.remark}</td>
 	</tr>	
 	</tbody>
 	</table>	
