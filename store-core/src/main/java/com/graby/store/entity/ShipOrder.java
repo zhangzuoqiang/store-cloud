@@ -69,7 +69,7 @@ public class ShipOrder implements Serializable{
 		public static final String WAIT_BUYER_RECEIVED = "WAIT_BUYER_RECEIVED";
 		
 		/**  SEND_FINISH : 出库单发货完成  */
-		public static final String SEND_FINISH = "SEND_FINISH";
+		public static final String SEND_FINISHED = "SEND_FINISH";
 	}
 
 

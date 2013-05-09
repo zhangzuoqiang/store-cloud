@@ -549,7 +549,6 @@ public class ShipOrderService {
 	 * @throws ApiException
 	 */
 	public ShipOrder submitSendOrder(ShipOrder order) throws ApiException {
-
 		// 更新基本信息（运单号、运输公司）
 		ShipOrder sendOrderEntity = getShipOrder(order.getId());
 		sendOrderEntity.setExpressCompany(order.getExpressCompany());
@@ -570,8 +569,7 @@ public class ShipOrderService {
 	 */
 	public ShipOrder signSendOrder(Long orderId) {
 		ShipOrder order = getShipOrder(orderId);
-		order.setStatus(ShipOrder.SendOrderStatus.SEND_FINISH);
-		updateShipOrder(order);
+		shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.SEND_FINISHED);
 		tradeService.updateTradeStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
 		return order;
 	}
@@ -581,11 +579,4 @@ public class ShipOrderService {
 		orderJpaDao.save(order);
 	}
 
-	public static void main(String[] args) {
-		String s = "席伊吖 特价双面贵妃席 竹席 竹子凉席1.5 1.8米包邮折叠可定制" + "颜色分类:浅灰色; 适用床尺寸:0.9m床;";
-		StringBuffer b = new StringBuffer();
-		b.append(s);
-		System.out.println(s.length());
-		System.out.println(b.length());
-	}
 }
