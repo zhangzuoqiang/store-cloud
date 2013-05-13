@@ -18,6 +18,7 @@ import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoResponse;
 import com.taobao.api.domain.Item;
+import com.taobao.api.domain.Refund;
 import com.taobao.api.domain.Shop;
 import com.taobao.api.domain.Sku;
 import com.taobao.api.domain.Trade;
@@ -28,6 +29,7 @@ import com.taobao.api.request.ItemsListGetRequest;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
 import com.taobao.api.request.LogisticsOfflineSendRequest;
 import com.taobao.api.request.LogisticsTraceSearchRequest;
+import com.taobao.api.request.RefundsReceiveGetRequest;
 import com.taobao.api.request.ShopGetRequest;
 import com.taobao.api.request.TradeFullinfoGetRequest;
 import com.taobao.api.request.TradesSoldIncrementGetRequest;
@@ -39,6 +41,7 @@ import com.taobao.api.response.ItemsListGetResponse;
 import com.taobao.api.response.ItemsOnsaleGetResponse;
 import com.taobao.api.response.LogisticsOfflineSendResponse;
 import com.taobao.api.response.LogisticsTraceSearchResponse;
+import com.taobao.api.response.RefundsReceiveGetResponse;
 import com.taobao.api.response.ShopGetResponse;
 import com.taobao.api.response.TradeFullinfoGetResponse;
 import com.taobao.api.response.TradesSoldIncrementGetResponse;
@@ -422,6 +425,25 @@ public class TopApi {
 		trace.setTraceList(resp.getTraceList());
 		return trace;
 	}
+	
+	/**
+	 * 查询退款列表
+	 * @param start TODO
+	 * @param end TODO
+	 * @return
+	 * @throws ApiException
+	 */
+	public List<Refund> getRefunds(Date start, Date end) throws ApiException {
+		RefundsReceiveGetRequest req=new RefundsReceiveGetRequest();
+		req.setFields("refund_id, tid, title, buyer_nick, seller_nick, total_fee, status, created, refund_fee, oid, good_status, company_name, sid, payment, reason, desc, has_good_return, modified, order_status");
+		req.setStartModified(start);
+		req.setEndModified(end);
+		RefundsReceiveGetResponse resp = client.execute(req , sessionKey());
+		throwIfError(resp);
+		return resp.getRefunds();
+	}
+
+	
 
 	private String sessionKey() {
 		return ShiroContextUtils.getSessionKey();

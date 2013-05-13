@@ -38,6 +38,8 @@ import com.graby.store.util.EncryptUtil;
 import com.graby.store.web.top.TopApi;
 import com.graby.store.web.top.TradeAdapter;
 import com.taobao.api.ApiException;
+import com.taobao.api.domain.Order;
+import com.taobao.api.domain.Refund;
 
 @Component
 @Transactional(readOnly = true)
@@ -113,6 +115,14 @@ public class TradeService {
 			Date start =  DateUtils.getMoning(day);
 			Date end = preday == 0 ? day : DateUtils.getEnd(day);
 			List<com.taobao.api.domain.Trade> result = topApi.getTrades(status, start, end);
+			
+			for (com.taobao.api.domain.Trade trade : result) {
+				System.out.println(trade.getTid());
+				for (Order order : trade.getOrders()) {
+					System.out.println(">>" + order.getRefundId() + "," + order.getRefundStatus());
+				}
+				System.out.println("\n");
+			}
 			trades.addAll(result);
 		}
 		return trades;
@@ -130,23 +140,17 @@ public class TradeService {
 	}
 	
 	/**
-	 * 查询最近5天退款单 
+	 * 查询最近7天退款单 
 	 * @return
 	 * @throws Exception 
 	 */
-	public List<Trade> fetchRefundTrades() throws Exception {
-		// TODO
-		List<com.taobao.api.domain.Trade> topTrades = fetchTopTrades("", 0, 1, 2, 3);
-		List<Trade> trades = new ArrayList<Trade>();
-		for (com.taobao.api.domain.Trade topTrade : topTrades) {
-			TradeMapping mapping = getRelatedMapping(topTrade.getTid());
-			if (mapping != null) {
-				Trade trade = tradeAdapter.adapter(topTrade);
-				trade.setTag(mapping.getStatus());
-				trades.add(trade);
-			}
-		}
-		return trades;
+	public List<Refund> fetchRefunds() throws Exception {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -7);
+		Date day = cal.getTime();
+		Date start =  DateUtils.getMoning(day);
+		Date end  = DateUtils.getEnd(new Date());
+		return topApi.getRefunds(start, end);
 	}
 
 	/**
@@ -165,7 +169,14 @@ public class TradeService {
 				trade.setTag(mapping.getStatus());
 				groupResults.put("related", trade);
 			} else {
-				// 未创建的订单
+				
+				// 是否退款（子订单都需要退款）
+				if (trade.isNeedRefund()) {
+					groupResults.put("refund", trade);
+					continue;
+				}
+				
+				// 根据库存查看订单是否可发送
 				boolean useable = true;
 				for (TradeOrder order : trade.getOrders()) {
 					Long numIid = order.getNumIid();
@@ -274,7 +285,7 @@ public class TradeService {
 		for (String tid : tids) {
 			try {
 				com.taobao.api.domain.Trade topTrade = topApi.getFullinfoTrade(Long.valueOf(tid));
-				tradeGroup.put(hashSameTrade(topTrade), topTrade);
+				tradeGroup.put(hashTrade(topTrade), topTrade);
 				if (count++ >= 1000) {
 					break;
 				}
@@ -327,7 +338,7 @@ public class TradeService {
 	}
 	
 	// 合并规则:详细地址+买家昵称
-	private String hashSameTrade(com.taobao.api.domain.Trade trade) {
+	private String hashTrade(com.taobao.api.domain.Trade trade) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(trade.getBuyerNick());
 		buf.append(trade.getReceiverState()).append(trade.getReceiverCity()).append(trade.getReceiverDistrict());
@@ -353,10 +364,13 @@ public class TradeService {
 			List<TradeOrder> orders = trade.getOrders();
 			if (CollectionUtils.isNotEmpty(orders)) {
 				for (TradeOrder tradeOrder : orders) {
-					// 更新商品SKU
-					itemServie.updateSku(tradeOrder.getItem().getId(), tradeOrder.getSkuPropertiesName());
-					tradeOrder.setTrade(trade);
-					tradeOrderJpaDao.save(tradeOrder);
+					// 退款的不创建
+					if (!tradeOrder.isHasRefund()) {
+						// 更新商品SKU
+						itemServie.updateSku(tradeOrder.getItem().getId(), tradeOrder.getSkuPropertiesName());
+						tradeOrder.setTrade(trade);
+						tradeOrderJpaDao.save(tradeOrder);
+					}
 				}
 			}
 			// 创建关联关系

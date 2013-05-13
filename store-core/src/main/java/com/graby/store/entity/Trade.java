@@ -151,7 +151,7 @@ public class Trade implements Serializable{
 	/**
 	 * 是否有买家留言
 	 */
-	private Boolean hasBuyerMessage;	
+	private Boolean hasBuyerMessage;
 	
 	
 	/* ------------ 物流要求信息 ------------ */
@@ -251,7 +251,6 @@ public class Trade implements Serializable{
 	 */
 	private String tag;
 	
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
@@ -303,6 +302,20 @@ public class Trade implements Serializable{
 	@Transient
 	public String getTag() {
 		return tag;
+	}
+	
+	/**
+	 * 需要退款(当子订单全部需要退款时为true)
+	 * @return
+	 */
+	@Transient
+	public boolean isNeedRefund() {
+		for (TradeOrder order : getOrders()) {
+			 if (!order.isHasRefund()) {
+				 return false;
+			 }
+		}
+		return true;
 	}
 	
 	/**

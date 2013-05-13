@@ -18,9 +18,7 @@
 		<a href="${ctx}/trade/special">活动专场</a>
 		 -->
 		<a href="${ctx}/trade/waits">待发货订单</a>
-		<!-- 
 		<a href="${ctx}/trade/refunds">退款处理</a>
-		 -->
 		<a href="${ctx}/trade/received">仓库已接收</a>
 		<a href="${ctx}/trade/notifys">通知用户签收</a>
 		<a href="${ctx}/trade/notifys">物流信息追踪</a>

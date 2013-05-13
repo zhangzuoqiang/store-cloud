@@ -115,6 +115,7 @@ public class TradeAdapter {
 				tradeOrder.setItem(relatedItem(order.getNumIid(), skuId));
 				tradeOrder.setSkuPropertiesName(order.getSkuPropertiesName());
 				tradeOrder.setBuyerNick(trade.getBuyerNick());
+				tradeOrder.setHasRefund(order.getRefundId() != null);
 				trade.addOrder(tradeOrder);
 			}
 		}

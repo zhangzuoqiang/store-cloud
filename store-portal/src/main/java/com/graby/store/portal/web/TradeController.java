@@ -7,15 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.graby.store.base.GroupMap;
 import com.graby.store.entity.Trade;
+import com.graby.store.entity.TradeMapping;
 import com.graby.store.service.trade.TradeService;
 import com.graby.store.web.auth.ShiroContextUtils;
 import com.taobao.api.ApiException;
+import com.taobao.api.domain.Refund;
 
 /**
  * 用户交易
@@ -78,6 +81,7 @@ public class TradeController {
 		model.addAttribute("useable", tradeMap.getList("useable"));
 		model.addAttribute("related", tradeMap.getList("related"));
 		model.addAttribute("failed", tradeMap.getList("failed"));
+		model.addAttribute("refund", tradeMap.getList("refund"));
 		return "trade/waitsFetch";
 	}
 	
@@ -88,11 +92,35 @@ public class TradeController {
 	 */
 	@RequestMapping(value = "/refunds")
 	public String refunds(Model model) throws Exception {
-		List<Trade> trades = tradeService.fetchRefundTrades();
-		model.addAttribute("trades", trades);
+		List<Refund> refunds = tradeService.fetchRefunds();
+		List<RefundEntry> entrys = new ArrayList<RefundEntry>();
+		for (Refund refund : refunds) {
+			TradeMapping mapping = tradeService.getRelatedMapping(refund.getTid());
+			entrys.add(new RefundEntry(refund, mapping));
+		}
+		model.addAttribute("refunds", entrys);
 		return "trade/refunds";
 	}
-
+	
+	@RequestMapping(value = "/delete/{tradeId}")
+	public String delete(@PathVariable("tradeId") Long tradeId) {
+		tradeService.deleteTrade(tradeId);
+		return "redirect:/trade/refunds";
+	}
+	
+	public class RefundEntry {
+		public RefundEntry(Refund refund, TradeMapping mapping) {
+			this.refund = refund;
+			this.mapping = mapping;
+		}
+		private Refund refund;
+		private TradeMapping mapping;
+		public Refund getRefund() {	return refund;}
+		public TradeMapping getMapping() {return mapping;}
+		public void setRefund(Refund refund) {this.refund = refund;}
+		public void setMapping(TradeMapping mapping) {this.mapping = mapping;}
+	}
+	
 	/**
 	 * 当前用户仓库已接收订单列表
 	 * 

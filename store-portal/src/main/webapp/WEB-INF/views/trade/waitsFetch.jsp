@@ -68,6 +68,7 @@
 		      <li class="active"><a href="#useable" data-toggle="tab">可发送(${fn:length(useable)})</a></li>
 		      <li><a href="#failed" data-toggle="tab">库存不足(${fn:length(failed)})</a></li>
 		      <li><a href="#related" data-toggle="tab">物流通已接收(${fn:length(related)})</a></li>
+		      <li><a href="#refund" data-toggle="tab">已退款(${fn:length(refund)})</a></li>
 		  	</ul>
 		  	<div class="span4 pull-right">
 	  			<a id="submit" href="#" class="btn btn-success pull-right">物流通发货</a>
@@ -81,12 +82,11 @@
     	<div id="useable" class="tab-pane active" >
     	<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
-			<th>交易类型</th>
+			<th>交易订单号/付款时间</th>
 			<th>交易状态</th>
-			<th>付款时间</th>
+			<th>交易类型</th>
 			<th>物流方式</th>
-			<th>是否次日达\三日达</th>
-			<th>买家昵称</th>
+			<th>卖家</th>
 			<th>收货地址</th>
 			<th>商品(库存)</th>
 			<th><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>
@@ -94,9 +94,11 @@
 			<tbody>
 			<c:forEach items="${useable}" var="trade">
 				<tr>
-					<td>${e:tradeType(trade.type)}</td>
+					<td><span class="label">${trade.tid}</span><br>
+						<fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> 
+					</td>				
 					<td>${e:tradeStatus(trade.status)}</td>
-					<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
+					<td>${e:tradeType(trade.type)}</td>
 					<td>
 	                <c:if test="${trade.shippingType == 'free'}">
 	                卖家包邮
@@ -114,15 +116,7 @@
 	                虚拟发货
 	                </c:if> 
 	                </td>
-	                <td>
-	                	<c:if test="${trade.lgAgingType != null}">
-	                	${trade.lgAgingType} ${trade.lgAging}
-	                	</c:if>
-	                	<c:if test="${trade.lgAgingType == null}">
-	                	 无要求
-	                	</c:if>                	
-	                </td>
-					<td>${trade.buyerNick}</td>
+	                <td>${trade.buyerNick}</td>
 					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 					 	${trade.receiverAddress}
 					</td>
@@ -135,7 +129,10 @@
 								</c:if>
 								<span class="label label-success">
 								${order.stockNum}
-								</span> <br/>
+								</span> 
+								<c:if test="${order.hasRefund == 'true'}">
+									<span class="label label-important">已退款</span>
+								</c:if>
 							</c:forEach>
 						</div>
 					</td>
@@ -273,7 +270,7 @@
 					<td>
 						<div>
 							<c:forEach items="${trade.orders}" var="order">
-								${order.title} <br>
+								${order.title}
 								<c:if test="${not empty order.skuPropertiesName}">
 								<br>规格：${order.skuPropertiesName}
 								</c:if>
@@ -288,6 +285,66 @@
 			</tbody>
 		</table>
     	</div>    	    	    	
+    	
+    	<div id="refund" class="tab-pane" >
+     	<table id="contentTable" class="table table-striped table-condensed"  >
+			<thead><tr>
+			<th>交易订单号/付款时间</th>
+			<th>交易状态</th>
+			<th>交易类型</th>
+			<th>物流方式</th>
+			<th>卖家</th>
+			<th>收货地址</th>
+			<th>商品</th>
+			</tr></thead>
+			<tbody>
+			<c:forEach items="${refund}" var="trade">
+				<tr>
+					<td><span class="label">${trade.tid}</span><br>
+						<fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> 
+					</td>				
+					<td>${e:tradeStatus(trade.status)}</td>
+					<td>${e:tradeType(trade.type)}</td>
+					<td>
+	                <c:if test="${trade.shippingType == 'free'}">
+	                卖家包邮
+	                </c:if>
+	                <c:if test="${trade.shippingType == 'post'}">
+	                平邮
+	                </c:if>  
+	                <c:if test="${trade.shippingType == 'express'}">
+	                快递
+	                </c:if> 
+	                <c:if test="${trade.shippingType == 'ems'}">
+	                EMS
+	                </c:if>  
+	                <c:if test="${trade.shippingType == 'virtual'}">
+	                虚拟发货
+	                </c:if> 
+	                </td>
+	                <td>${trade.buyerNick}</td>
+					<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
+					 	${trade.receiverAddress}
+					</td>
+					<td>
+						<div>
+							<c:forEach items="${trade.orders}" var="order">
+								${order.title} 
+								<c:if test="${not empty order.skuPropertiesName}">
+								<br>规格：${order.skuPropertiesName}
+								</c:if>
+								<c:if test="${order.hasRefund == 'true'}">
+									<span class="label label-important">已退款</span>
+								</c:if>
+							</c:forEach>
+						</div>
+					</td>
+				</tr>
+			</c:forEach>
+			</tbody>
+		</table>
+    	</div>    	
+    	
     </div>
 </div>
 </body>

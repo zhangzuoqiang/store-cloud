@@ -55,12 +55,6 @@ public class TradeOrder implements Serializable{
 	private long num;
 	
 	/**
-	 * 库存可销售数量（不持久化,从库存接口获取）
-	 * -1 表示未关联
-	 */
-	private long stockNum;
-	
-	/**
 	 * 手工调整金额.格式为:1.01;单位:元;精确到小数点后两位.
 	 */
 	private String adjustFee;
@@ -104,6 +98,19 @@ public class TradeOrder implements Serializable{
 	 * 系统商品
 	 */
 	private Item item;
+	
+	/* -------- 不持久化 --------  */
+	
+	/**
+	 * 库存可销售数量（不持久化, 从库存接口获取）
+	 * -1 表示未关联
+	 */
+	private long stockNum;
+	
+	/**
+	 * 是否退款
+	 */
+	private boolean hasRefund;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -129,6 +136,11 @@ public class TradeOrder implements Serializable{
 	@Transient
 	public long getStockNum() {
 		return stockNum;
+	}
+	
+	@Transient
+	public boolean isHasRefund() {
+		return hasRefund;
 	}
 
 	public String getBuyerNick() {
@@ -241,5 +253,9 @@ public class TradeOrder implements Serializable{
 
 	public void setTrade(Trade trade) {
 		this.trade = trade;
+	}
+
+	public void setHasRefund(boolean hasRefund) {
+		this.hasRefund = hasRefund;
 	}
 }

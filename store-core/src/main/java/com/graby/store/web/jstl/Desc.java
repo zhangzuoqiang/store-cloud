@@ -8,6 +8,8 @@ public class Desc {
 	private static Map<String,String> tradeTypeMap = new HashMap<String,String>();
 	private static Map<String,String> tradeStatusMap = new HashMap<String,String>();
 	private static Map<String,String> shipStatusMap = new HashMap<String,String>();
+	private static Map<String,String> refundStatusMap = new HashMap<String,String>();
+	private static Map<String,String> refundGoodStatusMap = new HashMap<String,String>();
 	
 	static {
 		
@@ -49,13 +51,28 @@ public class Desc {
 		tradeStatusMap.put("TRADE_WAIT_CENTRO_AUDIT", "等待物流通审核");
 		tradeStatusMap.put("TRADE_WAIT_EXPRESS_SHIP", "等待快递配送");
 		tradeStatusMap.put("TRADE_WAIT_EXPRESS_NOFITY", "等待通知用户签收");
-		tradeStatusMap.put("TRADE_WAIT_BUYER_RECEIVED", "等待买家签收");
+		tradeStatusMap.put("TRADE_WAIT_BUYER_RECEIVED", "等待买家签收(已发货)");
 
 		// --------------发货单状态----------------//
 		shipStatusMap.put("WAIT_EXPRESS_RECEIVED", "创建成功，等待物流接收");
 		shipStatusMap.put("WAIT_EXPRESS_PICKING", "运单打印成功，等待拣货");
 		shipStatusMap.put("WAIT_BUYER_RECEIVED", "物流方已发货，等待买家签收");
 		shipStatusMap.put("SEND_FINISH", "出库单发货完成");
+
+		// --------------退款状态----------------//
+		refundStatusMap.put("WAIT_SELLER_AGREE", "买家已经申请退款，等待卖家同意");
+		refundStatusMap.put("WAIT_BUYER_RETURN_GOODS", "卖家已经同意退款，等待买家退货");
+		refundStatusMap.put("WAIT_SELLER_CONFIRM_GOODS", "买家已经退货，等待卖家确认收货");
+		refundStatusMap.put("SELLER_REFUSE_BUYER", "卖家拒绝退款");
+		refundStatusMap.put("CLOSED", "退款关闭");
+		refundStatusMap.put("SUCCESS", "退款成功");
+
+		// --------------退款货物状态----------------//
+		refundGoodStatusMap.put("BUYER_NOT_RECEIVED", "买家未收到货");
+		refundGoodStatusMap.put("BUYER_RECEIVED", "买家已收到货");
+		refundGoodStatusMap.put("BUYER_RETURNED_GOODS", "买家已退货");
+		
+		
 	}
 	
 	public static String getTradeType(String type) {
@@ -68,6 +85,14 @@ public class Desc {
 	
 	public static String getShipStatus(String status) {
 		return shipStatusMap.get(status);
-	}	
+	}
+	
+	public static String getRefundStatus(String status) {
+		return refundStatusMap.get(status);
+	}
+
+	public static String getRefundGoodStatus(String status) {
+		return refundGoodStatusMap.get(status);
+	}
 	
 }
