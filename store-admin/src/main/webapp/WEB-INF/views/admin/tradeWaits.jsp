@@ -18,7 +18,7 @@
 		<thead><tr>
 		<th>来源商铺</th>
 		<th>建单时间</th>
-		<th>订购商品</th>
+		<th>交易订单号</th>
 		<th>物流方式</th>
 		<th>是否次日达\三日达</th>
 		<th>收货地址</th>
@@ -30,7 +30,7 @@
 			<tr>
 				<td>${trade.user.shopName}</td>
 				<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
-				<td>${trade.itemTitles}</td>
+				<td>${trade.tradeFrom}</td>
 				<td>
                 <c:if test="${trade.shippingType == 'free'}">
                 卖家包邮
@@ -47,14 +47,6 @@
                 <c:if test="${trade.shippingType == 'virtual'}">
                 虚拟发货
                 </c:if> 
-                </td>
-                <td>
-                	<c:if test="${trade.lgAgingType != null}">
-                	${trade.lgAgingType} ${trade.lgAging}
-                	</c:if>
-                	<c:if test="${trade.lgAgingType == null}">
-                	 无要求
-                	</c:if>                	
                 </td>
 				<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 				 	${trade.receiverAddress}
