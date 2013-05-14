@@ -115,14 +115,6 @@ public class TradeService {
 			Date start =  DateUtils.getMoning(day);
 			Date end = preday == 0 ? day : DateUtils.getEnd(day);
 			List<com.taobao.api.domain.Trade> result = topApi.getTrades(status, start, end);
-			
-			for (com.taobao.api.domain.Trade trade : result) {
-				System.out.println(trade.getTid());
-				for (Order order : trade.getOrders()) {
-					System.out.println(">>" + order.getRefundId() + "," + order.getRefundStatus());
-				}
-				System.out.println("\n");
-			}
 			trades.addAll(result);
 		}
 		return trades;
