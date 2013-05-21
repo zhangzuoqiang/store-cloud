@@ -14,9 +14,7 @@
 	</div>
 	<h1>订单管理</h1>
 	<div class="submenu">
-		<!-- 
 		<a href="${ctx}/trade/special">活动专场</a>
-		 -->
 		<a href="${ctx}/trade/waits">待发货订单</a>
 		<a href="${ctx}/trade/refunds">退款处理</a>
 		<a href="${ctx}/trade/received">仓库已接收</a>

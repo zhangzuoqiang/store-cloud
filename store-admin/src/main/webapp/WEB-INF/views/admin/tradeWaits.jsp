@@ -27,10 +27,10 @@
 		<c:forEach items="${trades}" var="trade">
 			<c:if test="${trade.id != null}">
 			<tr>
-				<td>${trade.user.shopName}</td>
-				<td><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
-				<td>${trade.tradeFrom}</td>
-				<td>
+				<td class="span2">${trade.user.shopName}</td>
+				<td class="span2"><fmt:formatDate value="${trade.payTime}" type="date" pattern="yyyy-MM-dd HH:mm"/> </td>
+				<td class="span2">${trade.tradeFrom}</td>
+				<td class="span2">
                 <c:if test="${trade.shippingType == 'free'}">
                 卖家包邮
                 </c:if>
@@ -47,10 +47,10 @@
                 虚拟发货
                 </c:if> 
                 </td>
-				<td>${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
+				<td class="span1">${trade.receiverState} ${trade.receiverCity} ${trade.receiverDistrict} <br>
 				 	${trade.receiverAddress}
 				</td>
-				<td>
+				<td class="span2">
 					<a href="${ctx}/trade/audit/${trade.id}" class="btn btn-primary">开始审核</a></td>
 				</td>
 			</tr>

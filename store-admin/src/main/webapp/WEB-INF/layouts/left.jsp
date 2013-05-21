@@ -12,9 +12,7 @@
 	</div>
 	<h1>订单管理</h1>
 	<div class="submenu">
-		<!-- 
 		<a href="${ctx}/trade/special/waits">活动专场</a>
-		 -->
 		<a href="${ctx}/trade/waits">交易订单审核</a>
 		<a href="${ctx}/trade/send/waits">快递运单设置</a>
 		<a href="${ctx}/trade/send/pickings">批量拣货处理</a>
