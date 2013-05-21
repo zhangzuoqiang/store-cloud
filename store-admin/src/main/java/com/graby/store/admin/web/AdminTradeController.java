@@ -19,11 +19,13 @@ import com.graby.store.entity.Item;
 import com.graby.store.entity.ShipOrder;
 import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeOrder;
+import com.graby.store.entity.User;
 import com.graby.store.remote.ExpressRemote;
 import com.graby.store.remote.InventoryRemote;
 import com.graby.store.remote.ItemRemote;
 import com.graby.store.remote.ShipOrderRemote;
 import com.graby.store.remote.TradeRemote;
+import com.graby.store.remote.UserRemote;
 import com.graby.store.service.inventory.Accounts;
 import com.taobao.api.ApiException;
 
@@ -31,6 +33,9 @@ import com.taobao.api.ApiException;
 @Controller
 @RequestMapping(value = "/trade/")
 public class AdminTradeController {
+	
+	@Autowired
+	private UserRemote userRemote;
 	
 	@Autowired
 	private TradeRemote tradeRemote;
@@ -53,8 +58,16 @@ public class AdminTradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "waits", method=RequestMethod.GET)
-	public String waitAudits(Model model) throws ApiException {
-		List<Trade> trades = tradeRemote.findWaitAuditTrades();
+	public String waitAudits(
+			@RequestParam(value = "userId", defaultValue = "0") Long userId,
+			Model model) throws ApiException {
+		
+		List<User> users = userRemote.findAll();
+		model.addAttribute("users", users);
+		model.addAttribute("userId", userId);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userId", userId);
+		List<Trade> trades = tradeRemote.findWaitAuditTradesBy(params);
 		model.addAttribute("trades", trades);
 		return "/admin/tradeWaits";
 	}
@@ -110,7 +123,7 @@ public class AdminTradeController {
 			shipOrderRemote.chooseExpress(sendOrder.getId(), expressCompany);
 		}
 		model.addAttribute("sendOrder", sendOrder);
-		return "redirect:/trade/waits";
+		return "redirect:/trade/waits?userId=" + sendOrder.getCreateUser().getId();
 	}
 	
 	/**

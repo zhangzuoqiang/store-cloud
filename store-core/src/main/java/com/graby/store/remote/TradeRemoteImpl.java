@@ -1,6 +1,7 @@
 package com.graby.store.remote;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,11 @@ public class TradeRemoteImpl implements TradeRemote {
 	@Override
 	public List<Trade> findWaitAuditTrades() {
 		return tradeService.findWaitAuditTrades();
+	}
+	
+	@Override
+	public List<Trade> findWaitAuditTradesBy(Map<String, Object> params) {
+		return tradeService.findWaitAuditTradesBy(params);
 	}
 
 	@Override

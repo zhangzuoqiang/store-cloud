@@ -109,6 +109,26 @@
 		WHERE a.status='TRADE_WAIT_CENTRO_AUDIT' limit 200
 	</select>
 	
+	<select id="findWaitAuditTradesBy" parameterType="map" resultType="Trade">
+		SELECT 
+			a.id AS "id" , b.shop_name AS "user.shopName", 
+			buyer_area AS "buyerArea" ,buyer_memo AS "buyerMemo" ,receiver_address AS "receiverAddress" ,pay_time AS "payTime" ,
+			trade_from AS "tradeFrom" ,a.buyer_nick AS "buyerNick" ,receiver_name AS "receiverName" ,
+			receiver_phone AS "receiverPhone" ,shipping_type AS "shippingType" ,receiver_district AS "receiverDistrict" ,STATUS AS "status" ,
+			receiver_mobile AS "receiverMobile" ,buyer_email AS "buyerEmail" ,receiver_city AS "receiverCity" ,
+			has_buyer_message AS "hasBuyerMessage" ,centro_id AS "centro.id" ,lg_aging_type AS "lgAgingType" ,
+			receiver_zip AS "receiverZip" ,lg_aging AS "lgAging" ,user_id AS "user.id" ,buyer_alipay_no AS "buyerAlipayNo" ,
+			receiver_state AS "receiverState"
+		FROM sc_trade a  
+			LEFT JOIN sc_user b ON b.id = a.user_id 
+		WHERE a.status='TRADE_WAIT_CENTRO_AUDIT' 
+		<if test="userId != null and userId != 0 ">  
+           and a.user_id= #{userId}  
+        </if>  
+		
+		limit 200
+	</select>
+	
 	<select id="findWaitAuditTradeIds" resultType="long">
 		SELECT id
 		FROM sc_trade a  

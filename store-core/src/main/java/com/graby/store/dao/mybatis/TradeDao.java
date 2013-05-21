@@ -1,6 +1,7 @@
 package com.graby.store.dao.mybatis;
 
 import java.util.List;
+import java.util.Map;
 
 import com.graby.store.base.MyBatisRepository;
 import com.graby.store.entity.Trade;
@@ -57,6 +58,13 @@ public interface TradeDao {
 	 * @return
 	 */
 	public List<Trade> findWaitAuditTrades();
+	
+	/**
+	 * 查询最近200条待处理订单(等待物流通审核)
+	 * TODO 多仓库
+	 * @return
+	 */
+	public List<Trade> findWaitAuditTradesBy(Map<String, Object> map);
 	
 	/**
 	 * 查询所有待审核交易订单

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -38,7 +39,6 @@ import com.graby.store.util.EncryptUtil;
 import com.graby.store.web.top.TopApi;
 import com.graby.store.web.top.TradeAdapter;
 import com.taobao.api.ApiException;
-import com.taobao.api.domain.Order;
 import com.taobao.api.domain.Refund;
 
 @Component
@@ -229,6 +229,14 @@ public class TradeService {
 	 */
 	public List<Trade> findWaitAuditTrades() {
 		return tradeDao.findWaitAuditTrades();
+	}
+	
+	/**
+	 * 查询最近200条待处理系统订单(等待物流通审核)
+	 * @return
+	 */
+	public List<Trade> findWaitAuditTradesBy(Map<String, Object> params) {
+		return tradeDao.findWaitAuditTradesBy(params);
 	}
 	
 	/**

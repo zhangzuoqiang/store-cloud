@@ -1,6 +1,7 @@
 package com.graby.store.remote;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
@@ -54,6 +55,12 @@ public interface TradeRemote {
 	 * @return
 	 */
 	List<Trade> findWaitAuditTrades();
+	
+	/**
+	 * 查询最近200条待处理交易(等待物流通审核) 带过滤条件
+	 * @return
+	 */
+	List<Trade> findWaitAuditTradesBy(Map<String, Object> params);
 
 	/**
 	 * 查询用户交易
