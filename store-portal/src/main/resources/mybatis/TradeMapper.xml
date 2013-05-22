@@ -3,10 +3,10 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graby.store.dao.mybatis.TradeDao">
 
-	
+	<!-- 悲观锁 -->
 	<select id="getTrade" parameterType="long"  resultMap="TradeEntity">
 		SELECT *
-		FROM sc_trade	where id=#{0}
+		FROM sc_trade	where id=#{0} for update
 	</select>
 	
 	<resultMap id="TradeEntity" type="Trade">

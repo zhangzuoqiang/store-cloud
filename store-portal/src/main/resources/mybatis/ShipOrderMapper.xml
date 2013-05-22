@@ -119,10 +119,9 @@
 		FROM sc_ship_order_detail WHERE order_id=#{0} and item_id=#{1}
 	</select>
 
-	<!-- 悲观锁 -->
 	<select id="getSendOrderIdByTradeId" resultType="long">
 		SELECT id
-		FROM sc_ship_order WHERE trade_id=#{0} for update
+		FROM sc_ship_order WHERE trade_id=#{0} 
 	</select>	
 	
 	<update id="increaseEntryOrderDetail"> 
