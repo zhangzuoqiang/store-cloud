@@ -35,7 +35,9 @@ public class TradeRestController {
 	 */
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
 	public ResponseEntity<String> send(@RequestParam(value = "tids") String[] tids) throws NumberFormatException, ApiException {
-		tradeService.createTradesFromTop(tids);
+		synchronized (this) {
+			tradeService.createTradesFromTop(tids);
+		}
 		return new ResponseEntity<String>(MessageContextHelper.getMessage(), HttpStatus.OK);
 	}
 
@@ -51,6 +53,25 @@ public class TradeRestController {
 	public ResponseEntity<String> notifyUser(@RequestParam(value = "tradeIds") Long[] tradeIds,
 			RedirectAttributes redirectAttributes) throws ApiException {
 		shipOrderService.batchNotifyUserSign(tradeIds);
+		return new ResponseEntity<String>(MessageContextHelper.getMessage(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public ResponseEntity<String> test(@RequestParam(value = "tids") String[] tids) throws NumberFormatException, ApiException {
+//		synchronized (this) {
+			System.out.println("thread:" + Thread.currentThread().getId());
+			for (int i = 0; i < tids.length; i++) {
+				System.out.print(i + ",");
+			}
+//			try {
+//				Thread.sleep(5000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			System.out.println("\ndone");
+//		}
+		
 		return new ResponseEntity<String>(MessageContextHelper.getMessage(), HttpStatus.OK);
 	}
 

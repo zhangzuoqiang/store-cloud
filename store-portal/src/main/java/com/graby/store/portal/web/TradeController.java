@@ -170,6 +170,17 @@ public class TradeController {
 		tradeService.closeTrades(tradeIds);
 		return "redirect:/trade/traces";
 	}
+	
+	@RequestMapping(value = "/test")
+	public String test(Model model) {
+		int len = 10000;
+		String[] ii = new String[len];
+		for (int i = 0; i < len; i++) {
+			ii[i] = Long.valueOf("92108892868727")+i+ "";
+		}
+		model.addAttribute("array", ii);
+		return "trade/test";
+	}
 
 //	/**
 //	 * 根据淘宝交易ID批量创建系统交易订单

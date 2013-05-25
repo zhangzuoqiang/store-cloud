@@ -16,6 +16,7 @@
 	<div class="submenu">
 		<!-- 
 		<a href="${ctx}/trade/special">活动专场</a>
+		 <a href="${ctx}/trade/test">test</a>
 		 -->
 		<a href="${ctx}/trade/waits">待发货订单</a>
 		<a href="${ctx}/trade/refunds">退款处理</a>
