@@ -50,7 +50,7 @@ public class ItemTopSync {
 		Long relatedId = itemService.getRelatedItemId(item.getNumIid(), sku == null ? 0L : sku.getSkuId());
 		if (relatedId != null) {
 			// 更新标题和SKU
-			//itemService.updateItemTitle(relatedId, item.getTitle(), sku == null ? "" : SkuUtils.convert(sku.getPropertiesName()));
+			itemService.updateItemTitle(relatedId, item.getTitle(), sku == null ? "" : SkuUtils.convert(sku.getPropertiesName()));
 			return;
 		}
 		com.graby.store.entity.Item copy = new com.graby.store.entity.Item();
