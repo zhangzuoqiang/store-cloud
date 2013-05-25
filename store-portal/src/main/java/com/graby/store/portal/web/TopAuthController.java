@@ -33,13 +33,13 @@ public class TopAuthController {
 	// 测试环境
 	
 	@Value("${top.appkey}")
-	private String clientId="1021474419";
+	private String clientId="21521634";
 	
 	@Value("${top.appSecret}")
-	private String clientSecret="sandboxc6fda58609e29306a947fefc4";
+	private String clientSecret="174935dbb2440d5b4d1349da43fc3640";
 	
 	@Value("${top.oauth.token}")
-	private String tokenUrl="https://oauth.tbsandbox.com/token";
+	private String tokenUrl="https://oauth.taobao.com/token";
 	
 	@Autowired
 	private Cache<String,String> userCache;
