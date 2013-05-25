@@ -564,16 +564,26 @@ public class ShipOrderService {
 	}
 
 	/**
-	 * 出货单用户签收确认
+	 * 关闭出货单(用户签收确认,后台关闭) 
 	 * 
 	 * @param orderId
 	 */
-	public ShipOrder signSendOrder(Long orderId) {
+	public ShipOrder closeOrder(Long orderId) {
 		ShipOrder order = getShipOrder(orderId);
 		shipOrderDao.setOrderStatus(orderId, ShipOrder.SendOrderStatus.SEND_FINISHED);
 		tradeService.updateTradeStatus(order.getTradeId(), Trade.Status.TRADE_FINISHED);
 		return order;
 	}
+	
+	/**
+	 * 关闭出货单
+	 */
+	public void closeOrderByTradeId(Long tradeId) {
+		tradeService.updateTradeStatus(tradeId, Trade.Status.TRADE_FINISHED);
+		ShipOrder order = getSendShipOrderByTradeId(tradeId);
+		shipOrderDao.setOrderStatus(order.getId(), ShipOrder.SendOrderStatus.SEND_FINISHED);
+	}
+	
 
 	@Transactional(readOnly = false)
 	public void updateShipOrder(ShipOrder order) {

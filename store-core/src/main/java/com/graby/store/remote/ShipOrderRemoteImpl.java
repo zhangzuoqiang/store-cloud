@@ -85,7 +85,7 @@ public class ShipOrderRemoteImpl implements ShipOrderRemote {
 
 	@Override
 	public ShipOrder signSendOrder(Long orderId) {
-		return shipOrderService.signSendOrder(orderId);
+		return shipOrderService.closeOrder(orderId);
 	}
 
 

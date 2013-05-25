@@ -17,6 +17,7 @@ import com.graby.store.entity.Trade;
 import com.graby.store.entity.TradeMapping;
 import com.graby.store.service.trade.TradeService;
 import com.graby.store.web.auth.ShiroContextUtils;
+import com.graby.store.web.top.TradeTrace;
 import com.taobao.api.ApiException;
 import com.taobao.api.domain.Refund;
 
@@ -142,12 +143,32 @@ public class TradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/notifys", method = RequestMethod.GET)
-	public String notifyTrades(@RequestParam(value = "status", defaultValue = "") String status,
-			@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
+	public String notifyTrades(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
 		Page<Trade> trades = tradeService.findUserTrades(ShiroContextUtils.getUserid(), Trade.Status.TRADE_WAIT_EXPRESS_NOFITY,
 				page, 15);
 		model.addAttribute("trades", trades);
 		return "trade/tradeNotifys";
+	}
+	
+	/**
+	 * 物流信息追踪
+	 * @param status
+	 * @param page
+	 * @param model
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "/traces", method = RequestMethod.GET)
+	public String trace(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws ApiException {
+		Page<TradeTrace> trades = tradeService.findUserTradeTraces(ShiroContextUtils.getUserid(), page, 50);
+		model.addAttribute("traces", trades);
+		return "trade/tradeTraces";
+	}
+	
+	@RequestMapping(value = "/close")
+	public String close(@RequestParam(value = "tradeIds") Long[] tradeIds) throws ApiException {
+		tradeService.closeTrades(tradeIds);
+		return "redirect:/trade/traces";
 	}
 
 //	/**

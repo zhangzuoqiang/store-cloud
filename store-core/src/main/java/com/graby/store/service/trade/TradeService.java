@@ -36,6 +36,7 @@ import com.graby.store.service.item.ItemService;
 import com.graby.store.service.wms.ShipOrderService;
 import com.graby.store.util.DateUtils;
 import com.graby.store.util.EncryptUtil;
+import com.graby.store.web.top.TradeTrace;
 import com.graby.store.web.top.TopApi;
 import com.graby.store.web.top.TradeAdapter;
 import com.taobao.api.ApiException;
@@ -245,7 +246,8 @@ public class TradeService {
 	 * @return
 	 */
 	public Page<Trade> findUserTrades(Long userId, String status, long pageNo, long pageSize) {
-		long start = (pageNo-1)*pageSize;
+		pageNo--;
+		long start = pageNo*pageSize;
 		long offset = pageSize;
 		List<Trade> trades = tradeDao.getTrades(userId, "%"+status+"%", start, offset);
 		long total = tradeDao.getTotalResults(userId, status);
@@ -254,6 +256,30 @@ public class TradeService {
 		return page;
 	}
 	
+	/**
+	 * 查询订单物流信息（已发货）
+	 * @param userId 用户ID
+	 * @return
+	 * @throws ApiException 
+	 */
+	public Page<TradeTrace> findUserTradeTraces(Long userId, long pageNo, long pageSize) throws ApiException {
+		pageNo--;
+		long start = pageNo*pageSize;
+		long offset = pageSize;
+		List<Trade> trades = tradeDao.getTrades(userId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED, start, offset);
+		List<TradeTrace> traces = new ArrayList<TradeTrace>();
+		for (Trade trade : trades) {
+			TradeTrace tradeTrace = topApi.getTradeTrace(trade);
+			ShipOrder order = shipOrderService.getSendShipOrderByTradeId(trade.getId());
+			tradeTrace.setExpressCompany(order.getExpressCompany());
+			tradeTrace.setExpressOrderno(order.getExpressOrderno());
+			traces.add(tradeTrace);
+		}
+		long total = tradeDao.getTotalResults(userId, Trade.Status.TRADE_WAIT_BUYER_RECEIVED);
+		PageRequest pageable = new PageRequest((int)pageNo, (int)pageSize);
+		Page<TradeTrace> page = new PageImpl<TradeTrace>(traces, pageable, total);
+		return page;
+	}
 	
 	/**
 	 * 获取系统交易订单
@@ -475,7 +501,8 @@ public class TradeService {
 	
 	
 	public Page<Trade> findUnfinishedTrades(int pageNo, int pageSize) {
-		int start = (pageNo-1)*pageSize;
+		pageNo--;
+		int start = pageNo*pageSize;
 		int offset = pageSize;
 		List<Trade> trades =  tradeDao.findUnfinishedTrades(start, offset);
 		long count = tradeDao.countUnfinishedTrades();
@@ -483,6 +510,20 @@ public class TradeService {
 		Page<Trade> page = new PageImpl<Trade>(trades, pageable, count);
 		return page;
 	}
+	
+	public void closeTrades(Long[] tradeIds) throws ApiException {
+		if (tradeIds == null || tradeIds.length == 0) {
+			return;
+		}
+		for (Long tradeId : tradeIds) {
+			closeTrade(tradeId);
+		}
+	}
+	
+	public void closeTrade(Long tradeId) {
+		shipOrderService.closeOrderByTradeId(tradeId);
+	}
+	
 	
 	/**
 	 * 删除交易订单

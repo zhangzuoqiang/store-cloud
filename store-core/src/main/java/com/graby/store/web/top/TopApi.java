@@ -412,18 +412,31 @@ public class TopApi {
 	 * @return
 	 * @throws ApiException
 	 */
-	public ExpressTrace getExpressTrace(Long tid) throws ApiException {
+	public TradeTrace getTradeTrace(com.graby.store.entity.Trade trade) throws ApiException {
+		TradeTrace trace = new TradeTrace();
+		trace.setTrade(trade);
+		String[] tids = trade.getTradeFrom().split(",");
+		for (String tid : tids) {
+			LogisticsTraceSearchResponse resp = getTraceSearchResponse(Long.valueOf(tid));
+			if (StringUtils.isNotBlank(resp.getStatus())) {
+				trace.setStatus(resp.getStatus());
+				trace.setTraceList(resp.getTraceList());
+				return trace;
+			}
+		}
+		LogisticsTraceSearchResponse resp = getTraceSearchResponse(Long.valueOf(tids[0]));
+		trace.setStatus(resp.getStatus());
+		trace.setTraceList(resp.getTraceList());
+		return trace;
+	}
+	
+	private  LogisticsTraceSearchResponse getTraceSearchResponse(Long tid) throws ApiException {
 		LogisticsTraceSearchRequest req = new LogisticsTraceSearchRequest();
-		ExpressTrace trace = new ExpressTrace();
 		req.setTid(tid);
 		req.setSellerNick(ShiroContextUtils.getNickname());
 		LogisticsTraceSearchResponse resp = client.execute(req);
 		throwIfError(resp);
-		trace.setStatus(resp.getStatus());
-		trace.setCompanyName(resp.getCompanyName());
-		trace.setExpressOrderno(resp.getOutSid());
-		trace.setTraceList(resp.getTraceList());
-		return trace;
+		return resp;
 	}
 	
 	/**
@@ -504,5 +517,11 @@ public class TopApi {
 //		}
 //		return trades;
 //	}
+	
+	public static void main(String[] args) {
+		String s = "12134";
+		System.out.println(s.split(",")[0]);
+		
+	}
 
 }

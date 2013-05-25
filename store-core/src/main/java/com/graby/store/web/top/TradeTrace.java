@@ -3,6 +3,7 @@ package com.graby.store.web.top;
 import java.io.Serializable;
 import java.util.List;
 
+import com.graby.store.entity.Trade;
 import com.taobao.api.domain.TransitStepInfo;
 
 /**
@@ -10,13 +11,13 @@ import com.taobao.api.domain.TransitStepInfo;
  * @author huabiao.mahb
  *
  */
-public class ExpressTrace implements Serializable {
+public class TradeTrace implements Serializable {
 	
 	private static final long serialVersionUID = -7210812818068787657L;
-	
-	private String tid;
+	private Trade trade;
+	private String expressCompany;
 	private String expressOrderno;
-	private String companyName;
+	private String tid;
 	private String status;
 	private List<TransitStepInfo> traceList;
 	public String getTid() {
@@ -24,18 +25,6 @@ public class ExpressTrace implements Serializable {
 	}
 	public void setTid(String tid) {
 		this.tid = tid;
-	}
-	public String getExpressOrderno() {
-		return expressOrderno;
-	}
-	public void setExpressOrderno(String expressOrderno) {
-		this.expressOrderno = expressOrderno;
-	}
-	public String getCompanyName() {
-		return companyName;
-	}
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
 	}
 	public String getStatus() {
 		return status;
@@ -48,5 +37,23 @@ public class ExpressTrace implements Serializable {
 	}
 	public void setTraceList(List<TransitStepInfo> traceList) {
 		this.traceList = traceList;
+	}
+	public Trade getTrade() {
+		return trade;
+	}
+	public void setTrade(Trade trade) {
+		this.trade = trade;
+	}
+	public String getExpressCompany() {
+		return expressCompany;
+	}
+	public void setExpressCompany(String expressCompany) {
+		this.expressCompany = expressCompany;
+	}
+	public String getExpressOrderno() {
+		return expressOrderno;
+	}
+	public void setExpressOrderno(String expressOrderno) {
+		this.expressOrderno = expressOrderno;
 	}
 }

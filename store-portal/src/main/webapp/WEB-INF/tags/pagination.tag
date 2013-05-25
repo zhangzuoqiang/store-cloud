@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-int current =  page.getNumber() + 1;
+int current =  page.getNumber()+1;
 int begin = Math.max(1, current - paginationSize/2);
 int end = Math.min(begin + (paginationSize - 1), page.getTotalPages());
 

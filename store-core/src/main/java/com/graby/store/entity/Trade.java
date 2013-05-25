@@ -98,7 +98,7 @@ public class Trade implements Serializable{
 	private String type;
 	
 	/**
-	 * 交易订单来源
+	 * 交易订单来源(如果为淘宝订单则为tid集合)
 	 */	
 	private String tradeFrom;
 	
@@ -446,7 +446,7 @@ public class Trade implements Serializable{
 	public void setOrders(List<TradeOrder> orders) {
 		this.orders = orders;
 	}
-
+	
 	public String getTradeFrom() {
 		return tradeFrom;
 	}
