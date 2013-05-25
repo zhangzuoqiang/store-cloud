@@ -45,7 +45,8 @@
 					<td>${e:refundGoodStatus(entry.refund.goodStatus)}</td>
 					<td>
 						<fmt:formatDate value="${entry.refund.created}" type="date" pattern="yyyy-MM-dd HH:mm"/><br>
-						<a class="label label-info" rel="pop" data-content="${entry.refund.desc}" data-title="${entry.refund.reason}" data-placement="left">查看原因</a> 
+						<a class="label label-info" rel="pop" data-content="${entry.refund.desc}" data-title="${entry.refund.reason}"
+						data-trigger="hover" data-placement="left">查看原因</a> 
 					</td>					
 					<td>
 						<c:if test="${not empty entry.mapping}">

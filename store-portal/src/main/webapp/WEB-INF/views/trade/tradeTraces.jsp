@@ -63,12 +63,14 @@
 		<div class="tab-pane active" id="taobao">        
 		<table id="contentTable" class="table table-striped table-condensed"  >
 			<thead><tr>
-			<th class="span1">建单时间</th>
+			<th class="span2">建单时间</th>
 			<th class="span1">淘宝交易号</th>
 			<th class="span5">收货地址</th>
 			<th class="span2">运输公司</th>
 			<th class="span2">运单号</th>
+			<!-- 
 			<th class="span2">物流状态</th>
+			 -->
 			<th class="span2">跟踪信息</th>
 			<th class="span1"><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>
 			</tr></thead>
@@ -83,12 +85,14 @@
 					</td>
 					<td>${trace.expressCompany}</td>
 					<td>${trace.expressOrderno}</td>
+					<!-- 
 					<td>${trace.status}</td>
+					 -->
 					<td><a class="btn btn-success" rel="pop" data-content="
 								<c:forEach items="${trace.traceList}" var="step">
 									${step.statusTime} ${step.statusDesc}<br>
 								</c:forEach>"
-								data-title="状态:${step.status}" data-trigger="hover" data-placement="left" data-width="700">物流信息</a>
+								data-title="物流流转信息" data-trigger="hover" data-placement="left" data-width="700">物流信息</a>
 					<td>
 					<c:if test="${trace.status == '对方已签收'}">
 	               	<input type='checkbox' id='trade_select' name='trade_select[]' value='${trace.trade.id}' />
