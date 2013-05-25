@@ -23,7 +23,7 @@ public class InventoryController {
 	private InventoryService inventoryService;
 
 	@RequestMapping(value = "")
-	public String welcome(Model model) throws ApiException {
+	public String state(Model model) throws ApiException {
 		Long userId = ShiroContextUtils.getUserid();
 		List<Map<String, Long>> values = inventoryService.stat(1L, userId);
 		model.addAttribute("userId", userId);

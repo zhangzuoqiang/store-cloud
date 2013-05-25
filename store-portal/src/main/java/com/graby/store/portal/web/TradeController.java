@@ -57,7 +57,7 @@ public class TradeController {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = "/waits")
-	public String waitsForward() {
+	public String waits() {
 		return "trade/waits";
 	}
 
