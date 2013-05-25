@@ -8,7 +8,7 @@
     <div class="navbar-inner">
         <div class="nav-collapse">
           <ul class="nav">
-            <li><a  href="#"> &nbsp;&nbsp;<strong>物流通</strong>&nbsp;电商仓储配送中心</a></li>
+            <li><a  href="#"> &nbsp;&nbsp;<strong>仓储云</strong>&nbsp;电商仓储配送中心</a></li>
             <li></li>
             <li class="active"><a href="#"><i class="icon-user"></i>&nbsp;<shiro:principal property="shopname"/></a></li>
           </ul>
