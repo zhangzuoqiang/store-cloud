@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +32,13 @@ public class TopAuthController {
 	
 	// 测试环境
 	
-//	@Value("${top.appkey}")
+	@Value("${top.appkey}")
 	private String clientId="1021474419";
 	
-//	@Value("${top.appSecret}")
+	@Value("${top.appSecret}")
 	private String clientSecret="sandboxc6fda58609e29306a947fefc4";
 	
-//	@Value("${top.oauth.token}")
+	@Value("${top.oauth.token}")
 	private String tokenUrl="https://oauth.tbsandbox.com/token";
 	
 	@Autowired
