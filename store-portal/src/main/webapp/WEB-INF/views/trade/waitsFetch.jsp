@@ -41,18 +41,34 @@
 	   $('#submit').bind('click', function (e) {
 	   		var chk_value =[];  
 		  		$('input[name="trade_select[]"]:checked').each(function(){  
-		   		chk_value.push($(this).val());  
+		   		chk_value.push($(this).val());
 	  		});  
 	  		if (chk_value.length==0) {
 	  			alert('你还没有选择任何订单！');
 	  		} else {
-	  			var action = "${ctx}/rest/trade/send?tids="+chk_value;
-	  			$.post(action, function(data){
-	  				$.globalMessenger().post({message:data,  showCloseButton: true});
-	  				$("#body").html(data);
-	  			});
+	  			// 分段发送至仓库
+	  			var action = "${ctx}/rest/trade/send?tids=" + chk_value;
+	  			var arr = new Array();
+	  			var size=200;
+	  			for(var i = 1, len = chk_value.length; i<= len; i++) {
+	  				arr.push(chk_value[i-1]);
+	  				if (i%size == 0 ) {
+	  					postTrade(arr);
+	  					arr=[];
+	  				} else if (i == len) {
+	  					postTrade(arr);
+	  				}
+     			}
 	  		}
 	   });
+	   
+	   function postTrade(tids) {
+		   var action = "${ctx}/rest/trade/send?tids=" + tids;
+		   $.post(action, function(data){
+			   $.globalMessenger().post({message:data,  showCloseButton: true});
+			   $("#body").html(data);
+		   });
+	   }
 	   
 	});
 	
@@ -86,7 +102,7 @@
 			<th>交易状态</th>
 			<th>交易类型</th>
 			<th>物流方式</th>
-			<th>卖家</th>
+			<th>买家</th>
 			<th>收货地址</th>
 			<th>商品(库存)</th>
 			<th><input type="checkbox" id="checkAll" name="checkAll"/> 全选</th>

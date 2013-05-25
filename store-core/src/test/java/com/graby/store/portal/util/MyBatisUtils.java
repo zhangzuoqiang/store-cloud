@@ -73,5 +73,6 @@ public class MyBatisUtils {
 		for (String p : map.keySet()) {
 			System.out.print(camelCase2Underscore(p) + " as \"" + p +  "\" ,\n");
 		}
+		System.out.println(0%2);
 	}
 }
