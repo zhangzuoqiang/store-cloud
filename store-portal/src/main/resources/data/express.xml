@@ -32,6 +32,18 @@
 			<reg_mail_no></reg_mail_no>
 		</logistics_company>
 		<logistics_company>
+			<code>EMS</code>
+			<id>2</id>
+			<name>EMS</name>
+			<reg_mail_no>^[A-Z]{2}[0-9]{9}[A-Z]{2}$|^[0-9]{13}$</reg_mail_no>
+		</logistics_company>		
+		<logistics_company>
+			<code>EYB</code>
+			<id>3</id>
+			<name>EMS经济快递</name>
+			<reg_mail_no>^(50|51)[0-9]{11}$</reg_mail_no>
+		</logistics_company>		
+		<logistics_company>
 			<code>HTKY</code>
 			<id>502</id>
 			<name>汇通快运</name>
